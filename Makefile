@@ -1,19 +1,26 @@
-make up:
+up:
 	cd .docker && docker-compose build && docker-compose up -d
 
-make down:
+down:
+	cd .docker &&
 	docker stop $(docker ps -a -q)
 	docker rm $(docker ps -a -q)
 	docker rmi $(docker images -a -q)
 
-make composer install:
+composer_install:
 	cd .docker && docker-compose run --rm composer install
 
-make composer require:
+composer_require:
 	cd .docker && docker-compose run --rm composer require ${package}
 
-make artisan:
+artisan:
 	cd .docker && docker-compose run --rm artisan ${action}
 
-make npm run dev:
+npm_install:
+	cd .docker && docker-compose run --rm npm install
+
+npm_run_dev:
 	cd .docker && docker-compose run --rm npm run dev
+
+npm_run_watch:
+	cd .docker && docker-compose run --rm npm run watch
