@@ -2,27 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Service\WeatherForBasketBallService;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * @var WeatherForBasketBallService
      */
-    public function __construct()
+    private WeatherForBasketBallService $service;
+
+    /**
+     * HomeController constructor.
+     * @param  WeatherForBasketBallService  $service
+     */
+    public function __construct(WeatherForBasketBallService $service)
     {
-        $this->middleware('auth');
+        $this->service = $service;
     }
 
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
     public function index()
     {
-        return view('home');
+        $data = $this->getLogsData();
+
+        return view('logs', compact('data'));
+    }
+
+    /**
+     * @return array
+     */
+    private function getLogsData(): array
+    {
+        $logsPath = storage_path('logs/laravel.log');
+        if (File::exists($logsPath)) {
+            return [
+                'size' => File::size($logsPath),
+                'file' => File::get($logsPath),
+            ];
+        }
+
+        return [];
     }
 }
