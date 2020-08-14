@@ -49,7 +49,7 @@ class WeatherCacheWarmUpCommand  extends Command
         foreach (CachedWeatherRepository::AVAILABLE_CITIES as $city) {
             $request = $this->buildRequest($city);
             if ($response = $this->cachedWeatherRepository->find($request)) {
-                Log::info(sprintf('Cache warm upped for %s city', $request->getCity()));
+                Log::info(sprintf('Weather cache warm upped for %s city', $request->getCity()));
                 return true;
             }
         }
