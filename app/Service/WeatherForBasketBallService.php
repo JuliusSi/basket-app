@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Request\DefaultRequest;
 use Src\Weather\Client\Response\ForecastTimestamp;
 use Src\Weather\Client\Response\Response;
+use Src\Weather\Repository\CachedWeatherRepository;
 use Src\Weather\Repository\WeatherRepository;
 use DateTimeZone;
 use Illuminate\Support\Carbon;
@@ -20,13 +21,17 @@ class WeatherForBasketBallService
     private const HOURS_TO_CHECK = 4;
 
     /**
-     * @var WeatherRepository
+     * @var CachedWeatherRepository
      */
-    private WeatherRepository $weatherRepository;
+    private CachedWeatherRepository $cachedWeatherRepository;
 
-    public function __construct(WeatherRepository $weatherRepository)
+    /**
+     * WeatherForBasketBallService constructor.
+     * @param  CachedWeatherRepository  $cachedWeatherRepository
+     */
+    public function __construct(CachedWeatherRepository $cachedWeatherRepository)
     {
-        $this->weatherRepository = $weatherRepository;
+        $this->cachedWeatherRepository = $cachedWeatherRepository;
     }
 
     /**
@@ -96,7 +101,7 @@ class WeatherForBasketBallService
     private function getWeatherInformation(): ?Response
     {
         try {
-            return $this->weatherRepository->find($this->buildRequest());
+            return $this->cachedWeatherRepository->find($this->buildRequest());
         } catch (GuzzleException $exception) {
             Log::warning('Can not get response from meteo.');
 

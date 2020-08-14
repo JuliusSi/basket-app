@@ -13,6 +13,10 @@ use Src\Weather\Client\Response\Response;
  */
 class WeatherRepository
 {
+    public const AVAILABLE_CITIES = [
+        'Vilnius',
+    ];
+
     /**
      * @var DefaultClient
      */

@@ -12,13 +12,11 @@ use Illuminate\Support\Facades\Log;
 class FacebookPostCommand extends Command
 {
     /**
-     * The name and signature of the console command.
      * @var string
      */
     protected $signature = 'facebook:addPost';
 
     /**
-     * The console command description.
      * @var string
      */
     protected $description = 'Adds post to Facebook page.';
@@ -27,7 +25,6 @@ class FacebookPostCommand extends Command
      * @var FacebookLinkPostService
      */
     private FacebookLinkPostService $facebookLinkPostService;
-
 
     /**
      * FacebookPostCommand constructor.

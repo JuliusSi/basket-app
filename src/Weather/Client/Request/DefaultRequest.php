@@ -13,6 +13,9 @@ class DefaultRequest extends AbstractRequest
     public const FORECASTS_PARAM = '/forecasts';
     public const LONG_TERM_PARAM = '/long-term';
 
+    /**
+     * @var string
+     */
     private string $city;
 
     /**
@@ -30,6 +33,14 @@ class DefaultRequest extends AbstractRequest
     {
         return config('provider.meteo_weather_api_endpoint')
             . $this->city . self::FORECASTS_PARAM . self::LONG_TERM_PARAM;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): string
+    {
+        return $this->city;
     }
 
     /**
