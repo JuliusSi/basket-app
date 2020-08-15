@@ -1,5 +1,5 @@
 up:
-	cd .docker && docker-compose build && docker-compose up -d
+	cd .docker && docker-compose build && docker-compose up -d && docker-compose run --rm composer install && docker-compose run --rm npm install
 
 down:
 	cd .docker &&

@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('weather:warmUpCache')->dailyAt('14:55');
         $schedule->command('facebook:addPost')->dailyAt('15:00');
+        $schedule->command('log:clear')->daily();
     }
 
     /**
