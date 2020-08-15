@@ -31,17 +31,26 @@ class WeatherForBasketBallWarningService
     public function getWarningMessages(): array
     {
         $messages = [];
-        foreach ($this->getWeatherInformation() as $weatherInformation) {
-            if ($weatherInformation->getTotalPrecipitation() > self::MAX_PRECIPITATION) {
-                $messages['weather-rules.precipitation'] = __('weather-rules.precipitation');
+        foreach ($this->getWeatherInformation() as $item) {
+            if ($item->getTotalPrecipitation() > self::MAX_PRECIPITATION) {
+                $messages['weather-rules.precipitation'] = __(
+                    'weather-rules.precipitation',
+                    ['precipitation' => $item->getTotalPrecipitation()]
+                );
             }
-            if ($weatherInformation->getAirTemperature() > self::MAX_AIR_TEMPERATURE) {
-                $messages['to_high_air_temperature'] = __('weather-rules.to_high_air_temperature');
+            if ($item->getAirTemperature() > self::MAX_AIR_TEMPERATURE) {
+                $messages['to_high_air_temperature'] = __(
+                    'weather-rules.to_high_air_temperature',
+                    ['airTemperature' => $item->getAirTemperature()]
+                );
             }
-            if ($weatherInformation->getAirTemperature() < self::MIN_AIR_TEMPERATURE) {
-                $messages['to_low_air_temperature'] = __('weather-rules.to_low_air_temperature');
+            if ($item->getAirTemperature() < self::MIN_AIR_TEMPERATURE) {
+                $messages['to_low_air_temperature'] = __(
+                    'weather-rules.to_low_air_temperature',
+                    ['airTemperature' => $item->getAirTemperature()]
+                );
             }
-            $this->logWeather($weatherInformation);
+            $this->logWeather($item);
         }
 
         return $messages;

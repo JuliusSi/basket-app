@@ -48,7 +48,7 @@ class WeatherForBasketBallService
 
     /**
      * @param  Response  $response
-     * @return array
+     * @return ForecastTimestamp[]
      */
     private function filterWeatherInformation(Response $response): array
     {
