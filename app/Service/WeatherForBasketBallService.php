@@ -8,7 +8,6 @@ use Src\Weather\Client\Request\DefaultRequest;
 use Src\Weather\Client\Response\ForecastTimestamp;
 use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
-use Src\Weather\Repository\WeatherRepository;
 use DateTimeZone;
 use Illuminate\Support\Carbon;
 

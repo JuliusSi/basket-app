@@ -60,9 +60,18 @@ class FacebookLinkPostService
             return $this->buildRequest(__('weather-rules.success'), self::GOOD_WEATHER_GIF_URL);
         }
 
-        $message = implode(',', $warnings);
+        return $this->buildRequest($this->getBadWeatherMessage($warnings), self::BAD_WEATHER_GIF_URL);
+    }
 
-        return $this->buildRequest($message, self::BAD_WEATHER_GIF_URL);
+    /**
+     * @param  array  $warnings
+     * @return string
+     */
+    private function getBadWeatherMessage(array $warnings): string
+    {
+        $warningsMessage = implode(',', $warnings);
+
+        return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
     }
 
     /**
