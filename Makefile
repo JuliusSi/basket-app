@@ -1,11 +1,15 @@
+# Variables
+PROJECT_NAME=weather_application
+
+# Commands
 up:
-	cd .docker && docker-compose build && docker-compose up -d && docker-compose run --rm composer install && docker-compose run --rm npm install
+	cd .docker && docker-compose -p ${PROJECT_NAME} build && docker-compose -p ${PROJECT_NAME} up -d && docker-compose -p ${PROJECT_NAME} run --rm composer install && docker-compose -p ${PROJECT_NAME} run --rm npm install
 
 down:
-	cd .docker &&
-	docker stop $(docker ps -a -q)
-	docker rm $(docker ps -a -q)
-	docker rmi $(docker images -a -q)
+	cd .docker && docker-compose -p ${PROJECT_NAME} down
+
+delete:
+	docker stop $$(docker ps -a -q) && docker rm $$(docker ps -a -q) && docker rmi $$(docker images -a -q)
 
 composer_install:
 	cd .docker && docker-compose run --rm composer install

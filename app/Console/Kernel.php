@@ -2,8 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\FacebookPostCommand;
-use App\Console\Commands\WeatherCacheWarmUpCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -19,8 +17,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        WeatherCacheWarmUpCommand::class,
-        FacebookPostCommand::class,
     ];
 
     /**
