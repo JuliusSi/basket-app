@@ -46,10 +46,10 @@ class WeatherCacheWarmUpCommand  extends Command
      */
     public function handle(): bool
     {
-        foreach (CachedWeatherRepository::AVAILABLE_CITIES as $city) {
-            $request = $this->buildRequest($city);
+        foreach (CachedWeatherRepository::AVAILABLE_PLACE_CODES as $place) {
+            $request = $this->buildRequest($place);
             if ($response = $this->cachedWeatherRepository->find($request)) {
-                Log::info(sprintf('Weather cache warm upped for %s city', $request->getCity()));
+                Log::info(sprintf('Weather cache warm upped for %s place', $request->getPlace()));
                 return true;
             }
         }
@@ -58,13 +58,13 @@ class WeatherCacheWarmUpCommand  extends Command
     }
 
     /**
-     * @param  string  $city
+     * @param  string  $place
      * @return DefaultRequest
      */
-    private function buildRequest(string $city): DefaultRequest
+    private function buildRequest(string $place): DefaultRequest
     {
         $request = new DefaultRequest();
-        $request->setCity($city);
+        $request->setPlace($place);
 
         return $request;
     }

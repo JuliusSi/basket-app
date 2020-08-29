@@ -11,7 +11,7 @@ use Src\Weather\Client\Response\ForecastTimestamp;
  */
 class WeatherForBasketBallWarningService
 {
-    private const MAX_PRECIPITATION = 0.1;
+    private const MAX_PRECIPITATION = 0;
     private const MAX_AIR_TEMPERATURE = 26;
     private const MIN_AIR_TEMPERATURE = 15;
 

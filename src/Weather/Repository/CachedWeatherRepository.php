@@ -42,6 +42,6 @@ class CachedWeatherRepository extends WeatherRepository
      */
     private function getCacheKey(DefaultRequest $request): string
     {
-        return self::DEFAULT_CACHE_KEY_PART . '-' . $request->getCity();
+        return self::DEFAULT_CACHE_KEY_PART . '-' . $request->getPlace();
     }
 }

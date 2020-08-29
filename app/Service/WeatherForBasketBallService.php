@@ -10,6 +10,7 @@ use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
 use DateTimeZone;
 use Illuminate\Support\Carbon;
+use Src\Weather\Repository\WeatherRepository;
 
 /**
  * Class WeatherForBasketBallService
@@ -114,7 +115,7 @@ class WeatherForBasketBallService
     private function buildRequest(): DefaultRequest
     {
         $request = new DefaultRequest();
-        $request->setCity('Vilnius');
+        $request->setPlace(WeatherRepository::PLACE_CODE_VILNIUS_VIRSULISKES);
 
         return $request;
     }

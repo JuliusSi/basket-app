@@ -16,7 +16,7 @@ class DefaultRequest extends AbstractRequest
     /**
      * @var string
      */
-    private string $city;
+    private string $place;
 
     /**
      * @return string
@@ -32,22 +32,22 @@ class DefaultRequest extends AbstractRequest
     public function getUri()
     {
         return config('provider.meteo_weather_api_endpoint')
-            . $this->city . self::FORECASTS_PARAM . self::LONG_TERM_PARAM;
+            . $this->place . self::FORECASTS_PARAM . self::LONG_TERM_PARAM;
     }
 
     /**
      * @return string
      */
-    public function getCity(): string
+    public function getPlace(): string
     {
-        return $this->city;
+        return $this->place;
     }
 
     /**
-     * @param  string  $city
+     * @param  string  $place
      */
-    public function setCity(string $city): void
+    public function setPlace(string $place): void
     {
-        $this->city = $city;
+        $this->place = $place;
     }
 }
