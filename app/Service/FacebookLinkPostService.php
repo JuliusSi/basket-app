@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Notifier\Model\Notification;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Src\Facebook\Client\Request\FacebookLinkPostRequestBody;
@@ -14,14 +15,6 @@ use Src\Facebook\Repository\FacebookLinkRepository;
  */
 class FacebookLinkPostService
 {
-    private const GOOD_WEATHER_GIF_URL = 'https://i.gifer.com/TtIr.gif';
-    private const BAD_WEATHER_GIF_URL = 'https://i1.wp.com/watsonssportstake.com/wp-content/uploads/2018/06/Lebron-James-reacting-to-a-call.gif?fit=500%2C288&ssl=1';
-
-    /**
-     * @var WeatherForBasketBallWarningService
-     */
-    private WeatherForBasketBallWarningService $warningService;
-
     /**
      * @var FacebookLinkRepository
      */
@@ -29,61 +22,34 @@ class FacebookLinkPostService
 
     /**
      * FacebookLinkPostService constructor.
-     * @param  WeatherForBasketBallWarningService  $warningService
      * @param  FacebookLinkRepository  $facebookLinkRepository
      */
     public function __construct(
-        WeatherForBasketBallWarningService $warningService,
         FacebookLinkRepository $facebookLinkRepository
     ) {
-        $this->warningService = $warningService;
         $this->facebookLinkRepository = $facebookLinkRepository;
     }
 
     /**
-     * @return Response|null
+     * @param  Notification[]  $notifications
+     * @return void
      */
-    public function post(): ?Response
+    public function post(array $notifications): void
     {
-        $request = $this->getRequest();
-
-        return $this->postLink($request);
-    }
-
-    /**
-     * @return FacebookLinkPostRequestBody
-     */
-    private function getRequest(): FacebookLinkPostRequestBody
-    {
-        $warnings = $this->warningService->getWarningMessages();
-        if (!$warnings) {
-            return $this->buildRequest(__('weather-rules.success'), self::GOOD_WEATHER_GIF_URL);
+        foreach ($notifications as $notification) {
+            $this->postLink($this->buildRequest($notification));
         }
-
-        return $this->buildRequest($this->getBadWeatherMessage($warnings), self::BAD_WEATHER_GIF_URL);
     }
 
     /**
-     * @param  array  $warnings
-     * @return string
-     */
-    private function getBadWeatherMessage(array $warnings): string
-    {
-        $warningsMessage = implode(',', $warnings);
-
-        return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
-    }
-
-    /**
-     * @param  string  $message
-     * @param  string  $link
+     * @param  Notification  $notification
      * @return FacebookLinkPostRequestBody
      */
-    private function buildRequest(string $message, string $link): FacebookLinkPostRequestBody
+    private function buildRequest(Notification $notification): FacebookLinkPostRequestBody
     {
         $request = new FacebookLinkPostRequestBody();
-        $request->setLink($link);
-        $request->setMessage($message);
+        $request->setLink($notification->getImageUrl());
+        $request->setMessage($notification->getContent());
 
         return $request;
     }
@@ -96,9 +62,13 @@ class FacebookLinkPostService
     {
         try {
             Log::info(sprintf('Trying to post message: %s', $request->getMessage()));
-            return $this->facebookLinkRepository->post($request);
+            $result = $this->facebookLinkRepository->post($request);
+            Log::info(sprintf('Post successfully posted to Facebook. Post id: %s', $result->getId()));
+
+            return $result;
         } catch (GuzzleException $exception) {
             Log::warning(sprintf('Can not post facebook link. %s', $exception->getMessage()));
+
             return null;
         }
     }

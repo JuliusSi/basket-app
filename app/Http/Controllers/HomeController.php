@@ -2,26 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Service\WeatherForBasketBallService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\File;
 
+/**
+ * Class HomeController
+ * @package App\Http\Controllers
+ */
 class HomeController extends Controller
 {
-    /**
-     * @var WeatherForBasketBallService
-     */
-    private WeatherForBasketBallService $service;
-
-    /**
-     * HomeController constructor.
-     * @param  WeatherForBasketBallService  $service
-     */
-    public function __construct(WeatherForBasketBallService $service)
-    {
-        $this->service = $service;
-    }
-
     /**
      * Show the application dashboard.
      *

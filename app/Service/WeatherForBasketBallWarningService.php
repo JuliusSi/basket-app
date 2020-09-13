@@ -13,7 +13,7 @@ class WeatherForBasketBallWarningService
 {
     private const MAX_PRECIPITATION = 0;
     private const MAX_AIR_TEMPERATURE = 26;
-    private const MIN_AIR_TEMPERATURE = 15;
+    private const MIN_AIR_TEMPERATURE = 14;
 
     /**
      * @var WeatherForBasketBallService

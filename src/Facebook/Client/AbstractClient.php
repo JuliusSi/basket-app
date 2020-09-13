@@ -11,7 +11,7 @@ use GuzzleHttp\Client;
  * Class AbstractClient
  * @package Src\Facebook\Client
  */
-class AbstractClient
+abstract class AbstractClient
 {
     use SerializationTrait;
 

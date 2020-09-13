@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('weather:warmUpCache')->dailyAt('15:01');
-        $schedule->command('facebook:addPost')->dailyAt('15:02');
+        $schedule->command('weatherForBasketBall:notify')->dailyAt('15:02');
         $schedule->command('log:clear')->monthly();
     }
 
