@@ -27,13 +27,13 @@ class WeatherForBasketBallNotificationService
         if (!$warnings) {
             return $this->buildNotification(
                 __('weather-rules.success'),
-                config('notification.lebron_james_what_reaction_gif_url')
+                config('notification.jr_smith_reaction_gif_url')
             );
         }
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($warnings),
-            config('notification.jr_smith_reaction_gif')
+            config('notification.lebron_james_what_reaction_gif_url')
         );
     }
 
