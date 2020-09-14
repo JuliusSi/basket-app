@@ -26,6 +26,10 @@ class WeatherForBasketBallNotificationCommand extends Command
      */
     private WeatherForBasketBallNotificationManager $manager;
 
+    /**
+     * WeatherForBasketBallNotificationCommand constructor.
+     * @param  WeatherForBasketBallNotificationManager  $manager
+     */
     public function __construct(WeatherForBasketBallNotificationManager $manager)
     {
         parent::__construct();

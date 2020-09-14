@@ -1,11 +1,17 @@
 ## Docker
 
 - in the main directory run:
-- ```make up ```
-- ```make composer_install ```
-- ```make npm_install ```
+- ``` make up ```
 
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+## Config
+- in main directory: ``` cp .env-example .env ```
+- from main directory: ``` cd config ```
+- ``` cp notification-example.php notification.php ```
+- ``` cp provider-example.php provider.php ```
+- ``` cp sms-example.php sms.php ```
+- update the configuration files according to your project information
+
+<p align="center"><img src="https://seeklogo.com/images/L/laravel-logo-9B01588B1F-seeklogo.com.png" width="300"></p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
