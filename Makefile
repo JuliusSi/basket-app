@@ -40,3 +40,6 @@ schedule_run:
 
 migrations_refresh:
 	cd .docker && docker-compose run --rm artisan migrate:refresh
+
+notify:
+	cd .docker && docker-compose run --rm artisan weatherForBasketBall:notify
