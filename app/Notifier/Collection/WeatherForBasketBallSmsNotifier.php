@@ -16,6 +16,10 @@ class WeatherForBasketBallSmsNotifier implements NotifierInterface
      */
     private SmsBatchSendService $smsBatchSendService;
 
+    /**
+     * WeatherForBasketBallSmsNotifier constructor.
+     * @param  SmsBatchSendService  $smsBatchSendService
+     */
     public function __construct(SmsBatchSendService $smsBatchSendService)
     {
         $this->smsBatchSendService = $smsBatchSendService;

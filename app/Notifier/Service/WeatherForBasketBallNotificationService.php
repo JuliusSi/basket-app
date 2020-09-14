@@ -21,6 +21,9 @@ class WeatherForBasketBallNotificationService
         $this->weatherForBasketBallWarningService = $weatherForBasketBallWarningService;
     }
 
+    /**
+     * @return Notification
+     */
     public function getNotification(): Notification
     {
         $warnings = $this->weatherForBasketBallWarningService->getWarningMessages();
