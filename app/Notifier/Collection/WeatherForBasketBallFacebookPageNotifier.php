@@ -16,6 +16,10 @@ class WeatherForBasketBallFacebookPageNotifier implements NotifierInterface
      */
     private FacebookLinkPostService $facebookLinkPostService;
 
+    /**
+     * WeatherForBasketBallFacebookPageNotifier constructor.
+     * @param  FacebookLinkPostService  $facebookLinkPostService
+     */
     public function __construct(FacebookLinkPostService $facebookLinkPostService)
     {
         $this->facebookLinkPostService = $facebookLinkPostService;

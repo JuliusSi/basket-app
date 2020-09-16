@@ -16,6 +16,10 @@ class WeatherForBasketBallNotificationService
      */
     private WeatherForBasketBallWarningService $weatherForBasketBallWarningService;
 
+    /***
+     * WeatherForBasketBallNotificationService constructor.
+     * @param  WeatherForBasketBallWarningService  $weatherForBasketBallWarningService
+     */
     public function __construct(WeatherForBasketBallWarningService $weatherForBasketBallWarningService)
     {
         $this->weatherForBasketBallWarningService = $weatherForBasketBallWarningService;
@@ -30,13 +34,13 @@ class WeatherForBasketBallNotificationService
         if (!$warnings) {
             return $this->buildNotification(
                 __('weather-rules.success'),
-                config('notification.jr_smith_reaction_gif_url')
+                config('memes.jr_smith_reaction_gif_url')
             );
         }
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($warnings),
-            config('notification.lebron_james_what_reaction_gif_url')
+            config('memes.lebron_james_what_reaction_gif_url')
         );
     }
 

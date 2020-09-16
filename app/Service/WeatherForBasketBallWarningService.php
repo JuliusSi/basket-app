@@ -11,15 +11,15 @@ use Src\Weather\Client\Response\ForecastTimestamp;
  */
 class WeatherForBasketBallWarningService
 {
-    private const MAX_PRECIPITATION = 0;
-    private const MAX_AIR_TEMPERATURE = 26;
-    private const MIN_AIR_TEMPERATURE = 14;
-
     /**
      * @var WeatherForBasketBallService
      */
     private WeatherForBasketBallService $weatherForBasketBallService;
 
+    /**
+     * WeatherForBasketBallWarningService constructor.
+     * @param  WeatherForBasketBallService  $weatherForBasketBallService
+     */
     public function __construct(WeatherForBasketBallService $weatherForBasketBallService)
     {
         $this->weatherForBasketBallService = $weatherForBasketBallService;
@@ -32,19 +32,19 @@ class WeatherForBasketBallWarningService
     {
         $messages = [];
         foreach ($this->getWeatherInformation() as $item) {
-            if ($item->getTotalPrecipitation() > self::MAX_PRECIPITATION) {
+            if ($item->getTotalPrecipitation() > config('weather.max_precipitation')) {
                 $messages['weather-rules.precipitation'] = __(
                     'weather-rules.precipitation',
                     ['precipitation' => $item->getTotalPrecipitation()]
                 );
             }
-            if ($item->getAirTemperature() > self::MAX_AIR_TEMPERATURE) {
+            if ($item->getAirTemperature() > config('weather.max_air_temperature')) {
                 $messages['to_high_air_temperature'] = __(
                     'weather-rules.to_high_air_temperature',
                     ['airTemperature' => $item->getAirTemperature()]
                 );
             }
-            if ($item->getAirTemperature() < self::MIN_AIR_TEMPERATURE) {
+            if ($item->getAirTemperature() < config('weather.min_air_temperature')) {
                 $messages['to_low_air_temperature'] = __(
                     'weather-rules.to_low_air_temperature',
                     ['airTemperature' => $item->getAirTemperature()]
