@@ -42,6 +42,18 @@ class WeatherForBasketBallNotificationManager
     public function manage(): void
     {
         $notifications = $this->getNotifications();
+        if (!$notifications) {
+            return;
+        }
+
+        $this->applyNotifiers($notifications);
+    }
+
+    /**
+     * @param  Notification[]  $notifications
+     */
+    private function applyNotifiers(array $notifications): void
+    {
         foreach ($this->getNotifiers() as $notifier) {
             $notifier->notify($notifications);
         }

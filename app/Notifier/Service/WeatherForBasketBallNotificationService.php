@@ -65,7 +65,7 @@ class WeatherForBasketBallNotificationService
      */
     private function getBadWeatherMessage(array $warnings): string
     {
-        $warningsMessage = implode(',', $warnings);
+        $warningsMessage = implode(', ', $warnings);
 
         return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
     }
