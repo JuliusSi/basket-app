@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
@@ -44,16 +45,34 @@ class WeatherForBasketBallWarningService
                     ['airTemperature' => $item->getAirTemperature()]
                 );
             }
-            if ($item->getAirTemperature() < config('weather.min_air_temperature')) {
+            if ($this->isToLowAirTemperature($item)) {
+                $date = Carbon::parse($item->getForecastTimeUtc());
                 $messages['to_low_air_temperature'] = __(
                     'weather-rules.to_low_air_temperature',
-                    ['airTemperature' => $item->getAirTemperature()]
+                    ['airTemperature' => $item->getAirTemperature(), 'time' => $date->hour]
                 );
             }
             $this->logWeather($item);
         }
 
         return $messages;
+    }
+
+    /**
+     * @param  ForecastTimestamp  $weatherInformation
+     * @return bool
+     */
+    private function isToLowAirTemperature(ForecastTimestamp $weatherInformation): bool
+    {
+        if ($weatherInformation->getConditionCode() === ForecastTimestamp::CONDITION_CODE_CLEAR &&
+            $weatherInformation->getAirTemperature() >= config('weather.min_air_temperature_if_clear')) {
+            return false;
+        }
+        if ($weatherInformation->getAirTemperature() >= config('weather.min_air_temperature')) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

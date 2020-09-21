@@ -10,6 +10,8 @@ use JMS\Serializer\Annotation as JMS;
  */
 class ForecastTimestamp
 {
+    public const CONDITION_CODE_CLEAR = 'clear';
+
     /**
      * @JMS\Type("string")
      * @JMS\SerializedName("forecastTimeUtc")
@@ -33,6 +35,12 @@ class ForecastTimestamp
      * @JMS\SerializedName("totalPrecipitation")
      */
     private string $totalPrecipitation;
+
+    /**
+     * @JMS\Type("string")
+     * @JMS\SerializedName("conditionCode")
+     */
+    private string $conditionCode;
 
     /**
      * @return string
@@ -96,5 +104,21 @@ class ForecastTimestamp
     public function setTotalPrecipitation(string $totalPrecipitation): void
     {
         $this->totalPrecipitation = $totalPrecipitation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConditionCode(): string
+    {
+        return $this->conditionCode;
+    }
+
+    /**
+     * @param  string  $conditionCode
+     */
+    public function setConditionCode(string $conditionCode): void
+    {
+        $this->conditionCode = $conditionCode;
     }
 }
