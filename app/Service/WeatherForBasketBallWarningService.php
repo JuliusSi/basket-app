@@ -33,23 +33,23 @@ class WeatherForBasketBallWarningService
     {
         $messages = [];
         foreach ($this->getWeatherInformation() as $item) {
+            $date = Carbon::parse($item->getForecastTimeUtc());
             if ($item->getTotalPrecipitation() > config('weather.max_precipitation')) {
                 $messages['weather-rules.precipitation'] = __(
                     'weather-rules.precipitation',
-                    ['precipitation' => $item->getTotalPrecipitation()]
+                    ['precipitation' => $item->getTotalPrecipitation(), 'hour' => $date->hour]
                 );
             }
             if ($item->getAirTemperature() > config('weather.max_air_temperature')) {
                 $messages['to_high_air_temperature'] = __(
                     'weather-rules.to_high_air_temperature',
-                    ['airTemperature' => $item->getAirTemperature()]
+                    ['airTemperature' => $item->getAirTemperature(), 'hour' => $date->hour]
                 );
             }
             if ($this->isToLowAirTemperature($item)) {
-                $date = Carbon::parse($item->getForecastTimeUtc());
                 $messages['to_low_air_temperature'] = __(
                     'weather-rules.to_low_air_temperature',
-                    ['airTemperature' => $item->getAirTemperature(), 'time' => $date->hour]
+                    ['airTemperature' => $item->getAirTemperature(), 'hour' => $date->hour]
                 );
             }
             $this->logWeather($item);
