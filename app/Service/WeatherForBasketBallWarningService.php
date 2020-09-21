@@ -90,6 +90,7 @@ class WeatherForBasketBallWarningService
         Log::info(sprintf('precipitation: %s', $weatherInformation->getTotalPrecipitation()));
         Log::info(sprintf('air temperature: %s', $weatherInformation->getAirTemperature()));
         Log::info(sprintf('wind speed: %s', $weatherInformation->getWindSpeed()));
+        Log::info(sprintf('condition code: %s', $weatherInformation->getConditionCode()));
     }
 
     /**
