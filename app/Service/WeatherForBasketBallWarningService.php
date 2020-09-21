@@ -41,15 +41,21 @@ class WeatherForBasketBallWarningService
                 );
             }
             if ($item->getAirTemperature() > config('weather.max_air_temperature')) {
-                $messages['to_high_air_temperature'] = __(
-                    'weather-rules.to_high_air_temperature',
+                $messages['too_high_air_temperature'] = __(
+                    'weather-rules.too_high_air_temperature',
                     ['airTemperature' => $item->getAirTemperature(), 'hour' => $date->hour]
                 );
             }
             if ($this->isToLowAirTemperature($item)) {
-                $messages['to_low_air_temperature'] = __(
-                    'weather-rules.to_low_air_temperature',
+                $messages['too_low_air_temperature'] = __(
+                    'weather-rules.too_low_air_temperature',
                     ['airTemperature' => $item->getAirTemperature(), 'hour' => $date->hour]
+                );
+            }
+            if ($item->getWindSpeed() > config('weather.max_wind_speed')) {
+                $messages['too_high_wind_speed'] = __(
+                    'weather-rules.too_high_wind_speed',
+                    ['windSpeed' => $item->getWindSpeed(), 'hour' => $date->hour]
                 );
             }
             $this->logWeather($item);
