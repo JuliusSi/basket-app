@@ -3,7 +3,7 @@
 namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
-use App\Service\WeatherForBasketBallWarningService;
+use App\WeatherChecker\Manager\WeatherCheckManager;
 
 /**
  * Class WeatherForBasketBallNotificationService
@@ -12,17 +12,17 @@ use App\Service\WeatherForBasketBallWarningService;
 class WeatherForBasketBallNotificationService
 {
     /**
-     * @var WeatherForBasketBallWarningService
+     * @var WeatherCheckManager
      */
-    private WeatherForBasketBallWarningService $weatherForBasketBallWarningService;
+    private WeatherCheckManager $weatherCheckManager;
 
-    /***
+    /**
      * WeatherForBasketBallNotificationService constructor.
-     * @param  WeatherForBasketBallWarningService  $weatherForBasketBallWarningService
+     * @param  WeatherCheckManager  $weatherCheckManager
      */
-    public function __construct(WeatherForBasketBallWarningService $weatherForBasketBallWarningService)
+    public function __construct(WeatherCheckManager $weatherCheckManager)
     {
-        $this->weatherForBasketBallWarningService = $weatherForBasketBallWarningService;
+        $this->weatherCheckManager = $weatherCheckManager;
     }
 
     /**
@@ -30,7 +30,7 @@ class WeatherForBasketBallNotificationService
      */
     public function getNotification(): Notification
     {
-        $warnings = $this->weatherForBasketBallWarningService->getWarningMessages();
+        $warnings = $this->checkWeather();
         if (!$warnings) {
             return $this->buildNotification(
                 __('weather-rules.success'),
@@ -68,5 +68,13 @@ class WeatherForBasketBallNotificationService
         $warningsMessage = implode(', ', $warnings);
 
         return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function checkWeather(): array
+    {
+        return $this->weatherCheckManager->manage();
     }
 }
