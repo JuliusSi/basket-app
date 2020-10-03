@@ -10,7 +10,7 @@ use App\Notifier\Service\WeatherForBasketBallNotificationService;
  * Class WeatherForBasketBallNotificationManager
  * @package App\Notifier\Manager
  */
-class WeatherForBasketBallNotificationManager
+class WeatherForBasketBallNotificationManager implements ManagerInterface
 {
     /**
      * @var WeatherForBasketBallNotificationService
@@ -53,6 +53,6 @@ class WeatherForBasketBallNotificationManager
      */
     private function getNotifications(): array
     {
-        return [$this->notificationService->getNotification()];
+        return $this->notificationService->getNotifications();
     }
 }

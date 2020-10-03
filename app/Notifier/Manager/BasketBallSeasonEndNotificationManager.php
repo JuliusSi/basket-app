@@ -2,8 +2,6 @@
 
 namespace App\Notifier\Manager;
 
-use App\Notifier\Collection\NotifierInterface;
-use App\Notifier\Collection\WeatherForBasketBallNotifierCollection;
 use App\Notifier\Model\Notification;
 use App\Notifier\Processor\DefaultNotificationProcessor;
 
@@ -11,7 +9,7 @@ use App\Notifier\Processor\DefaultNotificationProcessor;
  * Class BasketBallSeasonEndNotificationManager
  * @package App\Notifier\Manager
  */
-class BasketBallSeasonEndNotificationManager
+class BasketBallSeasonEndNotificationManager implements ManagerInterface
 {
     /**
      * @var DefaultNotificationProcessor

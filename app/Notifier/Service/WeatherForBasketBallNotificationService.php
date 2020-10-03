@@ -27,9 +27,17 @@ class WeatherForBasketBallNotificationService
     }
 
     /**
+     * @return Notification[]
+     */
+    public function getNotifications(): array
+    {
+        return [$this->getNotification()];
+    }
+
+    /**
      * @return Notification
      */
-    public function getNotification(): Notification
+    private function getNotification(): Notification
     {
         $warnings = $this->checkWeather();
         if (!$warnings) {
