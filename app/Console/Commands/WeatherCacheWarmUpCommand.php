@@ -12,7 +12,7 @@ use Src\Weather\Repository\CachedWeatherRepository;
  * Class WeatherCacheWarmUpCommand
  * @package App\Console\Commands
  */
-class WeatherCacheWarmUpCommand  extends Command
+class WeatherCacheWarmUpCommand extends Command
 {
     /**
      * @var string

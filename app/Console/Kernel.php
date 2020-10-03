@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Carbon;
 
 /**
  * Class Kernel
@@ -28,7 +29,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('weather:warmUpCache')->hourly()->between('14:01', '18:01');
-        $schedule->command('weatherForBasketBall:notify')->dailyAt('15:02');
+        $schedule->command('weatherForBasketBall:notify')->dailyAt(
+            config('notification.weather_for_basketball.time_to_notify')
+        );
+        $seasonEnd = config('notification.weather_for_basketball.end_notify');
+        $schedule->command('basketBallSeasonEnd:notify')->daily()->at('12:00')->when(
+            function () use ($seasonEnd) {
+                return $seasonEnd === Carbon::now()->format('m-d');
+            });
         $schedule->command('log:clear')->monthly();
     }
 

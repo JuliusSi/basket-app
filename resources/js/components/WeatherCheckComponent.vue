@@ -1,18 +1,27 @@
 <template>
-    <div>
-        <div class="alert alert-success text-center" role="alert" v-if="status === STATUS_OK">
-            {{ 'weather-rules.success' | trans }}
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    {{ 'weather.check_weather_for_basketball' | trans }}
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success text-center" role="alert" v-if="status === STATUS_OK">
+                        {{ 'weather-rules.success' | trans }}
+                    </div>
+                    <div class="alert alert-danger" role="alert" v-if="status === STATUS_NOT_OK">
+                        <ul class="list">
+                            <li v-for="warning in this.warnings">
+                                {{ warning.translated_message }}
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary mb-2" @click="getWarnings">
+                        {{ 'weather.check_weather' | trans }}
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="alert alert-danger" role="alert" v-if="status === STATUS_NOT_OK">
-            <ul class="list">
-                <li v-for="warning in this.warnings">
-                    {{ warning.translated_message }}
-                </li>
-            </ul>
-        </div>
-        <button class="btn btn-primary mb-2" @click="getWarnings">
-            {{ 'weather.check_weather' | trans }}
-        </button>
     </div>
 </template>
 
@@ -34,9 +43,9 @@ export default {
             this.loading = true;
             this.axios.get('/api/weather-warnings')
                 .then(response => {
-                    this.warnings = response.data;
                     this.loading = false;
                     if (response.data) {
+                        this.warnings = response.data;
                         this.status = STATUS_NOT_OK;
                     }
                     this.status = STATUS_OK;

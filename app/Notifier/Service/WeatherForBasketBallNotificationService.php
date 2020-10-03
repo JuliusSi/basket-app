@@ -55,7 +55,7 @@ class WeatherForBasketBallNotificationService
         $notification = new Notification();
         $notification->setContent($message);
         $notification->setImageUrl($imageUrl);
-        $notification->setSmsRecipients(config('notification.sms_recipients'));
+        $notification->setSmsRecipients(config('notification.weather_for_basketball.sms_recipients'));
 
         return $notification;
     }

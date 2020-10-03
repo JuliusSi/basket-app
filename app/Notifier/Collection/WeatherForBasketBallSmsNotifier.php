@@ -30,6 +30,6 @@ class WeatherForBasketBallSmsNotifier implements NotifierInterface
      */
     public function notify(array $notifications): void
     {
-        $this->smsBatchSendService->send($notifications);
+//        $this->smsBatchSendService->send($notifications);
     }
 }

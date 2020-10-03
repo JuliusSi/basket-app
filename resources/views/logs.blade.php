@@ -2,18 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center mb-2">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        {{ __('weather.check_weather_for_basketball') }}
-                    </div>
-                    <div class="card-body">
-                        <weather-check></weather-check>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <weather-check></weather-check>
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">

@@ -6,6 +6,7 @@ use App\Notifier\Collection\NotifierInterface;
 use App\Notifier\Collection\WeatherForBasketBallNotifierCollection;
 use App\Notifier\Model\Notification;
 use App\Notifier\Service\WeatherForBasketBallNotificationService;
+use Illuminate\Support\Carbon;
 
 /**
  * Class WeatherForBasketBallNotificationManager
@@ -41,12 +42,28 @@ class WeatherForBasketBallNotificationManager
      */
     public function manage(): void
     {
+        if (!$this->canNotify()) {
+            return;
+        }
+
         $notifications = $this->getNotifications();
         if (!$notifications) {
             return;
         }
 
         $this->applyNotifiers($notifications);
+    }
+
+    /**
+     * @return bool
+     */
+    private function canNotify(): bool
+    {
+        $monthAndDay = Carbon::now()->format('m-d');
+        $startNotify = config('notification.weather_for_basketball.start_notify');
+        $endNotify = config('notification.weather_for_basketball.end_notify');
+
+        return $monthAndDay >= $startNotify && $startNotify <= $endNotify;
     }
 
     /**
