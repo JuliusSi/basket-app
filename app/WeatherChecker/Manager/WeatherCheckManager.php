@@ -6,6 +6,7 @@ use App\Service\WeatherForBasketBallService;
 use App\WeatherChecker\Collection\CheckerCollection;
 use App\WeatherChecker\Collection\CheckerInterface;
 use App\WeatherChecker\Collector\WarningCollector;
+use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\ForecastTimestamp;
@@ -48,7 +49,7 @@ class WeatherCheckManager
     }
 
     /**
-     * @return string[]
+     * @return Warning[]
      */
     public function manage(): array
     {

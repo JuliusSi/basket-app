@@ -16,7 +16,7 @@ trait SerializationTrait
      * @param  string  $format
      * @return string
      */
-    public function serialize($data, $groups = ['Default'], string $format = 'json'): string
+    public function serialize($data, array $groups = ['Default'], string $format = 'json'): string
     {
         $serializer = JMS\Serializer\SerializerBuilder::create()->build();
         $context = SerializationContext::create();
@@ -32,7 +32,7 @@ trait SerializationTrait
      *
      * @return mixed
      */
-    public function deserialize(string $data, string $class, $format = 'json')
+    public function deserialize(string $data, string $class, string $format = 'json')
     {
         $serializer = JMS\Serializer\SerializerBuilder::create()->build();
 

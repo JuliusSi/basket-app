@@ -2,6 +2,8 @@
 
 namespace App\WeatherChecker\Collector;
 
+use App\WeatherChecker\Model\Warning;
+
 /**
  * Class WarningCollector
  * @package App\WeatherChecker\Collector
@@ -9,7 +11,7 @@ namespace App\WeatherChecker\Collector;
 class WarningCollector
 {
     /**
-     * @var string[]
+     * @var Warning[]
      */
     private array $warnings = [];
 
@@ -20,13 +22,25 @@ class WarningCollector
     {
         foreach ($warnings as $key => $warning) {
             if (!isset($this->warnings[$key])) {
-                $this->warnings[$key] = $warning;
+                $this->warnings[$key] = $this->buildWarning($warning);
             }
         }
     }
 
     /**
-     * @return string[]
+     * @param  string  $message
+     * @return Warning
+     */
+    private function buildWarning(string $message): Warning
+    {
+        $warning = new Warning();
+        $warning->setTranslatedMessage($message);
+
+        return $warning;
+    }
+
+    /**
+     * @return Warning[]
      */
     public function getWarnings(): array
     {
@@ -34,7 +48,7 @@ class WarningCollector
     }
 
     /**
-     * @param  string[]  $warnings
+     * @param  Warning[]  $warnings
      */
     public function setWarnings(array $warnings): void
     {

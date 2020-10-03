@@ -20,7 +20,7 @@ class PrecipitationChecker implements CheckerInterface
     {
         $messages = [];
         if ($weatherInfo->getTotalPrecipitation() > config('weather.max_precipitation')) {
-            $messages['weather-rules.precipitation'] = __(
+            $messages['precipitation'] = __(
                 'weather-rules.precipitation',
                 ['precipitation' => $weatherInfo->getTotalPrecipitation(), 'hour' => $date->hour]
             );

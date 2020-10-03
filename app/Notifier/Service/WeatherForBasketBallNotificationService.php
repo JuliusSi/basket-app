@@ -4,6 +4,7 @@ namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
 use App\WeatherChecker\Manager\WeatherCheckManager;
+use App\WeatherChecker\Model\Warning;
 
 /**
  * Class WeatherForBasketBallNotificationService
@@ -60,18 +61,32 @@ class WeatherForBasketBallNotificationService
     }
 
     /**
-     * @param  string[]  $warnings
+     * @param  Warning[]  $warnings
      * @return string
      */
     private function getBadWeatherMessage(array $warnings): string
     {
-        $warningsMessage = implode(', ', $warnings);
+        $warningsMessage = implode(', ', $this->getTranslatedMessages($warnings));
 
         return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
     }
 
     /**
+     * @param  Warning[]  $warnings
      * @return string[]
+     */
+    private function getTranslatedMessages(array $warnings): array
+    {
+        $translatedMessages = [];
+        foreach ($warnings as $warning) {
+            $translatedMessages = $warning->getTranslatedMessage();
+        }
+
+        return $translatedMessages;
+    }
+
+    /**
+     * @return Warning[]
      */
     private function checkWeather(): array
     {
