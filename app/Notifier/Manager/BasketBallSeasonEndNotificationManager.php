@@ -5,6 +5,7 @@ namespace App\Notifier\Manager;
 use App\Notifier\Collection\NotifierInterface;
 use App\Notifier\Collection\WeatherForBasketBallNotifierCollection;
 use App\Notifier\Model\Notification;
+use App\Notifier\Processor\DefaultNotificationProcessor;
 
 /**
  * Class BasketBallSeasonEndNotificationManager
@@ -13,17 +14,17 @@ use App\Notifier\Model\Notification;
 class BasketBallSeasonEndNotificationManager
 {
     /**
-     * @var WeatherForBasketBallNotifierCollection
+     * @var DefaultNotificationProcessor
      */
-    private WeatherForBasketBallNotifierCollection $collection;
+    private DefaultNotificationProcessor $notificationProcessor;
 
     /**
      * BasketBallSeasonEndNotificationManager constructor.
-     * @param  WeatherForBasketBallNotifierCollection  $collection
+     * @param  DefaultNotificationProcessor  $notificationProcessor
      */
-    public function __construct(WeatherForBasketBallNotifierCollection $collection)
+    public function __construct(DefaultNotificationProcessor $notificationProcessor)
     {
-        $this->collection = $collection;
+        $this->notificationProcessor = $notificationProcessor;
     }
 
     /**
@@ -31,25 +32,7 @@ class BasketBallSeasonEndNotificationManager
      */
     public function manage(): void
     {
-        $this->applyNotifiers([$this->getNotification()]);
-    }
-
-    /**
-     * @param  Notification[]  $notifications
-     */
-    private function applyNotifiers(array $notifications): void
-    {
-        foreach ($this->getNotifiers() as $notifier) {
-            $notifier->notify($notifications);
-        }
-    }
-
-    /**
-     * @return NotifierInterface[]
-     */
-    private function getNotifiers(): array
-    {
-        return $this->collection->getItems();
+        $this->notificationProcessor->process([$this->getNotification()]);
     }
 
     /**

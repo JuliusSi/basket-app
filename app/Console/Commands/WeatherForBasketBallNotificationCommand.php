@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Notifier\Manager\WeatherForBasketBallNotificationManager;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 /**
  * Class WeatherForBasketBallNotificationCommand
@@ -41,6 +42,22 @@ class WeatherForBasketBallNotificationCommand extends Command
      */
     public function handle(): void
     {
+        if (!$this->canNotify()) {
+            return;
+        }
+
         $this->manager->manage();
+    }
+
+    /**
+     * @return bool
+     */
+    private function canNotify(): bool
+    {
+        $monthAndDay = Carbon::now()->format('m-d');
+        $startNotify = config('notification.weather_for_basketball.start_notify');
+        $endNotify = config('notification.weather_for_basketball.end_notify');
+
+        return $monthAndDay >= $startNotify && $startNotify <= $endNotify;
     }
 }
