@@ -2,8 +2,14 @@
 
 namespace App\Notifier\Collection;
 
+use App\Helpers\Traits\LithuanianLetterConverter;
 use App\Notifier\Model\Notification;
-use App\Service\SmsBatchSendService;
+use Exception;
+use Src\Sms\Client\Request\MessagesRequest;
+use Src\Sms\Client\Response\Response;
+use Src\Sms\Model\Message;
+use Src\Sms\Model\MessageBag;
+use Src\Sms\Repository\SmsBatchRepository;
 
 /**
  * Class WeatherForBasketBallSmsNotifier
@@ -11,25 +17,91 @@ use App\Service\SmsBatchSendService;
  */
 class WeatherForBasketBallSmsNotifier implements NotifierInterface
 {
-    /**
-     * @var SmsBatchSendService
-     */
-    private SmsBatchSendService $smsBatchSendService;
+    use LithuanianLetterConverter;
 
     /**
-     * WeatherForBasketBallSmsNotifier constructor.
-     * @param  SmsBatchSendService  $smsBatchSendService
+     * @var SmsBatchRepository
      */
-    public function __construct(SmsBatchSendService $smsBatchSendService)
+    private SmsBatchRepository $repository;
+
+    public function __construct(SmsBatchRepository $repository)
     {
-        $this->smsBatchSendService = $smsBatchSendService;
+        $this->repository = $repository;
     }
 
     /**
      * @param  Notification[]  $notifications
+     * @return void
      */
     public function notify(array $notifications): void
     {
-        $this->smsBatchSendService->send($notifications);
+        $request = $this->buildRequest($notifications);
+
+        $this->sendMessages($request);
+    }
+
+    /**
+     * @param  Notification[]  $notifications
+     * @return MessagesRequest
+     */
+    private function buildRequest(array $notifications): MessagesRequest
+    {
+        $request = new MessagesRequest();
+        $request->setMessageBag($this->buildMessageBag($notifications));
+
+        return $request;
+    }
+
+    /**
+     * @param  Notification[]  $notifications
+     * @return MessageBag
+     */
+    private function buildMessageBag(array $notifications): MessageBag
+    {
+        $bag = new MessageBag();
+        $bag->setMessages($this->buildMessageRequests($notifications));
+
+        return $bag;
+    }
+
+    /**
+     * @param  Notification[]  $notifications
+     * @return Message[]
+     */
+    private function buildMessageRequests(array $notifications): array
+    {
+        $messageRequests = [];
+        foreach ($notifications as $notification) {
+            $messageRequests[] = $this->buildMessageRequest($notification);
+        }
+
+        return $messageRequests;
+    }
+
+    /**
+     * @param  Notification  $notification
+     * @return Message
+     */
+    private function buildMessageRequest(Notification $notification): Message
+    {
+        $request = new Message();
+        $request->setContent($this->convert($notification->getContent()));
+        $request->setTo($notification->getSmsRecipients());
+        $request->setFrom(config('sms.sender_name'));
+
+        return $request;
+    }
+
+    /**
+     * @param  MessagesRequest  $request
+     * @return Response|null
+     */
+    private function sendMessages(MessagesRequest $request): ?Response
+    {
+        try {
+            return $this->repository->sendMessages($request);
+        } catch (Exception $exception) {
+            return null;
+        }
     }
 }
