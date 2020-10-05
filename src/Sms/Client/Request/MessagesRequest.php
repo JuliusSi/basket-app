@@ -2,7 +2,7 @@
 
 namespace Src\Sms\Client\Request;
 
-use Src\Sms\Client\Traits\SerializationTrait;
+use App\Helpers\Traits\SerializationTrait;
 use Src\Sms\Model\MessageBag;
 
 /**

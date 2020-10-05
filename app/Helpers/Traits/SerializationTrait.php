@@ -1,13 +1,13 @@
 <?php
 
-namespace Src\Sms\Client\Traits;
+namespace App\Helpers\Traits;
 
 use JMS;
 use JMS\Serializer\SerializationContext;
 
 /**
  * Trait SerializationTrait
- * @package Src\Sms\Client\Traits
+ * @package App\Helpers\Traits
  */
 trait SerializationTrait
 {
@@ -18,8 +18,12 @@ trait SerializationTrait
      * @param  string  $format
      * @return string
      */
-    public function serialize($data, ?string $class, array $groups = ['Default'], string $format = 'json'): string
-    {
+    public function serialize(
+        $data,
+        ?string $class = null,
+        array $groups = ['Default'],
+        string $format = 'json'
+    ): string {
         $serializer = JMS\Serializer\SerializerBuilder::create()->build();
         $context = SerializationContext::create();
         $context->setGroups($groups);

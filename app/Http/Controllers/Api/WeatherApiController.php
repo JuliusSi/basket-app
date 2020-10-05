@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Traits\SerializationTrait;
 use App\Http\Controllers\Controller;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
-use Src\Sms\Client\Traits\SerializationTrait;
 
 /**
  * Class WeatherApiController
