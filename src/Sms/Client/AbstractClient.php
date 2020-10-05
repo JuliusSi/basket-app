@@ -86,12 +86,13 @@ abstract class AbstractClient
      */
     private function handleResponse(RequestInterface $request, ResponseInterface $response): void
     {
-        if (!$response->getBody()->getContents()) {
+        $content = $response->getBody()->getContents();
+        if (!$content) {
             $message = 'Empty response from d7sms.';
             $this->logAndThrowException($message, Exception::class);
         }
 
-        Log::info(sprintf('Request: %s, Response: %s', $request->getBody(), $response->getBody()->getContents()));
+        Log::info(sprintf('Request: %s, Response: %s', $request->getBody(), $content));
     }
 
     /**
