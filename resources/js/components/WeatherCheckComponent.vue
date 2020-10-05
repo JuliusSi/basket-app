@@ -10,6 +10,7 @@
                         {{ 'weather-rules.success' | trans }}
                     </div>
                     <div class="alert alert-danger" role="alert" v-if="status === STATUS_NOT_OK">
+                        {{ 'weather-rules.error' | trans }}
                         <ul class="list">
                             <li v-for="warning in this.warnings">
                                 {{ warning.translated_message }}
@@ -47,8 +48,9 @@ export default {
                     if (response.data) {
                         this.warnings = response.data;
                         this.status = STATUS_NOT_OK;
+                    } else {
+                        this.status = STATUS_OK;
                     }
-                    this.status = STATUS_OK;
                 });
         },
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\WeatherChecker\Manager\WeatherCheckManager;
+use App\WeatherChecker\Model\Warning;
 use Src\Sms\Client\Traits\SerializationTrait;
 
 /**
@@ -35,6 +36,6 @@ class WeatherApiController extends Controller
     {
         $warnings = $this->weatherCheckManager->manage();
 
-        return $this->serialize($warnings);
+        return $this->serialize($warnings, 'array<' . Warning::class . '>');
     }
 }
