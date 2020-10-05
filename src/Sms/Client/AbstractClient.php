@@ -5,6 +5,7 @@ namespace Src\Sms\Client;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
 use Src\Sms\Client\Traits\SerializationTrait;
@@ -19,6 +20,20 @@ abstract class AbstractClient
     use SerializationTrait;
 
     /**
+     * @var Client
+     */
+    private Client $client;
+
+    /**
+     * AbstractClient constructor.
+     * @param  Client  $client
+     */
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+
+    /**
      * @param  RequestInterface  $request
      * @param  string  $class
      *
@@ -27,11 +42,26 @@ abstract class AbstractClient
      */
     public function getDeserializedResponse(RequestInterface $request, string $class)
     {
-        $response = $this->getRawResponse($request);
-        $content = $response->getBody()->getContents();
-        $this->handleResponse($request, $content);
+        $response = $this->getResponse($request);
+        $this->handleResponse($request, $response);
 
-        return $this->deserialize($content, $class);
+        return $this->deserialize($response->getBody()->getContents(), $class);
+    }
+
+    /**
+     * @param  RequestInterface  $request
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    private function getResponse(RequestInterface $request): ResponseInterface
+    {
+        $environment = App::environment();
+        if ($environment !== 'prod') {
+            $message = sprintf('Sms message sending is enabled only for prod env. Current env: %s.', $environment);
+            $this->logAndThrowException($message, Exception::class);
+        }
+
+        return $this->getRawResponse($request);
     }
 
     /**
@@ -51,17 +81,17 @@ abstract class AbstractClient
 
     /**
      * @param  RequestInterface  $request
-     * @param  string|null  $content
+     * @param  ResponseInterface  $response
      * @throws Exception
      */
-    private function handleResponse(RequestInterface $request, ?string $content): void
+    private function handleResponse(RequestInterface $request, ResponseInterface $response): void
     {
-        if (!$content) {
+        if (!$response->getBody()->getContents()) {
             $message = 'Empty response from d7sms.';
             $this->logAndThrowException($message, Exception::class);
         }
 
-        Log::info(sprintf('Request: %s, Response: %s',$request->getBody(), $content));
+        Log::info(sprintf('Request: %s, Response: %s', $request->getBody(), $response->getBody()->getContents()));
     }
 
     /**
@@ -71,9 +101,7 @@ abstract class AbstractClient
      */
     private function call(RequestInterface $request): ResponseInterface
     {
-        $client = new Client();
-
-        return $client->request($request->getMethod(), $request->getUri(), $this->buildOptions($request));
+        return $this->client->request($request->getMethod(), $request->getUri(), $this->buildOptions($request));
     }
 
     /**

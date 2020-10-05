@@ -87,7 +87,7 @@ class WeatherForBasketBallNotificationService
     {
         $translatedMessages = [];
         foreach ($warnings as $warning) {
-            $translatedMessages = $warning->getTranslatedMessage();
+            $translatedMessages[] = $warning->getTranslatedMessage();
         }
 
         return $translatedMessages;
