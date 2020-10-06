@@ -13,7 +13,7 @@
                         <h5 class="alert-heading">{{ 'weather-rules.error' | trans }}</h5>
                         <ul class="list">
                             <li v-for="warning in this.warnings">
-                                {{ warning.translated_message }}
+                                {{ warning.translatedMessage }}
                             </li>
                         </ul>
                     </div>
