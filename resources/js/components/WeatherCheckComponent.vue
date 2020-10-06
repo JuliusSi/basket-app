@@ -7,10 +7,10 @@
                 </div>
                 <div class="card-body">
                     <div class="alert alert-success text-center" role="alert" v-if="status === STATUS_OK">
-                        {{ 'weather-rules.success' | trans }}
+                        <h5 class="alert-heading">{{ 'weather-rules.success' | trans }}</h5>
                     </div>
                     <div class="alert alert-danger" role="alert" v-if="status === STATUS_NOT_OK">
-                        {{ 'weather-rules.error' | trans }}
+                        <h5 class="alert-heading">{{ 'weather-rules.error' | trans }}</h5>
                         <ul class="list">
                             <li v-for="warning in this.warnings">
                                 {{ warning.translated_message }}
@@ -45,7 +45,7 @@ export default {
             this.axios.get('/api/weather-warnings')
                 .then(response => {
                     this.loading = false;
-                    if (response.data) {
+                    if (response.data.length) {
                         this.warnings = response.data;
                         this.status = STATUS_NOT_OK;
                     } else {
