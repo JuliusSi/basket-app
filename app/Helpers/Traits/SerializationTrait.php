@@ -28,11 +28,10 @@ trait SerializationTrait
         array $groups = ['Default'],
         string $format = 'json'
     ): string {
-        $serializer = $this->getSerializer();
         $context = SerializationContext::create();
         $context->setGroups($groups);
 
-        return $serializer->serialize($data, $format, $context, $class);
+        return $this->getSerializer()->serialize($data, $format, $context, $class);
     }
 
     /**
