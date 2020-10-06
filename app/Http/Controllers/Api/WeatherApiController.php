@@ -21,7 +21,7 @@ class WeatherApiController extends Controller
     private WeatherCheckManager $weatherCheckManager;
 
     /**
-     * HomeController constructor.
+     * WeatherApiController constructor.
      * @param  WeatherCheckManager  $weatherCheckManager
      */
     public function __construct(WeatherCheckManager $weatherCheckManager)
