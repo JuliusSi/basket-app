@@ -44,9 +44,7 @@ trait SerializationTrait
      */
     public function deserialize(string $data, string $class, string $format = 'json')
     {
-        $serializer = $this->getSerializer();
-
-        return $serializer->deserialize($data, $class, $format);
+        return $this->getSerializer()->deserialize($data, $class, $format);
     }
 
     /**
