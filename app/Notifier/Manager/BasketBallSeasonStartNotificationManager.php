@@ -7,15 +7,15 @@ use App\Notifier\Processor\DefaultNotificationProcessor;
 use App\Service\LocalStorageService;
 
 /**
- * Class BasketBallSeasonEndNotificationManager
+ * Class BasketBallSeasonStartNotificationManager
  * @package App\Notifier\Manager
  */
-class BasketBallSeasonEndNotificationManager implements ManagerInterface
+class BasketBallSeasonStartNotificationManager implements ManagerInterface
 {
     /**
      * @var DefaultNotificationProcessor
      */
-    private DefaultNotificationProcessor $notificationProcessor;
+    private DefaultNotificationProcessor $processor;
 
     /**
      * @var LocalStorageService
@@ -23,15 +23,13 @@ class BasketBallSeasonEndNotificationManager implements ManagerInterface
     private LocalStorageService $localStorageService;
 
     /**
-     * BasketBallSeasonEndNotificationManager constructor.
-     * @param  DefaultNotificationProcessor  $notificationProcessor
+     * BasketBallSeasonStartNotificationManager constructor.
+     * @param  DefaultNotificationProcessor  $processor
      * @param  LocalStorageService  $localStorageService
      */
-    public function __construct(
-        DefaultNotificationProcessor $notificationProcessor,
-        LocalStorageService $localStorageService
-    ) {
-        $this->notificationProcessor = $notificationProcessor;
+    public function __construct(DefaultNotificationProcessor $processor, LocalStorageService $localStorageService)
+    {
+        $this->processor = $processor;
         $this->localStorageService = $localStorageService;
     }
 
@@ -40,7 +38,7 @@ class BasketBallSeasonEndNotificationManager implements ManagerInterface
      */
     public function manage(): void
     {
-        $this->notificationProcessor->process([$this->getNotification()]);
+        $this->processor->process([$this->getNotification()]);
     }
 
     /**
@@ -51,7 +49,7 @@ class BasketBallSeasonEndNotificationManager implements ManagerInterface
         $notification = new Notification();
         $notification->setSmsRecipients(config('notification.weather_for_basketball.sms_recipients'));
         $notification->setContent($this->getContent());
-        $notification->setImageUrl($this->getFileUrl(config('memes.vince_carter_its_over_gif_url')));
+        $notification->setImageUrl($this->getFileUrl(config('memes.kyrie_irving_air_guitar_gif_url')));
 
         return $notification;
     }
@@ -62,10 +60,13 @@ class BasketBallSeasonEndNotificationManager implements ManagerInterface
     private function getContent(): string
     {
         $startNotify = config('notification.weather_for_basketball.start_notify');
-        $endNotify = config('notification.weather_for_basketball.end_notify');
+        $notificationTime = config('notification.weather_for_basketball.time_to_notify');
 
-        return __('notification.basketball_season_end', ['endDate' => $endNotify, 'startDate' => $startNotify]);
+        return __('notification.basketball_season_start',
+            ['startDate' => $startNotify, 'notificationTime' => $notificationTime]
+        );
     }
+
     /**
      * @param  string  $fileName
      * @param  string  $directory

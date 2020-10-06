@@ -32,11 +32,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('weatherForBasketBall:notify')->dailyAt(
             config('notification.weather_for_basketball.time_to_notify')
         );
-        $seasonEnd = config('notification.weather_for_basketball.end_notify');
-        $schedule->command('basketBallSeasonEnd:notify')->daily()->at('12:00')->when(
-            function () use ($seasonEnd) {
-                return $seasonEnd === Carbon::now()->format('m-d');
-            });
+        $schedule->command('basketBallSeasonEnd:notify')->dailyAt('12:00');
+        $schedule->command('basketBallSeasonStart:notify')->dailyAt('12:00');
         $schedule->command('log:clear')->monthly();
     }
 

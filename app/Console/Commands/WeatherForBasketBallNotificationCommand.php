@@ -42,7 +42,7 @@ class WeatherForBasketBallNotificationCommand extends Command
      */
     public function handle(): void
     {
-        if (!$this->canNotify()) {
+        if (!$this->canHandle()) {
             return;
         }
 
@@ -52,7 +52,7 @@ class WeatherForBasketBallNotificationCommand extends Command
     /**
      * @return bool
      */
-    private function canNotify(): bool
+    private function canHandle(): bool
     {
         $monthAndDay = Carbon::now()->format('m-d');
         $startNotify = config('notification.weather_for_basketball.start_notify');

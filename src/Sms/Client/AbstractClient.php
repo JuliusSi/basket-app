@@ -2,13 +2,13 @@
 
 namespace Src\Sms\Client;
 
+use App\Helpers\Traits\SerializationTrait;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
-use Src\Sms\Client\Traits\SerializationTrait;
 use Src\Sms\Client\Request\RequestInterface;
 
 /**

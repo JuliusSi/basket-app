@@ -3,6 +3,7 @@
 namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
+use App\Service\LocalStorageService;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
 
@@ -18,12 +19,19 @@ class WeatherForBasketBallNotificationService
     private WeatherCheckManager $weatherCheckManager;
 
     /**
+     * @var LocalStorageService
+     */
+    private LocalStorageService $localStorageService;
+
+    /**
      * WeatherForBasketBallNotificationService constructor.
      * @param  WeatherCheckManager  $weatherCheckManager
+     * @param  LocalStorageService  $localStorageService
      */
-    public function __construct(WeatherCheckManager $weatherCheckManager)
+    public function __construct(WeatherCheckManager $weatherCheckManager, LocalStorageService $localStorageService)
     {
         $this->weatherCheckManager = $weatherCheckManager;
+        $this->localStorageService = $localStorageService;
     }
 
     /**
@@ -43,13 +51,13 @@ class WeatherForBasketBallNotificationService
         if (!$warnings) {
             return $this->buildNotification(
                 __('weather-rules.success'),
-                config('memes.jr_smith_reaction_gif_url')
+                $this->getFileUrl(config('memes.jr_smith_reaction_gif_url'))
             );
         }
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($warnings),
-            config('memes.lebron_james_what_reaction_gif_url')
+            $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url'))
         );
     }
 
@@ -99,5 +107,14 @@ class WeatherForBasketBallNotificationService
     private function checkWeather(): array
     {
         return $this->weatherCheckManager->manage();
+    }
+
+    /**
+     * @param  string  $fileName
+     * @return string|null
+     */
+    private function getFileUrl(string $fileName): ?string
+    {
+        return $this->localStorageService->findFileUrl($fileName, LocalStorageService::MEMES_DIRECTORY);
     }
 }
