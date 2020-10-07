@@ -2,7 +2,7 @@
 
 namespace App\Notifier\Collection;
 
-use App\Helpers\Traits\LithuanianLetterConverter;
+use Core\Helpers\Traits\LithuanianLetterConverter;
 use App\Notifier\Model\Notification;
 use Exception;
 use Src\Sms\Client\Request\MessagesRequest;

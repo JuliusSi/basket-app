@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Helpers\Abstracts;
+namespace Core\Helpers\Abstracts;
 
 /**
  * Class AbstractCollection
- * @package App\Helpers\Abstracts
+ * @package Core\Helpers\Abstracts
  */
 abstract class AbstractCollection
 {

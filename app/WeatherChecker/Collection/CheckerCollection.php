@@ -2,7 +2,7 @@
 
 namespace App\WeatherChecker\Collection;
 
-use App\Helpers\Abstracts\AbstractCollection;
+use Core\Helpers\Abstracts\AbstractCollection;
 
 /**
  * Class CheckerCollection

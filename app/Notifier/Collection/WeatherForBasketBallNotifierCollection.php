@@ -2,7 +2,7 @@
 
 namespace App\Notifier\Collection;
 
-use App\Helpers\Abstracts\AbstractCollection;
+use Core\Helpers\Abstracts\AbstractCollection;
 
 /**
  * Class WeatherForBasketBallNotifierCollection

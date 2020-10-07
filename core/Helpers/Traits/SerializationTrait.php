@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Traits;
+namespace Core\Helpers\Traits;
 
 use JMS;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -11,7 +11,7 @@ use JMS\Serializer\SerializerBuilder;
 
 /**
  * Trait SerializationTrait
- * @package App\Helpers\Traits
+ * @package Core\Helpers\Traits
  */
 trait SerializationTrait
 {

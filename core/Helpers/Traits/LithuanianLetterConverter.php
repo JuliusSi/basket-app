@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Helpers\Traits;
+namespace Core\Helpers\Traits;
 
 /**
- * Trait LithuanianLettersConverter
- * @package App\Helpers\Traits
+ * Trait LithuanianLetterConverter
+ * @package Core\Helpers\Traits
  */
 trait LithuanianLetterConverter
 {
