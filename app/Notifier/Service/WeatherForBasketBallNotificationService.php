@@ -3,7 +3,7 @@
 namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
-use App\Service\LocalStorageService;
+use Core\Storage\Service\LocalStorageService;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
 
@@ -71,7 +71,7 @@ class WeatherForBasketBallNotificationService
         $notification = new Notification();
         $notification->setContent($message);
         $notification->setImageUrl($imageUrl);
-        $notification->setSmsRecipients(config('notification.weather_for_basketball.sms_recipients'));
+        $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
 
         return $notification;
     }

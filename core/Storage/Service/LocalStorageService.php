@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service;
+namespace Core\Storage\Service;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
  * Class LocalStorageService
- * @package App\Service
+ * @package Core\Storage\Service
  */
 class LocalStorageService
 {

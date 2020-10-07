@@ -2,7 +2,7 @@
 
 namespace App\WeatherChecker\Manager;
 
-use App\Service\WeatherForBasketBallService;
+use App\WeatherChecker\Service\WeatherForBasketBallService;
 use App\WeatherChecker\Collection\CheckerCollection;
 use App\WeatherChecker\Collection\CheckerInterface;
 use App\WeatherChecker\Collector\WarningCollector;

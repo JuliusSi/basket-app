@@ -57,7 +57,10 @@ abstract class AbstractClient
     {
         $environment = App::environment();
         if ($environment !== 'prod') {
-            $message = sprintf('Sms message sending is enabled only for prod env. Current env: %s.', $environment);
+            $message = sprintf(
+                'Sms message sending is enabled only for prod env. Current env: %s. Request: %s.',
+                $environment, $request->getBody()
+            );
             $this->logAndThrowException($message, Exception::class);
         }
 

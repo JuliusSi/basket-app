@@ -14,7 +14,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "jms/serializer-bundle": "^3",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^8.9",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "mariuzzo/laravel-js-localization": "^1.7"
@@ -39,7 +39,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Src\\": "src/"
+            "Src\\": "src/",
+            "Core\\": "core/"
         },
         "classmap": [
             "database/seeds",

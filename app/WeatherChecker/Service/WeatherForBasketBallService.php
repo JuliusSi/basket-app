@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\WeatherChecker\Service;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * Class WeatherForBasketBallService
- * @package App\Service
+ * @package App\WeatherChecker\Service
  */
 class WeatherForBasketBallService
 {

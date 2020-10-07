@@ -4,7 +4,7 @@ namespace App\Notifier\Manager;
 
 use App\Notifier\Model\Notification;
 use App\Notifier\Processor\DefaultNotificationProcessor;
-use App\Service\LocalStorageService;
+use Core\Storage\Service\LocalStorageService;
 
 /**
  * Class BasketBallSeasonEndNotificationManager
@@ -49,7 +49,7 @@ class BasketBallSeasonEndNotificationManager implements ManagerInterface
     private function getNotification(): Notification
     {
         $notification = new Notification();
-        $notification->setSmsRecipients(config('notification.weather_for_basketball.sms_recipients'));
+        $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
         $notification->setContent($this->getContent());
         $notification->setImageUrl($this->getFileUrl(config('memes.vince_carter_its_over_gif_url')));
 
