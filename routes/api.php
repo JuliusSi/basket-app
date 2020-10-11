@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('weather-warnings', [WeatherApiController::class, 'weatherWarnings']);
+Route::get('weather-warnings', [WeatherApiController::class, 'getWeatherWarnings']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

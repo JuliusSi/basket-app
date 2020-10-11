@@ -32,7 +32,7 @@ class WeatherApiController extends Controller
     /**
      * @return string
      */
-    public function weatherWarnings(): string
+    public function getWeatherWarnings(): string
     {
         $warnings = $this->weatherCheckManager->manage();
 
