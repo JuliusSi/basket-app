@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Notifier\Manager\WeatherForBasketBallNotificationManager;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class WeatherForBasketBallNotificationCommand
@@ -43,6 +44,7 @@ class WeatherForBasketBallNotificationCommand extends Command
     public function handle(): void
     {
         if (!$this->canHandle()) {
+            Log::notice(sprintf('Command %s is not executed due to configuration.', $this->signature));
             return;
         }
 
