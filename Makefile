@@ -23,7 +23,7 @@ composer_require:
 composer_update:
 	cd ${DOCKER_DIR} && docker-compose run --rm composer update
 
-artisan:
+artisan_run:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan ${action}
 
 npm_install:
