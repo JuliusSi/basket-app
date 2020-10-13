@@ -58,6 +58,6 @@ class WeatherForBasketBallNotificationCommand extends Command
         $startNotify = config('notification.weather_for_basketball.start_notify');
         $endNotify = config('notification.weather_for_basketball.end_notify');
 
-        return $monthAndDay >= $startNotify && $startNotify <= $endNotify;
+        return $monthAndDay >= $startNotify && $monthAndDay <= $endNotify;
     }
 }
