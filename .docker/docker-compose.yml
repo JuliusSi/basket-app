@@ -1,7 +1,7 @@
 version: '3.7'
 
 networks:
-  laravel:
+  weather-app:
 
 services:
   nginx:
@@ -19,7 +19,7 @@ services:
       - php
       - mysql
     networks:
-      - laravel
+      - weather-app
 
   php:
     build:
@@ -31,7 +31,7 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - laravel
+      - weather-app
   mysql:
     image: mysql:latest
     command: --default-authentication-plugin=mysql_native_password
@@ -48,7 +48,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - laravel
+      - weather-app
 
   composer:
     image: composer:latest
@@ -59,7 +59,7 @@ services:
     depends_on:
       - php
     networks:
-      - laravel
+      - weather-app
 
   npm:
     image: node:latest
@@ -81,7 +81,7 @@ services:
     working_dir: /var/www/html
     entrypoint: ['php', '/var/www/html/artisan']
     networks:
-      - laravel
+      - weather-app
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -94,6 +94,6 @@ services:
     environment:
       PMA_HOST: mysql
     networks:
-      - laravel
+      - weather-app
 
 
