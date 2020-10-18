@@ -10,8 +10,11 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Message
 {
+    public const CODING_8 = 8;
+
     /**
      * @JMS\Type("string")
+     * @JMS\SerializedName("hex_content")
      * @var string
      */
     private string $content;
@@ -27,6 +30,12 @@ class Message
      * @var array
      */
     private array $to;
+
+    /**
+     * @JMS\Type("integer")
+     * @var int
+     */
+    private int $coding = self::CODING_8;
 
     /**
      * @return string
@@ -74,5 +83,21 @@ class Message
     public function setTo(array $to): void
     {
         $this->to = $to;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCoding(): int
+    {
+        return $this->coding;
+    }
+
+    /**
+     * @param  int  $coding
+     */
+    public function setCoding(int $coding): void
+    {
+        $this->coding = $coding;
     }
 }

@@ -43,9 +43,10 @@ abstract class AbstractClient
     public function getDeserializedResponse(RequestInterface $request, string $class)
     {
         $response = $this->getResponse($request);
-        $this->handleResponse($request, $response);
+        $content = $response->getBody()->getContents();
+        $this->handleResponse($request, $content);
 
-        return $this->deserialize($response->getBody()->getContents(), $class);
+        return $this->deserialize($content, $class);
     }
 
     /**
@@ -84,12 +85,11 @@ abstract class AbstractClient
 
     /**
      * @param  RequestInterface  $request
-     * @param  ResponseInterface  $response
+     * @param  string|null  $content
      * @throws Exception
      */
-    private function handleResponse(RequestInterface $request, ResponseInterface $response): void
+    private function handleResponse(RequestInterface $request, ?string $content): void
     {
-        $content = $response->getBody()->getContents();
         if (!$content) {
             $message = 'Empty response from d7sms.';
             $this->logAndThrowException($message, Exception::class);

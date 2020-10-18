@@ -2,7 +2,6 @@
 
 namespace Src\Sms\Client\Request;
 
-use Core\Helpers\Traits\SerializationTrait;
 use Src\Sms\Model\MessageBag;
 
 /**
@@ -11,16 +10,6 @@ use Src\Sms\Model\MessageBag;
  */
 class MessagesRequest extends AbstractRequest
 {
-    use SerializationTrait;
-
-    /**
-     * @return string
-     */
-    public function getBody(): string
-    {
-        return $this->serialize($this->getMessageBag());
-    }
-
     /**
      * @var MessageBag $messageBag
      */
@@ -40,5 +29,35 @@ class MessagesRequest extends AbstractRequest
     public function setMessageBag(MessageBag $messageBag): void
     {
         $this->messageBag = $messageBag;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUri(): string
+    {
+        return config('provider.d7sms_rapid_send_batch_api_endpoint');
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders(): array
+    {
+        return [
+            'Authorization' => 'Basic ' . config('provider.d7sms_rapid_sms_api_token'),
+            'x-rapidapi-host' => config('provider.d7sms_rapid_api_host'),
+            'x-rapidapi-key' => config('provider.d7sms_rapid_api_key'),
+            'Content-type' => 'application/json',
+            'Accept' => 'application/json',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getBody(): string
+    {
+        return $this->serialize($this->getMessageBag());
     }
 }

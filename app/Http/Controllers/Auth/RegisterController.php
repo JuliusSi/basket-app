@@ -4,11 +4,20 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Model\User;
+use App\Verifier\Handler\PhoneVerificationRequestHandler;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
+/**
+ * Class RegisterController
+ * @package App\Http\Controllers\Auth
+ */
 class RegisterController extends Controller
 {
     /*
@@ -32,13 +41,42 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * @var PhoneVerificationRequestHandler
+     */
+    private PhoneVerificationRequestHandler $phoneVerificationHandler;
+
+    /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param  PhoneVerificationRequestHandler  $phoneVerificationHandler
      */
-    public function __construct()
+    public function __construct(PhoneVerificationRequestHandler $phoneVerificationHandler)
     {
         $this->middleware('guest');
+        $this->phoneVerificationHandler = $phoneVerificationHandler;
+    }
+
+    /**
+     * @param  Request   $request
+     * @return mixed
+     * @throws ValidationException
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $user = $this->createUser($request->all());
+        event(new Registered($user));
+
+        $this->sendVerification($user);
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 201)
+            : redirect($this->redirectPath());
     }
 
     /**
@@ -50,8 +88,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:50', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:user'],
+            'phone' => ['required', 'digits:11', 'unique:user'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -60,14 +99,23 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return User
      */
-    protected function create(array $data)
+    protected function createUser(array $data): User
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * @param  User  $user
+     */
+    private function sendVerification(User $user): void
+    {
+        $this->phoneVerificationHandler->handle($user);
     }
 }

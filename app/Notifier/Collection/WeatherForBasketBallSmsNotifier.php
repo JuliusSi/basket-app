@@ -2,11 +2,10 @@
 
 namespace App\Notifier\Collection;
 
-use Core\Helpers\Traits\LithuanianLetterConverter;
+use Core\Helpers\Traits\StringToBinaryConverter;
 use App\Notifier\Model\Notification;
 use Exception;
-use Src\Sms\Client\Request\MessagesRequest;
-use Src\Sms\Client\Response\Response;
+use Src\Sms\Client\Response\BatchSmsResponse;
 use Src\Sms\Model\Message;
 use Src\Sms\Model\MessageBag;
 use Src\Sms\Repository\SmsBatchRepository;
@@ -17,7 +16,7 @@ use Src\Sms\Repository\SmsBatchRepository;
  */
 class WeatherForBasketBallSmsNotifier implements NotifierInterface
 {
-    use LithuanianLetterConverter;
+    use StringToBinaryConverter;
 
     /**
      * @var SmsBatchRepository
@@ -39,22 +38,9 @@ class WeatherForBasketBallSmsNotifier implements NotifierInterface
      */
     public function notify(array $notifications): void
     {
-        $request = $this->buildRequest($notifications);
-
-        $this->sendMessages($request);
+        $this->sendMessages($this->buildMessageBag($notifications));
     }
 
-    /**
-     * @param  Notification[]  $notifications
-     * @return MessagesRequest
-     */
-    private function buildRequest(array $notifications): MessagesRequest
-    {
-        $request = new MessagesRequest();
-        $request->setMessageBag($this->buildMessageBag($notifications));
-
-        return $request;
-    }
 
     /**
      * @param  Notification[]  $notifications
@@ -97,13 +83,13 @@ class WeatherForBasketBallSmsNotifier implements NotifierInterface
     }
 
     /**
-     * @param  MessagesRequest  $request
-     * @return Response|null
+     * @param  MessageBag  $messageBag
+     * @return BatchSmsResponse|null
      */
-    private function sendMessages(MessagesRequest $request): ?Response
+    private function sendMessages(MessageBag $messageBag): ?BatchSmsResponse
     {
         try {
-            return $this->repository->sendMessages($request);
+            return $this->repository->sendMessages($messageBag);
         } catch (Exception $exception) {
             return null;
         }

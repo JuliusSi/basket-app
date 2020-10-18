@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as JMS;
  * Class Response
  * @package Src\Sms\Client\Response
  */
-class Response
+class BatchSmsResponse
 {
     /**
      * @JMS\Type("Src\Sms\Model\Data>")

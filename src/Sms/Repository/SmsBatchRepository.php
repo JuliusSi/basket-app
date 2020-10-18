@@ -5,7 +5,8 @@ namespace Src\Sms\Repository;
 use Exception;
 use Src\Sms\Client\DefaultClient;
 use Src\Sms\Client\Request\MessagesRequest;
-use Src\Sms\Client\Response\Response;
+use Src\Sms\Client\Response\BatchSmsResponse;
+use Src\Sms\Model\MessageBag;
 
 /**
  * Class SmsBatchRepository
@@ -28,12 +29,15 @@ class SmsBatchRepository
     }
 
     /**
-     * @param  MessagesRequest  $request
-     * @return Response
+     * @param  MessageBag  $messageBag
+     * @return BatchSmsResponse
      * @throws Exception
      */
-    public function sendMessages(MessagesRequest $request): Response
+    public function sendMessages(MessageBag $messageBag): BatchSmsResponse
     {
-        return $this->client->getDeserializedResponse($request, Response::class);
+        $request = new MessagesRequest();
+        $request->setMessageBag($messageBag);
+
+        return $this->client->getDeserializedResponse($request, BatchSmsResponse::class);
     }
 }
