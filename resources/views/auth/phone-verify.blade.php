@@ -5,16 +5,16 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Verify Your Phone Number') }}</div>
+                    <div class="card-header">{{ __('verification.phone.verify_phone') }}</div>
 
                     <div class="card-body">
 
-                        {{ __('Before proceeding, please check your phone for a verification code.') }}
+                        {{ __('verification.phone.code_verification_notice') }}
                         <form method="POST" action="{{ route('phone-verify') }}">
                             @csrf
                             <div class="form-group row mt-4">
                                 <label for="verification-code"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Verification code') }}</label>
+                                       class="col-md-4 col-form-label text-md-right">{{ __('verification.verification_code') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="verification-code" type="text"
@@ -30,7 +30,7 @@
                                     <div class="form-group row mt-4">
                                         <div class="col-md-6 offset-md-4">
                                             <button type="submit" class="btn btn-primary">
-                                                {{ __('Verify') }}
+                                                {{ __('verification.verify') }}
                                             </button>
                                         </div>
                                     </div>
