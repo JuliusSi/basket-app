@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Model\User;
+use App\Validation\Rules\PhoneCode;
 use App\Verifier\Handler\PhoneVerificationRequestHandler;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class RegisterController
@@ -88,9 +90,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:50', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
+            'username' => ['required', 'string', 'max:50', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:user'],
-            'phone' => ['required', 'digits:11', 'unique:user'],
+            'phone' => ['required', 'digits:11', 'unique:user', new PhoneCode()],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -104,7 +106,7 @@ class RegisterController extends Controller
     protected function createUser(array $data): User
     {
         return User::create([
-            'name' => $data['name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
@@ -116,6 +118,9 @@ class RegisterController extends Controller
      */
     private function sendVerification(User $user): void
     {
-        $this->phoneVerificationHandler->handle($user);
+        $sent = $this->phoneVerificationHandler->handle($user);
+        if (!$sent) {
+            abort(Response::HTTP_FORBIDDEN, __('verification.phone.new_user_code_not_sent'));
+        }
     }
 }

@@ -29,13 +29,17 @@ class PhoneVerificationRequestHandler
 
     /**
      * @param  User  $user
+     * @return bool
      */
-    public function handle(User $user): void
+    public function handle(User $user): bool
     {
         $response = $this->sender->sendVerification($user);
         if ($response && $response->isStatusOpen()) {
             $this->saveVerificationData($response, $user);
+            return true;
         }
+
+        return false;
     }
 
     /**
