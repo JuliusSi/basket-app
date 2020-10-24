@@ -27,9 +27,9 @@ class DefaultRequest extends AbstractRequest
     }
 
     /**
-     * @return UriInterface|string
+     * @return string
      */
-    public function getUri()
+    public function getUri(): string
     {
         return config('provider.meteo_weather_api_endpoint')
             . $this->place . self::FORECASTS_PARAM . self::LONG_TERM_PARAM;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Src\Sms\Client\Request;
+namespace Core\Helpers\Interfaces\Request;
 
 /**
  * Interface RequestInterface
- * @package Src\Sms\Client\Request
+ * @package Core\Helpers\Interfaces\Request
  */
-interface RequestInterface
+interface StatsAwareRequestInterface
 {
     /**
      * @return string[]
@@ -27,6 +27,11 @@ interface RequestInterface
      * @return string
      */
     public function getUri(): string;
+
+    /**
+     * @return array
+     */
+    public function getQuery(): array;
 
     /**
      * @return int

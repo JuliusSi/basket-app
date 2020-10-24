@@ -3,7 +3,7 @@
 namespace Core\Helpers\Traits;
 
 use GuzzleHttp\RequestOptions;
-use Src\Sms\Client\Request\RequestInterface;
+use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface;
 
 /**
  * Trait RequestOptionsBuildingTrait
@@ -12,10 +12,10 @@ use Src\Sms\Client\Request\RequestInterface;
 trait RequestOptionsBuildingTrait
 {
     /**
-     * @param  RequestInterface  $request
+     * @param  StatsAwareRequestInterface  $request
      * @return array
      */
-    private function buildOptions(RequestInterface $request): array
+    private function buildOptions(StatsAwareRequestInterface $request): array
     {
         $options = [];
         if ($headers = $request->getHeaders()) {
@@ -26,6 +26,9 @@ trait RequestOptionsBuildingTrait
         }
         if ($timeOut = $request->getConnectionTimeOut()) {
             $options[RequestOptions::CONNECT_TIMEOUT] = $timeOut;
+        }
+        if ($query = $request->getQuery()) {
+            $options[RequestOptions::QUERY] = $query;
         }
         $options[RequestOptions::ON_STATS] = $request->getOnStats();
 

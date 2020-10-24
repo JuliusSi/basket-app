@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
-use Src\Sms\Client\Request\RequestInterface;
+use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
 
 /**
  * Class AbstractClient

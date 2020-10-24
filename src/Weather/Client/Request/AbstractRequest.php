@@ -2,9 +2,9 @@
 
 namespace Src\Weather\Client\Request;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
+use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
+use GuzzleHttp\TransferStats;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class AbstractRequest
@@ -12,154 +12,39 @@ use Psr\Http\Message\UriInterface;
  */
 class AbstractRequest implements RequestInterface
 {
-    /**
-     * @return string
-     */
-    public function getProtocolVersion()
-    {
-        // TODO: Implement getProtocolVersion() method.
-    }
+    protected const DEFAULT_CONNECTION_TIMEOUT = 2;
 
     /**
-     * @param  string  $version
-     * @return $this
-     */
-    public function withProtocolVersion($version)
-    {
-        // TODO: Implement withProtocolVersion() method.
-    }
-
-    /**
-     * @return \string[][]
-     */
-    public function getHeaders()
-    {
-        // TODO: Implement getHeaders() method.
-    }
-
-    /**
-     * @param  string  $name
-     * @return bool
-     */
-    public function hasHeader($name)
-    {
-        // TODO: Implement hasHeader() method.
-    }
-
-    /**
-     * @param  string  $name
      * @return string[]
      */
-    public function getHeader($name)
+    public function getHeaders(): array
     {
-        // TODO: Implement getHeader() method.
+       return [];
     }
 
+
     /**
-     * @param  string  $name
      * @return string
      */
-    public function getHeaderLine($name)
+    public function getBody(): string
     {
-        // TODO: Implement getHeaderLine() method.
-    }
-
-    /**
-     * @param  string  $name
-     * @param  string|string[]  $value
-     * @return $this
-     */
-    public function withHeader($name, $value)
-    {
-        // TODO: Implement withHeader() method.
-    }
-
-    /**
-     * @param  string  $name
-     * @param  string|string[]  $value
-     * @return $this
-     */
-    public function withAddedHeader($name, $value)
-    {
-        // TODO: Implement withAddedHeader() method.
-    }
-
-    /**
-     * @param  string  $name
-     * @return $this
-     */
-    public function withoutHeader($name)
-    {
-        // TODO: Implement withoutHeader() method.
-    }
-
-    /**
-     * @return StreamInterface
-     */
-    public function getBody()
-    {
-        // TODO: Implement getBody() method.
-    }
-
-    /**
-     * @param  StreamInterface  $body
-     * @return $this
-     */
-    public function withBody(StreamInterface $body)
-    {
-        // TODO: Implement withBody() method.
+        return '';
     }
 
     /**
      * @return string
      */
-    public function getRequestTarget()
+    public function getMethod(): string
     {
-        // TODO: Implement getRequestTarget() method.
-    }
-
-    /**
-     * @param  mixed  $requestTarget
-     * @return $this
-     */
-    public function withRequestTarget($requestTarget)
-    {
-        // TODO: Implement withRequestTarget() method.
+        return '';
     }
 
     /**
      * @return string
      */
-    public function getMethod()
+    public function getUri(): string
     {
-        // TODO: Implement getMethod() method.
-    }
-
-    /**
-     * @param  string  $method
-     * @return $this
-     */
-    public function withMethod($method)
-    {
-        // TODO: Implement withMethod() method.
-    }
-
-    /**
-     * @return UriInterface
-     */
-    public function getUri()
-    {
-        // TODO: Implement getUri() method.
-    }
-
-    /**
-     * @param  UriInterface  $uri
-     * @param  bool  $preserveHost
-     * @return $this
-     */
-    public function withUri(UriInterface $uri, $preserveHost = false)
-    {
-        // TODO: Implement withUri() method.
+        return '';
     }
 
     /**
@@ -168,5 +53,24 @@ class AbstractRequest implements RequestInterface
     public function getQuery(): array
     {
         return [];
+    }
+
+    /**
+     * @return int
+     */
+    public function getConnectionTimeOut(): int
+    {
+        return self::DEFAULT_CONNECTION_TIMEOUT;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getOnStats(): callable
+    {
+        return static function (TransferStats $stats)
+        {
+            Log::info(sprintf('Transfer time: %s, Uri: %s.', $stats->getTransferTime(), $stats->getEffectiveUri()));
+        };
     }
 }

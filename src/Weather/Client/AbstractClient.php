@@ -2,10 +2,11 @@
 
 namespace Src\Weather\Client;
 
+use Core\Helpers\Traits\RequestOptionsBuildingTrait;
 use GuzzleHttp\Exception\GuzzleException;
-use Src\Weather\Client\Request\AbstractRequest;
-use Src\Weather\Client\Traits\SerializationTrait;
+use Core\Helpers\Traits\SerializationTrait;
 use GuzzleHttp\Client;
+use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
 
 /**
  * Class AbstractClient
@@ -14,15 +15,16 @@ use GuzzleHttp\Client;
 abstract class AbstractClient
 {
     use SerializationTrait;
+    use RequestOptionsBuildingTrait;
 
     /**
-     * @param  AbstractRequest  $request
+     * @param  RequestInterface  $request
      * @param  string  $class
      *
      * @return mixed|null
      * @throws GuzzleException
      */
-    public function getDeserializedResponse(AbstractRequest $request, string $class)
+    public function getDeserializedResponse(RequestInterface $request, string $class)
     {
         $response = $this->getRawResponse($request);
 
@@ -30,36 +32,16 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  AbstractRequest  $request
+     * @param  RequestInterface  $request
      *
      * @return string
      * @throws GuzzleException
      */
-    public function getRawResponse(AbstractRequest $request): string
+    public function getRawResponse(RequestInterface $request): string
     {
         $client = new Client();
         $rawContent = $client->request($request->getMethod(), $request->getUri(), $this->buildOptions($request));
 
         return $rawContent->getBody()->getContents();
-    }
-
-    /**
-     * @param  AbstractRequest  $request
-     * @return array
-     */
-    private function buildOptions(AbstractRequest $request): array
-    {
-        $options = [];
-        if ($headers = $request->getHeaders()) {
-            $options['headers'] = $headers;
-        }
-        if ($body = $request->getBody()) {
-            $options['body'] = $body;
-        }
-        if ($query = $request->getQuery()) {
-            $options['query'] = $query;
-        }
-
-        return $options;
     }
 }

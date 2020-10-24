@@ -5,16 +5,17 @@ namespace Src\Sms\Client\Request;
 use Core\Helpers\Traits\SerializationTrait;
 use GuzzleHttp\TransferStats;
 use Illuminate\Support\Facades\Log;
+use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface;
 
 /**
  * Class DefaultRequest
  * @package Src\Sms\Client\Request
  */
-abstract class AbstractRequest implements RequestInterface
+abstract class AbstractRequest implements StatsAwareRequestInterface
 {
     use SerializationTrait;
 
-    public const DEFAULT_CONNECTION_TIMEOUT = 10;
+    protected const DEFAULT_CONNECTION_TIMEOUT = 2;
 
     /**
      * @return string
@@ -30,6 +31,14 @@ abstract class AbstractRequest implements RequestInterface
     public function getConnectionTimeOut(): int
     {
         return self::DEFAULT_CONNECTION_TIMEOUT;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQuery(): array
+    {
+        return [];
     }
 
     /**
