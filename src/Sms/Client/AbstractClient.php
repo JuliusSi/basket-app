@@ -2,6 +2,7 @@
 
 namespace Src\Sms\Client;
 
+use Core\Helpers\Traits\RequestOptionsBuildingTrait;
 use Core\Helpers\Traits\SerializationTrait;
 use Exception;
 use GuzzleHttp\Client;
@@ -18,6 +19,7 @@ use Src\Sms\Client\Request\RequestInterface;
 abstract class AbstractClient
 {
     use SerializationTrait;
+    use RequestOptionsBuildingTrait;
 
     /**
      * @var Client
@@ -91,7 +93,7 @@ abstract class AbstractClient
     private function handleResponse(RequestInterface $request, ?string $content): void
     {
         if (!$content) {
-            $message = 'Empty response from d7sms.';
+            $message = sprintf('Empty response from %s.', $request->getUri());
             $this->logAndThrowException($message, Exception::class);
         }
 
@@ -117,22 +119,5 @@ abstract class AbstractClient
     {
         Log::error($message);
         throw new $exception;
-    }
-
-    /**
-     * @param  RequestInterface  $request
-     * @return array
-     */
-    private function buildOptions(RequestInterface $request): array
-    {
-        $options = [];
-        if ($headers = $request->getHeaders()) {
-            $options['headers'] = $headers;
-        }
-        if ($body = $request->getBody()) {
-            $options['body'] = $body;
-        }
-
-        return $options;
     }
 }

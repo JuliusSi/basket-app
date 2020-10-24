@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Verifier\Handler\PhoneVerificationConfirmHandler;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,11 +32,10 @@ class PhoneVerificationController extends Controller
      * @param  Request  $request
      * @return string
      */
-    public function verify(Request $request)
+    public function verify(Request $request): string
     {
         $code = $request->get('verification-code');
-        $userId = Auth::id();
-        $this->confirmHandler->handle($code, $userId);
+        $this->confirmHandler->handle($code, Auth::id());
 
         return redirect(RouteServiceProvider::HOME);
     }

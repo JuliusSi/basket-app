@@ -60,7 +60,7 @@ class PhoneVerificationConfirmHandler
      * @param  string  $code
      * @return bool
      */
-    private function handleResponse(UserAttribute $attribute, string $code): ?bool
+    private function handleResponse(UserAttribute $attribute, string $code): bool
     {
         $response = $this->confirmSender->sendConfirmation($attribute->getAttribute('value'), $code);
 

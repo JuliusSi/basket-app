@@ -8,7 +8,6 @@ use App\WeatherChecker\Collection\CheckerInterface;
 use App\WeatherChecker\Collector\WarningCollector;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
 /**
@@ -70,18 +69,6 @@ class WeatherCheckManager
             $date = Carbon::parse($forecastTimestamp->getForecastTimeUtc());
             $this->collector->addUniqueWarnings($checker->check($forecastTimestamp, $date));
         }
-    }
-
-    /**
-     * @param  ForecastTimestamp  $weatherInformation
-     */
-    private function logWeather(ForecastTimestamp $weatherInformation): void
-    {
-        Log::info(sprintf('date: %s', $weatherInformation->getForecastTimeUtc()));
-        Log::info(sprintf('precipitation: %s', $weatherInformation->getTotalPrecipitation()));
-        Log::info(sprintf('air temperature: %s', $weatherInformation->getAirTemperature()));
-        Log::info(sprintf('wind speed: %s', $weatherInformation->getWindSpeed()));
-        Log::info(sprintf('condition code: %s', $weatherInformation->getConditionCode()));
     }
 
     /**

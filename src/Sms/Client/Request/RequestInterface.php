@@ -27,4 +27,14 @@ interface RequestInterface
      * @return string
      */
     public function getUri(): string;
+
+    /**
+     * @return int
+     */
+    public function getConnectionTimeOut(): int;
+
+    /**
+     * @return callable
+     */
+    public function getOnStats(): callable;
 }
