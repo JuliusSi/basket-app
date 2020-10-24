@@ -6,10 +6,10 @@
                     {{ 'weather.check_weather_for_basketball' | trans }}
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-success text-center" role="alert" v-if="status === STATUS_OK">
+                    <div class="alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
                         <h5 class="alert-heading">{{ 'weather-rules.success' | trans }}</h5>
                     </div>
-                    <div class="alert alert-danger" role="alert" v-if="status === STATUS_NOT_OK">
+                    <div class="alert alert-danger fadeIn" role="alert" v-if="status === STATUS_NOT_OK">
                         <h5 class="alert-heading">{{ 'weather-rules.error' | trans }}</h5>
                         <ul class="list">
                             <li v-for="warning in this.warnings">
