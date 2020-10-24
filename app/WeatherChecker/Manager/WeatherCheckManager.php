@@ -54,7 +54,6 @@ class WeatherCheckManager
     {
         foreach ($this->getWeatherInformation() as $item) {
             $this->applyCheckers($item);
-            $this->logWeather($item);
         }
 
        return $this->collector->getWarnings();
