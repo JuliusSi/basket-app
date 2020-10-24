@@ -80,7 +80,7 @@ abstract class AbstractClient
         try {
             return $this->call($request);
         } catch (GuzzleException $exception) {
-            $message = sprintf('Cannot get response from d7sms. %s', $exception->getMessage());
+            $message = sprintf('Cannot get response from %s. %s', $request->getUri(), $exception->getMessage());
             $this->logAndThrowException($message, Exception::class);
         }
     }

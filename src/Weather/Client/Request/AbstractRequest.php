@@ -22,7 +22,6 @@ class AbstractRequest implements RequestInterface
        return [];
     }
 
-
     /**
      * @return string
      */
