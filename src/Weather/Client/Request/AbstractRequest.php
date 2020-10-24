@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
  */
 class AbstractRequest implements RequestInterface
 {
-    protected const DEFAULT_CONNECTION_TIMEOUT = 2;
+    protected const DEFAULT_CONNECTION_TIMEOUT = 5;
 
     /**
      * @return string[]
