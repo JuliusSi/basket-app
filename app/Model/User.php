@@ -2,15 +2,17 @@
 
 namespace App\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 /**
  * Class User
  * @package App\Model
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -60,8 +62,39 @@ class User extends Authenticatable
     /**
      * @return HasMany
      */
-    public function UserAttributes()
+    public function userAttributes(): HasMany
     {
-        return $this->hasMany('App\Model\UserAttribute');
+        return $this->hasMany(UserAttribute::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function chatMessages(): HasMany
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'user_role');
+    }
+
+    /**
+     * @param  string  $name
+     * @return bool
+     */
+    public function hasRole(string $name): bool
+    {
+        foreach ($this->roles()->get() as $role) {
+            if ($role->name === $name) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

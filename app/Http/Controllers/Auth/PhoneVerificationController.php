@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Verifier\Handler\PhoneVerificationConfirmHandler;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,14 @@ class PhoneVerificationController extends Controller
     public function __construct(PhoneVerificationConfirmHandler $confirmHandler)
     {
         $this->confirmHandler = $confirmHandler;
+    }
+
+    /**
+     * @return Renderable
+     */
+    public function index(): Renderable
+    {
+        return view('phone-verification');
     }
 
     /**

@@ -4,11 +4,9 @@ namespace App\WeatherChecker\Service;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
-use Src\Weather\Client\Request\DefaultRequest;
 use Src\Weather\Client\Response\ForecastTimestamp;
 use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
-use DateTimeZone;
 use Illuminate\Support\Carbon;
 
 /**
@@ -32,11 +30,12 @@ class WeatherForBasketBallService
     }
 
     /**
+     * @param  string  $placeCode
      * @return ForecastTimestamp[]
      */
-    public function getFilteredWeatherInformation(): array
+    public function getFilteredWeatherInformation(string $placeCode): array
     {
-        $response = $this->getWeatherInformation();
+        $response = $this->getWeatherInformation($placeCode);
         if (!$response) {
             return [];
         }
@@ -55,11 +54,11 @@ class WeatherForBasketBallService
 
         $weatherInformationArray = [];
         foreach ($response->getForecastTimestamps() as $key => $forecastTimestamp) {
-            if (count($weatherInformationArray) === config('weather.hours_to_check')) {
-                return $weatherInformationArray;
-            }
             if ($this->isValidForecastTimeStamp($forecastTimestamp, $dateToCheck, $datetime)) {
                 $weatherInformationArray[] = $forecastTimestamp;
+                if (count($weatherInformationArray) === config('weather.rules.hours_to_check')) {
+                    return $weatherInformationArray;
+                }
             }
         }
 
@@ -71,8 +70,7 @@ class WeatherForBasketBallService
      */
     private function getDateTimeToCheck(): string
     {
-        return Carbon::now()->addHours(config('weather.hours_to_check'))
-            ->setTimezone(new DateTimeZone('Europe/Vilnius'))->toDateTimeString();
+        return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
     }
 
     /**
@@ -93,27 +91,17 @@ class WeatherForBasketBallService
     }
 
     /**
-     * @return Response
+     * @param  string  $placeCode
+     * @return Response|null
      */
-    private function getWeatherInformation(): ?Response
+    private function getWeatherInformation(string $placeCode): ?Response
     {
         try {
-            return $this->cachedWeatherRepository->find($this->buildRequest());
+            return $this->cachedWeatherRepository->find($placeCode);
         } catch (GuzzleException $exception) {
             Log::warning('Can not get response from meteo.');
 
             return null;
         }
-    }
-
-    /**
-     * @return DefaultRequest
-     */
-    private function buildRequest(): DefaultRequest
-    {
-        $request = new DefaultRequest();
-        $request->setPlace(config('weather.place_code_to_check'));
-
-        return $request;
     }
 }

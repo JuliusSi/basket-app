@@ -47,7 +47,7 @@ class WeatherForBasketBallNotificationService
      */
     private function getNotification(): Notification
     {
-        $warnings = $this->checkWeather();
+        $warnings = $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
         if (!$warnings) {
             return $this->buildNotification(
                 __('weather-rules.success'),
@@ -102,11 +102,12 @@ class WeatherForBasketBallNotificationService
     }
 
     /**
+     * @param  string  $placeCode
      * @return Warning[]
      */
-    private function checkWeather(): array
+    private function checkWeather(string $placeCode): array
     {
-        return $this->weatherCheckManager->manage();
+        return $this->weatherCheckManager->manage($placeCode);
     }
 
     /**

@@ -69,7 +69,8 @@ class AbstractRequest implements RequestInterface
     {
         return static function (TransferStats $stats)
         {
-            Log::info(sprintf('Transfer time: %s, Uri: %s.', $stats->getTransferTime(), $stats->getEffectiveUri()));
+            $message = sprintf('Transfer time: %s, Uri: %s.', $stats->getTransferTime(), $stats->getEffectiveUri());
+            Log::channel('client')->info($message);
         };
     }
 }

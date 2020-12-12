@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('phone-verify', [PhoneVerificationController::class, 'index'])->name('phone-verify');
 Route::post('phone-verify', [PhoneVerificationController::class, 'verify'])->name('phone-verify');
+Route::get('messages', 'ChatController@fetchMessages');
+Route::post('message', 'ChatController@sendMessage')->middleware('auth');
+Route::get('weather', 'WeatherController@index')->name('weather');
+

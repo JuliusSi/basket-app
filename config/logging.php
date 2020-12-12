@@ -41,6 +41,18 @@ return [
             'ignore_exceptions' => false,
         ],
 
+        'command' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/command.log'),
+            'level' => 'debug',
+        ],
+
+        'client' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/client.log'),
+            'level' => 'debug',
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),

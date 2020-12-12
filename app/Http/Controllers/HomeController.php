@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 /**
@@ -12,15 +13,21 @@ use Illuminate\Support\Facades\File;
 class HomeController extends Controller
 {
     /**
-     * Show the application dashboard.
-     *
      * @return Renderable
      */
-    public function index()
+    public function index(): Renderable
+    {
+        return Auth::check() ? $this->logs() : view('landing-page');
+    }
+
+    /**
+     * @return Renderable
+     */
+    public function logs(): Renderable
     {
         $data = $this->getLogsData();
 
-        return view('logs', compact('data'));
+        return view('home', compact('data'));
     }
 
     /**

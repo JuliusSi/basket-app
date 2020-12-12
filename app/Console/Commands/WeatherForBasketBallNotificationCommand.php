@@ -44,7 +44,8 @@ class WeatherForBasketBallNotificationCommand extends Command
     public function handle(): void
     {
         if (!$this->canHandle()) {
-            Log::notice(sprintf('Command %s is not executed due to configuration.', $this->signature));
+            $message = sprintf('Command %s is not executed due to configuration.', $this->signature);
+            Log::channel('command')->notice($message);
             return;
         }
 

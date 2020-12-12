@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
-use App\Notifier\Collection\WeatherForBasketBallFacebookPageNotifier;
+use App\Notifier\Collection\ChatNotifier;
+use App\Notifier\Collection\FacebookPageNotifier;
 use App\Notifier\Collection\WeatherForBasketBallNotifierCollection;
-use App\Notifier\Collection\WeatherForBasketBallSmsNotifier;
+use App\Notifier\Collection\SmsNotifier;
 use App\WeatherChecker\Collection\AirTemperatureChecker;
 use App\WeatherChecker\Collection\CheckerCollection;
+use App\WeatherChecker\Collection\ConditionCodeChecker;
 use App\WeatherChecker\Collection\PrecipitationChecker;
 use App\WeatherChecker\Collection\WindChecker;
 use Illuminate\Support\ServiceProvider;
@@ -25,8 +27,9 @@ class CollectionServiceProvider extends ServiceProvider
         $this->app->singleton(WeatherForBasketBallNotifierCollection::class, function ($app) {
             $collection = new WeatherForBasketBallNotifierCollection();
             $collection->setItems([
-                $app->make(WeatherForBasketBallSmsNotifier::class),
-                $app->make(WeatherForBasketBallFacebookPageNotifier::class),
+                $app->make(SmsNotifier::class),
+                $app->make(FacebookPageNotifier::class),
+                $app->make(ChatNotifier::class),
             ]);
 
             return $collection;
@@ -38,6 +41,7 @@ class CollectionServiceProvider extends ServiceProvider
                 $app->make(AirTemperatureChecker::class),
                 $app->make(WindChecker::class),
                 $app->make(PrecipitationChecker::class),
+                $app->make(ConditionCodeChecker::class),
             ]);
 
             return $collection;

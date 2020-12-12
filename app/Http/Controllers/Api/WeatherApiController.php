@@ -6,6 +6,9 @@ use Core\Helpers\Traits\SerializationTrait;
 use App\Http\Controllers\Controller;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Request;
 
 /**
  * Class WeatherApiController
@@ -30,12 +33,23 @@ class WeatherApiController extends Controller
     }
 
     /**
+     * @param  Request  $request
      * @return string
      */
-    public function getWeatherWarnings(): string
+    public function getWeatherWarnings(Request $request): string
     {
-        $warnings = $this->weatherCheckManager->manage();
+        $warnings = $this->weatherCheckManager->manage( $request->get('place'));
 
         return $this->serialize($warnings, 'array<' . Warning::class . '>');
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getAvailablePlaces(): JsonResponse
+    {
+        $places = config('weather.available_places');
+
+        return Response::json($places);
     }
 }

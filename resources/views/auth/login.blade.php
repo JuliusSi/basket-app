@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">
+                    <font-awesome-icon :icon="['fa', 'user']" class="fa-icon" fixed-width></font-awesome-icon>
+                    {{ __('Login') }}
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -55,6 +58,8 @@
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
+                                    <font-awesome-icon :icon="['fas', 'angle-double-right']" class="fa-icon"
+                                                       fixed-width></font-awesome-icon>
                                 </button>
 
                                 @if (Route::has('password.request'))

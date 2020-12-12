@@ -3,6 +3,7 @@
 namespace Src\Facebook\Client;
 
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 use Src\Facebook\Client\Request\AbstractRequest;
 use Src\Facebook\Client\Traits\SerializationTrait;
 use GuzzleHttp\Client;
@@ -38,9 +39,11 @@ abstract class AbstractClient
     public function getRawResponse(AbstractRequest $request): string
     {
         $client = new Client();
-        $rawContent = $client->request($request->getMethod(), $request->getUri(), $this->buildOptions($request));
+        Log::channel('client')->info('Method: ' . $request->getMethod());
+        Log::channel('client')->info('Uri:' . $request->getUri());
+        $response = $client->request($request->getMethod(), $request->getUri(), $this->buildOptions($request));
 
-        return $rawContent->getBody()->getContents();
+        return $response->getBody()->getContents();
     }
 
     /**

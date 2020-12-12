@@ -10,10 +10,10 @@ use Src\Facebook\Client\Response\Response;
 use Src\Facebook\Repository\FacebookLinkRepository;
 
 /**
- * Class WeatherForBasketBallFacebookPageNotifier
+ * Class FacebookPageNotifier
  * @package App\Notifier\Collection
  */
-class WeatherForBasketBallFacebookPageNotifier implements NotifierInterface
+class FacebookPageNotifier implements NotifierInterface
 {
     /**
      * @var FacebookLinkRepository
@@ -21,7 +21,7 @@ class WeatherForBasketBallFacebookPageNotifier implements NotifierInterface
     private FacebookLinkRepository $facebookLinkRepository;
 
     /**
-     * WeatherForBasketBallFacebookPageNotifier constructor.
+     * FacebookPageNotifier constructor.
      * @param  FacebookLinkRepository  $facebookLinkRepository
      */
     public function __construct(

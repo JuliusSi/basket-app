@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Favicons -->
+    <link href="img/favicon.ico" rel="icon">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -11,10 +14,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -41,16 +40,40 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">
+                                    <font-awesome-icon :icon="['fa', 'user']" class="fa-icon" fixed-width></font-awesome-icon>
+                                    {{ __('main.login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">
+                                        <font-awesome-icon :icon="['fa', 'user-plus']" class="fa-icon" fixed-width></font-awesome-icon>
+                                        {{ __('main.register') }}</a>
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <font-awesome-icon :icon="['fas', 'bell']" class="fa-icon" fixed-width></font-awesome-icon>
+                                    {{ __('menu.notifications') }}
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <font-awesome-icon :icon="['fas', 'tools']" class="fa-icon" fixed-width></font-awesome-icon>
+                                    {{ __('menu.tools') }}
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('weather') }}">
+                                            <font-awesome-icon :icon="['fas', 'cloud-sun']" class="fa-icon"
+                                                               fixed-width></font-awesome-icon> {{ __('weather.check_weather_for_basketball') }}
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <font-awesome-icon :icon="['fa', 'user']" class="fa-icon"
+                                                       fixed-width></font-awesome-icon>
                                     {{ Auth::user()->username }} <span class="caret"></span>
                                 </a>
 
@@ -58,7 +81,9 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        <font-awesome-icon :icon="['fas', 'sign-out-alt']" class="fa-icon"
+                                                           fixed-width></font-awesome-icon>
+                                        {{ __('main.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

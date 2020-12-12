@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as JMS;
 class ForecastTimestamp
 {
     public const CONDITION_CODE_CLEAR = 'clear';
+    public const CONDITION_CODE_HEAVY_SNOW = 'heavy-snow';
 
     /**
      * @JMS\Type("string")
@@ -29,6 +30,12 @@ class ForecastTimestamp
      * @JMS\SerializedName("windSpeed")
      */
     private string $windSpeed;
+
+    /**
+     * @JMS\Type("string")
+     * @JMS\SerializedName("windGust")
+     */
+    private string $windGust;
 
     /**
      * @JMS\Type("string")
@@ -120,5 +127,21 @@ class ForecastTimestamp
     public function setConditionCode(string $conditionCode): void
     {
         $this->conditionCode = $conditionCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWindGust(): string
+    {
+        return $this->windGust;
+    }
+
+    /**
+     * @param  string  $windGust
+     */
+    public function setWindGust(string $windGust): void
+    {
+        $this->windGust = $windGust;
     }
 }

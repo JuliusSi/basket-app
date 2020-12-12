@@ -96,4 +96,14 @@ services:
     networks:
       - weather-app
 
-
+  sockets:
+    command: ["php", "artisan", "websockets:serve"]
+    build:
+      context: .
+    container_name: sockets
+    volumes:
+      - ../:/var/www/html
+    ports:
+      - 6001:6001
+    networks:
+     - weather-app

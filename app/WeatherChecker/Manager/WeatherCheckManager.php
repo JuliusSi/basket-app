@@ -48,15 +48,29 @@ class WeatherCheckManager
     }
 
     /**
+     * @param  string|null  $placeCode
      * @return Warning[]
      */
-    public function manage(): array
+    public function manage(?string $placeCode): array
     {
-        foreach ($this->getWeatherInformation() as $item) {
+        if (!$placeCode) {
+            return [];
+        }
+
+        return $this->getWarnings($placeCode);
+    }
+
+    /**
+     * @param  string  $placeCode
+     * @return Warning[]
+     */
+    private function getWarnings(string $placeCode): array
+    {
+        foreach ($this->getWeatherInformation($placeCode) as $item) {
             $this->applyCheckers($item);
         }
 
-       return $this->collector->getWarnings();
+        return $this->collector->getWarnings();
     }
 
     /**
@@ -79,10 +93,11 @@ class WeatherCheckManager
     }
 
     /**
+     * @param  string  $placeCode
      * @return ForecastTimestamp[]
      */
-    private function getWeatherInformation(): array
+    private function getWeatherInformation(string $placeCode): array
     {
-        return $this->weatherForBasketBallService->getFilteredWeatherInformation();
+        return $this->weatherForBasketBallService->getFilteredWeatherInformation($placeCode);
     }
 }

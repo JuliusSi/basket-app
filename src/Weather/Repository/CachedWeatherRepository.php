@@ -4,7 +4,6 @@ namespace Src\Weather\Repository;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
-use Src\Weather\Client\Request\DefaultRequest;
 use Src\Weather\Client\Response\Response;
 
 /**
@@ -14,21 +13,21 @@ use Src\Weather\Client\Response\Response;
 class CachedWeatherRepository extends WeatherRepository
 {
     private const DEFAULT_CACHE_KEY_PART = 'meteo-weather';
-    private const CACHE_LIFETIME = 3600;
+    private const CACHE_LIFETIME = 1800;
 
     /**
-     * @param  DefaultRequest  $request
+     * @param  string  $placeCode
      * @return Response|null
      * @throws GuzzleException
      */
-    public function find(DefaultRequest $request): ?Response
+    public function find(string $placeCode): ?Response
     {
-        $cacheKey = $this->getCacheKey($request);
+        $cacheKey = $this->getCacheKey($placeCode);
         if ($cachedResponse = Cache::get($cacheKey)) {
             return $cachedResponse;
         }
 
-        if ($response = parent::find($request)) {
+        if ($response = parent::find($placeCode)) {
             Cache::put($cacheKey, $response, self::CACHE_LIFETIME);
             return $response;
         }
@@ -37,11 +36,11 @@ class CachedWeatherRepository extends WeatherRepository
     }
 
     /**
-     * @param  DefaultRequest  $request
+     * @param  string  $placeCode
      * @return string
      */
-    private function getCacheKey(DefaultRequest $request): string
+    private function getCacheKey(string $placeCode): string
     {
-        return self::DEFAULT_CACHE_KEY_PART . '-' . $request->getPlace();
+        return self::DEFAULT_CACHE_KEY_PART . '-' . $placeCode;
     }
 }

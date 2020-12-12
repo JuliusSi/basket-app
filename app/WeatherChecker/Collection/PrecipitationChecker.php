@@ -9,7 +9,7 @@ use Src\Weather\Client\Response\ForecastTimestamp;
  * Class PrecipitationChecker
  * @package App\WeatherChecker\Collection
  */
-class PrecipitationChecker implements CheckerInterface
+class PrecipitationChecker extends AbstractChecker
 {
     /**
      * @param  ForecastTimestamp  $weatherInfo
@@ -19,7 +19,7 @@ class PrecipitationChecker implements CheckerInterface
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
         $messages = [];
-        if ($weatherInfo->getTotalPrecipitation() > config('weather.max_precipitation')) {
+        if ($weatherInfo->getTotalPrecipitation() > config('weather.rules.max_precipitation')) {
             $messages['precipitation'] = __(
                 'weather-rules.precipitation',
                 ['precipitation' => $weatherInfo->getTotalPrecipitation(), 'hour' => $date->hour]

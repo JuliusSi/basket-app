@@ -11,10 +11,10 @@ use Src\Sms\Model\MessageBag;
 use Src\Sms\Repository\SmsBatchRepository;
 
 /**
- * Class WeatherForBasketBallSmsNotifier
+ * Class SmsNotifier
  * @package App\Notifier\Collection
  */
-class WeatherForBasketBallSmsNotifier implements NotifierInterface
+class SmsNotifier implements NotifierInterface
 {
     use StringToBinaryConverter;
 
@@ -24,7 +24,7 @@ class WeatherForBasketBallSmsNotifier implements NotifierInterface
     private SmsBatchRepository $repository;
 
     /**
-     * WeatherForBasketBallSmsNotifier constructor.
+     * SmsNotifier constructor.
      * @param  SmsBatchRepository  $repository
      */
     public function __construct(SmsBatchRepository $repository)

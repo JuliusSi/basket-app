@@ -9,8 +9,11 @@ use Src\Weather\Client\Response\ForecastTimestamp;
  * Class AirTemperatureChecker
  * @package App\WeatherChecker\Collection
  */
-class AirTemperatureChecker implements CheckerInterface
+class AirTemperatureChecker extends AbstractChecker
 {
+    public const RULE_TO_HIGH_AIR_TEMPERATURE = 'too_high_air_temperature';
+    public const RULE_TO_LOW_AIR_TEMPERATURE = 'too_low_air_temperature';
+
     /**
      * @param  ForecastTimestamp  $weatherInfo
      * @param  CarbonInterface  $date
@@ -19,14 +22,16 @@ class AirTemperatureChecker implements CheckerInterface
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
         $warnings = [];
-        if ($weatherInfo->getAirTemperature() > config('weather.max_air_temperature')) {
-            $warnings['too_high_air_temperature'] = __(
+        if ($weatherInfo->getAirTemperature() > config('weather.rules.max_air_temperature')) {
+            $key = $this->getKey($date->hour, self::RULE_TO_HIGH_AIR_TEMPERATURE);
+            $warnings[$key] = __(
                 'weather-rules.too_high_air_temperature',
                 ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour]
             );
         }
         if ($this->isToLowAirTemperature($weatherInfo)) {
-            $warnings['too_low_air_temperature'] = __(
+            $key = $this->getKey($date->hour, self::RULE_TO_LOW_AIR_TEMPERATURE);
+            $warnings[$key] = __(
                 'weather-rules.too_low_air_temperature',
                 ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour]
             );
@@ -42,10 +47,10 @@ class AirTemperatureChecker implements CheckerInterface
     private function isToLowAirTemperature(ForecastTimestamp $weatherInformation): bool
     {
         if ($weatherInformation->getConditionCode() === ForecastTimestamp::CONDITION_CODE_CLEAR &&
-            $weatherInformation->getAirTemperature() >= config('weather.min_air_temperature_if_clear')) {
+            $weatherInformation->getAirTemperature() >= config('weather.rules.min_air_temperature_if_clear')) {
             return false;
         }
-        if ($weatherInformation->getAirTemperature() >= config('weather.min_air_temperature')) {
+        if ($weatherInformation->getAirTemperature() >= config('weather.rules.min_air_temperature')) {
             return false;
         }
 

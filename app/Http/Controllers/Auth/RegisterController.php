@@ -3,18 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Model\User;
-use App\Validation\Rules\PhoneCode;
-use App\Verifier\Handler\PhoneVerificationRequestHandler;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class RegisterController
@@ -43,19 +41,11 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * @var PhoneVerificationRequestHandler
+     * RegisterController constructor.
      */
-    private PhoneVerificationRequestHandler $phoneVerificationHandler;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  PhoneVerificationRequestHandler  $phoneVerificationHandler
-     */
-    public function __construct(PhoneVerificationRequestHandler $phoneVerificationHandler)
+    public function __construct()
     {
         $this->middleware('guest');
-        $this->phoneVerificationHandler = $phoneVerificationHandler;
     }
 
     /**
@@ -67,9 +57,9 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->createUser($request->all());
+        Log::info(sprintf('New user: %s', $user->getAttribute('username')));
         event(new Registered($user));
 
-        $this->sendVerification($user);
         $this->guard()->login($user);
 
         if ($response = $this->registered($request, $user)) {
@@ -90,9 +80,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:50', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
+            'username' => ['required', 'string', 'min:4', 'max:20', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:user'],
-            'phone' => ['required', 'digits:11', 'unique:user', new PhoneCode()],
+//            'phone' => ['required', 'digits:11', 'unique:user', new PhoneCode()],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -108,19 +98,7 @@ class RegisterController extends Controller
         return User::create([
             'username' => $data['username'],
             'email' => $data['email'],
-            'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
-    }
-
-    /**
-     * @param  User  $user
-     */
-    private function sendVerification(User $user): void
-    {
-        $sent = $this->phoneVerificationHandler->handle($user);
-        if (!$sent) {
-            abort(Response::HTTP_FORBIDDEN, __('verification.phone.new_user_code_not_sent'));
-        }
     }
 }

@@ -96,8 +96,8 @@ abstract class AbstractClient
             $message = sprintf('Empty response from %s.', $request->getUri());
             $this->logAndThrowException($message, Exception::class);
         }
-
-        Log::info(sprintf('Request: %s, Response: %s', $request->getBody(), $content));
+        $message = sprintf('Request: %s, Response: %s', $request->getBody(), $content);
+        Log::channel('client')->info($message);
     }
 
     /**
@@ -117,7 +117,7 @@ abstract class AbstractClient
      */
     private function logAndThrowException(string $message, string $exception): void
     {
-        Log::error($message);
+        Log::channel('client')->info($message);
         throw new $exception;
     }
 }

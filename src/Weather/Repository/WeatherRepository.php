@@ -35,12 +35,24 @@ class WeatherRepository
     }
 
     /**
-     * @param  DefaultRequest  $request
+     * @param  string  $placeCode
      * @return Response|null
      * @throws GuzzleException
      */
-    public function find(DefaultRequest $request): ?Response
+    public function find(string $placeCode): ?Response
     {
-        return $this->client->getDeserializedResponse($request, Response::class);
+        return $this->client->getDeserializedResponse($this->buildRequest($placeCode), Response::class);
+    }
+
+    /**
+     * @param  string  $place
+     * @return DefaultRequest
+     */
+    private function buildRequest(string $place): DefaultRequest
+    {
+        $request = new DefaultRequest();
+        $request->setPlace($place);
+
+        return $request;
     }
 }

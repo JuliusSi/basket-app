@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Src\Weather\Client\Request\DefaultRequest;
 use Src\Weather\Repository\CachedWeatherRepository;
 
 /**
@@ -41,31 +40,36 @@ class WeatherCacheWarmUpCommand extends Command
 
     /**
      * Execute the console command.
-     * @return bool
+     * @return void
      * @throws GuzzleException
      */
-    public function handle(): bool
+    public function handle(): void
     {
-        foreach (CachedWeatherRepository::AVAILABLE_PLACE_CODES as $place) {
-            $request = $this->buildRequest($place);
-            if ($response = $this->cachedWeatherRepository->find($request)) {
-                Log::info(sprintf('Weather cache warm upped for %s place', $request->getPlace()));
-                return true;
-            }
+        foreach ($this->getAvailablePlaces() as $placeCode => $placeName) {
+            $this->warmUp($placeCode, $placeName);
         }
-
-        return false;
     }
 
     /**
-     * @param  string  $place
-     * @return DefaultRequest
+     * @param  string  $placeCode
+     * @param  string  $placeName
+     * @throws GuzzleException
      */
-    private function buildRequest(string $place): DefaultRequest
+    private function warmUp(string $placeCode, string $placeName): void
     {
-        $request = new DefaultRequest();
-        $request->setPlace($place);
+        $response = $this->cachedWeatherRepository->find($placeCode);
+        if ($response) {
+            Log::channel('command')->info(sprintf('Weather cache warm upped for %s place', $placeName));
+        } else {
+            Log::channel('command')->warning(sprintf('Weather cache not warm upped for %s place', $placeName));
+        }
+    }
 
-        return $request;
+    /**
+     * @return string[]
+     */
+    private function getAvailablePlaces(): array
+    {
+        return config('weather.available_places');
     }
 }

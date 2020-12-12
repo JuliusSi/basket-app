@@ -1,23 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    @if(empty($data['file']) || !Auth::user()->hasRole('logs'))
+                        <div class="card-header">
+                            No logs found.
+                        </div>
+                    @else
+                        <div class="card-header">
+                            {{ __('Logs') }}
+                            ({{ round($data['size'] / 1024) }} KB)
+                        </div>
+                        <div class="card-body">
+                            {!! nl2br(e($data['file'])) !!}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
                 </div>
             </div>
+            @include('parts.sidebar')
         </div>
     </div>
-</div>
 @endsection
