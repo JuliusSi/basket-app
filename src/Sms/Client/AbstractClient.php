@@ -39,10 +39,10 @@ abstract class AbstractClient
      * @param  RequestInterface  $request
      * @param  string  $class
      *
-     * @return mixed|null
+     * @return mixed
      * @throws Exception
      */
-    public function getDeserializedResponse(RequestInterface $request, string $class)
+    public function getDeserializedResponse(RequestInterface $request, string $class): mixed
     {
         $response = $this->getResponse($request);
         $content = $response->getBody()->getContents();

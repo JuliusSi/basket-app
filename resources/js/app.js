@@ -14,6 +14,13 @@ import lang from './lang';
 Vue.filter('trans', (...args) => {
     return lang.get(...args);
 });
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+library.add(fab, fas, far);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 /**
  * The following block of code may be used to automatically register your
@@ -28,6 +35,12 @@ Vue.filter('trans', (...args) => {
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('weather-check', require('./components/WeatherCheckComponent.vue').default);
+Vue.component('chat-messages', require('./components/ChatMessages.vue').default);
+Vue.component('chat-message', require('./components/ChatMessage.vue').default);
+Vue.component('chat-form', require('./components/ChatForm.vue').default);
+Vue.component('chat', require('./components/Chat.vue').default);
+Vue.component('phone-verification', require('./components/PhoneVerification.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
