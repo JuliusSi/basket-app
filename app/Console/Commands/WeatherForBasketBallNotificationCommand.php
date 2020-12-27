@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Notifier\Manager\WeatherForBasketBallNotificationManager;
+use App\Notifier\Manager\NotificationManagerInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -24,15 +24,15 @@ class WeatherForBasketBallNotificationCommand extends Command
     protected $description = 'Notifies about weather for basketball.';
 
     /**
-     * @var WeatherForBasketBallNotificationManager
+     * @var NotificationManagerInterface
      */
-    private WeatherForBasketBallNotificationManager $manager;
+    private NotificationManagerInterface $manager;
 
     /**
      * WeatherForBasketBallNotificationCommand constructor.
-     * @param  WeatherForBasketBallNotificationManager  $manager
+     * @param  NotificationManagerInterface  $manager
      */
-    public function __construct(WeatherForBasketBallNotificationManager $manager)
+    public function __construct(NotificationManagerInterface $manager)
     {
         parent::__construct();
         $this->manager = $manager;

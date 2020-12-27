@@ -3,10 +3,10 @@
 namespace App\Notifier\Manager;
 
 /**
- * Interface ManagerInterface
+ * Interface NotificationManagerInterface
  * @package App\Notifier\Manager
  */
-interface ManagerInterface
+interface NotificationManagerInterface
 {
     /**
      * @return void

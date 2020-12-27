@@ -4,18 +4,18 @@ namespace App\Notifier\Manager;
 
 use App\Notifier\Model\Notification;
 use App\Notifier\Processor\DefaultNotificationProcessor;
-use App\Notifier\Service\WeatherForBasketBallNotificationService;
+use App\Notifier\Service\NotificationServiceInterface;
 
 /**
- * Class WeatherForBasketBallNotificationManager
+ * Class DefaultNotificationManager
  * @package App\Notifier\Manager
  */
-class WeatherForBasketBallNotificationManager implements ManagerInterface
+class DefaultNotificationManager implements NotificationManagerInterface
 {
     /**
-     * @var WeatherForBasketBallNotificationService
+     * @var NotificationServiceInterface
      */
-    private WeatherForBasketBallNotificationService $notificationService;
+    private NotificationServiceInterface $notificationService;
 
     /**
      * @var DefaultNotificationProcessor
@@ -23,12 +23,12 @@ class WeatherForBasketBallNotificationManager implements ManagerInterface
     private DefaultNotificationProcessor $notificationProcessor;
 
     /**
-     * WeatherForBasketBallNotificationManager constructor.
-     * @param  WeatherForBasketBallNotificationService  $notificationService
+     * DefaultNotificationManager constructor.
+     * @param  NotificationServiceInterface  $notificationService
      * @param  DefaultNotificationProcessor  $notificationProcessor
      */
     public function __construct(
-        WeatherForBasketBallNotificationService $notificationService,
+        NotificationServiceInterface $notificationService,
         DefaultNotificationProcessor $notificationProcessor
     ) {
         $this->notificationService = $notificationService;

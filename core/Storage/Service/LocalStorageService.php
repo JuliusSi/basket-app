@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class LocalStorageService
 {
-    public const MEMES_DIRECTORY = 'memes';
+    public const DIRECTORY_MEMES = 'memes';
+    public const DIRECTORY_RANDOM = 'random';
 
     /**
      * @var Storage

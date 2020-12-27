@@ -10,7 +10,7 @@ use Core\Storage\Service\LocalStorageService;
  * Class BasketBallSeasonEndNotificationManager
  * @package App\Notifier\Manager
  */
-class BasketBallSeasonEndNotificationManager implements ManagerInterface
+class BasketBallSeasonEndNotificationManager implements NotificationManagerInterface
 {
     /**
      * @var DefaultNotificationProcessor
@@ -71,7 +71,7 @@ class BasketBallSeasonEndNotificationManager implements ManagerInterface
      * @param  string  $directory
      * @return string|null
      */
-    private function getFileUrl(string $fileName, string $directory = LocalStorageService::MEMES_DIRECTORY): ?string
+    private function getFileUrl(string $fileName, string $directory = LocalStorageService::DIRECTORY_MEMES): ?string
     {
         return $this->localStorageService->findFileUrl($fileName, $directory);
     }

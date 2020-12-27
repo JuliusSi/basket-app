@@ -11,7 +11,7 @@ use App\WeatherChecker\Model\Warning;
  * Class WeatherForBasketBallNotificationService
  * @package App\Notifier\Service
  */
-class WeatherForBasketBallNotificationService
+class WeatherForBasketBallNotificationService implements NotificationServiceInterface
 {
     /**
      * @var WeatherCheckManager
@@ -116,6 +116,6 @@ class WeatherForBasketBallNotificationService
      */
     private function getFileUrl(string $fileName): ?string
     {
-        return $this->localStorageService->findFileUrl($fileName, LocalStorageService::MEMES_DIRECTORY);
+        return $this->localStorageService->findFileUrl($fileName, LocalStorageService::DIRECTORY_MEMES);
     }
 }

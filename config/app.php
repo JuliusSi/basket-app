@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\CollectionServiceProvider::class,
+        App\Providers\NotificationManagerProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class
     ],
 
