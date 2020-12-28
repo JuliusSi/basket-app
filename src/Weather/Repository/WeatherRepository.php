@@ -13,12 +13,6 @@ use Src\Weather\Client\Response\Response;
  */
 class WeatherRepository
 {
-    public const PLACE_CODE_VILNIUS_VIRSULISKES = 'vilnius-virsuliskes';
-
-    public const AVAILABLE_PLACE_CODES = [
-        self::PLACE_CODE_VILNIUS_VIRSULISKES,
-    ];
-
     /**
      * @var DefaultClient
      */

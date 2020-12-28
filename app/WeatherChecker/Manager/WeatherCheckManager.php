@@ -66,8 +66,8 @@ class WeatherCheckManager
      */
     private function getWarnings(string $placeCode): array
     {
-        foreach ($this->getWeatherInformation($placeCode) as $item) {
-            $this->applyCheckers($item);
+        foreach ($this->getWeatherInformation($placeCode) as $forecastTimestamp) {
+            $this->applyCheckers($forecastTimestamp);
         }
 
         return $this->collector->getWarnings();

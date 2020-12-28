@@ -53,7 +53,7 @@ class WeatherForBasketBallService
         $datetime = Carbon::now()->toDateTimeString();
 
         $weatherInformationArray = [];
-        foreach ($response->getForecastTimestamps() as $key => $forecastTimestamp) {
+        foreach ($response->getForecastTimestamps() as $forecastTimestamp) {
             if ($this->isValidForecastTimeStamp($forecastTimestamp, $dateToCheck, $datetime)) {
                 $weatherInformationArray[] = $forecastTimestamp;
                 if (count($weatherInformationArray) === config('weather.rules.hours_to_check')) {
@@ -99,7 +99,7 @@ class WeatherForBasketBallService
         try {
             return $this->cachedWeatherRepository->find($placeCode);
         } catch (GuzzleException $exception) {
-            Log::warning('Can not get response from meteo.');
+            Log::warning(sprintf('Can not get response from meteo. %s', $exception->getMessage()));
 
             return null;
         }

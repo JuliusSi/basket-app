@@ -60,3 +60,6 @@ db_seed:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan db:seed
 
 db_refresh: migrations_refresh db_seed
+
+log_clear:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan log:clear

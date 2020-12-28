@@ -11,6 +11,12 @@ use JMS\Serializer\Annotation as JMS;
 class Response
 {
     /**
+     * @JMS\Type("string")
+     * @JMS\SerializedName("forecastCreationTimeUtc")
+     */
+    private string $forecastCreationTimeUtc;
+
+    /**
      * @JMS\Type("Src\Weather\Client\Response\Place")
      * @JMS\SerializedName("place")
      */
@@ -54,5 +60,21 @@ class Response
     public function setForecastTimestamps(array $forecastTimestamps): void
     {
         $this->forecastTimestamps = $forecastTimestamps;
+    }
+
+    /**
+     * @return string
+     */
+    public function getForecastCreationTimeUtc(): string
+    {
+        return $this->forecastCreationTimeUtc;
+    }
+
+    /**
+     * @param  string  $forecastCreationTimeUtc
+     */
+    public function setForecastCreationTimeUtc(string $forecastCreationTimeUtc): void
+    {
+        $this->forecastCreationTimeUtc = $forecastCreationTimeUtc;
     }
 }

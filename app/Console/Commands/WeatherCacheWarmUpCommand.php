@@ -59,9 +59,15 @@ class WeatherCacheWarmUpCommand extends Command
     {
         $response = $this->cachedWeatherRepository->find($placeCode);
         if ($response) {
-            Log::channel('command')->info(sprintf('Weather cache warm upped for %s place', $placeName));
+            $message = sprintf(
+                'Weather cache warm upped for %s place. Forecast created: %s.',
+                $placeName,
+                $response->getForecastCreationTimeUtc()
+            );
+            Log::channel('command')->info($message);
+            $this->info($message);
         } else {
-            Log::channel('command')->warning(sprintf('Weather cache not warm upped for %s place', $placeName));
+            Log::channel('command')->warning(sprintf('Weather cache not warm upped for %s place.', $placeName));
         }
     }
 
