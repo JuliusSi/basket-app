@@ -33,7 +33,7 @@ class WeatherForBasketBallService
      * @param  string  $placeCode
      * @return ForecastTimestamp[]
      */
-    public function getFilteredWeatherInformation(string $placeCode): array
+    public function getFilteredForecasts(string $placeCode): array
     {
         $response = $this->getWeatherInformation($placeCode);
         if (!$response) {
@@ -52,17 +52,17 @@ class WeatherForBasketBallService
         $dateToCheck = $this->getDateTimeToCheck();
         $datetime = Carbon::now()->toDateTimeString();
 
-        $weatherInformationArray = [];
+        $filteredForecasts = [];
         foreach ($response->getForecastTimestamps() as $forecastTimestamp) {
             if ($this->isValidForecastTimeStamp($forecastTimestamp, $dateToCheck, $datetime)) {
-                $weatherInformationArray[] = $forecastTimestamp;
-                if (count($weatherInformationArray) === config('weather.rules.hours_to_check')) {
-                    return $weatherInformationArray;
+                $filteredForecasts[] = $forecastTimestamp;
+                if (count($filteredForecasts) === config('weather.rules.hours_to_check')) {
+                    return $filteredForecasts;
                 }
             }
         }
 
-        return $weatherInformationArray;
+        return $filteredForecasts;
     }
 
     /**

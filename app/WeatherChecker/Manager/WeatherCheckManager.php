@@ -66,7 +66,7 @@ class WeatherCheckManager
      */
     private function getWarnings(string $placeCode): array
     {
-        foreach ($this->getWeatherInformation($placeCode) as $forecastTimestamp) {
+        foreach ($this->getFilteredForecasts($placeCode) as $forecastTimestamp) {
             $this->applyCheckers($forecastTimestamp);
         }
 
@@ -96,8 +96,8 @@ class WeatherCheckManager
      * @param  string  $placeCode
      * @return ForecastTimestamp[]
      */
-    private function getWeatherInformation(string $placeCode): array
+    private function getFilteredForecasts(string $placeCode): array
     {
-        return $this->weatherForBasketBallService->getFilteredWeatherInformation($placeCode);
+        return $this->weatherForBasketBallService->getFilteredForecasts($placeCode);
     }
 }
