@@ -38,7 +38,7 @@ class WeatherApiController extends Controller
      */
     public function getWeatherWarnings(Request $request): string
     {
-        $warnings = $this->weatherCheckManager->manage( $request->get('place'));
+        $warnings = $this->weatherCheckManager->manage($request->get('place'));
 
         return $this->serialize($warnings, 'array<' . Warning::class . '>');
     }
