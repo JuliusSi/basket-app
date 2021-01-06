@@ -11,6 +11,8 @@ use Src\Weather\Client\Response\ForecastTimestamp;
  */
 class PrecipitationChecker extends AbstractChecker
 {
+    public const RULE_PRECIPITATION = 'precipitation';
+
     /**
      * @param  ForecastTimestamp  $weatherInfo
      * @param  CarbonInterface  $date
@@ -18,14 +20,16 @@ class PrecipitationChecker extends AbstractChecker
      */
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
-        $messages = [];
+        $warnings = [];
+        $dateString = $date->toDateString();
         if ($weatherInfo->getTotalPrecipitation() > config('weather.rules.max_precipitation')) {
-            $messages['precipitation'] = __(
+            $key = $this->getKey($dateString, $date->hour, self::RULE_PRECIPITATION);
+            $warnings[$key] = __(
                 'weather-rules.precipitation',
-                ['precipitation' => $weatherInfo->getTotalPrecipitation(), 'hour' => $date->hour]
+                ['precipitation' => $weatherInfo->getTotalPrecipitation(), 'hour' => $date->hour, 'date' => $dateString]
             );
         }
 
-        return $messages;
+        return $warnings;
     }
 }

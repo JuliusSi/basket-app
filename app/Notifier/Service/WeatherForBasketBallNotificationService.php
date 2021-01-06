@@ -3,6 +3,7 @@
 namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
+use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
@@ -107,7 +108,10 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
      */
     private function checkWeather(string $placeCode): array
     {
-        return $this->weatherCheckManager->manage($placeCode);
+        $endDateTime = $this->getCheckEndDateTime();
+        $startDateTime = Carbon::now()->toDateTimeString();
+
+        return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
     }
 
     /**
@@ -117,5 +121,13 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
     private function getFileUrl(string $fileName): ?string
     {
         return $this->localStorageService->findFileUrl($fileName, LocalStorageService::DIRECTORY_MEMES);
+    }
+
+    /**
+     * @return string
+     */
+    private function getCheckEndDateTime(): string
+    {
+        return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
     }
 }

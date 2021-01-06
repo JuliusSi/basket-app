@@ -22,18 +22,19 @@ class AirTemperatureChecker extends AbstractChecker
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
         $warnings = [];
+        $dateString = $date->toDateString();
         if ($weatherInfo->getAirTemperature() > config('weather.rules.max_air_temperature')) {
-            $key = $this->getKey($date->hour, self::RULE_TO_HIGH_AIR_TEMPERATURE);
+            $key = $this->getKey($dateString, $date->hour, self::RULE_TO_HIGH_AIR_TEMPERATURE);
             $warnings[$key] = __(
                 'weather-rules.too_high_air_temperature',
-                ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour]
+                ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour, 'date' => $dateString]
             );
         }
         if ($this->isToLowAirTemperature($weatherInfo)) {
-            $key = $this->getKey($date->hour, self::RULE_TO_LOW_AIR_TEMPERATURE);
+            $key = $this->getKey($dateString, $date->hour, self::RULE_TO_LOW_AIR_TEMPERATURE);
             $warnings[$key] = __(
                 'weather-rules.too_low_air_temperature',
-                ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour]
+                ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour, 'date' => $dateString]
             );
         }
 

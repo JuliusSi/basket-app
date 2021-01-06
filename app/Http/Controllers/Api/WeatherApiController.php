@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Core\Helpers\Traits\SerializationTrait;
 use App\Http\Controllers\Controller;
 use App\WeatherChecker\Manager\WeatherCheckManager;
@@ -38,7 +39,11 @@ class WeatherApiController extends Controller
      */
     public function getWeatherWarnings(Request $request): string
     {
-        $warnings = $this->weatherCheckManager->manage($request->get('place'));
+        $place = $request->get('place');
+        $startDateTime = Carbon::createFromFormat('Y-m-d', $request->get('startDate'))->toDateTimeString();
+        $endDateTime = Carbon::createFromFormat('Y-m-d', $request->get('endDate'))->toDateTimeString();
+
+        $warnings = $this->weatherCheckManager->manage($place, $startDateTime, $endDateTime);
 
         return $this->serialize($warnings, 'array<' . Warning::class . '>');
     }

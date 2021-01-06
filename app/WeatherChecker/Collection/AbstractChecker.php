@@ -9,12 +9,13 @@ namespace App\WeatherChecker\Collection;
 abstract class AbstractChecker implements CheckerInterface
 {
     /**
+     * @param  string  $date
      * @param  int  $hour
      * @param  string  $rule
      * @return string
      */
-    protected function getKey(int $hour, string $rule): string
+    protected function getKey(string $date, int $hour, string $rule): string
     {
-        return $hour . '_' . $rule;
+        return $date . '_' . $hour . '_' . $rule;
     }
 }

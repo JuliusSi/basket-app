@@ -18,6 +18,12 @@
                     </li>
                 </ul>
             </div>
+            <div class="form-group col-md-6">
+                {{ 'weather.select_start_date' | trans }}
+                <input v-model="selectedStartDate" type="date" class="form-control mb-3">
+            {{ 'weather.select_end_date' | trans }}
+            <input v-model="selectedEndDate" type="date" class="form-control mb-3">
+        </div>
             <div class="form-group col-md-8">
                 <select v-model="selectedPlace" class="form-control mb-3">
                     <option :value="null" disabled>{{ 'weather.select_place' | trans }}</option>
@@ -46,17 +52,24 @@ export default {
             warnings: [],
             status: null,
             places: null,
+            selectedStartDate: null,
+            selectedEndDate: null,
         }
     },
     mounted() {
         this.getAvailablePlaces();
+        this.getDate();
     },
     methods: {
         getWarnings() {
             this.loading = true;
-            let place = {place: this.selectedPlace};
+            let params = {
+                place: this.selectedPlace,
+                startDate: this.selectedStartDate,
+                endDate: this.selectedEndDate
+            };
             this.axios.get('/api/weather/warnings', {
-                params: place
+                params: params
             })
                 .then(response => {
                     this.loading = false;
@@ -75,6 +88,13 @@ export default {
                     this.loading = false;
                     this.places = response.data;
                 });
+        },
+        getDate() {
+            const date = new Date();
+            this.selectedStartDate = date.toLocaleString('lt-LT', { timeZone: 'Europe/Vilnius' }).slice(0, 10);
+
+            date.setDate(date.getDate() + 1);
+            this.selectedEndDate = date.toLocaleString('lt-LT', { timeZone: 'Europe/Vilnius' }).slice(0, 10);
         },
     }
 }

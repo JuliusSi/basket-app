@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\ForecastTimestamp;
 use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
-use Illuminate\Support\Carbon;
 
 /**
  * Class WeatherForBasketBallService
@@ -31,46 +30,36 @@ class WeatherForBasketBallService
 
     /**
      * @param  string  $placeCode
+     * @param  string  $startDateTime
+     * @param  string  $endDateTime
      * @return ForecastTimestamp[]
      */
-    public function getFilteredForecasts(string $placeCode): array
+    public function getFilteredForecasts(string $placeCode, string $startDateTime, string $endDateTime): array
     {
         $response = $this->getWeatherInformation($placeCode);
         if (!$response) {
             return [];
         }
 
-        return $this->filterWeatherInformation($response);
+        return $this->filterWeatherInformation($response, $startDateTime, $endDateTime);
     }
 
     /**
      * @param  Response  $response
+     * @param  string  $startDateTime
+     * @param  string  $endDateTime
      * @return ForecastTimestamp[]
      */
-    private function filterWeatherInformation(Response $response): array
+    private function filterWeatherInformation(Response $response, string $startDateTime, string $endDateTime): array
     {
-        $dateToCheck = $this->getDateTimeToCheck();
-        $datetime = Carbon::now()->toDateTimeString();
-
         $filteredForecasts = [];
         foreach ($response->getForecastTimestamps() as $forecastTimestamp) {
-            if ($this->isValidForecastTimeStamp($forecastTimestamp, $dateToCheck, $datetime)) {
+            if ($this->isValidForecastTimeStamp($forecastTimestamp, $endDateTime, $startDateTime)) {
                 $filteredForecasts[] = $forecastTimestamp;
-                if (count($filteredForecasts) === config('weather.rules.hours_to_check')) {
-                    return $filteredForecasts;
-                }
             }
         }
 
         return $filteredForecasts;
-    }
-
-    /**
-     * @return string
-     */
-    private function getDateTimeToCheck(): string
-    {
-        return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
     }
 
     /**

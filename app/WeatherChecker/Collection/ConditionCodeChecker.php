@@ -20,15 +20,16 @@ class ConditionCodeChecker extends AbstractChecker
      */
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
-        $messages = [];
+        $warnings = [];
+        $dateString = $date->toDateString();
         if ($weatherInfo->getConditionCode() === ForecastTimestamp::CONDITION_CODE_HEAVY_SNOW) {
-            $key = $this->getKey($date->hour, self::RULE_HEAVY_SNOW);
-            $messages[$key] = __(
+            $key = $this->getKey($dateString, $date->hour, self::RULE_HEAVY_SNOW);
+            $warnings[$key] = __(
                 'weather-rules.heavy_snow',
-                ['hour' => $date->hour]
+                ['hour' => $date->hour, 'date' => $dateString,]
             );
         }
 
-        return $messages;
+        return $warnings;
     }
 }
