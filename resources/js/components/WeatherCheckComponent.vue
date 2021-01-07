@@ -65,8 +65,8 @@ export default {
             this.loading = true;
             let params = {
                 place: this.selectedPlace,
-                startDate: this.selectedStartDate,
-                endDate: this.selectedEndDate
+                start_date: this.selectedStartDate,
+                end_date: this.selectedEndDate
             };
             this.axios.get('/api/weather/warnings', {
                 params: params

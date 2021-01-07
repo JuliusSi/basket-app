@@ -56,8 +56,8 @@ class WeatherWarningsService
     private function getWarnings(Request $request): string
     {
         $place = $request->get('place');
-        $startDateTime = Carbon::createFromFormat('Y-m-d', $request->get('startDate'))->toDateTimeString();
-        $endDateTime = Carbon::createFromFormat('Y-m-d', $request->get('endDate'))->toDateTimeString();
+        $startDateTime = Carbon::createFromFormat('Y-m-d', $request->get('start_date'))->toDateTimeString();
+        $endDateTime = Carbon::createFromFormat('Y-m-d', $request->get('end_date'))->toDateTimeString();
         $warnings = $this->weatherCheckManager->manage($place, $startDateTime, $endDateTime);
 
         return $this->serialize($warnings, 'array<' . Warning::class . '>');
