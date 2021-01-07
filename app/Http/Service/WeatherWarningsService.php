@@ -74,6 +74,8 @@ class WeatherWarningsService
             $request->all(),
             [
                 'place' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
             ]);
 
         return $validator->fails() ? $validator->errors()->all() : [];
