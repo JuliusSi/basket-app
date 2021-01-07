@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
-use Core\Helpers\Traits\SerializationTrait;
 use App\Http\Controllers\Controller;
-use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Model\Warning;
+use App\Http\Service\WeatherWarningsService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Response as ResponseBuilder;
 
 /**
  * Class WeatherApiController
@@ -17,44 +15,36 @@ use Illuminate\Http\Request;
  */
 class WeatherApiController extends Controller
 {
-    use SerializationTrait;
-
     /**
-     * @var WeatherCheckManager
+     * @var WeatherWarningsService
      */
-    private WeatherCheckManager $weatherCheckManager;
+    private WeatherWarningsService $weatherWarningsService;
 
     /**
      * WeatherApiController constructor.
-     * @param  WeatherCheckManager  $weatherCheckManager
+     * @param  WeatherWarningsService  $weatherWarningsService
      */
-    public function __construct(WeatherCheckManager $weatherCheckManager)
+    public function __construct(WeatherWarningsService $weatherWarningsService)
     {
-        $this->weatherCheckManager = $weatherCheckManager;
+        $this->weatherWarningsService = $weatherWarningsService;
     }
 
     /**
      * @param  Request  $request
-     * @return string
+     * @return Response
      */
-    public function getWeatherWarnings(Request $request): string
+    public function getWeatherWarnings(Request $request): Response
     {
-        $place = $request->get('place');
-        $startDateTime = Carbon::createFromFormat('Y-m-d', $request->get('startDate'))->toDateTimeString();
-        $endDateTime = Carbon::createFromFormat('Y-m-d', $request->get('endDate'))->toDateTimeString();
-
-        $warnings = $this->weatherCheckManager->manage($place, $startDateTime, $endDateTime);
-
-        return $this->serialize($warnings, 'array<' . Warning::class . '>');
+        return $this->weatherWarningsService->getResponse($request);
     }
 
     /**
      * @return JsonResponse
      */
-    public function getAvailablePlaces(): JsonResponse
+    public function getAvailablePlaces(): Response
     {
         $places = config('weather.available_places');
 
-        return Response::json($places);
+        return ResponseBuilder::json($places);
     }
 }

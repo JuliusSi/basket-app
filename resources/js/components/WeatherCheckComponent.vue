@@ -79,6 +79,9 @@ export default {
                     } else {
                         this.status = STATUS_OK;
                     }
+                })
+                .catch(error => {
+                    console.log(error.response.data);
                 });
         },
         getAvailablePlaces() {
