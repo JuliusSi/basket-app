@@ -5,9 +5,7 @@ namespace App\Http\Service;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
-use Core\Helpers\Traits\SerializationTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response as ResponseBuilder;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,10 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Class WeatherWarningsService
  * @package App\Http\Service
  */
-class WeatherWarningsService
+class WeatherWarningsService extends AbstractService
 {
-    use SerializationTrait;
-
     /**
      * @var WeatherCheckManager
      */
@@ -40,13 +36,13 @@ class WeatherWarningsService
     public function getResponse(Request $request): Response
     {
         $errors = $this->validate($request);
-        if ($errors) {
-            return ResponseBuilder::json($errors, Response::HTTP_BAD_REQUEST)
-                ->header('Content-Type', 'application/json');
+        if (!$errors) {
+            $result = $this->getWarnings($request);
+
+            return $this->createResponse($result)->header('Content-Type', 'application/json');
         }
 
-        return ResponseBuilder::make($this->getWarnings($request), 200)
-            ->header('Content-Type', 'application/json');
+        return $this->createJsonResponse($errors, Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -74,10 +70,11 @@ class WeatherWarningsService
             $request->all(),
             [
                 'place' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required',
-            ]);
+                'start_date' => 'required|date|before:end_date|date_format:Y-m-d',
+                'end_date' => 'required|date|after:start_date|date_format:Y-m-d',
+            ]
+        );
 
-        return $validator->fails() ? $validator->errors()->all() : [];
+        return $validator->errors()->all();
     }
 }
