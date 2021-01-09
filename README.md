@@ -2,6 +2,7 @@
 
 - in the main directory run:
 - ``` make up ```
+- ``` make start ```
 
 ## Config
 - in main directory: ``` cp .env-example .env ```

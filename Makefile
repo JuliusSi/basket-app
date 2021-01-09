@@ -3,13 +3,14 @@ DOCKER_DIR=.docker
 
 # Commands
 up:
-	cd ${DOCKER_DIR} && docker-compose build && docker-compose up -d && docker-compose run --rm composer install --ignore-platform-reqs && docker-compose run --rm npm install
+	cd ${DOCKER_DIR} && docker-compose build && docker-compose up -d
 
 down:
 	cd ${DOCKER_DIR} && docker-compose down
 
-refresh:
-	cd ${DOCKER_DIR} && docker-compose run --rm composer update && docker-compose run --rm artisan lang:js --no-lib && docker-compose run --rm npm install
+start: composer_install npm_install migrations_migrate db_seed generate_translations npm_run_dev
+
+refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
 delete:
 	docker stop $$(docker ps -a -q) && docker rm $$(docker ps -a -q) && docker rmi $$(docker images -a -q)
@@ -63,3 +64,6 @@ db_refresh: migrations_refresh db_seed
 
 log_clear:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan log:clear
+
+cache_clear:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan cache:clear
