@@ -41,7 +41,7 @@ trait SerializationTrait
      *
      * @return mixed
      */
-    public function deserialize(string $data, string $class, string $format = 'json')
+    public function deserialize(string $data, string $class, string $format = 'json'): mixed
     {
         return $this->getSerializer()->deserialize($data, $class, $format);
     }

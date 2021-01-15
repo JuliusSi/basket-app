@@ -24,5 +24,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('messages', 'ChatController@fetchMessages');
     Route::post('message', 'ChatController@sendMessage');
     Route::get('weather', 'WeatherController@index')->name('weather');
+    Route::get('radiation', 'RadiationController@index')->name('radiation');
 });
 

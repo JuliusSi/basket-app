@@ -35,6 +35,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('weather-check', require('./components/WeatherCheckComponent.vue').default);
+Vue.component('radiation-check', require('./components/RadiationCheckComponent.vue').default);
 Vue.component('chat-messages', require('./components/ChatMessages.vue').default);
 Vue.component('chat-message', require('./components/ChatMessage.vue').default);
 Vue.component('chat-form', require('./components/ChatForm.vue').default);

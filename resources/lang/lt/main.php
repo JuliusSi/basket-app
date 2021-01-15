@@ -18,4 +18,13 @@ return [
         'typing' => 'rašo žinutę...',
         'online_users' => 'Prisijungę vartotojai'
     ],
+    'updated' => 'Atnaujinta',
+    'radiation' => [
+        'title' => 'Radiacinio fono informacija',
+        'radiation_background' => 'Radiacinis fonas',
+        'status' => 'Statusas',
+        'status_normal' => 'Normalus',
+        'status_high' => 'Aukštas',
+        'status_danger' => 'Pavojingas',
+    ],
 ];

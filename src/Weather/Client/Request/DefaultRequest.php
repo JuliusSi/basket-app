@@ -2,8 +2,6 @@
 
 namespace Src\Weather\Client\Request;
 
-use Psr\Http\Message\UriInterface;
-
 /**
  * Class FacebookPhotoPostRequest
  * @package Src\Weather\Client\Request

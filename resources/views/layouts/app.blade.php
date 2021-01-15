@@ -68,6 +68,10 @@
                                             <font-awesome-icon :icon="['fas', 'cloud-sun']" class="fa-icon"
                                                                fixed-width></font-awesome-icon> {{ __('weather.check_weather_for_basketball') }}
                                         </a></li>
+                                    <li><a class="dropdown-item" href="{{ route('radiation') }}">
+                                            <font-awesome-icon :icon="['fas', 'radiation']" class="fa-icon"
+                                                               fixed-width></font-awesome-icon> {{ __('main.radiation.radiation_background') }}
+                                        </a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">

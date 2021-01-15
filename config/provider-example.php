@@ -13,4 +13,5 @@ return [
     'd7sms_rapid_api_key' => '',
     'd7sms_rapid_sms_api_token' => '',
     'd7sms_rapid_sms_verify_api_token' => '',
+    'alpha_charlie_api_endpoint' => '',
 ];

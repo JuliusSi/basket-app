@@ -21,7 +21,7 @@ abstract class AbstractService
      * @param  int  $status
      * @return JsonResponse
      */
-    protected function createJsonResponse(mixed $data, int $status): JsonResponse
+    protected function createJsonResponse(mixed $data, int $status = Response::HTTP_OK): JsonResponse
     {
         return ResponseBuilder::json($data, $status)->header('Content-Type', 'application/json');
     }

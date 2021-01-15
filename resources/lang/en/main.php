@@ -11,4 +11,13 @@ return [
     'phone' => 'Phone',
     'password' => 'Password',
     'confirm_password' => 'Confirm password',
+    'updated' => 'Updated',
+    'radiation' => [
+        'title' => 'Radiation background information',
+        'radiation_background' => 'Radiation background',
+        'status' => 'Status',
+        'status_normal' => 'Normal',
+        'status_high' => 'High',
+        'status_danger' => 'Danger',
+    ],
 ];
