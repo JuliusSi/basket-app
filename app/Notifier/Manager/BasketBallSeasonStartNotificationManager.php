@@ -48,6 +48,7 @@ class BasketBallSeasonStartNotificationManager implements NotificationManagerInt
     {
         $notification = new Notification();
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
+        $notification->setNotifier('sms.weather_for_basketball.sender_name');
         $notification->setContent($this->getContent());
         $notification->setImageUrl($this->getFileUrl(config('memes.kyrie_irving_air_guitar_gif_url')));
 

@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'sender_name' => 'WeatherApp',
     'weather_for_basketball' =>
         [
+            'sender_name' => 'WeatherApp',
             'recipients' => [],
         ],
 ];

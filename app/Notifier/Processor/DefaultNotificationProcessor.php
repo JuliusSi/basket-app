@@ -3,8 +3,8 @@
 namespace App\Notifier\Processor;
 
 use App\Notifier\Collection\NotifierInterface;
-use App\Notifier\Collection\WeatherForBasketBallNotifierCollection;
 use App\Notifier\Model\Notification;
+use Illuminate\Support\Collection;
 
 /**
  * Class DefaultNotificationProcessor
@@ -13,15 +13,15 @@ use App\Notifier\Model\Notification;
 class DefaultNotificationProcessor implements NotificationProcessorInterface
 {
     /**
-     * @var WeatherForBasketBallNotifierCollection
+     * @var Collection
      */
-    private WeatherForBasketBallNotifierCollection $collection;
+    private Collection $collection;
 
     /**
      * DefaultNotificationProcessor constructor.
-     * @param  WeatherForBasketBallNotifierCollection  $collection
+     * @param  Collection  $collection
      */
-    public function __construct(WeatherForBasketBallNotifierCollection $collection)
+    public function __construct(Collection $collection)
     {
         $this->collection = $collection;
     }
@@ -49,6 +49,6 @@ class DefaultNotificationProcessor implements NotificationProcessorInterface
      */
     private function getNotifiers(): array
     {
-        return $this->collection->getItems();
+        return $this->collection->all();
     }
 }

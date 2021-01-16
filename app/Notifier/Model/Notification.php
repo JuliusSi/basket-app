@@ -11,6 +11,11 @@ class Notification
     /**
      * @var string
      */
+    private string $notifier;
+
+    /**
+     * @var string
+     */
     private string $content;
 
     /**
@@ -22,6 +27,22 @@ class Notification
      * @var string[]
      */
     private array $smsRecipients = [];
+
+    /**
+     * @return string
+     */
+    public function getNotifier(): string
+    {
+        return $this->notifier;
+    }
+
+    /**
+     * @param  string  $notifier
+     */
+    public function setNotifier(string $notifier): void
+    {
+        $this->notifier = $notifier;
+    }
 
     /**
      * @return string

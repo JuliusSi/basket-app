@@ -73,6 +73,7 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
         $notification->setContent($message);
         $notification->setImageUrl($imageUrl);
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
+        $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
 
         return $notification;
     }

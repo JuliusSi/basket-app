@@ -50,6 +50,7 @@ class BasketBallSeasonEndNotificationManager implements NotificationManagerInter
     {
         $notification = new Notification();
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
+        $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
         $notification->setContent($this->getContent());
         $notification->setImageUrl($this->getFileUrl(config('memes.vince_carter_its_over_gif_url')));
 

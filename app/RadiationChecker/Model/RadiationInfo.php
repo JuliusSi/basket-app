@@ -10,9 +10,14 @@ use JMS\Serializer\Annotation as JMS;
  */
 class RadiationInfo
 {
-    public const STATUS_CODE_NORMAL = 'normal';
-    public const STATUS_CODE_HIGH = 'high';
-    public const STATUS_CODE_DANGER = 'danger';
+    public const STATUS_NORMAL = 'normal';
+    public const STATUS_HIGH = 'high';
+    public const STATUS_DANGER = 'danger';
+
+    public const STATUS_LIST_RISKY = [
+        self:: STATUS_HIGH,
+        self::STATUS_DANGER,
+    ];
 
     /**
      * @JMS\Type("string")
@@ -78,5 +83,13 @@ class RadiationInfo
     public function setUpdatedAt(string $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRiskyStatus(): bool
+    {
+        return in_array($this->status, self::STATUS_LIST_RISKY, true);
     }
 }

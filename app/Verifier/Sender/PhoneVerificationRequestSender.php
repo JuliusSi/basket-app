@@ -46,7 +46,7 @@ class PhoneVerificationRequestSender
         $verification = new VerificationMessage();
         $verification->setPhoneNumber($user->getAttribute('phone'));
         $verification->setMessage(__('verification.phone.new_user_verification_code'));
-        $verification->setSenderName(config('sms.sender_name'));
+        $verification->setSenderName(config('sms.weather_for_basketball.sender_name'));
 
         return $verification;
     }

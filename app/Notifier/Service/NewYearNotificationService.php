@@ -60,6 +60,7 @@ class NewYearNotificationService implements NotificationServiceInterface
         $notification->setContent($this->getContent());
         $notification->setImageUrl($this->getImageUrl());
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
+        $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
 
         return $notification;
     }

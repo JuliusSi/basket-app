@@ -4,13 +4,13 @@ namespace App\Providers;
 
 use App\Notifier\Collection\ChatNotifier;
 use App\Notifier\Collection\FacebookPageNotifier;
-use App\Notifier\Collection\WeatherForBasketBallNotifierCollection;
 use App\Notifier\Collection\SmsNotifier;
 use App\WeatherChecker\Collection\AirTemperatureChecker;
 use App\WeatherChecker\Collection\CheckerCollection;
 use App\WeatherChecker\Collection\ConditionCodeChecker;
 use App\WeatherChecker\Collection\PrecipitationChecker;
 use App\WeatherChecker\Collection\WindChecker;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -24,16 +24,30 @@ class CollectionServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(WeatherForBasketBallNotifierCollection::class, function ($app) {
-            $collection = new WeatherForBasketBallNotifierCollection();
-            $collection->setItems([
-                $app->make(SmsNotifier::class),
-                $app->make(FacebookPageNotifier::class),
-                $app->make(ChatNotifier::class),
-            ]);
+        $this->app->singleton(
+            'weather_for_basketball_notifier_collection',
+            function ($app) {
+                return new Collection(
+                    [
+                        $app->make(SmsNotifier::class),
+                        $app->make(FacebookPageNotifier::class),
+                        $app->make(ChatNotifier::class),
+                    ]
+                );
+            }
+        );
 
-            return $collection;
-        });
+        $this->app->singleton(
+            'radiation_notifier_collection',
+            function ($app) {
+                return new Collection(
+                    [
+                        $app->make(SmsNotifier::class),
+                        $app->make(ChatNotifier::class),
+                    ]
+                );
+            }
+        );
 
         $this->app->singleton(CheckerCollection::class, function ($app) {
             $collection = new CheckerCollection();

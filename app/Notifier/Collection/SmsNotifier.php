@@ -41,7 +41,6 @@ class SmsNotifier implements NotifierInterface
         $this->sendMessages($this->buildMessageBag($notifications));
     }
 
-
     /**
      * @param  Notification[]  $notifications
      * @return MessageBag
@@ -77,7 +76,7 @@ class SmsNotifier implements NotifierInterface
         $request = new Message();
         $request->setContent($this->convert($notification->getContent()));
         $request->setTo($notification->getSmsRecipients());
-        $request->setFrom(config('sms.sender_name'));
+        $request->setFrom($notification->getNotifier());
 
         return $request;
     }
@@ -90,7 +89,7 @@ class SmsNotifier implements NotifierInterface
     {
         try {
             return $this->repository->sendMessages($messageBag);
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return null;
         }
     }

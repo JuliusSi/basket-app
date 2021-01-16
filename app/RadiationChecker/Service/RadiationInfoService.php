@@ -7,7 +7,6 @@ use App\RadiationChecker\Resolver\RadiationStatusResolver;
 use Exception;
 use Src\Radiation\Client\Response\Response;
 use Src\Radiation\Repository\CachedRadiationRepository;
-use Src\Radiation\Repository\RadiationRepository;
 
 /**
  * Class RadiationInfoService
@@ -36,6 +35,9 @@ class RadiationInfoService
         $this->radiationStatusResolver = $radiationStatusResolver;
     }
 
+    /**
+     * @return RadiationInfo|null
+     */
     public function getRadiationInfo(): ?RadiationInfo
     {
         $rawResponse = $this->getRawResponse();
@@ -68,7 +70,7 @@ class RadiationInfoService
     {
         try {
             return $this->cachedRadiationRepository->find();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return null;
         }
     }

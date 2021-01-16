@@ -51,7 +51,7 @@ migrations_refresh:
 generate_translations:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan lang:js --no-lib
 
-notify:
+notify_about_weather_for_basketball:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan weatherForBasketBall:notify
 
 migrations_migrate:
