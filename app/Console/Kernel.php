@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('basketBallSeasonStart:notify')->dailyAt('12:00');
         $schedule->command('log:clear')->yearly();
         $schedule->command('newYear:notify')->yearlyOn(1, 1, '00:00');
+        $schedule->command('radiationInfo:notify')->everyTenMinutes();
     }
 
     /**
