@@ -5,6 +5,8 @@ namespace App\Notifier\Service;
 use App\Notifier\Model\Notification;
 use App\RadiationChecker\Model\RadiationInfo;
 use App\RadiationChecker\Service\RadiationInfoService;
+use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
 /**
  * Class RadiationInfoNotificationService
@@ -18,12 +20,29 @@ class RadiationInfoNotificationService implements NotificationServiceInterface
     private RadiationInfoService $radiationInfoService;
 
     /**
+     * @var Translator
+     */
+    private Translator $translator;
+
+    /**
+     * @var ConfigRepository
+     */
+    private ConfigRepository $configRepository;
+
+    /**
      * RadiationInfoNotificationService constructor.
      * @param  RadiationInfoService  $radiationInfoService
+     * @param  Translator  $translator
+     * @param  ConfigRepository  $configRepository
      */
-    public function __construct(RadiationInfoService $radiationInfoService)
-    {
+    public function __construct(
+        RadiationInfoService $radiationInfoService,
+        Translator $translator,
+        ConfigRepository $configRepository
+    ) {
         $this->radiationInfoService = $radiationInfoService;
+        $this->translator = $translator;
+        $this->configRepository = $configRepository;
     }
 
     /**
@@ -46,8 +65,8 @@ class RadiationInfoNotificationService implements NotificationServiceInterface
     private function buildNotification(RadiationInfo $radiationInfo): Notification
     {
         $notification = new Notification();
-        $notification->setNotifier(config('sms.radiation.sender_name'));
-        $notification->setSmsRecipients(config('sms.radiation.recipients'));
+        $notification->setNotifier($this->getConfigValue('sms.radiation.sender_name'));
+        $notification->setSmsRecipients($this->getConfigValue('sms.radiation.recipients'));
         $notification->setContent($this->getContent($radiationInfo));
 
         return $notification;
@@ -59,13 +78,22 @@ class RadiationInfoNotificationService implements NotificationServiceInterface
      */
     private function getContent(RadiationInfo $radiationInfo): string
     {
-        return __(
+        return $this->translator->get(
             'radiation.notification_high_radiation_background',
             [
                 'radiationBackground' => $radiationInfo->getRadiationBackground(),
                 'updatedAt' => $radiationInfo->getUpdatedAt(),
-                'normalRadiationBackground' => config('radiation.radiation_background_normal'),
+                'normalRadiationBackground' => $this->getConfigValue('radiation.radiation_background_normal'),
             ],
         );
+    }
+
+    /**
+     * @param  string  $key
+     * @return mixed
+     */
+    private function getConfigValue(string $key): mixed
+    {
+        return $this->configRepository->get($key);
     }
 }

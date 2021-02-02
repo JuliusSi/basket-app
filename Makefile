@@ -67,3 +67,6 @@ log_clear:
 
 cache_clear:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan cache:clear
+
+run_tests:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan test
