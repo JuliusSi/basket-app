@@ -16,7 +16,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
     /**
      * @return array
      */
-    public function provider(): array
+    public function dataProvider(): array
     {
         $cases = [];
 
@@ -54,7 +54,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
          *
          * SCENARIO: radiation info service returns empty response
          *
-         * ACTION: build notification
+         * ACTION: not build notification
          */
         $radiationInfo = null;
         $serviceMock = Mockery::mock(RadiationInfoService::class);
@@ -69,7 +69,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
          *
          * SCENARIO: radiation info service returns radiation info with normal status
          *
-         * ACTION: build notification
+         * ACTION: not build notification
          */
         $radiationInfo = new RadiationInfo();
         $radiationInfo->setStatus(RadiationInfo::STATUS_NORMAL);
@@ -92,7 +92,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
      * @param  array  $expected
      * @return void
      *
-     * @dataProvider provider
+     * @dataProvider dataProvider
      */
     public function testGetNotifications(
         RadiationInfoService $serviceMock,
