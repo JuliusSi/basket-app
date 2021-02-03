@@ -1,44 +1,38 @@
 <?php
 
-namespace App\Notifier\Manager;
+declare(strict_types=1);
+
+namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
-use App\Notifier\Processor\DefaultNotificationProcessor;
 use Core\Storage\Service\LocalStorageService;
 
 /**
- * Class BasketBallSeasonStartNotificationManager
- * @package App\Notifier\Manager
+ * Class BasketBallSeasonStartNotificationService
+ * @package App\Notifier\Service
  */
-class BasketBallSeasonStartNotificationManager implements NotificationManagerInterface
+class BasketBallSeasonStartNotificationService implements NotificationServiceInterface
 {
-    /**
-     * @var DefaultNotificationProcessor
-     */
-    private DefaultNotificationProcessor $processor;
-
     /**
      * @var LocalStorageService
      */
     private LocalStorageService $localStorageService;
 
     /**
-     * BasketBallSeasonStartNotificationManager constructor.
-     * @param  DefaultNotificationProcessor  $processor
+     * BasketBallSeasonStartNotificationService constructor.
      * @param  LocalStorageService  $localStorageService
      */
-    public function __construct(DefaultNotificationProcessor $processor, LocalStorageService $localStorageService)
+    public function __construct(LocalStorageService $localStorageService)
     {
-        $this->processor = $processor;
         $this->localStorageService = $localStorageService;
     }
 
     /**
-     * @return void
+     * @return Notification[]
      */
-    public function manage(): void
+    public function getNotifications(): array
     {
-        $this->processor->process([$this->getNotification()]);
+        return [$this->getNotification()];
     }
 
     /**
@@ -64,7 +58,7 @@ class BasketBallSeasonStartNotificationManager implements NotificationManagerInt
         $notificationTime = config('notification.weather_for_basketball.time_to_notify');
 
         return __('notification.basketball_season_start',
-            ['startDate' => $startNotify, 'notificationTime' => $notificationTime]
+                  ['startDate' => $startNotify, 'notificationTime' => $notificationTime]
         );
     }
 
