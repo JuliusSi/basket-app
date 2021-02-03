@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
-use App\Notifier\Manager\BasketBallSeasonEndNotificationManager;
+use App\Notifier\Manager\NotificationManagerInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 
@@ -23,15 +25,15 @@ class BasketBallSeasonEndNotificationCommand extends Command
     protected $description = 'Notifies about basketball season end.';
 
     /**
-     * @var BasketBallSeasonEndNotificationManager
+     * @var NotificationManagerInterface
      */
-    private BasketBallSeasonEndNotificationManager $manager;
+    private NotificationManagerInterface $manager;
 
     /**
      * BasketBallSeasonEndNotificationCommand constructor.
-     * @param  BasketBallSeasonEndNotificationManager  $manager
+     * @param  NotificationManagerInterface  $manager
      */
-    public function __construct(BasketBallSeasonEndNotificationManager $manager)
+    public function __construct(NotificationManagerInterface $manager)
     {
         parent::__construct();
         $this->manager = $manager;

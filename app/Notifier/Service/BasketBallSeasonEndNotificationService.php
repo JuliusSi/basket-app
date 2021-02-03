@@ -1,46 +1,38 @@
 <?php
 
-namespace App\Notifier\Manager;
+declare(strict_types=1);
+
+namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
-use App\Notifier\Processor\DefaultNotificationProcessor;
 use Core\Storage\Service\LocalStorageService;
 
 /**
- * Class BasketBallSeasonEndNotificationManager
- * @package App\Notifier\Manager
+ * Class BasketBallSeasonEndNotificationService
+ * @package App\Notifier\Service
  */
-class BasketBallSeasonEndNotificationManager implements NotificationManagerInterface
+class BasketBallSeasonEndNotificationService implements NotificationServiceInterface
 {
-    /**
-     * @var DefaultNotificationProcessor
-     */
-    private DefaultNotificationProcessor $notificationProcessor;
-
     /**
      * @var LocalStorageService
      */
     private LocalStorageService $localStorageService;
 
     /**
-     * BasketBallSeasonEndNotificationManager constructor.
-     * @param  DefaultNotificationProcessor  $notificationProcessor
+     * BasketBallSeasonEndNotificationService constructor.
      * @param  LocalStorageService  $localStorageService
      */
-    public function __construct(
-        DefaultNotificationProcessor $notificationProcessor,
-        LocalStorageService $localStorageService
-    ) {
-        $this->notificationProcessor = $notificationProcessor;
+    public function __construct(LocalStorageService $localStorageService)
+    {
         $this->localStorageService = $localStorageService;
     }
 
     /**
-     * @return void
+     * @return Notification[]
      */
-    public function manage(): void
+    public function getNotifications(): array
     {
-        $this->notificationProcessor->process([$this->getNotification()]);
+        return [$this->getNotification()];
     }
 
     /**
@@ -67,6 +59,7 @@ class BasketBallSeasonEndNotificationManager implements NotificationManagerInter
 
         return __('notification.basketball_season_end', ['endDate' => $endNotify, 'startDate' => $startNotify]);
     }
+
     /**
      * @param  string  $fileName
      * @param  string  $directory

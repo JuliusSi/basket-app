@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Console\Commands\BasketBallSeasonEndNotificationCommand;
 use App\Console\Commands\NewYearNotificationCommand;
 use App\Console\Commands\RadiationInfoNotificationCommand;
 use App\Console\Commands\WeatherForBasketBallNotificationCommand;
 use App\Notifier\Manager\DefaultNotificationManager;
 use App\Notifier\Manager\NotificationManagerInterface;
 use App\Notifier\Processor\DefaultNotificationProcessor;
+use App\Notifier\Service\BasketBallSeasonEndNotificationService;
 use App\Notifier\Service\NewYearNotificationService;
 use App\Notifier\Service\RadiationInfoNotificationService;
 use App\Notifier\Service\WeatherForBasketBallNotificationService;
@@ -24,10 +26,6 @@ class NotificationManagerProvider  extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('new_year_notification_processor',  function ($app) {
-            return new DefaultNotificationProcessor($app->make('weather_for_basketball_notifier_collection'));
-        });
-
         $this->app->singleton('weather_for_basketball_notification_processor',  function ($app) {
             return new DefaultNotificationProcessor($app->make('weather_for_basketball_notifier_collection'));
         });
@@ -41,7 +39,7 @@ class NotificationManagerProvider  extends ServiceProvider
             ->give(function () {
                 return new DefaultNotificationManager(
                     $this->app->make(NewYearNotificationService::class),
-                    $this->app->make('new_year_notification_processor')
+                    $this->app->make('weather_for_basketball_notification_processor')
                 );
             });
 
@@ -60,6 +58,15 @@ class NotificationManagerProvider  extends ServiceProvider
                 return new DefaultNotificationManager(
                     $this->app->make(RadiationInfoNotificationService::class),
                     $this->app->make('radiation_notification_processor')
+                );
+            });
+
+        $this->app->when([BasketBallSeasonEndNotificationCommand::class])
+            ->needs(NotificationManagerInterface::class)
+            ->give(function () {
+                return new DefaultNotificationManager(
+                    $this->app->make(BasketBallSeasonEndNotificationService::class),
+                    $this->app->make('weather_for_basketball_notification_processor')
                 );
             });
     }

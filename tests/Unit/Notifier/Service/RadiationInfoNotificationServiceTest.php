@@ -11,6 +11,10 @@ use Illuminate\Contracts\Translation\Translator;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class RadiationInfoNotificationServiceTest
+ * @package Tests\Unit\Notifier\Service
+ */
 class RadiationInfoNotificationServiceTest extends TestCase
 {
     /**
