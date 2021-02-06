@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Chat\Service\MessageSendService;
@@ -14,20 +16,6 @@ use Illuminate\Http\Request;
 class ChatController extends Controller
 {
     /**
-     * @var MessageSendService
-     */
-    private MessageSendService $messageSendService;
-
-    /**
-     * ChatController constructor.
-     * @param  MessageSendService  $messageSendService
-     */
-    public function __construct(MessageSendService $messageSendService)
-    {
-        $this->messageSendService = $messageSendService;
-    }
-
-    /**
      * @return Collection
      */
     public function fetchMessages(): Collection
@@ -39,10 +27,11 @@ class ChatController extends Controller
 
     /**
      * @param  Request  $request
+     * @param  MessageSendService  $messageSendService
      * @return array
      */
-    public function sendMessage(Request $request): array
+    public function sendMessage(Request $request, MessageSendService $messageSendService): array
     {
-        return $this->messageSendService->send($request);
+        return $messageSendService->send($request);
     }
 }

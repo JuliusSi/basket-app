@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -13,24 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 class RadiationApiController extends Controller
 {
     /**
-     * @var RadiationService
-     */
-    private RadiationService $radiationService;
-
-    /**
-     * RadiationApiController constructor.
      * @param  RadiationService  $radiationService
-     */
-    public function __construct(RadiationService $radiationService)
-    {
-        $this->radiationService = $radiationService;
-    }
-
-    /**
      * @return Response
      */
-    public function getRadiationInfo(): Response
+    public function getRadiationInfo(RadiationService $radiationService): Response
     {
-        return $this->radiationService->getRadiationInfo();
+        return $radiationService->getRadiationInfo();
     }
 }

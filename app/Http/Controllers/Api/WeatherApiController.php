@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WeatherWarningsRequest;
 use App\Http\Service\WeatherWarningsService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Response as ResponseBuilder;
 
@@ -16,26 +18,13 @@ use Illuminate\Support\Facades\Response as ResponseBuilder;
 class WeatherApiController extends Controller
 {
     /**
-     * @var WeatherWarningsService
-     */
-    private WeatherWarningsService $weatherWarningsService;
-
-    /**
-     * WeatherApiController constructor.
+     * @param  WeatherWarningsRequest  $request
      * @param  WeatherWarningsService  $weatherWarningsService
-     */
-    public function __construct(WeatherWarningsService $weatherWarningsService)
-    {
-        $this->weatherWarningsService = $weatherWarningsService;
-    }
-
-    /**
-     * @param  Request  $request
      * @return Response
      */
-    public function getWeatherWarnings(Request $request): Response
+    public function getWeatherWarnings(WeatherWarningsRequest $request, WeatherWarningsService $weatherWarningsService): Response
     {
-        return $this->weatherWarningsService->getResponse($request);
+        return $weatherWarningsService->getResponse($request);
     }
 
     /**
