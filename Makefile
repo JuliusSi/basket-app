@@ -8,7 +8,7 @@ up:
 down:
 	cd ${DOCKER_DIR} && docker-compose down
 
-start: copy_env_file composer_install npm_install migrations_migrate_force db_seed generate_translations npm_run_dev
+start: copy_env_file copy_seeder_config composer_install npm_install db_refresh generate_translations npm_run_dev
 
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
@@ -77,3 +77,6 @@ run_tests:
 
 copy_env_file:
 	cp .env.example .env
+
+copy_seeder_config:
+	cp config/seeder-example.php config/seeder.php
