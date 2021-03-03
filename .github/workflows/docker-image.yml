@@ -15,7 +15,7 @@ jobs:
     - name: Build project images
       run: make up
     - name: Install composer
-      run: make composer install
+      run: make composer_install
     - name: Migrate migrations 
       run: make migrations_migrate
     - name: run tests
