@@ -12,7 +12,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build project images and start project
+    - name: Build project images
+      run: make up
+    - name: Start project
       run: make start
     - name: Migrate migrations
       run: make migrations_migrate_force
