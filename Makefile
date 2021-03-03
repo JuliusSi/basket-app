@@ -57,10 +57,14 @@ notify_about_weather_for_basketball:
 migrations_migrate:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan migrate
 
+migrations_migrate_force:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan migrate --force
+
 db_seed:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan db:seed
 
-db_refresh: migrations_refresh db_seed
+db_refresh:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan migrate:refresh --seed
 
 log_clear:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan log:clear
