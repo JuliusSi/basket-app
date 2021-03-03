@@ -76,4 +76,4 @@ run_tests:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan test
 
 copy_env_file:
-	cp .env-example .env
+	cp .env.example .env
