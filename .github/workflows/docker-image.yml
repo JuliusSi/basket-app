@@ -16,7 +16,5 @@ jobs:
       run: make up
     - name: Start project
       run: make start
-    - name: Migrate migrations
-      run: make migrations_migrate_force
-    - name: run tests
+    - name: Run tests
       run: make run_tests
