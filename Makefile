@@ -8,7 +8,7 @@ up:
 down:
 	cd ${DOCKER_DIR} && docker-compose down
 
-start: composer_install npm_install migrations_migrate_force db_seed generate_translations npm_run_dev
+start: copy_env_file composer_install npm_install migrations_migrate_force db_seed generate_translations npm_run_dev
 
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
@@ -74,3 +74,6 @@ cache_clear:
 
 run_tests:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan test
+
+copy_env_file:
+	cp .env-example.php env.php
