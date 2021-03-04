@@ -21,6 +21,7 @@ Route::prefix('weather')->group(function () {
 });
 
 Route::get('radiation-info', [RadiationApiController::class, 'getRadiationInfo']);
+Route::apiResource('basketball-courts', \Api\BasketballCourtController::class);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
