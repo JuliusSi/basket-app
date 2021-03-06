@@ -23,13 +23,19 @@ export default {
             radiationStatus: null,
         }
     },
+    props: ['user'],
     mounted() {
         this.getRadiationInfo();
     },
     methods: {
         getRadiationInfo() {
             this.loading = true;
-            this.axios.get('/api/radiation-info')
+            this.axios.get('/api/radiation-info', {
+                headers : {
+                    Authorization: `Bearer ${this.user.api_token}`,
+                    Accept: 'application/json',
+                },
+            })
                 .then(response => {
                     this.loading = false;
                     if (response.data !== null) {

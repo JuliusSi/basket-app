@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -49,7 +50,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * @param  Request   $request
+     * @param  Request  $request
      * @return mixed
      * @throws ValidationException
      */
@@ -79,12 +80,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'username' => ['required', 'string', 'min:4', 'max:20', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
-            'email' => ['required', 'string', 'email', 'max:50', 'unique:user'],
+        return Validator::make(
+            $data,
+            [
+                'username' => ['required', 'string', 'min:4', 'max:20', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
+                'email' => ['required', 'string', 'email', 'max:50', 'unique:user'],
 //            'phone' => ['required', 'digits:11', 'unique:user', new PhoneCode()],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]
+        );
     }
 
     /**
@@ -95,10 +99,13 @@ class RegisterController extends Controller
      */
     protected function createUser(array $data): User
     {
-        return User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        return User::create(
+            [
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'api_token' => Str::random(60),
+            ]
+        );
     }
 }

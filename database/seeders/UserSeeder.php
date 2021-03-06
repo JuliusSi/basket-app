@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Model\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 /**
  * Class UserSeeder
@@ -19,11 +20,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('user')->insert([
-            'username' => config('seeder.user.username'),
-            'email' => config('seeder.user.email'),
-            'password' => Hash::make(config('seeder.user.password')),
-            'email_verified_at' => now(),
-        ]);
+        User::create(
+            [
+                'username' => config('seeder.user.username'),
+                'email' => config('seeder.user.email'),
+                'password' => Hash::make(config('seeder.user.password')),
+                'email_verified_at' => now(),
+                'api_token' => Str::random(60),
+            ]
+        );
     }
 }
