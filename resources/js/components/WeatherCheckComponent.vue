@@ -56,6 +56,7 @@ export default {
             selectedEndDate: null,
         }
     },
+    props: ['user'],
     mounted() {
         this.getAvailablePlaces();
         this.getDate();
@@ -69,7 +70,11 @@ export default {
                 end_date: this.selectedEndDate
             };
             this.axios.get('/api/weather/warnings', {
-                params: params
+                params: params,
+                headers : {
+                    Authorization: `Bearer ${this.user.api_token}`,
+                    Accept: 'application/json',
+                },
             })
                 .then(response => {
                     this.loading = false;
@@ -86,7 +91,12 @@ export default {
         },
         getAvailablePlaces() {
             this.loading = true;
-            this.axios.get('/api/weather/available-places')
+            this.axios.get('/api/weather/available-places', {
+                headers : {
+                    Authorization: `Bearer ${this.user.api_token}`,
+                    Accept: 'application/json',
+                },
+            })
                 .then(response => {
                     this.loading = false;
                     this.places = response.data;

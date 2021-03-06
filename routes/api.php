@@ -15,14 +15,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('weather')->group(function () {
-    Route::get('warnings', [WeatherApiController::class, 'getWeatherWarnings']);
-    Route::get('available-places', [WeatherApiController::class, 'getAvailablePlaces']);
-});
 
-Route::get('radiation-info', [RadiationApiController::class, 'getRadiationInfo']);
-Route::apiResource('basketball-courts', \Api\BasketballCourtController::class);
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('radiation-info', [RadiationApiController::class, 'getRadiationInfo']);
+    Route::apiResource('basketball-courts', \Api\BasketballCourtController::class);
+    Route::prefix('weather')->group(function () {
+        Route::get('warnings', [WeatherApiController::class, 'getWeatherWarnings']);
+        Route::get('available-places', [WeatherApiController::class, 'getAvailablePlaces']);
+    });
 });

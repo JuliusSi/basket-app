@@ -35,6 +35,6 @@ class RadiationService extends AbstractService
     {
         $result = $this->serialize($this->radiationInfoService->getRadiationInfo(), RadiationInfo::class);
 
-        return $this->createResponse($result);
+        return $this->createResponse($result)->header('Content-Type', 'application/json');
     }
 }

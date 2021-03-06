@@ -8,6 +8,7 @@ use App\Http\Resources\BasketballCourtResource;
 use App\Model\BasketballCourt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class BasketballCourtController
@@ -18,11 +19,27 @@ class BasketballCourtController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  Request  $request
      * @return BasketballCourtResource
      */
-    public function index(): BasketballCourtResource
+    public function index(Request $request): BasketballCourtResource
     {
-        return new BasketballCourtResource(BasketballCourt::all());
+        $builder = BasketballCourt::query();
+
+        if ($city = $request->get('city')) {
+            $builder->where('city', $city);
+        }
+        if ($name = $request->get('name')) {
+            $builder->where('name', $name);
+        }
+
+        $key = sprintf('basketball_courts_%s_%s', $city, $name);
+        $courts = Cache::remember($key, 60, function () use ($builder) {
+                return $builder->paginate(10);
+            }
+        );
+
+        return new BasketballCourtResource($courts);
     }
 
     /**
