@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\BasketballCourtSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserRoleSeeder;
 use Database\Seeders\UserSeeder;
@@ -17,6 +18,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call([UserSeeder::class, RoleSeeder::class, UserRoleSeeder::class]);
+        $this->call(
+            [
+                UserSeeder::class,
+                RoleSeeder::class,
+                UserRoleSeeder::class,
+                BasketballCourtSeeder::class,
+            ]
+        );
     }
 }
