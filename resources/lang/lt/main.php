@@ -11,6 +11,14 @@ return [
     'phone' => 'Telefono numeris',
     'password' => 'Slaptažodis',
     'confirm_password' => 'Pakartokite slaptažodį',
+    'show_less' => 'Rodyti mažiau',
+    'show_more' => 'Rodyti daugiau',
+    'add_value' => 'Įveskite reikšmę',
+    'name' => 'Pavadinimas',
+    'city' => 'Miestas',
+    'no_data' => 'Duomenų nerasta',
+    'description' => 'Aprašymas',
+    'address' => 'Adresas',
     'comments' => [
         'header' => 'Komentarai',
         'send' => 'Siųsti',
@@ -27,4 +35,9 @@ return [
         'status_high' => 'Aukštas',
         'status_danger' => 'Pavojingas',
     ],
+    'basketball-courts' => [
+        'title' => 'Aikštelių sąrašas',
+        'court_information' => 'Aikštelės informacija',
+        'weather_in_court' => 'Oras aikštelėje',
+    ]
 ];

@@ -9,7 +9,9 @@ require('./bootstrap');
 window.Vue = require('vue');
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-Vue.use(VueAxios, axios);
+import VueRouter from 'vue-router';
+import routes from './routes';
+import { store } from './store/store';
 import lang from './lang';
 Vue.filter('trans', (...args) => {
     return lang.get(...args);
@@ -20,7 +22,17 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(fab, fas, far);
+Vue.use(VueAxios, axios);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.use(VueRouter);
+const router = new VueRouter({
+    routes,
+    mode: 'history'
+})
+import { Datetime } from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
+
+Vue.use(Datetime);
 
 /**
  * The following block of code may be used to automatically register your
@@ -41,6 +53,8 @@ Vue.component('chat-message', require('./components/ChatMessage.vue').default);
 Vue.component('chat-form', require('./components/ChatForm.vue').default);
 Vue.component('chat', require('./components/Chat.vue').default);
 Vue.component('phone-verification', require('./components/PhoneVerification.vue').default);
+Vue.component('basketball-courts', require('./components/BasketballCourtsComponent.vue').default);
+Vue.component('datetime', Datetime);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -50,4 +64,5 @@ Vue.component('phone-verification', require('./components/PhoneVerification.vue'
 
 const app = new Vue({
     el: '#app',
+    router: router,
 });

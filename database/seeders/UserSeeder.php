@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make(config('seeder.user.password')),
                 'email_verified_at' => now(),
                 'api_token' => Str::random(60),
+                'image_path' => config('seeder.user.image_path'),
             ]
         );
     }

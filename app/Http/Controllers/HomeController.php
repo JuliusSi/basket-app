@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\BasketballCourt;
+use App\Model\ChatMessage;
+use App\Model\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -17,7 +20,17 @@ class HomeController extends Controller
      */
     public function index(): Renderable
     {
-        return Auth::check() ? $this->logs() : view('landing-page');
+        return Auth::check() ? view('home') : $this->landingPage();
+    }
+
+    private function landingPage()
+    {
+        $userCount = User::count();
+        $courtsCount = BasketballCourt::count();
+        $commentsCount = ChatMessage::count();
+
+        return view('landing-page', compact(['userCount', 'courtsCount', 'commentsCount']));
+
     }
 
     /**

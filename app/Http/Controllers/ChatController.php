@@ -20,9 +20,7 @@ class ChatController extends Controller
      */
     public function fetchMessages(): Collection
     {
-        $messages = ChatMessage::with('user')->latest()->take(10)->get();
-
-        return $messages->reverse()->values();
+        return ChatMessage::with('user')->latest()->take(20)->get()->reverse()->values();
     }
 
     /**

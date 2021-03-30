@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Model\BasketballCourt;
+use App\Model\PlaceCode;
 use Illuminate\Database\Seeder;
 
 class BasketballCourtSeeder extends Seeder
@@ -14,13 +15,19 @@ class BasketballCourtSeeder extends Seeder
      */
     public function run()
     {
-        BasketballCourt::create(
-            [
-                'name' => config('seeder.basketball_court.name'),
-                'description' => config('seeder.basketball_court.description'),
-                'city' => config('seeder.basketball_court.city'),
-                'address' => config('seeder.basketball_court.address'),
-            ]
-        );
+        $placeCodes = PlaceCode::all();
+        $courts = config('seeder.basketball_courts');
+        foreach ($courts as $court) {
+            BasketballCourt::create(
+                [
+                    'name' => $court['name'],
+                    'place_code_id' => $placeCodes->where('code', $court['place_code'])->first()->id,
+                    'description' => $court['description'],
+                    'city' => $court['city'],
+                    'address' => $court['address'],
+                    'image_path' => $court['image_path'],
+                ]
+            );
+        }
     }
 }
