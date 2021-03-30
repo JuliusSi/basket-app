@@ -13,6 +13,7 @@ class LocalStorageService
 {
     public const DIRECTORY_MEMES = 'memes';
     public const DIRECTORY_RANDOM = 'random';
+    public const DIRECTORY_COURTS = 'courts';
 
     /**
      * @var Storage

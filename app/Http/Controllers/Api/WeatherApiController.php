@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WeatherWarningsRequest;
 use App\Http\Service\WeatherWarningsService;
+use App\Model\PlaceCode;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Response as ResponseBuilder;
@@ -32,7 +33,7 @@ class WeatherApiController extends Controller
      */
     public function getAvailablePlaces(): Response
     {
-        $places = config('weather.available_places');
+        $places = PlaceCode::all();
 
         return ResponseBuilder::json($places);
     }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Service;
 
 use App\Http\Requests\WeatherWarningsRequest;
+use App\Model\PlaceCode;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
-use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -47,10 +47,10 @@ class WeatherWarningsService extends AbstractService
      */
     private function getWarnings(WeatherWarningsRequest $request): string
     {
-        $place = $request->get('place');
-        $startDateTime = Carbon::createFromFormat('Y-m-d', $request->get('start_date'))->toDateTimeString();
-        $endDateTime = Carbon::createFromFormat('Y-m-d', $request->get('end_date'))->toDateTimeString();
-        $warnings = $this->weatherCheckManager->manage($place, $startDateTime, $endDateTime);
+        $place = PlaceCode::find($request->get('place'));
+        $startDateTime = $request->get('start_date');
+        $endDateTime = $request->get('end_date');
+        $warnings = $this->weatherCheckManager->manage($place->code, $startDateTime, $endDateTime);
 
         return $this->serialize($warnings, 'array<' . Warning::class . '>');
     }

@@ -8,10 +8,10 @@
         </div>
         <div class="card-body">
             <div class="alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
-                <h5 class="alert-heading">{{ 'weather-rules.success' | trans }}</h5>
+                <h2 class="alert-heading">{{ 'weather-rules.success' | trans }}</h2>
             </div>
             <div class="alert alert-danger fadeIn" role="alert" v-if="status === STATUS_NOT_OK">
-                <h5 class="alert-heading">{{ 'weather-rules.error' | trans }}</h5>
+                <h2 class="alert-heading">{{ 'weather-rules.error' | trans }}</h2>
                 <ul class="list">
                     <li v-for="warning in this.warnings">
                         {{ warning.translatedMessage }}
@@ -20,14 +20,19 @@
             </div>
             <div class="form-group col-md-6">
                 {{ 'weather.select_start_date' | trans }}
-                <input v-model="selectedStartDate" type="date" class="form-control mb-3">
+                <datetime
+                    :format="{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }"
+                    input-class="form-control mb-3" type="datetime" v-model="selectedStartDate"></datetime>
             {{ 'weather.select_end_date' | trans }}
-            <input v-model="selectedEndDate" type="date" class="form-control mb-3">
+                <datetime
+                    :format="{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }"
+                    input-class="form-control mb-3" type="datetime" v-model="selectedEndDate"></datetime>
         </div>
             <div class="form-group col-md-8">
                 <select v-model="selectedPlace" class="form-control mb-3">
                     <option :value="null" disabled>{{ 'weather.select_place' | trans }}</option>
-                    <option :value="name" v-for="(value, name) in this.places">{{ value }}</option>
+                    <option :value="place.id" v-for="place in places">{{ 'weather.place_codes.' + place.code | trans }}</option>
+                    v-for="message in messages"
                 </select>
                 <button class="btn btn-primary mb-2" @click="getWarnings" :disabled="!selectedPlace">
                     {{ 'weather.check_weather' | trans }}
@@ -40,6 +45,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 const STATUS_OK = 'OK';
 const STATUS_NOT_OK = 'NOT_OK';
 export default {
@@ -66,8 +73,8 @@ export default {
             this.loading = true;
             let params = {
                 place: this.selectedPlace,
-                start_date: this.selectedStartDate,
-                end_date: this.selectedEndDate
+                start_date: moment(this.selectedStartDate).format('YYYY-MM-DD HH:mm:ss'),
+                end_date: moment(this.selectedEndDate).format('YYYY-MM-DD HH:mm:ss')
             };
             this.axios.get('/api/weather/warnings', {
                 params: params,
@@ -103,11 +110,9 @@ export default {
                 });
         },
         getDate() {
-            const date = new Date();
-            this.selectedStartDate = date.toLocaleString('lt-LT', { timeZone: 'Europe/Vilnius' }).slice(0, 10);
-
-            date.setDate(date.getDate() + 1);
-            this.selectedEndDate = date.toLocaleString('lt-LT', { timeZone: 'Europe/Vilnius' }).slice(0, 10);
+            moment.locale("lt");
+            this.selectedStartDate = moment().format();
+            this.selectedEndDate = moment().add(1, 'day').format();
         },
     }
 }

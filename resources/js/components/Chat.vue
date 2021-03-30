@@ -113,6 +113,7 @@ export default {
                 if (response.data.length) {
                     this.errors = response.data;
                 } else {
+                    this.errors = [];
                     this.fetchMessages();
                     Echo.join('chat').whisper('message-sent', message);
                 }

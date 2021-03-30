@@ -345,7 +345,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-    font-size: 1.75rem
+    font-size: 0.8rem
 }
 
 h3, .h3 {
@@ -527,6 +527,75 @@ pre code {
     .chat-list .chat-body {
         width: 70%;
     }
+    #basketball-courts .court-item .court-info {
+        height: 140px;
+    }
+    #basketball-courts .court-item figure {
+        height: 160px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 160px;
+    }
+    #basketball-courts .court-item {
+        height: 300px;
+    }
+}
+
+@media (min-width: 360px) {
+    .chat-list .chat-body {
+        width: 70%;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 130px;
+    }
+    #basketball-courts .court-item figure {
+        height: 220px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 220px;
+    }
+    #basketball-courts .court-item {
+        height: 360px;
+    }
+}
+
+@media (min-width: 425px) {
+    .chat-list .chat-body {
+        width: 70%;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 120px;
+    }
+    #basketball-courts .court-item figure {
+        height: 220px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 220px;
+    }
+    #basketball-courts .court-item {
+        height: 340px;
+    }
+}
+
+@media (min-width: 480px) {
+    .container, .container-sm {
+        max-width: 480px
+    }
+    .chat-list .chat-body {
+        width: 70%;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 120px;
+    }
+    #basketball-courts .court-item figure {
+        height: 290px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 290px;
+    }
+    #basketball-courts .court-item {
+        height: 410px;
+    }
 }
 
 @media (min-width: 576px) {
@@ -535,6 +604,18 @@ pre code {
     }
     .chat-list .chat-body {
         width: 70%;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 120px;
+    }
+    #basketball-courts .court-item figure {
+        height: 290px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 290px;
+    }
+    #basketball-courts .court-item {
+        height: 410px;
     }
 }
 
@@ -545,6 +626,18 @@ pre code {
     .chat-list .chat-body {
         width: 70%;
     }
+    #basketball-courts .court-item figure {
+        height: 170px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 170px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 170px;
+    }
+    #basketball-courts .court-item {
+        height: 340px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -553,6 +646,18 @@ pre code {
     }
     .chat-list .chat-body {
         width: 70%;
+    }
+    #basketball-courts .court-item figure {
+        height: 170px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 170px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 140px;
+    }
+    #basketball-courts .court-item {
+        height: 330px;
     }
 }
 
@@ -563,13 +668,37 @@ pre code {
     .chat-list .chat-body {
         width: 70%;
     }
+    #basketball-courts .court-item figure {
+        height: 260px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 260px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 120px;
+    }
+    #basketball-courts .court-item {
+        height: 380px;
+    }
 }
 @media (min-width: 1300px) {
     .container, .container-sm, .container-md, .container-lg, .container-xl {
         max-width: 1250px
     }
     .chat-list .chat-body {
-        width: 85%;
+        width: 80%;
+    }
+    #basketball-courts .court-item figure {
+        height: 260px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 260px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 120px;
+    }
+    #basketball-courts .court-item {
+        height: 390px;
     }
 }
 
@@ -580,6 +709,18 @@ pre code {
     .chat-list .chat-body {
         width: 85%;
     }
+    #basketball-courts .court-item figure {
+        height: 260px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 260px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 110px;
+    }
+    #basketball-courts .court-item {
+        height: 370px;
+    }
 }
 
 @media (min-width: 1500px) {
@@ -588,6 +729,18 @@ pre code {
     }
     .chat-list .chat-body {
         width: 85%;
+    }
+    #basketball-courts .court-item figure {
+        height: 260px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 260px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 110px;
+    }
+    #basketball-courts .court-item {
+        height: 370px;
     }
 }
 
@@ -598,6 +751,18 @@ pre code {
     .chat-list .chat-body {
         width: 85%;
     }
+    #basketball-courts .court-item figure {
+        height: 260px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 260px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 110px;
+    }
+    #basketball-courts .court-item {
+        height: 370px;
+    }
 }
 
 @media (min-width: 1700px) {
@@ -606,6 +771,18 @@ pre code {
     }
     .chat-list .chat-body {
         width: 85%;
+    }
+    #basketball-courts .court-item figure {
+        height: 330px;
+    }
+    #basketball-courts .court-item figure img {
+        height: 330px;
+    }
+    #basketball-courts .court-item .court-info {
+        height: 110px;
+    }
+    #basketball-courts .court-item {
+        height: 440px;
     }
 }
 
@@ -6925,6 +7102,10 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
     background-color: #fff !important
 }
 
+.bg-title {
+    background-color: #f2f2f2;
+}
+
 a.bg-secondary:hover, a.bg-secondary:focus, button.bg-secondary:hover, button.bg-secondary:focus {
     background-color: #e6e5e5 !important
 }
@@ -10988,7 +11169,7 @@ th {
 }
 
 .chat-list .chat-message h5 {
-    margin: 0 0 5px 0;
+    margin: 5px 0 7px 0;
     font-weight: 600;
     line-height: 100%;
     font-size: .9rem;
@@ -11043,4 +11224,99 @@ th {
     padding: .65rem 1rem;
     position: relative;
     font-weight: 600;
+}
+
+#basketball-courts {
+    padding: 30px 0;
+}
+
+#basketball-courts .court-wrap {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+#basketball-courts .court-wrap:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9);
+}
+
+#basketball-courts .court-item {
+    position: relative;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+#basketball-courts .court-item a:hover {
+    text-decoration: none;
+}
+
+#basketball-courts .court-item figure {
+    background: #000;
+    overflow: hidden;
+    position: relative;
+    border-radius: 4px 4px 0 0;
+    margin: 0;
+}
+
+#basketball-courts .court-item figure .img {
+    -webkit-filter: grayscale(80%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(80%);
+    transition: 0.5s;
+}
+
+#basketball-courts .court-item figure:hover .img {
+    -webkit-filter: grayscale(0%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(0%);
+    transition: 0.5s;
+}
+
+#basketball-courts .court-item figure .link-preview i,
+#basketball-courts .court-item figure .link-details i {
+    padding-top: 6px;
+    font-size: 22px;
+    color: #333;
+}
+
+#basketball-courts .court-item figure .link-preview:hover i,
+#basketball-courts .court-item figure .link-details:hover i {
+    color: #fff;
+}
+
+#basketball-courts .court-item .court-info {
+    background: #333;
+    text-align: center;
+    padding: 20px;
+    border-radius: 0 0 3px 3px;
+}
+
+#basketball-courts .court-item .court-info h4 {
+    color: #cc7a00;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+}
+
+#basketball-courts .court-item .court-info h4 a {
+    color: #333;
+}
+
+#basketball-courts .court-item .court-info h4 a:hover {
+    color: #cc7a00;
+}
+
+#basketball-courts .court-item .court-info p {
+    padding: 0;
+    margin: 5px;
+    color: #b8b8b8;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.title {
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+.title-body {
+    margin-left: 5px;
 }

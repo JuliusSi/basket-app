@@ -23,7 +23,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('phone-verify', [PhoneVerificationController::class, 'verify'])->name('phone-verify');
     Route::get('messages', 'ChatController@fetchMessages');
     Route::post('message', 'ChatController@sendMessage');
-    Route::get('weather', 'WeatherController@index')->name('weather');
-    Route::get('radiation', 'RadiationController@index')->name('radiation');
 });
 

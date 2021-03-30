@@ -5,15 +5,26 @@ return [
         'username' => 'dummy',
         'email' => 'dummy@gmail.com',
         'password' => 'dummypassword',
+        'image_path' => 'img/robot.png',
     ],
     'role' => [
         'name' => 'logs',
         'description' => 'access logs',
     ],
-    'basketball_court' => [
-        'name' => 'Basketball court example',
-        'description' => 'Basketball court description',
-        'city' => 'Vilnius',
-        'address' => 'Konstitucijos pr. 16, LT-09308, Vilniaus m. sav.',
+    'basketball_courts' => [
+        [
+            'name' => 'Basketball court example',
+            'description' => 'Basketball court description',
+            'city' => 'Vilnius',
+            'address' => 'Konstitucijos pr. 16, LT-09308, Vilniaus m. sav.',
+            'image_path' => 'storage/courts/court.jpg',
+        ],
+        [
+            'name' => 'Basketball court example2',
+            'description' => 'Basketball court description',
+            'city' => 'Vilnius',
+            'address' => 'Konstitucijos pr. 16, LT-09308, Vilniaus m. sav.',
+            'image_path' => 'storage/courts/court.jpg',
+        ],
     ],
 ];

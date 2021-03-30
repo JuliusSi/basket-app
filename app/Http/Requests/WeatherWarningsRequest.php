@@ -30,9 +30,9 @@ class WeatherWarningsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'place' => 'required',
-            'start_date' => 'required|date|before:end_date|date_format:Y-m-d',
-            'end_date' => 'required|date|after:start_date|date_format:Y-m-d',
+            'place' => 'required|exists:place_code,id',
+            'start_date' => 'required|before:end_date|date_format:Y-m-d H:i:s',
+            'end_date' => 'required|date|after:start_date|date_format:Y-m-d H:i:s',
         ];
     }
 }

@@ -90,8 +90,8 @@
                     <div class="carousel-background"><img src="{{ asset('img/basketball-evening.jpg') }}" alt="Krepsinis lauke"></div>
                     <div class="carousel-container">
                         <div class="carousel-content">
-                            <h2>Krepšinio lauke planavimas</h2>
-                            <p>Mūsų sistemos tikslas - padėti lengviau surinkti žmonių krepšiniui.</p>
+                            <h2>Krepšinio aikštelių aprašymai</h2>
+                            <p>Prisijungę prie sistemos rasite detaliai aprašytas krepšinio aikšteles.</p>
                             <a href="/register" class="btn-get-started">Registruotis <i class="fa fa-angle-double-right"></i></a>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                     <div class="carousel-container">
                         <div class="carousel-content">
                             <h2>Atsibodo vienam mėtyti į krepšį?</h2>
-                            <p>Sistemos pagalba lengvai susirasite su kuo pažaisti.</p>
+                            <p>Prisijunk prie mūsų sistemos ir surasi bendraminčių.</p>
                             <a href="/register" class="btn-get-started">Registruotis <i class="fa fa-angle-double-right"></i></a>
                         </div>
                     </div>
@@ -134,26 +134,63 @@
             <div class="row">
 
                 <div class="col-lg-4 box">
-                    <i class="ion-ios-calendar-outline"></i>
-                    <h4 class="title"><a href="">Susiplanuokite iš anksto</a></h4>
-                    <p class="description">Patogiai galite susiplanuoti renginį iš anksto.</p>
+                    <i class="ion-ios-albums-outline"></i>
+                    <h4 class="title"><a href="">Krepšinio aikštelių sąrašai</a></h4>
+                    <p class="description">Prisijungę rasite detalius krepšinio aikštelių aprašymus.</p>
                 </div>
 
                 <div class="col-lg-4 box box-bg">
                     <i class="ion-ios-cloud-outline"></i>
                     <h4 class="title"><a href="">Oras krepšiniui?</a></h4>
-                    <p class="description">Mūsų sistemoje galite pasitikrinti ar oras tinkamas krepšiniui.</p>
+                    <p class="description">Prisijungę galite pasitikrinti ar oras tinkamas krepšiniui.</p>
                 </div>
 
                 <div class="col-lg-4 box">
-                    <i class="ion-ios-people-outline"></i>
-                    <h4 class="title"><a href="">Pasiekite daugiau bendraminčių</a></h4>
-                    <p class="description">Patogiai susisiekite su draugais ir praneškite apie renginį.</p>
+                    <i class="ion-ios-calendar-outline"></i>
+                    <h4 class="title"><a href="">Susiplanuokite iš anksto</a></h4>
+                    <p class="description">Prisijungę galėsite matyti žaidėjų srautus prie kiekvienos aikštelės.</p>
                 </div>
 
             </div>
         </div>
     </section><!-- #featured-services -->
+
+    <!--==========================
+  Facts Section
+============================-->
+    <section id="facts"  class="wow fadeIn">
+        <div class="container">
+
+            <header class="section-header">
+                <h3>Statistika</h3>
+                <p>Trumpa statistika apie mūsų sistemoje esančius duomenis.</p>
+            </header>
+
+            <div class="row counters">
+
+                <div class="col-lg-4 col-6 text-center">
+                    <span data-toggle="counter-up">{{ $userCount }}</span>
+                    <p>Vartotojai</p>
+                </div>
+
+                <div class="col-lg-4 col-6 text-center">
+                    <span data-toggle="counter-up">{{ $courtsCount }}</span>
+                    <p>Aprašytos krepšinio aikštelės</p>
+                </div>
+
+                <div class="col-lg-4 col-6 text-center">
+                    <span data-toggle="counter-up">{{ $commentsCount }}</span>
+                    <p>Komentarai</p>
+                </div>
+
+            </div>
+
+            <div class="facts-img">
+                <img src="img/facts-img.png" alt="" class="img-fluid">
+            </div>
+
+        </div>
+    </section><!-- #facts -->
 </main>
 
 <!--==========================
@@ -166,8 +203,8 @@
 
                 <div class="col-lg-3 col-md-6 footer-info">
                     <h3>KREPSINISLAUKE.LT</h3>
-                    <p>Mūsų sistemos tikslas - padėti lengviau surinkti žmonių krepšiniui.</p>
-                    <p>Sistemos pagalba lengvai susirasite su kuo pažaisti.</p>
+                    <p>Detalūs krepšinio aikštelių aprašymai.</p>
+                    <p>Sistemos pagalba lengvai išsirinksite krepšinio aikštelę.</p>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">

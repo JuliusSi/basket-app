@@ -8,6 +8,7 @@ use App\WeatherChecker\Collection\CheckerInterface;
 use App\WeatherChecker\Collector\WarningCollector;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
 /**
@@ -59,7 +60,28 @@ class WeatherCheckManager
             return [];
         }
 
-        return $this->getWarnings($placeCode, $startDateTime, $endDateTime);
+        return $this->getCachedWarnings($placeCode, $startDateTime, $endDateTime);
+    }
+
+    /**
+     * @param  string  $placeCode
+     * @param  string  $startDateTime
+     * @param  string  $endDateTime
+     * @return Warning[]
+     */
+    private function getCachedWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
+    {
+        $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $startDateTime)->format('Y-m-d H');
+        $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $endDateTime)->format('Y-m-d H');
+        $key = sprintf('%s_%s_%s', $placeCode, $startDate, $endDate);
+
+        return Cache::remember(
+            $key,
+            600,
+            function () use ($placeCode, $startDate, $endDate) {
+                return $this->getWarnings($placeCode, $startDate, $endDate);
+            }
+        );
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use Database\Seeders\BasketballCourtSeeder;
+use Database\Seeders\PlaceCodeSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserRoleSeeder;
 use Database\Seeders\UserSeeder;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(
             [
+                PlaceCodeSeeder::class,
                 UserSeeder::class,
                 RoleSeeder::class,
                 UserRoleSeeder::class,
