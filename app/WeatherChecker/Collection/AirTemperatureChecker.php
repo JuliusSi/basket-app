@@ -48,7 +48,7 @@ class AirTemperatureChecker extends AbstractChecker
     private function isToLowAirTemperature(ForecastTimestamp $weatherInformation): bool
     {
         if ($weatherInformation->getConditionCode() === ForecastTimestamp::CONDITION_CODE_CLEAR
-            && $weatherInformation->getWindSpeed() > 3
+            && $weatherInformation->getWindSpeed() <= 3
             && $weatherInformation->getAirTemperature() >= config('weather.rules.min_air_temperature_if_clear_if_slow_wind')){
             return false;
         }
