@@ -18,7 +18,7 @@ return [
             'city' => 'Vilnius',
             'address' => 'Konstitucijos pr. 16, LT-09308, Vilniaus m. sav.',
             'image_path' => env('APP_URL') . '/storage/courts/court.jpg',
-            'place_code' => 'vilnius-snipiskes',
+            'place_code' => 'vilnius',
         ],
         [
             'name' => 'Basketball court example2',
@@ -26,7 +26,7 @@ return [
             'city' => 'Vilnius',
             'address' => 'Konstitucijos pr. 16, LT-09308, Vilniaus m. sav.',
             'image_path' => env('APP_URL') . '/storage/courts/court.jpg',
-            'place_code' => 'vilnius-snipiskes',
+            'place_code' => 'vilnius',
         ],
     ],
 ];
