@@ -57,6 +57,7 @@ class AirTemperatureChecker extends AbstractChecker
             && $weatherInformation->getAirTemperature() >= config('weather.rules.min_air_temperature_if_clear')) {
             return false;
         }
+
         if ($weatherInformation->getAirTemperature() >= config('weather.rules.min_air_temperature')) {
             return false;
         }
