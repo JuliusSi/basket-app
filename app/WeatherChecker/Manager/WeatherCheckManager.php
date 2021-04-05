@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WeatherChecker\Manager;
 
 use App\WeatherChecker\Service\WeatherForBasketBallService;
@@ -96,7 +98,7 @@ class WeatherCheckManager
             $this->applyCheckers($forecastTimestamp);
         }
 
-        return $this->collector->getWarnings();
+        return $this->collector->getSortedWarnings();
     }
 
     /**

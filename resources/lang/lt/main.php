@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'register' => 'Regstruotis',
+    'register' => 'Registruotis',
     'login' => 'Prisijungti',
     'forgot_password' => 'Pamiršote slaptažodį?',
     'remember_me' => 'Prisiminti mane',

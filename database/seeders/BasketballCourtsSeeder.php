@@ -6,7 +6,7 @@ use App\Model\BasketballCourt;
 use App\Model\PlaceCode;
 use Illuminate\Database\Seeder;
 
-class BasketballCourtSeeder extends Seeder
+class BasketballCourtsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +16,7 @@ class BasketballCourtSeeder extends Seeder
     public function run()
     {
         $placeCodes = PlaceCode::all();
+        BasketballCourt::truncate();
         $courts = config('seeder.basketball_courts');
         foreach ($courts as $court) {
             BasketballCourt::create(
