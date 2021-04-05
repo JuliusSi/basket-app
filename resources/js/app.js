@@ -27,6 +27,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(VueRouter);
 const router = new VueRouter({
     routes,
+    scrollBehavior (to, from, savedPosition) {
+        return { x: 0, y: 0 }
+    },
     mode: 'history'
 })
 import { Datetime } from 'vue-datetime'

@@ -10,12 +10,16 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <vue-load-image>
+                        <vue-load-image class="mb-3">
                             <img slot="image" :src="court.image_path" class="img-fluid fadeIn img"
                                  :alt="court.name">
                             <img :style="{height: '50px'}" alt="loader" slot="preloader"
                                  class="mt-5" src="/img/spinner.png"/>
                         </vue-load-image>
+                        <button class="btn btn-primary mb-2">
+                        <font-awesome-icon style="color: #cc7a00;" :icon="['fas', 'basketball-ball']" class="fa-icon fa-pulse"
+                                           fixed-width v-if="!loading"/>
+                        </button>
                     </div>
                 </div>
                 <div class="row">
@@ -35,7 +39,7 @@
                         <dt>{{ 'main.city' | trans }}</dt>
                         <dd>{{ court.city }}</dd>
                         <dt>{{ 'main.address' | trans }}</dt>
-                        <dd>{{ court.address }}</dd>
+                        <dd><a :href="getGoogleAddressLink(court.address)"> {{ court.address }}</a></dd>
                         <dt>{{ 'main.updated' | trans }}</dt>
                         <dd>{{ formatDate(court.updated_at) }}</dd>
                     </div>
@@ -90,6 +94,9 @@ export default {
     },
     props: ['user'],
     methods: {
+        getGoogleAddressLink(address) {
+            return 'https://www.google.com/maps/search/?api=1&query=' + address;
+        },
         getCourt() {
             this.loading = true;
             this.axios.get('/api/basketball-courts/' + this.$route.params.id, {

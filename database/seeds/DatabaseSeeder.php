@@ -1,6 +1,6 @@
 <?php
 
-use Database\Seeders\BasketballCourtSeeder;
+use Database\Seeders\BasketballCourtsSeeder;
 use Database\Seeders\PlaceCodeSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserRoleSeeder;
@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
                 RoleSeeder::class,
                 UserRoleSeeder::class,
-                BasketballCourtSeeder::class,
+                BasketballCourtsSeeder::class,
             ]
         );
     }

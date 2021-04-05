@@ -63,6 +63,9 @@ migrations_migrate_force:
 db_seed:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan db:seed
 
+seed_courts:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan db:seed --class=BasketballCourtsSeeder
+
 db_refresh:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan migrate:refresh --seed
 
@@ -80,3 +83,4 @@ copy_env_file:
 
 copy_seeder_config:
 	cp config/seeder-example.php config/seeder.php
+	cp config/weather-example.php config/weather.php

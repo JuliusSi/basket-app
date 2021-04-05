@@ -42,6 +42,17 @@ class WarningCollector
     /**
      * @return Warning[]
      */
+    public function getSortedWarnings(): array
+    {
+        $warnings = $this->warnings;
+        ksort($warnings);
+
+        return $warnings;
+    }
+
+    /**
+     * @return Warning[]
+     */
     public function getWarnings(): array
     {
         return $this->warnings;
