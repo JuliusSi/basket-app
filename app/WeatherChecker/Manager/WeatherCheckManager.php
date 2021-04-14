@@ -98,7 +98,7 @@ class WeatherCheckManager
             $this->applyCheckers($forecastTimestamp);
         }
 
-        return $this->collector->getSortedWarnings();
+        return $this->collector->getWarnings();
     }
 
     /**

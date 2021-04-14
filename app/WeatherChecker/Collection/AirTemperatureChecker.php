@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WeatherChecker\Collection;
 
 use Carbon\CarbonInterface;
@@ -30,7 +32,7 @@ class AirTemperatureChecker extends AbstractChecker
                 ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour, 'date' => $dateString]
             );
         }
-        if ($this->isToLowAirTemperature($weatherInfo)) {
+        if ($this->isToLowAirTemperature($weatherInfo, $date)) {
             $key = $this->getKey($dateString, $date->hour, self::RULE_TO_LOW_AIR_TEMPERATURE);
             $warnings[$key] = __(
                 'weather-rules.too_low_air_temperature',
@@ -45,16 +47,25 @@ class AirTemperatureChecker extends AbstractChecker
      * @param  ForecastTimestamp  $weatherInformation
      * @return bool
      */
-    private function isToLowAirTemperature(ForecastTimestamp $weatherInformation): bool
+    private function isToLowAirTemperature(ForecastTimestamp $weatherInformation, CarbonInterface $date): bool
     {
-        if ($weatherInformation->getConditionCode() === ForecastTimestamp::CONDITION_CODE_CLEAR
-            && $weatherInformation->getWindSpeed() <= 3
-            && $weatherInformation->getAirTemperature() >= config('weather.rules.min_air_temperature_if_clear_if_slow_wind')){
+        if ($this->isClear($weatherInformation)
+            && $weatherInformation->getWindSpeed() <= config('weather.rules.slow_wind_speed')
+            && $weatherInformation->getAirTemperature() >= config(
+                'weather.rules.min_air_temperature_if_clear_if_slow_wind'
+            )) {
             return false;
         }
 
-        if ($weatherInformation->getConditionCode() === ForecastTimestamp::CONDITION_CODE_CLEAR
+        if ($this->isClear($weatherInformation)
             && $weatherInformation->getAirTemperature() >= config('weather.rules.min_air_temperature_if_clear')) {
+            return false;
+        }
+
+        if ($date->isSaturday()
+            && $weatherInformation->getAirTemperature() >= config(
+                'weather.rules.min_air_temperature_if_clear_if_slow_wind'
+            )) {
             return false;
         }
 
@@ -63,5 +74,21 @@ class AirTemperatureChecker extends AbstractChecker
         }
 
         return true;
+    }
+
+    /**
+     * @param  ForecastTimestamp  $weatherInformation
+     * @return bool
+     */
+    private function isClear(ForecastTimestamp $weatherInformation): bool
+    {
+        return \in_array(
+            $weatherInformation->getConditionCode(),
+            [
+                ForecastTimestamp::CONDITION_CODE_CLEAR,
+                ForecastTimestamp::CONDITION_CODE_ISOLATED_CLOUDS,
+            ],
+            true
+        );
     }
 }
