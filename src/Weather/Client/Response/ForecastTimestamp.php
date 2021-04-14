@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as JMS;
 class ForecastTimestamp
 {
     public const CONDITION_CODE_CLEAR = 'clear';
+    public const CONDITION_CODE_ISOLATED_CLOUDS = 'isolated-clouds';
     public const CONDITION_CODE_HEAVY_SNOW = 'heavy-snow';
 
     /**
