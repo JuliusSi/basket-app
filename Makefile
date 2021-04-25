@@ -19,7 +19,7 @@ composer_install:
 	cd ${DOCKER_DIR} && docker-compose run --rm composer install --ignore-platform-reqs
 
 composer_require:
-	cd ${DOCKER_DIR} && docker-compose run --rm composer require ${package}
+	cd ${DOCKER_DIR} && docker-compose run --rm composer require ${package} --ignore-platform-reqs
 
 composer_update:
 	cd ${DOCKER_DIR} && docker-compose run --rm composer update --ignore-platform-reqs
