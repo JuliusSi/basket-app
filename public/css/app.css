@@ -11399,3 +11399,12 @@ th {
 .title-body {
     margin-left: 5px;
 }
+#consents {
+    text-align: center;
+    background: #111;
+    color: #ddd;
+    padding: 10px;
+}
+.cookie-consent__message {
+    font-size: 13px;
+}
