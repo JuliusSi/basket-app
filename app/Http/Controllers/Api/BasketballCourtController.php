@@ -58,15 +58,11 @@ class BasketballCourtController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  BasketballCourt|null  $basketballCourt
+     * @param  BasketballCourt  $basketballCourt
      * @return BasketballCourt|\Illuminate\Http\Response
      */
-    public function show(?BasketballCourt $basketballCourt)
+    public function show(BasketballCourt $basketballCourt)
     {
-        if (!$basketballCourt) {
-            abort(404);
-        }
-
         return $basketballCourt;
     }
 

@@ -7,4 +7,5 @@ RUN apk add --no-cache $PHPIZE_DEPS \
 	&& pecl install xdebug-3.0.1 \
 	&& docker-php-ext-enable xdebug
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN chown -R www-data:www-data /var/www/html
+
+USER 1000:1000

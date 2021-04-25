@@ -178,6 +178,7 @@ return [
         App\Providers\NotificationManagerProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Spatie\CookieConsent\CookieConsentServiceProvider::class,
     ],
 
     /*
