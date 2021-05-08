@@ -33,12 +33,23 @@
                 :user=user
             ></chat-form>
         </div>
+        <div class="text-center mt-2 mb-2">
+            <button v-if="1 < this.page" @click="fetchMessages(page - 1)" type="button"
+                    class="btn btn-primary mb-2">
+
+                <font-awesome-icon :icon="['fas', 'angle-double-left']" class="fa-icon"
+                                   fixed-width></font-awesome-icon>
+            </button>
+            <button v-if="this.lastPage > this.page" @click="fetchMessages(page + 1)" type="button"
+                    class="btn btn-primary mb-2">
+                <font-awesome-icon :icon="['fas', 'angle-double-right']" class="fa-icon"
+                                   fixed-width></font-awesome-icon>
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
     props: ['user'],
 
@@ -48,6 +59,8 @@ export default {
             users: [],
             errors: [],
             loading: true,
+            page: 1,
+            lastPage: null,
         }
     },
     computed: {
@@ -61,7 +74,7 @@ export default {
         },
     },
     created() {
-        this.fetchMessages();
+        this.fetchMessages(1);
 
         Echo.join('chat')
             .here(users => {
@@ -101,22 +114,38 @@ export default {
     },
 
     methods: {
-        fetchMessages() {
-            axios.get('/messages').then(response => {
+        fetchMessages(page) {
+            let params = {
+                page: page,
+                name: this.name,
+                city: this.city,
+            };
+            axios.get('api/comments', {
+                params: params,
+                headers: {
+                    Authorization: `Bearer ${this.user.api_token}`,
+                    Accept: 'application/json',
+                },
+            }).then(response => {
                 this.loading = false;
-                this.messages = response.data;
+                this.messages = response.data.data.sort((a, b) => a.id - b.id);
+                this.lastPage = response.data.last_page;
+                this.page = page;
             });
         },
 
         addMessage(message) {
-            axios.post('/message', message).then(response => {
-                if (response.data.length) {
-                    this.errors = response.data;
-                } else {
+            axios.post('api/comment', message, {
+                headers: {
+                    Authorization: `Bearer ${this.user.api_token}`,
+                    Accept: 'application/json',
+                },
+            }).then(response => {
                     this.errors = [];
-                    this.fetchMessages();
+                    this.fetchMessages(1);
                     Echo.join('chat').whisper('message-sent', message);
-                }
+            }).catch(error => {
+                this.errors = error.response.data.errors.message;
             });
         },
     }

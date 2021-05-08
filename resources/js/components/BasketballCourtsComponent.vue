@@ -68,15 +68,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center mt-2">
-                    <button v-if="1 < this.page" v-on:click="getCourts(page - 1)" type="button"
-                            class="btn btn-primary mb-2">
+                <div class="text-center mt-4">
+                    <button v-if="1 < this.page" @click="getCourts(page - 1)" type="button"
+                            class="btn btn-primary">
 
                         <font-awesome-icon :icon="['fas', 'angle-double-left']" class="fa-icon"
                                            fixed-width></font-awesome-icon>
                     </button>
-                    <button v-if="this.lastPage > this.page" v-on:click="getCourts(page + 1)" type="button"
-                            class="btn btn-primary mb-2">
+                    <button v-if="this.lastPage > this.page" @click="getCourts(page + 1)" type="button"
+                            class="btn btn-primary">
                         <font-awesome-icon :icon="['fas', 'angle-double-right']" class="fa-icon"
                                            fixed-width></font-awesome-icon>
                     </button>

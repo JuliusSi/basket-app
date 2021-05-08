@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\ChatApiController;
 use App\Http\Controllers\Api\RadiationApiController;
 use App\Http\Controllers\Api\WeatherApiController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:api'])->group(function () {
     Route::get('radiation-info', [RadiationApiController::class, 'getRadiationInfo']);
     Route::apiResource('basketball-courts', \Api\BasketballCourtController::class);
+    Route::apiResource('court-arrivals', \Api\CourtArrivalsController::class);
+    Route::get('comments', [ChatApiController::class, 'getMessages']);
+    Route::post('comment', [ChatApiController::class, 'sendMessage']);
     Route::prefix('weather')->group(function () {
         Route::get('warnings', [WeatherApiController::class, 'getWeatherWarnings']);
         Route::get('available-places', [WeatherApiController::class, 'getAvailablePlaces']);

@@ -19,6 +19,8 @@ return [
     'no_data' => 'Duomenų nerasta',
     'description' => 'Aprašymas',
     'address' => 'Adresas',
+    'close' => 'Uždaryti',
+    'save' => 'Saugoti',
     'comments' => [
         'header' => 'Komentarai',
         'send' => 'Siųsti',
@@ -39,5 +41,9 @@ return [
         'title' => 'Aikštelių sąrašas',
         'court_information' => 'Aikštelės informacija',
         'weather_in_court' => 'Oras aikštelėje',
-    ]
+    ],
+    'court-arrivals' => [
+        'create-arrival' => 'Suplanuoti atvykimą',
+
+    ],
 ];

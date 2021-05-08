@@ -10,8 +10,9 @@
                           class="form-control"
                           id="messageTextarea"></textarea>
         <span class="input-group-btn">
-            <button :disabled="isAvailableToSaveMessage" class="btn btn-primary btn-sm ml-2" id="btn-chat" @click="sendMessage">
-                {{ 'main.comments.send' | trans }}
+            <button :disabled="isAvailableToSaveMessage" class="btn btn-primary ml-2" id="btn-chat" @click="sendMessage">
+                 <font-awesome-icon :icon="['fas', 'paper-plane']" class="fa-icon"
+                                    fixed-width></font-awesome-icon>
             </button>
         </span>
     </div>
@@ -46,7 +47,6 @@ export default {
         },
         sendInputEvent() {
             if (this.newMessage === '') {
-                console.log('test');
                 Echo.join('chat')
                     .whisper('not-typing', this.user);
             } else {
