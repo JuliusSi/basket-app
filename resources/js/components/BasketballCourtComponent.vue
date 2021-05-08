@@ -16,10 +16,17 @@
                             <img :style="{height: '50px'}" alt="loader" slot="preloader"
                                  class="mt-5" src="/img/spinner.png"/>
                         </vue-load-image>
-                        <button class="btn btn-primary mb-2">
-                        <font-awesome-icon style="color: #cc7a00;" :icon="['fas', 'basketball-ball']" class="fa-icon fa-pulse"
-                                           fixed-width v-if="!loading"/>
+                        <div class="center mb-2">
+                        <button @click="showCreateArrivalModal = true" class="btn btn-primary">
+                        <font-awesome-icon :icon="['fas', 'calendar']" class="fa-icon"
+                                           fixed-width/>
                         </button>
+                        <button @click="showCreateArrivalModal = true" class="btn btn-primary">
+                            <font-awesome-icon :icon="['fas', 'bell']" class="fa-icon"
+                                               fixed-width/>
+                        </button>
+                        </div>
+                        <create-arrivals :court="court" v-if="showCreateArrivalModal" @close="showCreateArrivalModal = false"></create-arrivals>
                     </div>
                 </div>
                 <div class="row">
@@ -39,7 +46,7 @@
                         <dt>{{ 'main.city' | trans }}</dt>
                         <dd>{{ court.city }}</dd>
                         <dt>{{ 'main.address' | trans }}</dt>
-                        <dd><a :href="getGoogleAddressLink(court.address)"> {{ court.address }}</a></dd>
+                        <dd><a style="text-decoration: underline" :href="getGoogleAddressLink(court.address)"> {{ court.address }}</a></dd>
                         <dt>{{ 'main.updated' | trans }}</dt>
                         <dd>{{ formatDate(court.updated_at) }}</dd>
                     </div>
@@ -84,6 +91,7 @@ export default {
             loading: false,
             court: null,
             weatherWarnings: [],
+            showCreateArrivalModal: false,
         }
     },
     components: {

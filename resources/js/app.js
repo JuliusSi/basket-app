@@ -57,6 +57,7 @@ Vue.component('chat-form', require('./components/ChatForm.vue').default);
 Vue.component('chat', require('./components/Chat.vue').default);
 Vue.component('phone-verification', require('./components/PhoneVerification.vue').default);
 Vue.component('basketball-courts', require('./components/BasketballCourtsComponent.vue').default);
+Vue.component('create-arrivals', require('./components/court-arrivals/CreateArrival.vue').default);
 Vue.component('datetime', Datetime);
 
 /**

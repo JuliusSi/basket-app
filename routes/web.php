@@ -21,7 +21,5 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth'])->group(function () {
     Route::get('phone-verify', [PhoneVerificationController::class, 'index'])->name('phone-verify');
     Route::post('phone-verify', [PhoneVerificationController::class, 'verify'])->name('phone-verify');
-    Route::get('messages', 'ChatController@fetchMessages');
-    Route::post('message', 'ChatController@sendMessage');
 });
 

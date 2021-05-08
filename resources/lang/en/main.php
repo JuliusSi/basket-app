@@ -20,6 +20,8 @@ return [
     'no_data' => 'No data found',
     'description' => 'Description',
     'address' => 'Address',
+    'close' => 'Close',
+    'save' => 'Save',
     'radiation' => [
         'title' => 'Radiation background information',
         'radiation_background' => 'Radiation background',
@@ -32,5 +34,8 @@ return [
         'title' => 'Courts',
         'court_information' => 'Court information',
         'weather_in_court' => 'Oras aikštelėje',
-    ]
+    ],
+    'court-arrivals' => [
+        'create-arrival' => 'Arrive to court',
+    ],
 ];

@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Chat\Service;
 
 use App\Events\ChatMessageSent;
+use App\Http\Requests\ChatMessageSendRequest;
 use App\Model\ChatMessage;
-use App\Model\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * Class MessageSendService
@@ -30,51 +29,33 @@ class MessageSendService
     }
 
     /**
-     * @param  Request  $request
+     * @param  ChatMessageSendRequest  $request
      * @return array
      */
-    public function send(Request $request): array
+    public function send(ChatMessageSendRequest $request): array
     {
-        $user = Auth::user();
-        if (!$user instanceof User) {
-            return [];
-        }
-        $errors = $this->validate($request);
-        if ($errors) {
-            return $errors;
-        }
-        $modifiedMessage = $this->emojiAppendService->appendEmojiList($request->get('message'));
-        $message = $this->saveMessage($user, $modifiedMessage);
-        broadcast(new ChatMessageSent($user, $message))->toOthers();
+        $message = $this->saveMessage($this->addEmojis($request->get('message')));
+        broadcast(new ChatMessageSent(auth()->user(), $message))->toOthers();
 
         return [];
     }
 
     /**
-     * @param  Request  $request
-     * @return array
+     * @param  string  $message
+     * @return string
      */
-    private function validate(Request $request): array
+    private function addEmojis(string $message)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'message' => 'required|min:2|max:500|string|not_regex:/([%\$#\*<>]+)/',
-            ]);
-        if ($validator->fails()) {
-            return $validator->errors()->all();
-        }
-
-        return [];
+        return $this->emojiAppendService->appendEmojiList($message);
     }
 
     /**
-     * @param  User  $user
      * @param  string  $content
      * @return ChatMessage
      */
-    private function saveMessage(User $user, string $content): ChatMessage
+    private function saveMessage(string $content): ChatMessage
     {
-        return $user->chatMessages()->create([
+        return auth()->user()->chatMessages()->create([
             'message' => $content,
         ]);
     }
