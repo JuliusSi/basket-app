@@ -17,8 +17,18 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div class="alert alert-success fadeIn" role="alert" v-if="success">
+                                {{ 'main.court-arrivals.created' | trans }}
+                                </div>
+                            <div class="alert alert-danger fadeIn text-left" role="alert" v-if="errors">
+                                <div v-for="(v, k) in errors" :key="k">
+                                    <p v-for="error in v" :key="error" class="text-sm">
+                                        {{ error }}
+                                    </p>
+                                </div>
+                            </div>
                             <h2 class="mb-3">{{ court.name }}</h2>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 text-left">
                                 {{ 'weather.select_start_date' | trans }}
                                 <datetime
                                     :format="{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }"
@@ -31,7 +41,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="closeModal">{{ 'main.close' | trans }}</button>
-                            <button type="button" class="btn btn-primary">{{ 'main.save' | trans }}</button>
+                            <button :disabled="!isAvailableToSaveArrival" type="button" class="btn btn-primary" @click="createArrival">{{ 'main.save' | trans }}</button>
                         </div>
                     </div>
                 </div>
@@ -48,20 +58,46 @@ export default {
         return {
             selectedStartDate: null,
             selectedEndDate: null,
+            errors: null,
+            success: false,
         }
     },
     props: ['user', 'court'],
     mounted() {
         this.getDate();
     },
+    computed: {
+        isAvailableToSaveArrival() {
+            return this.selectedStartDate && this.selectedEndDate;
+        },
+    },
     methods: {
+        createArrival() {
+            this.success = false;
+            let data = {
+                court_id: this.court.id,
+                start_date: moment(this.selectedStartDate).format('YYYY-MM-DD HH:mm:ss'),
+                end_date: moment(this.selectedEndDate).format('YYYY-MM-DD HH:mm:ss'),
+            }
+            axios.post('/api/court-arrivals', data, {
+                headers: {
+                    Authorization: `Bearer ${this.user.api_token}`,
+                    Accept: 'application/json',
+                },
+            }).then(response => {
+                this.success = true;
+                this.errors = null;
+                this.selectedEndDate = null;
+            }).catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
         closeModal() {
             this.$emit('close');
         },
         getDate() {
             moment.locale("lt");
             this.selectedStartDate = moment().format();
-            this.selectedEndDate = moment().add(1, 'hour').format();
         },
     },
 }

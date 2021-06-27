@@ -7,10 +7,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ChatMessageSendRequest
+ * Class CourtArrivalStoreRequest
  * @package App\Http\Requests
  */
-class ChatMessageSendRequest extends FormRequest
+class CourtArrivalStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +30,9 @@ class ChatMessageSendRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message' => 'required|min:2|max:500|string|not_regex:/([%\$#\*<>]+)/',
+            'court_id' => 'required|exists:basketball_court,id',
+            'start_date' => 'required|before:end_date|date_format:Y-m-d H:i:s',
+            'end_date' => 'required|date|after:start_date|date_format:Y-m-d H:i:s',
         ];
     }
 }

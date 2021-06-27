@@ -128,9 +128,11 @@ export default {
                 },
             }).then(response => {
                 this.loading = false;
-                this.messages = response.data.data.sort((a, b) => a.id - b.id);
-                this.lastPage = response.data.last_page;
                 this.page = page;
+                if (response.data.data.length) {
+                    this.messages = response.data.data.sort((a, b) => a.id - b.id);
+                    this.lastPage = response.data.last_page;
+                }
             });
         },
 

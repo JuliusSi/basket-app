@@ -72,6 +72,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany
+     */
+    public function courtArrivals(): HasMany
+    {
+        return $this->hasMany(CourtArrival::class);
+    }
+
+    /**
      * @return BelongsToMany
      */
     public function roles(): BelongsToMany

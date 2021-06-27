@@ -37,5 +37,6 @@ return [
     ],
     'court-arrivals' => [
         'create-arrival' => 'Arrive to court',
+        'created' => 'Arrival successfully created',
     ],
 ];

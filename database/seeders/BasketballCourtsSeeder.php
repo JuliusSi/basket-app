@@ -16,7 +16,7 @@ class BasketballCourtsSeeder extends Seeder
     public function run()
     {
         $placeCodes = PlaceCode::all();
-        BasketballCourt::truncate();
+        BasketballCourt::query()->delete();
         $courts = config('seeder.basketball_courts');
         foreach ($courts as $court) {
             BasketballCourt::create(

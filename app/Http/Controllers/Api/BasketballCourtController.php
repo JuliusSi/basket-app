@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\BasketballCourtsCollection;
+use App\Http\Service\BasketballCourtsService;
 use App\Model\BasketballCourt;
-use App\WeatherChecker\Manager\WeatherCheckManager;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -21,10 +21,10 @@ class BasketballCourtController extends Controller
      * Display a listing of the resource.
      *
      * @param  Request  $request
-     * @param  WeatherCheckManager  $weatherCheckManager
+     * @param  BasketballCourtsService  $courtsService
      * @return BasketballCourtsCollection
      */
-    public function index(Request $request, WeatherCheckManager $weatherCheckManager): BasketballCourtsCollection
+    public function index(Request $request, BasketballCourtsService $courtsService): BasketballCourtsCollection
     {
         $builder = BasketballCourt::query();
 
@@ -41,7 +41,7 @@ class BasketballCourtController extends Controller
             }
         );
 
-        return new BasketballCourtsCollection($courts, $weatherCheckManager);
+        return $courtsService->getCollection($courts);
     }
 
     /**
