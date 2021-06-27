@@ -154,6 +154,42 @@
             </div>
         </div>
     </section><!-- #featured-services -->
+    <section id="about">
+        <div class="container">
+
+            <header class="section-header">
+                <h3>Krepšinio aikštelių pristatymas</h3>
+                <p>Trumpa informacija apie keletą atsitiktinių krepšinio aikštelių aprašytų mūsų kataloge.</p>
+            </header>
+
+            <div class="row about-cols">
+                @foreach($courtsCollection as $court)
+                    <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="about-col">
+                            <div class="img">
+                                <img src="{{ $court->image_path }}" alt="" class="img-fluid">
+                                <div class="icon"><i class="ion-ios-basketball-outline"></i></div>
+                            </div>
+                            <h2 class="title"><a href="register">{{ $court->name }}</a></h2>
+                            @if (!$court->is_eligible_weahter)
+                                <p>
+                                    Šiuo metu oras <b>nėra</b> tinkamas krepšiniui šioje aikštelėje. Daugiau informacijos
+                                    rasite prisijungę.
+                                </p>
+                            @endif
+                            <p>
+                                {{ $court->description }}
+                            </p>
+                            <p class="text-center">
+                                {{ $court->address }}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
+    </section><!-- #about -->
 
     <!--==========================
   Facts Section

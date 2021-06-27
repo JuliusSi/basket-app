@@ -26,7 +26,7 @@
                                                fixed-width/>
                         </button>
                         </div>
-                        <create-arrivals :court="court" v-if="showCreateArrivalModal" @close="showCreateArrivalModal = false"></create-arrivals>
+                        <create-arrivals :court="court" :user="user" v-if="showCreateArrivalModal" @close="showCreateArrivalModal = false"></create-arrivals>
                     </div>
                 </div>
                 <div class="row">

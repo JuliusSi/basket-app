@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\CourtArrivalStoreRequest;
 
 /**
  * Class CourtArrivalsController
@@ -13,14 +13,8 @@ use Illuminate\Http\Request;
  */
 class CourtArrivalsController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(CourtArrivalStoreRequest $request)
     {
-
+        return auth()->user()->courtArrivals()->create($request->validated());
     }
 }

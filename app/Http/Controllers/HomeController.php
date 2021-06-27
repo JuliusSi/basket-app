@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Http\Service\BasketballCourtsService;
 use App\Model\BasketballCourt;
 use App\Model\ChatMessage;
 use App\Model\User;
@@ -16,6 +19,20 @@ use Illuminate\Support\Facades\File;
 class HomeController extends Controller
 {
     /**
+     * @var BasketballCourtsService
+     */
+    private BasketballCourtsService $courtsService;
+
+    /**
+     * HomeController constructor.
+     * @param  BasketballCourtsService  $courtsService
+     */
+    public function __construct(BasketballCourtsService $courtsService)
+    {
+        $this->courtsService = $courtsService;
+    }
+
+    /**
      * @return Renderable
      */
     public function index(): Renderable
@@ -23,14 +40,18 @@ class HomeController extends Controller
         return Auth::check() ? view('home') : $this->landingPage();
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     private function landingPage()
     {
         $userCount = User::count();
         $courtsCount = BasketballCourt::count();
         $commentsCount = ChatMessage::count();
+        $randomCourts = BasketballCourt::all()->random(3);
+        $courtsCollection = $this->courtsService->getCollection($randomCourts)->modify();
 
-        return view('landing-page', compact(['userCount', 'courtsCount', 'commentsCount']));
-
+        return view('landing-page', compact(['userCount', 'courtsCount', 'commentsCount', 'courtsCollection']));
     }
 
     /**

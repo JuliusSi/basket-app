@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Chat\Service;
 
 use App\Events\ChatMessageSent;
-use App\Http\Requests\ChatMessageSendRequest;
+use App\Http\Requests\ChatMessageStoreRequest;
 use App\Model\ChatMessage;
 
 /**
@@ -29,10 +29,10 @@ class MessageSendService
     }
 
     /**
-     * @param  ChatMessageSendRequest  $request
+     * @param  ChatMessageStoreRequest  $request
      * @return array
      */
-    public function send(ChatMessageSendRequest $request): array
+    public function send(ChatMessageStoreRequest $request): array
     {
         $message = $this->saveMessage($this->addEmojis($request->get('message')));
         broadcast(new ChatMessageSent(auth()->user(), $message))->toOthers();

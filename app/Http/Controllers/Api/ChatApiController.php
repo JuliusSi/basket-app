@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Chat\Service\MessageSendService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ChatMessageSendRequest;
+use App\Http\Requests\ChatMessageStoreRequest;
 use App\Model\ChatMessage;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
 
 /**
  * Class ChatApiController
@@ -27,11 +25,11 @@ class ChatApiController extends Controller
     }
 
     /**
-     * @param  ChatMessageSendRequest  $request
+     * @param  ChatMessageStoreRequest  $request
      * @param  MessageSendService  $messageSendService
      * @return array
      */
-    public function sendMessage(ChatMessageSendRequest $request, MessageSendService $messageSendService): array
+    public function sendMessage(ChatMessageStoreRequest $request, MessageSendService $messageSendService): array
     {
         return $messageSendService->send($request);
     }

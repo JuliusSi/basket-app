@@ -690,7 +690,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 --------------------------------*/
 
 #about {
-    background: url("../img/about-bg.jpg") center top no-repeat fixed;
+    background: url("../img/courts-bg.jpg") center top no-repeat fixed;
     background-size: cover;
     padding: 60px 0 40px 0;
     position: relative;
@@ -725,6 +725,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #about .about-col .img img {
     border-radius: 4px 4px 0 0;
+    height: 200px;
+    width: 100%;
 }
 
 #about .about-col .icon {

@@ -44,6 +44,6 @@ return [
     ],
     'court-arrivals' => [
         'create-arrival' => 'Suplanuoti atvykimą',
-
+        'created' => 'Atvykimas sėkmingai sukurtas',
     ],
 ];
