@@ -171,7 +171,7 @@
                                 <div class="icon"><i class="ion-ios-basketball-outline"></i></div>
                             </div>
                             <h2 class="title"><a href="register">{{ $court->name }}</a></h2>
-                            @if (!$court->is_eligible_weahter)
+                            @if (!$court->is_eligible_weather)
                                 <p>
                                     Šiuo metu oras <b>nėra</b> tinkamas krepšiniui šioje aikštelėje. Daugiau informacijos
                                     rasite prisijungę.
