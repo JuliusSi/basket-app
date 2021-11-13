@@ -8,6 +8,8 @@ use App\Http\Requests\WeatherWarningsRequest;
 use App\Model\PlaceCode;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
+use Core\Logger\Event\ActionDone;
+use Core\Logger\Model\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -51,7 +53,19 @@ class WeatherWarningsService extends AbstractService
         $startDateTime = $request->get('start_date');
         $endDateTime = $request->get('end_date');
         $warnings = $this->weatherCheckManager->manage($place->code, $startDateTime, $endDateTime);
+        event(new ActionDone($this->getActionLog($place->code)));
 
         return $this->serialize($warnings, 'array<' . Warning::class . '>');
+    }
+
+    private function getActionLog(string $placeCode): Log
+    {
+        $message = 'Vartotojas {username} tikrino ar oras tinkamas krepšiniui ({place})';
+        $context = [
+            'username' => auth()->user()->username,
+            'place' => __(sprintf('weather.place_codes.%s',  $placeCode)),
+        ];
+
+        return Log::create($message, $context);
     }
 }

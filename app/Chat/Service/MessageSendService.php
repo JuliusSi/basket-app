@@ -7,6 +7,8 @@ namespace App\Chat\Service;
 use App\Events\ChatMessageSent;
 use App\Http\Requests\ChatMessageStoreRequest;
 use App\Model\ChatMessage;
+use Core\Logger\Event\ActionDone;
+use Core\Logger\Model\Log;
 
 /**
  * Class MessageSendService
@@ -36,6 +38,7 @@ class MessageSendService
     {
         $message = $this->saveMessage($this->addEmojis($request->get('message')));
         broadcast(new ChatMessageSent(auth()->user(), $message))->toOthers();
+        event(new ActionDone($this->getActionLog()));
 
         return [];
     }
@@ -58,5 +61,15 @@ class MessageSendService
         return auth()->user()->chatMessages()->create([
             'message' => $content,
         ]);
+    }
+
+    private function getActionLog(): Log
+    {
+        $message = 'Vartotojas {username} parašė naują komentarą';
+        $context = [
+            'username' => auth()->user()->username,
+        ];
+
+        return Log::create($message, $context);
     }
 }

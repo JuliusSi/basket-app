@@ -42,7 +42,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H07DPEC7BN"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-H07DPEC7BN');
@@ -87,23 +91,27 @@
             <div class="carousel-inner" role="listbox">
 
                 <div class="carousel-item active">
-                    <div class="carousel-background"><img src="{{ asset('img/basketball-evening.jpg') }}" alt="Krepsinis lauke"></div>
+                    <div class="carousel-background"><img src="{{ asset('img/basketball-evening.jpg') }}"
+                                                          alt="Krepsinis lauke"></div>
                     <div class="carousel-container">
                         <div class="carousel-content">
                             <h2>Krepšinio aikštelių aprašymai</h2>
                             <p>Prisijungę prie sistemos rasite detaliai aprašytas krepšinio aikšteles.</p>
-                            <a href="/register" class="btn-get-started">Registruotis <i class="fa fa-angle-double-right"></i></a>
+                            <a href="/register" class="btn-get-started">Registruotis <i
+                                    class="fa fa-angle-double-right"></i></a>
                         </div>
                     </div>
                 </div>
 
                 <div class="carousel-item">
-                    <div class="carousel-background"><img src="{{ asset('img/one-player.jpg') }}" alt="Krepsinio organizavimas"></div>
+                    <div class="carousel-background"><img src="{{ asset('img/one-player.jpg') }}"
+                                                          alt="Krepsinio organizavimas"></div>
                     <div class="carousel-container">
                         <div class="carousel-content">
                             <h2>Atsibodo vienam mėtyti į krepšį?</h2>
                             <p>Prisijunk prie mūsų sistemos ir surasi bendraminčių.</p>
-                            <a href="/register" class="btn-get-started">Registruotis <i class="fa fa-angle-double-right"></i></a>
+                            <a href="/register" class="btn-get-started">Registruotis <i
+                                    class="fa fa-angle-double-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -173,7 +181,8 @@
                             <h2 class="title"><a href="register">{{ $court->name }}</a></h2>
                             @if (!$court->is_eligible_weather)
                                 <p>
-                                    Šiuo metu oras <b>nėra</b> tinkamas krepšiniui šioje aikštelėje. Daugiau informacijos
+                                    Šiuo metu oras <b>nėra</b> tinkamas krepšiniui šioje aikštelėje. Daugiau
+                                    informacijos
                                     rasite prisijungę.
                                 </p>
                             @endif
@@ -194,7 +203,7 @@
     <!--==========================
   Facts Section
 ============================-->
-    <section id="facts"  class="wow fadeIn">
+    <section id="facts" class="wow fadeIn">
         <div class="container">
 
             <header class="section-header">
@@ -227,6 +236,28 @@
 
         </div>
     </section><!-- #facts -->
+
+@if($logs->count() > 0)
+    <!--==========================
+Events Section
+============================-->
+        <section id="events" class="wow fadeIn">
+            <div class="container">
+                <header class="section-header">
+                    <h3>Įvykiai(<span data-toggle="counter-up">{{ $logs->count()  }}</span>)</h3>
+                    <p>Keletas paskutinių įvykių mūsų sistemoje.</p>
+                </header>
+                <div class="row">
+                    <ul>
+                        @foreach($logs as $log)
+                            <li> <i
+                                    class="fa fa-angle-double-right"></i></a> {{ $log->created_at->diffForHumans()  }}: {!! $log->content !!}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </section><!-- #events -->
+    @endif
 </main>
 
 <!--==========================
