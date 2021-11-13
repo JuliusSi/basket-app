@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Model\User;
 use Carbon\Carbon;
 use Core\Logger\Event\ActionDone;
 use Core\Logger\Model\Log;

@@ -244,7 +244,7 @@ Events Section
         <section id="events" class="wow fadeIn">
             <div class="container">
                 <header class="section-header">
-                    <h3>Įvykiai(<span data-toggle="counter-up">{{ $logs->count()  }}</span>)</h3>
+                    <h3>Įvykiai</h3>
                     <p>Keletas paskutinių įvykių mūsų sistemoje.</p>
                 </header>
                 <div class="row">
