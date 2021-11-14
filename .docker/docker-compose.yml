@@ -65,6 +65,7 @@ services:
   npm:
     image: node:latest
     container_name: npm
+    user: ${CURRENT_USER}
     volumes:
       - ../:/var/www/html
     working_dir: /var/www/html
