@@ -10,7 +10,7 @@ Fonts
 body {
     margin: 0;
     font-family: 'Work Sans', sans-serif;
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     font-weight: 400;
     line-height: 1.5;
     color: #55595c;
@@ -905,7 +905,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 --------------------------------*/
 
 #facts {
-    background: url("../img/facts-bg.jpg") center top no-repeat fixed;
+    background: url("../img/events-bg.jpg") center top no-repeat fixed;
     background-size: cover;
     padding: 60px 0 0 0;
     position: relative;
@@ -944,6 +944,42 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #facts .facts-img {
+    text-align: center;
+    padding-top: 30px;
+}
+
+/* Events Section
+--------------------------------*/
+
+#events {
+    background: #fff center top no-repeat fixed;
+    background-size: cover;
+    padding: 60px 0 60px 0;
+    position: relative;
+}
+
+#events ul li {
+    list-style: none;
+    margin: 15px 0 25px 0;
+}
+
+#events::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.88);
+    z-index: 9;
+}
+
+#events .container {
+    position: relative;
+    z-index: 10;
+}
+
+#events .events-img {
     text-align: center;
     padding-top: 30px;
 }

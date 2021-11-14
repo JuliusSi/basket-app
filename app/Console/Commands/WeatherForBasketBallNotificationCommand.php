@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Notifier\Manager\NotificationManagerInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class WeatherForBasketBallNotificationCommand
@@ -45,7 +46,7 @@ class WeatherForBasketBallNotificationCommand extends Command
     {
         if (!$this->canHandle()) {
             $message = sprintf('Command %s is not executed due to configuration.', $this->signature);
-            Log::channel('command')->notice($message);
+            $this->info($message);
             return;
         }
 

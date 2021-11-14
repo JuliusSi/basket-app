@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Notifier\Collection\ChatNotifier;
 use App\Notifier\Collection\FacebookPageNotifier;
+use App\Notifier\Collection\LogNotifier;
 use App\Notifier\Collection\SmsNotifier;
 use App\WeatherChecker\Collection\AirTemperatureChecker;
 use App\WeatherChecker\Collection\CheckerCollection;
@@ -32,6 +33,7 @@ class CollectionServiceProvider extends ServiceProvider
                         $app->make(SmsNotifier::class),
                         $app->make(FacebookPageNotifier::class),
                         $app->make(ChatNotifier::class),
+                        $app->make(LogNotifier::class),
                     ]
                 );
             }

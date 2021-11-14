@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:api', 'throttle:api'])->group(function () {
     Route::get('radiation-info', [RadiationApiController::class, 'getRadiationInfo']);
     Route::apiResource('basketball-courts', \Api\BasketballCourtController::class);
     Route::apiResource('court-arrivals', \Api\CourtArrivalsController::class);

@@ -34,8 +34,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('basketBallSeasonEnd:notify')->dailyAt('12:00');
         $schedule->command('basketBallSeasonStart:notify')->dailyAt('12:00');
         $schedule->command('log:clear')->yearly();
+        $schedule->command('log-table:delete-old')->monthly();
         $schedule->command('newYear:notify')->yearlyOn(1, 1, '00:00');
         $schedule->command('radiationInfo:notify')->everyFifteenMinutes();
+        $schedule->command('queue:work --stop-when-empty')->everyMinute();
     }
 
     /**
