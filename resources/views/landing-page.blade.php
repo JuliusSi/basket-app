@@ -200,6 +200,30 @@
         </div>
     </section><!-- #about -->
 
+@if($logs->count() > 0)
+    <!--==========================
+Events Section
+============================-->
+        <section id="events" class="wow fadeIn">
+            <div class="container">
+                <header class="section-header">
+                    <h3>Įvykiai</h3>
+                    <p>Keletas paskutinių įvykių mūsų sistemoje.</p>
+                </header>
+                <div class="row">
+                    <ul>
+                        @foreach($logs as $log)
+                            <li> <i
+                                    class="fa fa-info-circle" style="color:#cc7a00;  margin-right: 3px;"></i></a>
+                                {!! $log->content !!} ({{ $log->created_at->diffForHumans()  }})
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </section><!-- #events -->
+@endif
+
     <!--==========================
   Facts Section
 ============================-->
@@ -236,28 +260,6 @@
 
         </div>
     </section><!-- #facts -->
-
-@if($logs->count() > 0)
-    <!--==========================
-Events Section
-============================-->
-        <section id="events" class="wow fadeIn">
-            <div class="container">
-                <header class="section-header">
-                    <h3>Įvykiai</h3>
-                    <p>Keletas paskutinių įvykių mūsų sistemoje.</p>
-                </header>
-                <div class="row">
-                    <ul>
-                        @foreach($logs as $log)
-                            <li> <i
-                                    class="fa fa-angle-double-right"></i></a> {{ $log->created_at->diffForHumans()  }}: {!! $log->content !!}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </section><!-- #events -->
-    @endif
 </main>
 
 <!--==========================

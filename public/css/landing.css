@@ -905,7 +905,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 --------------------------------*/
 
 #facts {
-    background: url("../img/facts-bg.jpg") center top no-repeat fixed;
+    background: url("../img/events-bg.jpg") center top no-repeat fixed;
     background-size: cover;
     padding: 60px 0 0 0;
     position: relative;
@@ -952,7 +952,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 --------------------------------*/
 
 #events {
-    background: url("../img/events-bg.jpg") center top no-repeat fixed;
+    background: #fff center top no-repeat fixed;
     background-size: cover;
     padding: 60px 0 60px 0;
     position: relative;
