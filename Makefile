@@ -1,5 +1,6 @@
 #Variables
 DOCKER_DIR=.docker
+export CURRENT_USER=$(shell id -u):$(shell id -g)
 
 # Commands
 up:
