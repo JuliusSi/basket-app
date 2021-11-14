@@ -21,7 +21,7 @@ class ChatApiController extends Controller
      */
     public function getMessages(): LengthAwarePaginator
     {
-        return ChatMessage::with('user')->latest()->paginate(8);
+        return ChatMessage::with('user:id,username,image_path')->latest()->paginate(8);
     }
 
     /**
