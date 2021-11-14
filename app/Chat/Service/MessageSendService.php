@@ -7,6 +7,7 @@ namespace App\Chat\Service;
 use App\Events\ChatMessageSent;
 use App\Http\Requests\ChatMessageStoreRequest;
 use App\Model\ChatMessage;
+use Carbon\Carbon;
 use Core\Logger\Event\ActionDone;
 use Core\Logger\Model\Log;
 
@@ -38,9 +39,24 @@ class MessageSendService
     {
         $message = $this->saveMessage($this->addEmojis($request->get('message')));
         broadcast(new ChatMessageSent(auth()->user(), $message))->toOthers();
-        event(new ActionDone($this->getActionLog()));
+        $this->createLogMessageIfNeeded();
 
         return [];
+    }
+
+    private function createLogMessageIfNeeded(): void
+    {
+        $test = $this->getUserTodayMessagesCount();
+        if ($this->getUserTodayMessagesCount() > 1) {
+            return;
+        }
+
+        event(new ActionDone($this->getActionLog()));
+    }
+
+    private function getUserTodayMessagesCount(): int
+    {
+        return ChatMessage::where('user_id', auth()->user()->id)->whereDate('created_at', Carbon::today())->count();
     }
 
     /**
@@ -65,7 +81,7 @@ class MessageSendService
 
     private function getActionLog(): Log
     {
-        $message = 'Vartotojas {username} parašė naują komentarą';
+        $message = 'Vartotojas {username} parašė savo pirmąjį komentą šiandien';
         $context = [
             'username' => auth()->user()->username,
         ];
