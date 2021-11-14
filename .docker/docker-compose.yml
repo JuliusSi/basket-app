@@ -26,6 +26,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: php
+    user: ${CURRENT_USER}
     volumes:
       - ../:/var/www/html
     ports:
