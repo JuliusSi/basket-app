@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Core\Logger\Event\ActionDone;
 use Core\Logger\Listener\LogAction;
 use Core\Logger\Repository\DatabaseRepository;
 use Core\Logger\Repository\RepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
-class LogSeriveProvider extends ServiceProvider
+class LogServiceProvider extends ServiceProvider
 {
     public function register()
     {
