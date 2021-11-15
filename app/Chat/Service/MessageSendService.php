@@ -44,9 +44,11 @@ class MessageSendService
         return [];
     }
 
+    /**
+     * @todo needs refactoring
+     */
     private function createLogMessageIfNeeded(): void
     {
-        $test = $this->getUserTodayMessagesCount();
         if ($this->getUserTodayMessagesCount() > 1) {
             return;
         }
@@ -56,7 +58,7 @@ class MessageSendService
 
     private function getUserTodayMessagesCount(): int
     {
-        return ChatMessage::where('user_id', auth()->user()->id)->whereDate('created_at', Carbon::today())->count();
+        return auth()->user()->chatMessages()->whereDate('created_at', Carbon::today())->count();
     }
 
     /**
@@ -81,7 +83,7 @@ class MessageSendService
 
     private function getActionLog(): Log
     {
-        $message = 'Vartotojas {username} parašė savo pirmąjį komentą šiandien';
+        $message = 'Vartotojas {username} parašė savo pirmąjį komentarą šiandien';
         $context = [
             'username' => auth()->user()->username,
         ];
