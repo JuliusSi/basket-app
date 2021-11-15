@@ -61,7 +61,9 @@ class SmsNotifier implements NotifierInterface
     {
         $messageRequests = [];
         foreach ($notifications as $notification) {
-            $messageRequests[] = $this->buildMessageRequest($notification);
+            if ($notification->getSmsRecipients()) {
+                $messageRequests[] = $this->buildMessageRequest($notification);
+            }
         }
 
         return $messageRequests;
