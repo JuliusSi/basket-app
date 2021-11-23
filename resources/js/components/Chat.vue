@@ -11,12 +11,12 @@
                 <li class="list-group-item active">{{ 'main.comments.online_users' | trans }}</li>
                 <li class="list-group-item" v-for="user in users">
                     {{ user.username }} <span v-if="user.typing">{{ 'main.comments.typing' | trans }}</span>
-                    </li>
+                </li>
             </ul>
             <chat-messages :messages="messages"></chat-messages>
             <ul class="list-unstyled">
                 <li v-for="typingUser in getTypingUsers">
-                    {{ typingUser.username }}   {{ 'main.comments.typing' | trans }}
+                    {{ typingUser.username }} {{ 'main.comments.typing' | trans }}
                 </li>
             </ul>
         </div>
@@ -50,6 +50,9 @@
 </template>
 
 <script>
+let myTrack = new Audio('sound/received.mp3');
+let MESSAGE_COUNT = 15;
+
 export default {
     props: ['user'],
 
@@ -75,6 +78,24 @@ export default {
     },
     created() {
         this.fetchMessages(1);
+
+        Echo.private('chat')
+            .listen('ChatMessageSent', (e) => {
+                myTrack.play();
+                this.messages.push({
+                    message: e.message.message,
+                    user: e.user
+                });
+                if (this.messages.length > MESSAGE_COUNT) {
+                    this.fetchMessages();
+                }
+                this.users.forEach((user, index) => {
+                    if (user.id === e.user.id) {
+                        user.typing = false;
+                        this.$set(this.users, index, user);
+                    }
+                });
+            });
 
         Echo.join('chat')
             .here(users => {
@@ -102,15 +123,6 @@ export default {
                     }
                 });
             })
-            .listenForWhisper('message-sent', (message) => {
-                this.fetchMessages();
-                this.users.forEach((user, index) => {
-                    if (user.id === message.user.id) {
-                        user.typing = false;
-                        this.$set(this.users, index, user);
-                    }
-                });
-            });
     },
 
     methods: {
@@ -135,7 +147,6 @@ export default {
                 }
             });
         },
-
         addMessage(message) {
             axios.post('api/comment', message, {
                 headers: {
@@ -143,9 +154,11 @@ export default {
                     Accept: 'application/json',
                 },
             }).then(response => {
-                    this.errors = [];
-                    this.fetchMessages(1);
-                    Echo.join('chat').whisper('message-sent', message);
+                this.errors = [];
+                this.messages.push(message);
+                if (this.messages.length > MESSAGE_COUNT) {
+                    this.fetchMessages();
+                }
             }).catch(error => {
                 this.errors = error.response.data.errors.message;
             });
