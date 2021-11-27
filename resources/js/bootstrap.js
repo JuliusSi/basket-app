@@ -37,8 +37,5 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: '5a7a73a1265d398ac9c0',
     cluster: 'eu',
-    forceTLS: true,
-    wsHost: 'weatherapp',
-    wsPort: 6001,
-    disableStats: true,
+    encrypted: true,
 });

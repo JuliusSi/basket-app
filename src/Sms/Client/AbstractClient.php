@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Sms\Client;
 
 use Core\Helpers\Traits\RequestOptionsBuildingTrait;
@@ -11,6 +13,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
 use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
+use Src\Sms\Exception\SmsSendingException;
 
 /**
  * Class AbstractClient
@@ -40,7 +43,7 @@ abstract class AbstractClient
      * @param  string  $class
      *
      * @return mixed
-     * @throws Exception
+     * @throws SmsSendingException
      */
     public function getDeserializedResponse(RequestInterface $request, string $class): mixed
     {
@@ -54,7 +57,7 @@ abstract class AbstractClient
     /**
      * @param  RequestInterface  $request
      * @return ResponseInterface
-     * @throws Exception
+     * @throws SmsSendingException
      */
     private function getResponse(RequestInterface $request): ResponseInterface
     {
@@ -64,7 +67,7 @@ abstract class AbstractClient
                 'Sms message sending is enabled only for prod env. Current env: %s. Request: %s.',
                 $environment, $request->getBody()
             );
-            $this->logAndThrowException($message, Exception::class);
+            $this->logAndThrowException($message, SmsSendingException::class);
         }
 
         return $this->getRawResponse($request);
@@ -81,20 +84,20 @@ abstract class AbstractClient
             return $this->call($request);
         } catch (GuzzleException $exception) {
             $message = sprintf('Cannot get response from %s. %s', $request->getUri(), $exception->getMessage());
-            $this->logAndThrowException($message, Exception::class);
+            $this->logAndThrowException($message, SmsSendingException::class);
         }
     }
 
     /**
      * @param  RequestInterface  $request
      * @param  string|null  $content
-     * @throws Exception
+     * @throws SmsSendingException
      */
     private function handleResponse(RequestInterface $request, ?string $content): void
     {
         if (!$content) {
             $message = sprintf('Empty response from %s.', $request->getUri());
-            $this->logAndThrowException($message, Exception::class);
+            $this->logAndThrowException($message, SmsSendingException::class);
         }
         $message = sprintf('Request: %s, Response: %s', $request->getBody(), $content);
         Log::channel('client')->info($message);
@@ -113,11 +116,11 @@ abstract class AbstractClient
     /**
      * @param  string  $message
      * @param  string  $exception
-     * @throws Exception
+     * @throws SmsSendingException
      */
     private function logAndThrowException(string $message, string $exception): void
     {
         Log::channel('client')->info($message);
-        throw new $exception;
+        throw new $exception();
     }
 }

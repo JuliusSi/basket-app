@@ -7,16 +7,20 @@
             {{ 'main.comments.header' | trans }}
         </div>
         <div class="card-body" v-if="!loading">
-            <ul class="list-group mb-3" v-if="showOnlineUsers">
-                <li class="list-group-item active">{{ 'main.comments.online_users' | trans }}</li>
+            <ul class="list-group mb-4" v-if="showOnlineUsers">
+                <li class="list-group-item active">
+                    <font-awesome-icon :icon="['fa', 'users']" style="color: green;" class="fa-icon"
+                                       fixed-width/>
+                    {{ 'main.comments.online_users' | trans }}</li>
                 <li class="list-group-item" v-for="user in users">
-                    {{ user.username }} <span v-if="user.typing">{{ 'main.comments.typing' | trans }}</span>
-                    </li>
+                    <font-awesome-icon :icon="['fa', 'user']" class="fa-icon"
+                                       fixed-width/>  {{ user.username }} <span v-if="user.typing">{{ 'main.comments.typing' | trans }}</span>
+                </li>
             </ul>
             <chat-messages :messages="messages"></chat-messages>
             <ul class="list-unstyled">
                 <li v-for="typingUser in getTypingUsers">
-                    {{ typingUser.username }}   {{ 'main.comments.typing' | trans }}
+                    {{ typingUser.username }} {{ 'main.comments.typing' | trans }}
                 </li>
             </ul>
         </div>
@@ -50,6 +54,12 @@
 </template>
 
 <script>
+let newMessageTrack = new Audio('sound/received.mp3');
+let joinedTrack = new Audio('sound/joined.wav');
+
+let tracks = [newMessageTrack];
+let MESSAGE_COUNT = 12;
+
 export default {
     props: ['user'],
 
@@ -76,12 +86,32 @@ export default {
     created() {
         this.fetchMessages(1);
 
+        Echo.private('chat')
+            .listen('ChatMessageSent', (e) => {
+                newMessageTrack.play();
+                this.messages.push({
+                    message: e.message.message,
+                    user: e.user
+                });
+                this.messages.shift();
+                if (this.messages.length > MESSAGE_COUNT) {
+                    this.fetchMessages();
+                }
+                this.users.forEach((user, index) => {
+                    if (user.id === e.user.id) {
+                        user.typing = false;
+                        this.$set(this.users, index, user);
+                    }
+                });
+            });
+
         Echo.join('chat')
             .here(users => {
                 this.users = users;
             })
             .joining(user => {
                 this.users.push(user);
+                joinedTrack.play();
             })
             .leaving(user => {
                 this.users = this.users.filter(u => u.id !== user.id);
@@ -102,15 +132,6 @@ export default {
                     }
                 });
             })
-            .listenForWhisper('message-sent', (message) => {
-                this.fetchMessages();
-                this.users.forEach((user, index) => {
-                    if (user.id === message.user.id) {
-                        user.typing = false;
-                        this.$set(this.users, index, user);
-                    }
-                });
-            });
     },
 
     methods: {
@@ -135,7 +156,6 @@ export default {
                 }
             });
         },
-
         addMessage(message) {
             axios.post('api/comment', message, {
                 headers: {
@@ -143,9 +163,12 @@ export default {
                     Accept: 'application/json',
                 },
             }).then(response => {
-                    this.errors = [];
-                    this.fetchMessages(1);
-                    Echo.join('chat').whisper('message-sent', message);
+                this.errors = [];
+                this.messages.push(message);
+                this.messages.shift();
+                if (this.messages.length > MESSAGE_COUNT) {
+                    this.fetchMessages();
+                }
             }).catch(error => {
                 this.errors = error.response.data.errors.message;
             });

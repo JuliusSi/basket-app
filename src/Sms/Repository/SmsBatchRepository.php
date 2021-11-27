@@ -6,6 +6,7 @@ use Exception;
 use Src\Sms\Client\DefaultClient;
 use Src\Sms\Client\Request\MessagesRequest;
 use Src\Sms\Client\Response\BatchSmsResponse;
+use Src\Sms\Exception\SmsSendingException;
 use Src\Sms\Model\MessageBag;
 
 /**
@@ -31,7 +32,7 @@ class SmsBatchRepository
     /**
      * @param  MessageBag  $messageBag
      * @return BatchSmsResponse
-     * @throws Exception
+     * @throws SmsSendingException
      */
     public function sendMessages(MessageBag $messageBag): BatchSmsResponse
     {

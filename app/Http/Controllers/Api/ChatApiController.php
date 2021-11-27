@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Chat\Service\MessageSendService;
+use App\Chat\Service\MessageSendingService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChatMessageStoreRequest;
 use App\Model\ChatMessage;
@@ -26,11 +26,13 @@ class ChatApiController extends Controller
 
     /**
      * @param  ChatMessageStoreRequest  $request
-     * @param  MessageSendService  $messageSendService
+     * @param  MessageSendingService  $messageSendService
      * @return array
      */
-    public function sendMessage(ChatMessageStoreRequest $request, MessageSendService $messageSendService): array
+    public function sendMessage(ChatMessageStoreRequest $request, MessageSendingService $messageSendService): array
     {
-        return $messageSendService->send($request);
+        $messageSendService->send(auth()->user(), $request->get('message'));
+
+        return [];
     }
 }
