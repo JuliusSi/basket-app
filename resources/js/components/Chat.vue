@@ -7,10 +7,14 @@
             {{ 'main.comments.header' | trans }}
         </div>
         <div class="card-body" v-if="!loading">
-            <ul class="list-group mb-3" v-if="showOnlineUsers">
-                <li class="list-group-item active">{{ 'main.comments.online_users' | trans }}</li>
+            <ul class="list-group mb-4" v-if="showOnlineUsers">
+                <li class="list-group-item active">
+                    <font-awesome-icon :icon="['fa', 'users']" style="color: green;" class="fa-icon"
+                                       fixed-width/>
+                    {{ 'main.comments.online_users' | trans }}</li>
                 <li class="list-group-item" v-for="user in users">
-                    {{ user.username }} <span v-if="user.typing">{{ 'main.comments.typing' | trans }}</span>
+                    <font-awesome-icon :icon="['fa', 'user']" class="fa-icon"
+                                       fixed-width/>  {{ user.username }} <span v-if="user.typing">{{ 'main.comments.typing' | trans }}</span>
                 </li>
             </ul>
             <chat-messages :messages="messages"></chat-messages>
@@ -50,8 +54,11 @@
 </template>
 
 <script>
-let myTrack = new Audio('sound/received.mp3');
-let MESSAGE_COUNT = 15;
+let newMessageTrack = new Audio('sound/received.mp3');
+let joinedTrack = new Audio('sound/joined.wav');
+
+let tracks = [newMessageTrack];
+let MESSAGE_COUNT = 12;
 
 export default {
     props: ['user'],
@@ -81,11 +88,12 @@ export default {
 
         Echo.private('chat')
             .listen('ChatMessageSent', (e) => {
-                myTrack.play();
+                newMessageTrack.play();
                 this.messages.push({
                     message: e.message.message,
                     user: e.user
                 });
+                this.messages.shift();
                 if (this.messages.length > MESSAGE_COUNT) {
                     this.fetchMessages();
                 }
@@ -103,6 +111,7 @@ export default {
             })
             .joining(user => {
                 this.users.push(user);
+                joinedTrack.play();
             })
             .leaving(user => {
                 this.users = this.users.filter(u => u.id !== user.id);
@@ -156,6 +165,7 @@ export default {
             }).then(response => {
                 this.errors = [];
                 this.messages.push(message);
+                this.messages.shift();
                 if (this.messages.length > MESSAGE_COUNT) {
                     this.fetchMessages();
                 }

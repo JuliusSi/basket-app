@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Notifier\Collection;
 
+use App\Chat\Service\MessageSendingService;
 use App\Model\User;
 use App\Notifier\Model\Notification;
 
-/**
- * Class ChatNotifier
- * @package App\Notifier\Collection
- */
 class ChatNotifier implements NotifierInterface
 {
+    public function __construct(private MessageSendingService $messageSendService)
+    {
+    }
+
     /**
      * @param  Notification[]  $notifications
      */
@@ -23,17 +24,17 @@ class ChatNotifier implements NotifierInterface
             return;
         }
 
-        $this->saveMessages($notifications, $user);
+        $this->sendChatMessages($notifications, $user);
     }
 
     /**
      * @param  Notification[]  $notifications
      * @param  User  $user
      */
-    private function saveMessages(array $notifications, User $user): void
+    private function sendChatMessages(array $notifications, User $user): void
     {
         foreach ($notifications as $notification) {
-            $this->saveMessage($notification, $user);
+            $this->sendChatMessage($notification, $user);
         }
     }
 
@@ -41,10 +42,8 @@ class ChatNotifier implements NotifierInterface
      * @param  Notification  $notification
      * @param  User  $user
      */
-    private function saveMessage(Notification $notification, User $user): void
+    private function sendChatMessage(Notification $notification, User $user): void
     {
-        $user->chatMessages()->create([
-            'message' => $notification->getContent(),
-        ]);
+        $this->messageSendService->send($user, $notification->getContent());
     }
 }
