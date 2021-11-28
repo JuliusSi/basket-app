@@ -47,7 +47,7 @@ abstract class AbstractClient
     public function getResponse(RequestInterface $request): string
     {
         $environment = App::environment();
-        if ($environment !== 'local') {
+        if ($environment !== 'prod') {
             $message = sprintf(
                 'Sms message sending is enabled only for prod env. Current env: %s. Request: %s.',
                 $environment, $request->getBody()
