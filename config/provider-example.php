@@ -13,5 +13,8 @@ return [
     'd7sms_rapid_api_key' => '',
     'd7sms_rapid_sms_api_token' => '',
     'd7sms_rapid_sms_verify_api_token' => '',
+    'e_sms_api_endpoint' => '',
+    'e_sms_email' => '',
+    'e_sms_password' => '',
     'alpha_charlie_api_endpoint' => '',
 ];

@@ -45,6 +45,22 @@ class VerifyRequest extends AbstractRequest
     }
 
     /**
+     * @return array
+     */
+    public function getQuery(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return 'POST';
+    }
+
+    /**
      * @return Verification
      */
     public function getVerification(): Verification

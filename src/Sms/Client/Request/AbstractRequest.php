@@ -18,27 +18,11 @@ abstract class AbstractRequest implements StatsAwareRequestInterface
     protected const DEFAULT_CONNECTION_TIMEOUT = 2;
 
     /**
-     * @return string
-     */
-    public function getMethod(): string
-    {
-        return 'POST';
-    }
-
-    /**
      * @return int
      */
     public function getConnectionTimeOut(): int
     {
         return self::DEFAULT_CONNECTION_TIMEOUT;
-    }
-
-    /**
-     * @return array
-     */
-    public function getQuery(): array
-    {
-        return [];
     }
 
     /**
