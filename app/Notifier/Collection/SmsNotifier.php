@@ -36,6 +36,5 @@ class SmsNotifier implements NotifierInterface
         } catch (SmsSendingException $exception) {
             // needs handling?
         }
-
     }
 }

@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Sms\Client\Request;
 
 use Src\Sms\Model\MessageBag;
 
-/**
- * Class MessagesRequest
- * @package Src\Sms\Client\Request
- */
-class MessagesRequest extends AbstractRequest
+class D7SmsRequest extends AbstractRequest
 {
     /**
      * @var MessageBag $messageBag
@@ -37,6 +35,22 @@ class MessagesRequest extends AbstractRequest
     public function getUri(): string
     {
         return config('provider.d7sms_rapid_send_batch_api_endpoint');
+    }
+
+    /**
+     * @return array
+     */
+    public function getQuery(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return 'POST';
     }
 
     /**

@@ -645,7 +645,7 @@ pre code {
         max-width: 960px
     }
     .chat-list .chat-body {
-        width: 70%;
+        width: 80%;
     }
     #basketball-courts .court-item figure {
         height: 170px;
@@ -666,7 +666,7 @@ pre code {
         max-width: 1140px
     }
     .chat-list .chat-body {
-        width: 70%;
+        width: 80%;
     }
     #basketball-courts .court-item figure {
         height: 260px;
@@ -11262,6 +11262,16 @@ th {
     padding: 0;
 }
 
+.chat-list .chat-message p img {
+    margin: 5px;
+    border-radius: 10px;
+    width: 70%;
+}
+
+.chat-list .chat-message p img:hover {
+    cursor: pointer;
+}
+
 .chat-list .chat-body {
     margin-left: 5px;
     float: left;
@@ -11426,5 +11436,9 @@ th {
 .modal-wrapper {
     display: table-cell;
     vertical-align: middle;
+}
+
+.full {
+    width: 100% !important;
 }
 
