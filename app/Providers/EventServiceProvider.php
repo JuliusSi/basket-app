@@ -7,6 +7,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use \Core\Logger\Event\ActionDone;
+use Src\Sms\Event\ESmsCreated;
+use Src\Sms\Listener\SendESms;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ActionDone::class => [
             LogAction::class,
+        ],
+        ESmsCreated::class => [
+          SendESms::class,
         ],
     ];
 

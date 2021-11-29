@@ -12,7 +12,7 @@ use Src\Sms\Model\Message;
 use Src\Sms\Model\MessageBag;
 use Src\Sms\Repository\D7SmsRepository;
 
-class D7SmsSendingService implements SmsSendingService
+class D7SmsSendingService extends AbstractSmsSendingService implements SmsSendingService
 {
     use StringToBinaryConverter;
 
@@ -32,14 +32,11 @@ class D7SmsSendingService implements SmsSendingService
      */
     public function send(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void
     {
-        if (!$sender || !$recipients || !$messages) {
-            throw new SmsSendingException('sender, recipients, messages must be filled');
-        }
-
         if ($dateToSend) {
-            throw new SmsSendingException('D7 not supporting this parameter');
+            throw new SmsSendingException('D7 provider not supporting dateToSend parameter');
         }
 
+        $this->validate($sender, $recipients, $messages);
         $this->sendMessages($this->buildMessageBag($sender, $recipients, $messages));
     }
 
