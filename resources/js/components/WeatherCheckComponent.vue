@@ -10,6 +10,9 @@
             <div class="alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
                 <h2 class="alert-heading">{{ 'weather-rules.success' | trans }}</h2>
             </div>
+            <div class="alert alert-danger fadeIn text-center" role="alert" v-if="exception">
+                <h2 class="alert-heading">{{ exception }}</h2>
+            </div>
             <div class="alert alert-danger fadeIn" role="alert" v-if="status === STATUS_NOT_OK">
                 <h2 class="alert-heading">{{ 'weather-rules.error' | trans }}</h2>
                 <ul class="list">
@@ -61,6 +64,7 @@ export default {
             places: null,
             selectedStartDate: null,
             selectedEndDate: null,
+            exception: null,
         }
     },
     props: ['user'],
@@ -78,7 +82,7 @@ export default {
             };
             this.axios.get('/api/weather/warnings', {
                 params: params,
-                headers : {
+                headers: {
                     Authorization: `Bearer ${this.user.api_token}`,
                     Accept: 'application/json',
                 },
@@ -93,10 +97,9 @@ export default {
                     }
                 })
                 .catch(error => {
+                    this.loading = false;
                     console.log(error.response.data);
-                    this.status = STATUS_NOT_OK;
-                    const message = {translatedMessage: error.response.data.message};
-                    this.warnings.push(message);
+                    this.exception = error.response.data.message;
                 });
         },
         getAvailablePlaces() {

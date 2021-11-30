@@ -55,22 +55,27 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
      */
     private function getNotification(): ?Notification
     {
-        try {
-            $warnings = $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
-        } catch (Exception $exception) {
+        $weatherWarnings = $this->getWarnings();
+        if ($weatherWarnings === null) {
             return null;
-        }
-        if (!$warnings) {
-            return $this->buildNotification(
-                __('weather-rules.success'),
-                $this->getFileUrl(config('memes.jr_smith_reaction_gif_url'))
-            );
         }
 
         return $this->buildNotification(
-            $this->getBadWeatherMessage($warnings),
+            $this->getBadWeatherMessage($weatherWarnings),
             $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url'))
         );
+    }
+
+    /**
+     * @return Warning[]|null
+     */
+    private function getWarnings(): ?array
+    {
+        try {
+            return $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
+        } catch (Exception $exception) {
+            return null;
+        }
     }
 
     /**
