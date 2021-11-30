@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
+use Exception;
 
 /**
  * Class WeatherForBasketBallNotificationService
@@ -42,15 +43,23 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
      */
     public function getNotifications(): array
     {
-        return [$this->getNotification()];
+        if (!$notification = $this->getNotification()) {
+            return [];
+        }
+
+        return [$notification];
     }
 
     /**
-     * @return Notification
+     * @return Notification|null
      */
-    private function getNotification(): Notification
+    private function getNotification(): ?Notification
     {
-        $warnings = $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
+        try {
+            $warnings = $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
+        } catch (Exception $exception) {
+            return null;
+        }
         if (!$warnings) {
             return $this->buildNotification(
                 __('weather-rules.success'),
@@ -108,6 +117,8 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
     /**
      * @param  string  $placeCode
      * @return Warning[]
+     *
+     * @throws Exception
      */
     private function checkWeather(string $placeCode): array
     {

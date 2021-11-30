@@ -2,6 +2,7 @@
 
 namespace App\WeatherChecker\Service;
 
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\ForecastTimestamp;
@@ -29,17 +30,13 @@ class WeatherForBasketBallService
     }
 
     /**
-     * @param  string  $placeCode
-     * @param  string  $startDateTime
-     * @param  string  $endDateTime
      * @return ForecastTimestamp[]
+     *
+     * @throws Exception
      */
     public function getFilteredForecasts(string $placeCode, string $startDateTime, string $endDateTime): array
     {
         $response = $this->getWeatherInformation($placeCode);
-        if (!$response) {
-            return [];
-        }
 
         return $this->filterWeatherInformation($response, $startDateTime, $endDateTime);
     }
@@ -81,16 +78,17 @@ class WeatherForBasketBallService
 
     /**
      * @param  string  $placeCode
-     * @return Response|null
+     * @return Response
+     * @throws Exception
      */
-    private function getWeatherInformation(string $placeCode): ?Response
+    private function getWeatherInformation(string $placeCode): Response
     {
         try {
             return $this->cachedWeatherRepository->find($placeCode);
         } catch (GuzzleException $exception) {
             Log::warning(sprintf('Can not get response from meteo. %s', $exception->getMessage()));
 
-            return null;
+            throw new Exception(__('weather.exception'));
         }
     }
 }

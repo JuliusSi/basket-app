@@ -94,6 +94,9 @@ export default {
                 })
                 .catch(error => {
                     console.log(error.response.data);
+                    this.status = STATUS_NOT_OK;
+                    const message = {translatedMessage: error.response.data.message};
+                    this.warnings.push(message);
                 });
         },
         getAvailablePlaces() {
