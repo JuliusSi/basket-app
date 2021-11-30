@@ -8,6 +8,7 @@ use App\Model\BasketballCourt;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
@@ -77,11 +78,15 @@ class BasketballCourtsCollection extends ResourceCollection
         $endDateTime = $this->getCheckEndDateTime();
         $startDateTime = $this->getStartDate();
 
-        return $this->weatherCheckManager->manage(
-            $placeCode,
-            $startDateTime,
-            $endDateTime
-        );
+        try {
+            return $this->weatherCheckManager->manage(
+                $placeCode,
+                $startDateTime,
+                $endDateTime
+            );
+        } catch (Exception $exception) {
+            return [$exception->getMessage()];
+        }
     }
 
     /**

@@ -10,6 +10,7 @@ use App\WeatherChecker\Collection\CheckerInterface;
 use App\WeatherChecker\Collector\WarningCollector;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
@@ -55,6 +56,8 @@ class WeatherCheckManager
      * @param  string  $startDateTime
      * @param  string  $endDateTime
      * @return Warning[]
+     *
+     * @throws Exception
      */
     public function manage(?string $placeCode, string $startDateTime, string $endDateTime): array
     {
@@ -70,6 +73,8 @@ class WeatherCheckManager
      * @param  string  $startDateTime
      * @param  string  $endDateTime
      * @return Warning[]
+     *
+     * @throws Exception
      */
     private function getCachedWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
     {
@@ -91,6 +96,8 @@ class WeatherCheckManager
      * @param  string  $startDateTime
      * @param  string  $endDateTime
      * @return Warning[]
+     *
+     * @throws Exception
      */
     private function getWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
     {
@@ -125,6 +132,8 @@ class WeatherCheckManager
      * @param  string  $startDateTime
      * @param  string  $endDateTime
      * @return ForecastTimestamp[]
+     *
+     * @throws Exception
      */
     private function getFilteredForecasts(string $placeCode, string $startDateTime, string $endDateTime): array
     {

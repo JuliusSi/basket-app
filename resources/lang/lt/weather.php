@@ -22,4 +22,5 @@ return [
         'marijampole' => 'Marijampolė',
         'raseiniai' => 'Raseiniai',
     ],
+    'exception' => 'Nepavyksta gauti informacijos apie orus, prašome pamėginti vėliau.'
 ];

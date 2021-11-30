@@ -63,8 +63,11 @@
                                 {{ 'main.basketball-courts.weather_in_court' | trans }}
                             </h2>
                         </div>
-                        <div class="text-center fadeIn" role="alert" v-if="!weatherWarnings.length">
+                        <div class="text-center fadeIn" role="alert" v-if="status === STATUS_OK">
                             <h2 class="alert-heading">{{ 'weather-rules.success' | trans }}</h2>
+                        </div>
+                        <div class="fadeIn text-center" role="alert" v-if="exception">
+                            <h2 class="alert-heading">{{ exception }}</h2>
                         </div>
                         <div class="fadeIn" role="alert" v-if="weatherWarnings.length">
                             <h2 class="alert-heading">{{ 'weather-rules.error' | trans }}</h2>
@@ -84,14 +87,20 @@
 <script>
 import VueLoadImage from 'vue-load-image';
 import moment from "moment";
+const STATUS_OK = 'OK';
+const STATUS_NOT_OK = 'NOT_OK';
 
 export default {
     data() {
         return {
+            STATUS_NOT_OK: STATUS_NOT_OK,
+            STATUS_OK: STATUS_OK,
             loading: false,
             court: null,
             weatherWarnings: [],
             showCreateArrivalModal: false,
+            exception: null,
+            status: null,
         }
     },
     components: {
@@ -152,7 +161,9 @@ export default {
                     }
                 })
                 .catch(error => {
-                    console.log(error.response);
+                    this.loading = false;
+                    console.log(error.response.data);
+                    this.exception = error.response.data.message;
                 });
         },
     },

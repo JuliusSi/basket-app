@@ -11,8 +11,8 @@
                 <li class="list-group-item active">
                     <font-awesome-icon :icon="['fa', 'users']" style="color: green;" class="fa-icon"
                                        fixed-width/>
-                    {{ 'main.comments.online_users' | trans }}</li>
-                <li class="list-group-item" v-for="user in users">
+                    {{ 'main.comments.online_users' | trans }} ({{ this.users.length }})</li>
+                <li v-if="users.length < 6" class="list-group-item" v-for="user in users">
                     <font-awesome-icon :icon="['fa', 'user']" class="fa-icon"
                                        fixed-width/>  {{ user.username }} <span v-if="user.typing">{{ 'main.comments.typing' | trans }}</span>
                 </li>
@@ -80,7 +80,7 @@ export default {
             });
         },
         showOnlineUsers() {
-            return this.users.length > 1 && this.users.length < 6;
+            return this.users.length > 1;
         },
     },
     created() {

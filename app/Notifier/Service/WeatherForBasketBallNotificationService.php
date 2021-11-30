@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
+use Exception;
 
 /**
  * Class WeatherForBasketBallNotificationService
@@ -42,26 +43,39 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
      */
     public function getNotifications(): array
     {
-        return [$this->getNotification()];
+        if (!$notification = $this->getNotification()) {
+            return [];
+        }
+
+        return [$notification];
     }
 
     /**
-     * @return Notification
+     * @return Notification|null
      */
-    private function getNotification(): Notification
+    private function getNotification(): ?Notification
     {
-        $warnings = $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
-        if (!$warnings) {
-            return $this->buildNotification(
-                __('weather-rules.success'),
-                $this->getFileUrl(config('memes.jr_smith_reaction_gif_url'))
-            );
+        $weatherWarnings = $this->getWarnings();
+        if ($weatherWarnings === null) {
+            return null;
         }
 
         return $this->buildNotification(
-            $this->getBadWeatherMessage($warnings),
+            $this->getBadWeatherMessage($weatherWarnings),
             $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url'))
         );
+    }
+
+    /**
+     * @return Warning[]|null
+     */
+    private function getWarnings(): ?array
+    {
+        try {
+            return $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
+        } catch (Exception $exception) {
+            return null;
+        }
     }
 
     /**
@@ -108,6 +122,8 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
     /**
      * @param  string  $placeCode
      * @return Warning[]
+     *
+     * @throws Exception
      */
     private function checkWeather(string $placeCode): array
     {
