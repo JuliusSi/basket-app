@@ -9,7 +9,8 @@ up:
 down:
 	cd ${DOCKER_DIR} && docker-compose down
 
-start: copy_config_files composer_install npm_install db_refresh generate_translations npm_run_dev
+# run this command only for first time
+start: copy_config_files composer_install npm_install db_refresh generate_translations npm_run_dev generate_app_key
 
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
@@ -78,6 +79,9 @@ cache_clear:
 
 run_tests:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan test
+
+generate_app_key:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan key:generate
 
 copy_config_files:
 	cp .env.example .env
