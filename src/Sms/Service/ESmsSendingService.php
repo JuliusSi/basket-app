@@ -8,10 +8,11 @@ use DateTime;
 use Src\Sms\Exception\SmsSendingException;
 use Src\Sms\Model\ESms;
 use Src\Sms\Repository\ESmsRepository;
+use Src\Sms\Validator\SmsValidator;
 
-class ESmsSendingService extends AbstractSmsSendingService implements SmsSendingService
+class ESmsSendingService implements SmsSendingService
 {
-    public function __construct(private ESmsRepository $smsRepository)
+    public function __construct(private ESmsRepository $smsRepository, private SmsValidator $smsValidator)
     {
     }
 
@@ -42,14 +43,14 @@ class ESmsSendingService extends AbstractSmsSendingService implements SmsSending
         $smsModels = [];
         foreach ($recipients as $recipient) {
             foreach ($messages as $message) {
-                $smsModels[] = $this->buildSms($sender, $recipient, $message, $dateToSend);
+                $smsModels[] = $this->createESms($sender, $recipient, $message, $dateToSend);
             }
         }
 
         return $smsModels;
     }
 
-    private function buildSms(string $sender, string $recipient, string $message, ?DateTime $dateToSend): ESms
+    private function createESms(string $sender, string $recipient, string $message, ?DateTime $dateToSend): ESms
     {
         return ESms::create(
             sender: $sender,
@@ -57,5 +58,16 @@ class ESmsSendingService extends AbstractSmsSendingService implements SmsSending
             content: $message,
             dateWhenToSend: $dateToSend,
         );
+    }
+
+    /**
+     * @param  string[]  $recipients
+     * @param  string[]  $messages
+     *
+     * @throws SmsSendingException
+     */
+    private function validate(string $sender, array $recipients, array $messages): void
+    {
+        $this->smsValidator->validate($sender, $recipients, $messages);
     }
 }

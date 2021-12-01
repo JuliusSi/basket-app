@@ -22,7 +22,7 @@ class SmsSendingCommand extends Command
     public function handle(): void
     {
         $sender = $this->ask('Enter sender name');
-        $recipient = $this->ask('Enter receiver phone number(370)');
+        $recipient = $this->ask('Enter recipient phone number(370)');
         $message = $this->ask('Enter message');
 
         $this->sendSms($sender, $recipient, $message);
