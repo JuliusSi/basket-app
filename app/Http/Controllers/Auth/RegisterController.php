@@ -88,6 +88,7 @@ class RegisterController extends Controller
                 'username' => ['required', 'string', 'min:4', 'max:20', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
                 'email' => ['required', 'string', 'email', 'max:50', 'unique:user'],
 //            'phone' => ['required', 'digits:11', 'unique:user', new PhoneCode()],
+                'g-recaptcha-response' => 'required|captcha',
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]
         );

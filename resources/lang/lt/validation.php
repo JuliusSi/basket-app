@@ -134,6 +134,10 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'g-recaptcha-response' => [
+            'required' => 'Kad ir kaip kvailai nuskambėtų, bet prašome pativrtinti, kad nesate robotas.',
+            'captcha' => 'Nepavyko įrodyti, kad nesate robotas.',
+        ],
     ],
 
     /*
