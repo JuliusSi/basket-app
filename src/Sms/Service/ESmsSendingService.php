@@ -51,12 +51,11 @@ class ESmsSendingService extends AbstractSmsSendingService implements SmsSending
 
     private function buildSms(string $sender, string $recipient, string $message, ?DateTime $dateToSend): ESms
     {
-        $model = new ESms();
-        $model->setContent($message);
-        $model->setRecipient($recipient);
-        $model->setSender($sender);
-        $model->setDateWhenToSend($dateToSend);
-
-        return $model;
+        return ESms::create(
+            sender: $sender,
+            recipient: $recipient,
+            content: $message,
+            dateWhenToSend: $dateToSend,
+        );
     }
 }

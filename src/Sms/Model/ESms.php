@@ -8,111 +8,54 @@ use DateTime;
 
 class ESms
 {
-    private string $sender;
+    public function __construct(
+        private string $sender,
+        private string $recipient,
+        private string $content,
+        private ?DateTime $dateWhenToSend = null,
+        private ?int $group = null,
+        private ?string $callbackLink = null,
+    ) {
+    }
 
-    private string $recipient;
+    public static function create(
+        string $sender,
+        string $recipient,
+        string $content,
+        ?DateTime $dateWhenToSend = null,
+        ?int $group = null,
+        ?string $callbackLink = null,
+    ):self {
+        return new self($sender, $recipient, $content, $dateWhenToSend, $group, $callbackLink);
+    }
 
-    private string $content;
-
-    private ?DateTime $dateWhenToSend = null;
-
-    private ?int $group = null;
-
-    private ?string $callbackLink = null;
-
-    /**
-     * @return string
-     */
-    public function getSender(): string
+    public function sender(): string
     {
         return $this->sender;
     }
 
-    /**
-     * @param  string  $sender
-     */
-    public function setSender(string $sender): void
-    {
-        $this->sender = $sender;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRecipient(): string
+    public function recipient(): string
     {
         return $this->recipient;
     }
 
-    /**
-     * @param  string  $recipient
-     */
-    public function setRecipient(string $recipient): void
-    {
-        $this->recipient = $recipient;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContent(): string
+    public function content(): string
     {
         return $this->content;
     }
 
-    /**
-     * @param  string  $content
-     */
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getDateWhenToSend(): ?DateTime
+    public function whenToSend(): ?DateTime
     {
         return $this->dateWhenToSend;
     }
 
-    /**
-     * @param  DateTime|null  $dateWhenToSend
-     */
-    public function setDateWhenToSend(?DateTime $dateWhenToSend): void
-    {
-        $this->dateWhenToSend = $dateWhenToSend;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getGroup(): ?int
+    public function group(): ?int
     {
         return $this->group;
     }
 
-    /**
-     * @param  int|null  $group
-     */
-    public function setGroup(?int $group): void
-    {
-        $this->group = $group;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCallbackLink(): ?string
+    public function callbackLink(): ?string
     {
         return $this->callbackLink;
-    }
-
-    /**
-     * @param  string|null  $callbackLink
-     */
-    public function setCallbackLink(?string $callbackLink): void
-    {
-        $this->callbackLink = $callbackLink;
     }
 }
