@@ -43,12 +43,12 @@ class ESmsRequest extends AbstractRequest
         return [
             self::PARAM_EMAIL => config('provider.e_sms_email'),
             self::PARAM_PASSWORD => config('provider.e_sms_password'),
-            self::PARAM_SENDER => $this->smsModel->getSender(),
-            self::PARAM_RECIPIENT => $this->smsModel->getRecipient(),
-            self::PARAM_SMS => $this->smsModel->getContent(),
-            self::PARAM_DATE => $this->smsModel->getDateWhenToSend()?->format(self::DATE_FORMAT),
-            self::PARAM_GROUP => $this->smsModel->getGroup(),
-            self::PARAM_CALLBACK => $this->smsModel->getCallbackLink(),
+            self::PARAM_SENDER => $this->smsModel->sender(),
+            self::PARAM_RECIPIENT => $this->smsModel->recipient(),
+            self::PARAM_SMS => $this->smsModel->content(),
+            self::PARAM_DATE => $this->smsModel->whenToSend()?->format(self::DATE_FORMAT),
+            self::PARAM_GROUP => $this->smsModel->group(),
+            self::PARAM_CALLBACK => $this->smsModel->callbackLink(),
         ];
     }
 
