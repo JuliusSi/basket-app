@@ -11,12 +11,13 @@ use Src\Sms\Exception\SmsSendingException;
 use Src\Sms\Model\Message;
 use Src\Sms\Model\MessageBag;
 use Src\Sms\Repository\D7SmsRepository;
+use Src\Sms\Validator\SmsValidator;
 
-class D7SmsSendingService extends AbstractSmsSendingService implements SmsSendingService
+class D7SmsSendingService implements SmsSendingService
 {
     use StringToBinaryConverter;
 
-    public function __construct(private D7SmsRepository $smsBatchRepository)
+    public function __construct(private D7SmsRepository $smsBatchRepository, private SmsValidator $smsValidator)
     {
     }
 
@@ -93,5 +94,16 @@ class D7SmsSendingService extends AbstractSmsSendingService implements SmsSendin
     private function sendMessages(MessageBag $messageBag): ?BatchSmsResponse
     {
         return $this->smsBatchRepository->sendMessages($messageBag);
+    }
+
+    /**
+     * @param  string[]  $recipients
+     * @param  string[]  $messages
+     *
+     * @throws SmsSendingException
+     */
+    private function validate(string $sender, array $recipients, array $messages): void
+    {
+        $this->smsValidator->validate($sender, $recipients, $messages);
     }
 }
