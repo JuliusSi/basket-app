@@ -85,6 +85,7 @@ generate_app_key:
 
 copy_config_files:
 	cp .env.example .env
+	cp env.example-testing .env.testing
 	cp config/seeder-example.php config/seeder.php
 	cp config/weather-example.php config/weather.php
 	cp config/sms-example.php config/sms.php

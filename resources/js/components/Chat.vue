@@ -93,7 +93,9 @@ export default {
                     message: e.message.message,
                     user: e.user
                 });
-                this.messages.shift();
+                if (this.messages.length > 1) {
+                    this.messages.shift();
+                }
                 if (this.messages.length > MESSAGE_COUNT) {
                     this.fetchMessages();
                 }
@@ -165,7 +167,9 @@ export default {
             }).then(response => {
                 this.errors = [];
                 this.messages.push(message);
-                this.messages.shift();
+                if (this.messages.length > 1) {
+                    this.messages.shift();
+                }
                 if (this.messages.length > MESSAGE_COUNT) {
                     this.fetchMessages();
                 }
