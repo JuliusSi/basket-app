@@ -95,7 +95,7 @@ export default {
                     message: e.message.message,
                     user: e.user
                 });
-                if (this.messages.length > 1) {
+                if (this.messages.length > 8) {
                     this.messages.shift();
                 }
                 if (this.messages.length > MESSAGE_COUNT) {
@@ -173,7 +173,7 @@ export default {
             }).then(response => {
                 this.errors = [];
                 this.messages.push(message);
-                if (this.messages.length > 1) {
+                if (this.messages.length > 8) {
                     this.messages.shift();
                 }
                 if (this.messages.length > MESSAGE_COUNT) {
