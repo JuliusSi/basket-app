@@ -43,7 +43,7 @@ class LogTableDeleteOldCommand extends Command
     public function getLog(): Log
     {
         return Log::create(
-            message: '<b>{username}</b> Kodėl aš geriu Vytautą? Nes ką tik bandžiau ištrinti senus įrašus. :D',
+            message: '<b>{username}</b>: Kodėl aš geriu Vytautą? Nes ką tik bandžiau ištrinti senus įrašus. :D',
             context: ['username' => config('seeder.user.username')],
             level: LogLevel::ALERT,
         );

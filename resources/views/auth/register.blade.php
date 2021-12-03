@@ -107,4 +107,4 @@
 @endsection
 @section('script')
     {!! NoCaptcha::renderJs() !!}
-    @endsection
+@endsection
