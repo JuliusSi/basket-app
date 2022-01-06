@@ -29,7 +29,7 @@ class ESmsSendingService implements SmsSendingService
      */
     public function send(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void
     {
-        $this->smsValidator->validate($sender, $recipients, $messages);
+        $this->smsValidator->validate($sender, $recipients, $messages, $dateToSend);
         $smsList = $this->builder->build($sender, $recipients, $messages, $dateToSend);
         $this->smsRepository->sendMessages($smsList);
     }
