@@ -53,7 +53,9 @@ class SmsValidator
             return;
         }
 
-        if (Carbon::instance($dateToSend)->isPast()) {
+        $carbonDate = Carbon::instance($dateToSend);
+
+        if ($carbonDate->isPast()) {
             throw new SmsSendingException('Sending date cannot be in past');
         }
     }

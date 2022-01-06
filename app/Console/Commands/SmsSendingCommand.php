@@ -22,10 +22,12 @@ class SmsSendingCommand extends Command
 
     public function handle(): void
     {
-        $sender = $this->ask('Enter sender name');
+        $sender = $this->ask('Enter sender name', 'test');
         $recipient = $this->ask('Enter recipient phone number (example: 37000000000)');
-        $message = $this->ask('Enter message');
-        $date = $this->ask('Enter date when to send (example: 2009-01-01 22:00:00)');
+        $message = $this->ask('Enter message', 'test');
+        $date = $this->ask(
+            'Enter date when to send (example: 2009-01-01 22:00:00)',
+            now()->addMinute()->format('Y-m-d H:i:s'));
         $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $date);
 
         $this->sendSms($sender, $recipient, $message, $dateTime);
