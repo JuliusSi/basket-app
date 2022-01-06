@@ -17,7 +17,7 @@ class ESmsRepository
     public function sendMessages(array $smsModels): void
     {
         foreach ($smsModels as $smsModel) {
-            event(new ESmsCreated($smsModel));
+            ESmsCreated::dispatch($smsModel)->delay($smsModel->whenToSend());
         }
     }
 }

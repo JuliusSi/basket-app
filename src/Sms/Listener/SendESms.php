@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Src\Sms\Listener;
 
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

@@ -7,6 +7,8 @@ namespace App\WeatherChecker\Collection;
 use Carbon\CarbonInterface;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
+use function in_array;
+
 /**
  * Class AirTemperatureChecker
  * @package App\WeatherChecker\Collection
@@ -45,6 +47,7 @@ class AirTemperatureChecker extends AbstractChecker
 
     /**
      * @param  ForecastTimestamp  $weatherInformation
+     * @param  CarbonInterface  $date
      * @return bool
      */
     private function isToLowAirTemperature(ForecastTimestamp $weatherInformation, CarbonInterface $date): bool
@@ -82,7 +85,7 @@ class AirTemperatureChecker extends AbstractChecker
      */
     private function isClear(ForecastTimestamp $weatherInformation): bool
     {
-        return \in_array(
+        return in_array(
             $weatherInformation->getConditionCode(),
             [
                 ForecastTimestamp::CONDITION_CODE_CLEAR,

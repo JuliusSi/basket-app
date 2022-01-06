@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Sms\Client\Request;
 
 use Core\Helpers\Traits\SerializationTrait;
