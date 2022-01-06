@@ -2,25 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Src\Sms\Listener;
+namespace Src\Sms\Job;
 
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Src\Sms\Client\ESmsClient;
 use Src\Sms\Client\Request\ESmsRequest;
-use Src\Sms\Event\ESmsCreated;
 use Src\Sms\Exception\SmsSendingException;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Src\Sms\Model\ESms;
 
-class SendESms implements ShouldQueue
+class ESmsCreated implements ShouldQueue
 {
+    use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-    use Dispatchable;
 
     /**
      * The number of times the queued listener may be attempted.
@@ -36,15 +35,16 @@ class SendESms implements ShouldQueue
      */
     public $backoff = 30;
 
-    public function __construct(private ESmsClient $client)
+    public function __construct(public ESms $sms)
     {
+        $this->delay($this->sms->whenToSend());
     }
 
     /**
      * @throws SmsSendingException
      */
-    public function handle(ESmsCreated $createdSms): void
+    public function handle(ESmsClient $client): void
     {
-        $this->client->getResponse(new ESmsRequest($createdSms->sms));
+        $client->getResponse(new ESmsRequest($this->sms));
     }
 }

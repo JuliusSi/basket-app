@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import lang from "../lang";
+
 let newMessageTrack = new Audio('sound/received.mp3');
 let joinedTrack = new Audio('sound/joined.wav');
 
@@ -93,7 +95,7 @@ export default {
                     message: e.message.message,
                     user: e.user
                 });
-                if (this.messages.length > 1) {
+                if (this.messages.length > 8) {
                     this.messages.shift();
                 }
                 if (this.messages.length > MESSAGE_COUNT) {
@@ -113,6 +115,10 @@ export default {
             })
             .joining(user => {
                 this.users.push(user);
+                const content = lang.get('main.comments.joined')  + ': ' + user.username + '';
+                const bot = { username: 'Bot',  image_path:"img/bot.png"};
+                const message = { message: content, user: bot };
+                this.messages.push(message);
                 joinedTrack.play();
             })
             .leaving(user => {
@@ -167,7 +173,7 @@ export default {
             }).then(response => {
                 this.errors = [];
                 this.messages.push(message);
-                if (this.messages.length > 1) {
+                if (this.messages.length > 8) {
                     this.messages.shift();
                 }
                 if (this.messages.length > MESSAGE_COUNT) {

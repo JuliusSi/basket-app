@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Sms\Repository;
 
-use Src\Sms\Event\ESmsCreated;
+use Src\Sms\Job\ESmsCreated;
 use Src\Sms\Model\ESms;
 
 class ESmsRepository
@@ -17,7 +17,7 @@ class ESmsRepository
     public function sendMessages(array $smsModels): void
     {
         foreach ($smsModels as $smsModel) {
-            event(new ESmsCreated($smsModel));
+            ESmsCreated::dispatch($smsModel);
         }
     }
 }

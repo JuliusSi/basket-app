@@ -22,6 +22,14 @@ return [
     'address' => 'Address',
     'close' => 'Close',
     'save' => 'Save',
+    'comments' => [
+        'header' => 'Comments',
+        'send' => 'Send',
+        'message_placeholder' => 'Add message...',
+        'typing' => 'typing...',
+        'online_users' => 'Online',
+        'joined' => 'Joined',
+    ],
     'radiation' => [
         'title' => 'Radiation background information',
         'radiation_background' => 'Radiation background',

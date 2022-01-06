@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Src\Sms\Validator;
 
+use Carbon\Carbon;
+use DateTime;
 use Src\Sms\Exception\SmsSendingException;
 
 use function strlen;
@@ -18,13 +20,14 @@ class SmsValidator
      *
      * @throws SmsSendingException
      */
-    public function validate(string $sender, array $recipients, array $messages): void
+    public function validate(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void
     {
         if (!$sender || !$recipients || !$messages) {
             throw new SmsSendingException('sender, recipients, messages must be filled');
         }
 
         $this->validateRecipients($recipients);
+        $this->validateDateToSend($dateToSend);
     }
 
     /**
@@ -38,6 +41,22 @@ class SmsValidator
                     sprintf('Recipient phone number must be of %s digits', self::DIGITS_ALLOWED)
                 );
             }
+        }
+    }
+
+    /**
+     * @throws SmsSendingException
+     */
+    private function validateDateToSend(?DateTime $dateToSend): void
+    {
+        if (!$dateToSend) {
+            return;
+        }
+
+        $carbonDate = Carbon::instance($dateToSend);
+
+        if ($carbonDate->isPast()) {
+            throw new SmsSendingException('Sending date cannot be in past');
         }
     }
 }

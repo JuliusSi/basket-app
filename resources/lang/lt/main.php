@@ -26,7 +26,8 @@ return [
         'send' => 'Siųsti',
         'message_placeholder' => 'Įveskite žinutę...',
         'typing' => 'rašo žinutę...',
-        'online_users' => 'Prisijungę'
+        'online_users' => 'Prisijungę',
+        'joined' => 'Prisijungė',
     ],
     'updated' => 'Atnaujinta',
     'radiation' => [

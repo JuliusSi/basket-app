@@ -295,7 +295,10 @@ Events Section
 
                 <div class="col-lg-3 col-md-6 footer-newsletter">
                     <h4>Kontaktai</h4>
-                    <p>Šiuo metu kontaktinė informacija neteikiama.</p>
+                    <p><a href = "mailto:krepsinislauke@gmail.com">
+                            krepsinislauke@gmail.com
+                        </a>
+                    </p>
                 </div>
 
             </div>
