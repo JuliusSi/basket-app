@@ -30,7 +30,7 @@ class ChatMessageStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message' => 'required|min:2|max:500|string|not_regex:/([%\$#\*<>]+)/',
+            'message' => 'required|min:2|max:500|string|not_regex:/([%\$#\<>]+)/',
         ];
     }
 }
