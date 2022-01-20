@@ -60,7 +60,7 @@ let newMessageTrack = new Audio('sound/received.mp3');
 let joinedTrack = new Audio('sound/joined.wav');
 
 let tracks = [newMessageTrack];
-let MESSAGE_COUNT = 12;
+let MESSAGE_COUNT = 8;
 
 export default {
     props: ['user'],
