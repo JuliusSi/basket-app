@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::middleware('throttle:60,1')->group(function () {
+    Route::get('/', 'HomeController@index')->name('home');
 
-Auth::routes(['verify' => true]);
+    Auth::routes(['verify' => true]);
+});
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('phone-verify', [PhoneVerificationController::class, 'index'])->name('phone-verify');

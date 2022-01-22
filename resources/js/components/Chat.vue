@@ -60,7 +60,7 @@ let newMessageTrack = new Audio('sound/received.mp3');
 let joinedTrack = new Audio('sound/joined.wav');
 
 let tracks = [newMessageTrack];
-let MESSAGE_COUNT = 12;
+let MESSAGE_COUNT = 8;
 
 export default {
     props: ['user'],
@@ -115,11 +115,13 @@ export default {
             })
             .joining(user => {
                 this.users.push(user);
-                const content = lang.get('main.comments.joined')  + ': ' + user.username + '';
-                const bot = { username: 'Bot',  image_path:"img/bot.png"};
-                const message = { message: content, user: bot };
-                this.messages.push(message);
-                joinedTrack.play();
+                const content = lang.get('main.comments.joined') + ': ' + user.username + '';
+                const bot = {username: 'Bot', image_path: "img/bot.png"};
+                const message = {message: content, user: bot};
+                if (!this.messages.some(existingMessage => existingMessage.message === message.message)) {
+                    this.messages.push(message);
+                    joinedTrack.play();
+                }
             })
             .leaving(user => {
                 this.users = this.users.filter(u => u.id !== user.id);
