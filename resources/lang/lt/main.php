@@ -47,4 +47,7 @@ return [
         'create-arrival' => 'Suplanuoti atvykimą',
         'created' => 'Atvykimas sėkmingai sukurtas',
     ],
+    'logs' => [
+        'user_first_chat_message' => 'Vartotojas :username parašė savo pirmąjį komentarą šiandien',
+    ]
 ];
