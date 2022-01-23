@@ -47,4 +47,7 @@ return [
         'create-arrival' => 'Arrive to court',
         'created' => 'Arrival successfully created',
     ],
+    'logs' => [
+        'user_first_chat_message' => 'User :username wrote his first comment today',
+    ]
 ];

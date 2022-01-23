@@ -52,11 +52,11 @@ class MessageSendingService
 
     private function getActionLog(User $user): Log
     {
-        $message = 'Vartotojas {username} parašė savo pirmąjį komentarą šiandien';
-        $context = [
-            'username' => $user->getAttribute('username'),
-        ];
+        $message = __(
+            'main.logs.user_first_chat_message',
+            ['username' => $user->getAttribute('username')]
+        );
 
-        return Log::create($message, $context);
+        return Log::create($message);
     }
 }
