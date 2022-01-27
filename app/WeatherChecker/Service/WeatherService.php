@@ -13,7 +13,7 @@ use Src\Weather\Repository\CachedWeatherRepository;
  * Class WeatherForBasketBallService
  * @package App\WeatherChecker\Service
  */
-class WeatherForBasketBallService
+class WeatherService
 {
     /**
      * @var CachedWeatherRepository
