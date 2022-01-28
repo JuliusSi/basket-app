@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use App\Model\ChatMessage;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -13,13 +12,11 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
-/**
- * Class ChatMessageSent
- * @package App\Events
- */
 class ChatMessageSent implements ShouldBroadcastNow
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     /**
      * User that sent the message
@@ -29,9 +26,9 @@ class ChatMessageSent implements ShouldBroadcastNow
     public Authenticatable $user;
 
     /**
-     * Message details
+     * Message text
      *
-     * @var ChatMessage
+     * @var string
      */
     public $message;
 
@@ -39,9 +36,9 @@ class ChatMessageSent implements ShouldBroadcastNow
      * Create a new event instance.
      *
      * @param  Authenticatable  $user
-     * @param  ChatMessage  $message
+     * @param  string  $message
      */
-    public function __construct(Authenticatable $user, ChatMessage $message)
+    public function __construct(Authenticatable $user, string $message)
     {
         $this->user = $user;
         $this->message = $message;

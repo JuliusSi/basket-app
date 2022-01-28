@@ -92,13 +92,11 @@ export default {
             .listen('ChatMessageSent', (e) => {
                 newMessageTrack.play();
                 this.messages.push({
-                    message: e.message.message,
+                    message: e.message,
                     user: e.user
                 });
-                if (this.messages.length > 8) {
-                    this.messages.shift();
-                }
                 if (this.messages.length > MESSAGE_COUNT) {
+                    this.messages.shift();
                     this.fetchMessages();
                 }
                 this.users.forEach((user, index) => {

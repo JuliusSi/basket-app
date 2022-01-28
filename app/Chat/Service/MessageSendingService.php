@@ -19,8 +19,8 @@ class MessageSendingService
 
     public function send(User $user, string $message): void
     {
-        $messageModel = $this->saveMessage($user, $this->addEmojis($message));
-        broadcast(new ChatMessageSent($user, $messageModel))->toOthers();
+        broadcast(new ChatMessageSent($user, $message))->toOthers();
+        $this->saveMessage($user, $this->addEmojis($message));
         $this->createLogMessageIfNeeded($user);
     }
 
