@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Manager;
 
-use App\WeatherChecker\Service\WeatherForBasketBallService;
+use App\WeatherChecker\Service\WeatherService;
 use App\WeatherChecker\Collection\CheckerCollection;
 use App\WeatherChecker\Collection\CheckerInterface;
 use App\WeatherChecker\Collector\WarningCollector;
@@ -21,9 +21,9 @@ use Src\Weather\Client\Response\ForecastTimestamp;
 class WeatherCheckManager
 {
     /**
-     * @var WeatherForBasketBallService
+     * @var WeatherService
      */
-    private WeatherForBasketBallService $weatherForBasketBallService;
+    private WeatherService $weatherForBasketBallService;
 
     /**
      * @var CheckerCollection
@@ -37,12 +37,12 @@ class WeatherCheckManager
 
     /**
      * WeatherCheckManager constructor.
-     * @param  WeatherForBasketBallService  $weatherForBasketBallService
+     * @param  WeatherService  $weatherForBasketBallService
      * @param  CheckerCollection  $checkerCollection
      * @param  WarningCollector  $collector
      */
     public function __construct(
-        WeatherForBasketBallService $weatherForBasketBallService,
+        WeatherService $weatherForBasketBallService,
         CheckerCollection $checkerCollection,
         WarningCollector $collector
     ) {

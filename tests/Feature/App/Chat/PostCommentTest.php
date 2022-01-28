@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\App\Chat;
 
-use App\Model\ChatMessage;
 use App\Model\User;
 use Tests\TestCase;
 
