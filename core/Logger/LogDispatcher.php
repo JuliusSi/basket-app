@@ -9,8 +9,8 @@ use Core\Logger\Model\Log;
 
 class LogDispatcher
 {
-    public static function dispatch(Log $log, bool $condition = true): void
+    public static function dispatch(Log $log, bool $canDispatch = true): void
     {
-        ActionDone::dispatchIf($condition, $log);
+        ActionDone::dispatchIf($canDispatch, $log);
     }
 }
