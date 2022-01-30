@@ -30,7 +30,7 @@ class BroadcastAwareMessageSendingService implements MessageSendingServiceInterf
             return;
         }
 
-       ActionDone::dispatch($this->getActionLog($user));
+        ActionDone::dispatch($this->getActionLog($user));
     }
 
     private function getUserTodayMessagesCount(User $user): int
