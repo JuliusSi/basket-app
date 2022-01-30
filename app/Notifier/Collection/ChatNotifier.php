@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Notifier\Collection;
 
-use App\Chat\Service\MessageSendingService;
+use App\Chat\Message\Service\BaseMessageSendingService;
 use App\Model\User;
 use App\Notifier\Model\Notification;
 
 class ChatNotifier implements NotifierInterface
 {
-    public function __construct(private MessageSendingService $messageSendService)
+    public function __construct(private BaseMessageSendingService $messageSendService)
     {
     }
 

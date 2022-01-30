@@ -11266,6 +11266,7 @@ th {
     margin: 5px;
     border-radius: 10px;
     width: 70%;
+    max-height: 200px;
 }
 
 .chat-list .chat-message p img:hover {

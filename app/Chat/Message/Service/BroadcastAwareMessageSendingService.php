@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Chat\Service;
+namespace App\Chat\Message\Service;
 
 use App\Events\ChatMessageSent;
-use App\Model\ChatMessage;
 use App\Model\User;
 use Carbon\Carbon;
 use Core\Logger\Event\ActionDone;
 use Core\Logger\Model\Log;
 
-class MessageSendingService
+class BroadcastAwareMessageSendingService implements MessageSendingServiceInterface
 {
-    public function __construct(private EmojiAppendService $emojiAppendService)
+    public function __construct(private BaseMessageSendingService $baseMessageSendingService)
     {
     }
 
@@ -21,7 +20,7 @@ class MessageSendingService
     {
         ChatMessageSent::broadcast($user, $message)->toOthers();
 
-        $this->saveMessage($user, $this->addEmojis($message));
+        $this->baseMessageSendingService->send($user, $message);
         $this->createLogMessageIfNeeded($user);
     }
 
@@ -31,7 +30,7 @@ class MessageSendingService
             return;
         }
 
-        event(new ActionDone($this->getActionLog($user)));
+       ActionDone::dispatch($this->getActionLog($user));
     }
 
     private function getUserTodayMessagesCount(User $user): int
@@ -39,23 +38,13 @@ class MessageSendingService
         return $user->chatMessages()->whereDate('created_at', Carbon::today())->count();
     }
 
-    private function addEmojis(string $message): string
-    {
-        return $this->emojiAppendService->appendEmojiList($message);
-    }
-
-    private function saveMessage(User $user, string $message): ChatMessage
-    {
-        return $user->chatMessages()->create([
-            'message' => $message,
-        ]);
-    }
-
     private function getActionLog(User $user): Log
     {
         $message = __(
             'main.logs.user_first_chat_message',
-            ['username' => $user->getAttribute('username')]
+            [
+                'username' => $user->getAttribute('username'),
+            ]
         );
 
         return Log::create($message);

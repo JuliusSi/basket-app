@@ -178,6 +178,7 @@ return [
         App\Providers\NotificationManagerProvider::class,
         App\Providers\LogServiceProvider::class,
         App\Providers\SmsServiceProvider::class,
+        App\Providers\ChatServiceProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\CookieConsent\CookieConsentServiceProvider::class,
