@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Chat\Message\Service;
 
+use App\Chat\Message\Logger\UserFirstMessageTodayLogger;
 use App\Events\ChatMessageSent;
 use App\Model\User;
-use Carbon\Carbon;
-use Core\Logger\Event\ActionDone;
-use Core\Logger\Model\Log;
 
 class BroadcastAwareMessageSendingService implements MessageSendingServiceInterface
 {
@@ -18,35 +16,18 @@ class BroadcastAwareMessageSendingService implements MessageSendingServiceInterf
 
     public function send(User $user, string $message): void
     {
-        ChatMessageSent::broadcast($user, $message)->toOthers();
-
+        $this->actionsBeforeSending($user, $message);
         $this->baseMessageSendingService->send($user, $message);
-        $this->createLogMessageIfNeeded($user);
+        $this->actionsAfterSending($user, $message);
     }
 
-    private function createLogMessageIfNeeded(User $user): void
+    private function actionsBeforeSending(User $user, string $message): void
     {
-        if ($this->getUserTodayMessagesCount($user) > 1) {
-            return;
-        }
-
-       ActionDone::dispatch($this->getActionLog($user));
+        ChatMessageSent::broadcast($user, $message)->toOthers();
     }
 
-    private function getUserTodayMessagesCount(User $user): int
+    private function actionsAfterSending(User $user, string $message): void
     {
-        return $user->chatMessages()->whereDate('created_at', Carbon::today())->count();
-    }
-
-    private function getActionLog(User $user): Log
-    {
-        $message = __(
-            'main.logs.user_first_chat_message',
-            [
-                'username' => $user->getAttribute('username'),
-            ]
-        );
-
-        return Log::create($message);
+        UserFirstMessageTodayLogger::log($user);
     }
 }

@@ -10,9 +10,7 @@ use Src\Sms\Model\ESms;
 class ESmsRepository
 {
     /**
-     * @param  ESms[]  $smsModels
-     *
-     * @return void
+     * @param ESms[] $smsModels
      */
     public function sendMessages(array $smsModels): void
     {

@@ -22,12 +22,8 @@ class D7SmsSendingService implements SmsSendingService
     }
 
     /**
-     * @param  string  $sender
-     * @param  string[]  $recipients
-     * @param  string[]  $messages
-     * @param  DateTime|null  $dateToSend
-     *
-     * @return void
+     * @param string[] $recipients
+     * @param string[] $messages
      *
      * @throws SmsSendingException
      */
@@ -42,8 +38,8 @@ class D7SmsSendingService implements SmsSendingService
     }
 
     /**
-     * @param  string[]  $recipients
-     * @param  string[]  $messages
+     * @param string[] $recipients
+     * @param string[] $messages
      */
     private function buildMessageBag(string $sender, array $recipients, array $messages): MessageBag
     {
@@ -54,8 +50,8 @@ class D7SmsSendingService implements SmsSendingService
     }
 
     /**
-     * @param  string[]  $recipients
-     * @param  string[]  $messages
+     * @param string[] $recipients
+     * @param string[] $messages
      *
      * @return Message[]
      */
@@ -69,13 +65,6 @@ class D7SmsSendingService implements SmsSendingService
         return $messageRequests;
     }
 
-    /**
-     * @param  string  $sender
-     * @param  array  $recipients
-     * @param  string  $message
-     *
-     * @return Message
-     */
     private function buildMessageRequest(string $sender, array $recipients, string $message): Message
     {
         $request = new Message();
@@ -87,8 +76,6 @@ class D7SmsSendingService implements SmsSendingService
     }
 
     /**
-     * @param  MessageBag  $messageBag
-     * @return BatchSmsResponse|null
      * @throws SmsSendingException
      */
     private function sendMessages(MessageBag $messageBag): ?BatchSmsResponse
@@ -97,8 +84,8 @@ class D7SmsSendingService implements SmsSendingService
     }
 
     /**
-     * @param  string[]  $recipients
-     * @param  string[]  $messages
+     * @param string[] $recipients
+     * @param string[] $messages
      *
      * @throws SmsSendingException
      */

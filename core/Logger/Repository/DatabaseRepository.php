@@ -26,6 +26,6 @@ class DatabaseRepository implements RepositoryInterface
 
     public function deleteOlderThenDate(DateTime $dateTime): void
     {
-        LogEloquentModel::where('created_at', '<',  $dateTime)->delete();
+        LogEloquentModel::where('created_at', '<', $dateTime)->delete();
     }
 }
