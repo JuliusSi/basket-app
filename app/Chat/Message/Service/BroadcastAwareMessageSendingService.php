@@ -21,16 +21,12 @@ class BroadcastAwareMessageSendingService implements MessageSendingServiceInterf
         ChatMessageSent::broadcast($user, $message)->toOthers();
 
         $this->baseMessageSendingService->send($user, $message);
-        $this->logActionIfNeeded($user);
+        $this->logAction($user);
     }
 
-    private function logActionIfNeeded(User $user): void
+    private function logAction(User $user): void
     {
-        if ($this->getUserTodayMessagesCount($user) > 1) {
-            return;
-        }
-
-        LogDispatcher::dispatch($this->getActionLog($user));
+        LogDispatcher::dispatch($this->getActionLog($user), $this->getUserTodayMessagesCount($user) < 2);
     }
 
     private function getUserTodayMessagesCount(User $user): int
