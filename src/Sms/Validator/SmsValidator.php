@@ -7,7 +7,6 @@ namespace Src\Sms\Validator;
 use Carbon\Carbon;
 use DateTime;
 use Src\Sms\Exception\SmsSendingException;
-
 use function strlen;
 
 class SmsValidator
@@ -15,8 +14,8 @@ class SmsValidator
     private const DIGITS_ALLOWED = 11;
 
     /**
-     * @param  string[]  $recipients
-     * @param  string[]  $messages
+     * @param string[] $recipients
+     * @param string[] $messages
      *
      * @throws SmsSendingException
      */
@@ -36,7 +35,7 @@ class SmsValidator
     private function validateRecipients(array $recipients): void
     {
         foreach ($recipients as $recipient) {
-            if (strlen($recipient) !== self::DIGITS_ALLOWED) {
+            if (self::DIGITS_ALLOWED !== strlen($recipient)) {
                 throw new SmsSendingException(
                     sprintf('Recipient phone number must be of %s digits', self::DIGITS_ALLOWED)
                 );

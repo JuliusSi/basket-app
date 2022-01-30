@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Sms\Repository;
 
 use Exception;
@@ -12,19 +14,14 @@ use Src\Sms\Model\Verification;
 use Src\Sms\Model\VerificationMessage;
 
 /**
- * Class SmsVerifyRepository
- * @package Src\Sms\Repository
+ * Class SmsVerifyRepository.
  */
 class SmsVerifyRepository
 {
-    /**
-     * @var DefaultClient
-     */
     private DefaultClient $client;
 
     /**
      * SmsVerifyRepository constructor.
-     * @param  DefaultClient  $client
      */
     public function __construct(DefaultClient $client)
     {
@@ -32,8 +29,6 @@ class SmsVerifyRepository
     }
 
     /**
-     * @param  VerificationMessage  $message
-     * @return SendVerifyResponse
      * @throws Exception
      */
     public function sendVerification(VerificationMessage $message): SendVerifyResponse
@@ -45,8 +40,6 @@ class SmsVerifyRepository
     }
 
     /**
-     * @param  Verification  $verification
-     * @return VerifyResponse
      * @throws Exception
      */
     public function verify(Verification $verification): VerifyResponse

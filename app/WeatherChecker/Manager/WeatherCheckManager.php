@@ -4,42 +4,29 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Manager;
 
-use App\WeatherChecker\Service\WeatherService;
 use App\WeatherChecker\Collection\CheckerCollection;
 use App\WeatherChecker\Collection\CheckerInterface;
 use App\WeatherChecker\Collector\WarningCollector;
 use App\WeatherChecker\Model\Warning;
+use App\WeatherChecker\Service\WeatherService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
 /**
- * Class WeatherCheckManager
- * @package App\WeatherChecker\Manager
+ * Class WeatherCheckManager.
  */
 class WeatherCheckManager
 {
-    /**
-     * @var WeatherService
-     */
     private WeatherService $weatherForBasketBallService;
 
-    /**
-     * @var CheckerCollection
-     */
     private CheckerCollection $checkerCollection;
 
-    /**
-     * @var WarningCollector
-     */
     private WarningCollector $collector;
 
     /**
      * WeatherCheckManager constructor.
-     * @param  WeatherService  $weatherForBasketBallService
-     * @param  CheckerCollection  $checkerCollection
-     * @param  WarningCollector  $collector
      */
     public function __construct(
         WeatherService $weatherForBasketBallService,
@@ -52,12 +39,9 @@ class WeatherCheckManager
     }
 
     /**
-     * @param  string|null  $placeCode
-     * @param  string  $startDateTime
-     * @param  string  $endDateTime
-     * @return Warning[]
-     *
      * @throws Exception
+     *
+     * @return Warning[]
      */
     public function manage(?string $placeCode, string $startDateTime, string $endDateTime): array
     {
@@ -69,12 +53,9 @@ class WeatherCheckManager
     }
 
     /**
-     * @param  string  $placeCode
-     * @param  string  $startDateTime
-     * @param  string  $endDateTime
-     * @return Warning[]
-     *
      * @throws Exception
+     *
+     * @return Warning[]
      */
     private function getCachedWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
     {
@@ -92,12 +73,9 @@ class WeatherCheckManager
     }
 
     /**
-     * @param  string  $placeCode
-     * @param  string  $startDateTime
-     * @param  string  $endDateTime
-     * @return Warning[]
-     *
      * @throws Exception
+     *
+     * @return Warning[]
      */
     private function getWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
     {
@@ -108,9 +86,6 @@ class WeatherCheckManager
         return $this->collector->getWarnings();
     }
 
-    /**
-     * @param  ForecastTimestamp  $forecastTimestamp
-     */
     private function applyCheckers(ForecastTimestamp $forecastTimestamp): void
     {
         foreach ($this->getCheckers() as $checker) {
@@ -128,12 +103,9 @@ class WeatherCheckManager
     }
 
     /**
-     * @param  string  $placeCode
-     * @param  string  $startDateTime
-     * @param  string  $endDateTime
-     * @return ForecastTimestamp[]
-     *
      * @throws Exception
+     *
+     * @return ForecastTimestamp[]
      */
     private function getFilteredForecasts(string $placeCode, string $startDateTime, string $endDateTime): array
     {

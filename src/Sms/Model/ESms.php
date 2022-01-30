@@ -25,7 +25,7 @@ class ESms
         ?DateTime $dateWhenToSend = null,
         ?int $group = null,
         ?string $callbackLink = null,
-    ):self {
+    ): self {
         return new self($sender, $recipient, $content, $dateWhenToSend, $group, $callbackLink);
     }
 

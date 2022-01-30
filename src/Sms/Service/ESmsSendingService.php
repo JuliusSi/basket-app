@@ -20,10 +20,8 @@ class ESmsSendingService implements SmsSendingService
     }
 
     /**
-     * @param  string  $sender
-     * @param  string[]  $recipients
-     * @param  string[]  $messages
-     * @param  DateTime|null  $dateToSend
+     * @param string[] $recipients
+     * @param string[] $messages
      *
      * @throws SmsSendingException
      */

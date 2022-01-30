@@ -14,7 +14,7 @@ class ESmsClient extends AbstractClient
     public function getResponse(RequestInterface $request): string
     {
         $content = parent::getResponse($request);
-        if ($content !== self::RESPONSE_SUCCESS) {
+        if (self::RESPONSE_SUCCESS !== $content) {
             throw new SmsSendingException(sprintf('Error: %s', $content));
         }
 

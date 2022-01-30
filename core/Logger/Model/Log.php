@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Logger\Model;
 
-use Psr\Log\LogLevel;
-
 use function is_array;
 use function is_object;
+use Psr\Log\LogLevel;
 
 class Log
 {
@@ -31,6 +30,16 @@ class Log
         return new self(self::interpolate($message, $context), $level);
     }
 
+    public function message(): string
+    {
+        return $this->message;
+    }
+
+    public function level(): ?string
+    {
+        return $this->level;
+    }
+
     /**
      * Interpolates context values into the message placeholders.
      */
@@ -47,15 +56,5 @@ class Log
 
         // interpolate replacement values into the message and return
         return strtr($message, $replace);
-    }
-
-    public function message(): string
-    {
-        return $this->message;
-    }
-
-    public function level(): ?string
-    {
-        return $this->level;
     }
 }

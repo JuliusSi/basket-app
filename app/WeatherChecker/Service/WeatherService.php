@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WeatherChecker\Service;
 
 use Exception;
@@ -10,19 +12,14 @@ use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
 
 /**
- * Class WeatherForBasketBallService
- * @package App\WeatherChecker\Service
+ * Class WeatherForBasketBallService.
  */
 class WeatherService
 {
-    /**
-     * @var CachedWeatherRepository
-     */
     private CachedWeatherRepository $cachedWeatherRepository;
 
     /**
      * WeatherForBasketBallService constructor.
-     * @param  CachedWeatherRepository  $cachedWeatherRepository
      */
     public function __construct(CachedWeatherRepository $cachedWeatherRepository)
     {
@@ -30,9 +27,9 @@ class WeatherService
     }
 
     /**
-     * @return ForecastTimestamp[]
-     *
      * @throws Exception
+     *
+     * @return ForecastTimestamp[]
      */
     public function getFilteredForecasts(string $placeCode, string $startDateTime, string $endDateTime): array
     {
@@ -42,9 +39,6 @@ class WeatherService
     }
 
     /**
-     * @param  Response  $response
-     * @param  string  $startDateTime
-     * @param  string  $endDateTime
      * @return ForecastTimestamp[]
      */
     private function filterWeatherInformation(Response $response, string $startDateTime, string $endDateTime): array
@@ -59,12 +53,6 @@ class WeatherService
         return $filteredForecasts;
     }
 
-    /**
-     * @param  ForecastTimestamp  $forecastTimeStamp
-     * @param  string  $datetimeAfterForHours
-     * @param  string  $dateTime
-     * @return bool
-     */
     private function isValidForecastTimeStamp(
         ForecastTimestamp $forecastTimeStamp,
         string $datetimeAfterForHours,
@@ -72,13 +60,11 @@ class WeatherService
     ): bool {
         $forecastTimestampUtc = $forecastTimeStamp->getForecastTimeUtc();
 
-        return $datetimeAfterForHours > $forecastTimestampUtc &&
-            $forecastTimestampUtc > $dateTime;
+        return $datetimeAfterForHours > $forecastTimestampUtc
+            && $forecastTimestampUtc > $dateTime;
     }
 
     /**
-     * @param  string  $placeCode
-     * @return Response
      * @throws Exception
      */
     private function getWeatherInformation(string $placeCode): Response
