@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Chat\Message\Service;
 
-use App\Chat\Message\Logger\UserFirstTodayMessageLogger;
+use App\Chat\Message\Logger\UserFirstMessageTodayLogger;
 use App\Events\ChatMessageSent;
 use App\Model\User;
 
@@ -28,6 +28,6 @@ class BroadcastAwareMessageSendingService implements MessageSendingServiceInterf
 
     private function actionsAfterSending(User $user, string $message): void
     {
-        UserFirstTodayMessageLogger::log($user);
+        UserFirstMessageTodayLogger::log($user);
     }
 }

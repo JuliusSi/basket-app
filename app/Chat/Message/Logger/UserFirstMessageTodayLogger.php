@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Core\Logger\LogDispatcher;
 use Core\Logger\Model\Log;
 
-class UserFirstTodayMessageLogger
+class UserFirstMessageTodayLogger
 {
     public static function log(User $user): void
     {
