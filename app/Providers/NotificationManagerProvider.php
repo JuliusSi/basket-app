@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Console\Commands\BasketBallSeasonEndNotificationCommand;
@@ -17,11 +19,7 @@ use App\Notifier\Service\RadiationInfoNotificationService;
 use App\Notifier\Service\WeatherForBasketBallNotificationService;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class NotificationServiceProvider
- * @package App\Providers
- */
-class NotificationManagerProvider  extends ServiceProvider
+class NotificationManagerProvider extends ServiceProvider
 {
     /**
      * @return void
