@@ -7,7 +7,7 @@ namespace App\Chat\Message\Service;
 use App\Events\ChatMessageSent;
 use App\Model\User;
 use Carbon\Carbon;
-use Core\Logger\Event\ActionDone;
+use Core\Logger\LogDispatcher;
 use Core\Logger\Model\Log;
 
 class BroadcastAwareMessageSendingService implements MessageSendingServiceInterface
@@ -21,16 +21,16 @@ class BroadcastAwareMessageSendingService implements MessageSendingServiceInterf
         ChatMessageSent::broadcast($user, $message)->toOthers();
 
         $this->baseMessageSendingService->send($user, $message);
-        $this->createLogMessageIfNeeded($user);
+        $this->logActionIfNeeded($user);
     }
 
-    private function createLogMessageIfNeeded(User $user): void
+    private function logActionIfNeeded(User $user): void
     {
         if ($this->getUserTodayMessagesCount($user) > 1) {
             return;
         }
 
-        ActionDone::dispatch($this->getActionLog($user));
+        LogDispatcher::dispatch($this->getActionLog($user));
     }
 
     private function getUserTodayMessagesCount(User $user): int
