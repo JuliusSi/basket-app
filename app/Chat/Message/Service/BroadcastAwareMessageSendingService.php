@@ -21,17 +21,17 @@ class BroadcastAwareMessageSendingService implements MessageSendingServiceInterf
         ChatMessageSent::broadcast($user, $message)->toOthers();
 
         $this->baseMessageSendingService->send($user, $message);
-        $this->logAction($user);
+        $this->logActionIfNeeded($user);
     }
 
-    private function logAction(User $user): void
+    private function logActionIfNeeded(User $user): void
     {
-        LogDispatcher::dispatch($this->getActionLog($user), $this->getUserTodayMessagesCount($user) < 2);
+        LogDispatcher::dispatch($this->getActionLog($user), $this->needToLogAction($user));
     }
 
-    private function getUserTodayMessagesCount(User $user): int
+    private function needToLogAction(User $user): bool
     {
-        return $user->chatMessages()->whereDate('created_at', Carbon::today())->count();
+        return $user->chatMessages()->whereDate('created_at', Carbon::today())->count() < 2;
     }
 
     private function getActionLog(User $user): Log
