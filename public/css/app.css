@@ -10,7 +10,10 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
+@font-face {
+    font-family: Work Sans;
+    src: url('../font/WorkSans-Regular.ttf');
+}
 
 :root {
     --blue: #007bff;

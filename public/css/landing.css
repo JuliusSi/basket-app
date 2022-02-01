@@ -5,7 +5,10 @@
 /**
 Fonts
  */
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
+@font-face {
+    font-family: Work Sans;
+    src: url('../font/WorkSans-Regular.ttf');
+}
 
 body {
     margin: 0;

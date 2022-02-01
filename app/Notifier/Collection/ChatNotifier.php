@@ -15,7 +15,7 @@ class ChatNotifier implements NotifierInterface
     }
 
     /**
-     * @param  Notification[]  $notifications
+     * @param Notification[] $notifications
      */
     public function notify(array $notifications): void
     {
@@ -28,8 +28,7 @@ class ChatNotifier implements NotifierInterface
     }
 
     /**
-     * @param  Notification[]  $notifications
-     * @param  User  $user
+     * @param Notification[] $notifications
      */
     private function sendChatMessages(array $notifications, User $user): void
     {
@@ -38,10 +37,6 @@ class ChatNotifier implements NotifierInterface
         }
     }
 
-    /**
-     * @param  Notification  $notification
-     * @param  User  $user
-     */
     private function sendChatMessage(Notification $notification, User $user): void
     {
         $this->messageSendService->send($user, $notification->getContent());
