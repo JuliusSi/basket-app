@@ -962,7 +962,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #events ul {
-    padding-left: 5px;
+    padding-left: 15px;
+    text-align: justify;
+    padding-right: 15px;
 }
 
 #events ul li {
