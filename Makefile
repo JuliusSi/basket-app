@@ -10,7 +10,7 @@ down:
 	cd ${DOCKER_DIR} && docker-compose down
 
 # run this command only for first time
-start: copy_config_files composer_install npm_install db_refresh generate_translations npm_run_dev generate_app_key storage_linK
+start: copy_config_files composer_install npm_install db_refresh generate_translations npm_run_dev generate_app_key storage_link
 
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
@@ -83,11 +83,10 @@ run_tests:
 generate_app_key:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan key:generate
 
-storage_linK:
+storage_link:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan storage:link
 
 copy_config_files:
-	cp .env.example .env
 	cp .env.example-testing .env.testing
 	cp config/seeder-example.php config/seeder.php
 	cp config/weather-example.php config/weather.php
