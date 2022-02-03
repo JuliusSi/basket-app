@@ -87,6 +87,7 @@ storage_link:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan storage:link
 
 copy_config_files:
+	cp .env.example .env
 	cp .env.example-testing .env.testing
 	cp config/seeder-example.php config/seeder.php
 	cp config/weather-example.php config/weather.php
