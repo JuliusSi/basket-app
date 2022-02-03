@@ -1,12 +1,9 @@
 version: '3.7'
 
-networks:
-  weather-app:
-
 services:
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: basket_app_nginx
     restart: always
     environment:
       XDEBUG_CONFIG: remote_host=host.docker.internal
@@ -19,25 +16,28 @@ services:
       - php
       - mysql
     networks:
-      - weather-app
+      basket-app:
+        aliases:
+          - basket-app.local
+        ipv4_address: 172.20.29.29
 
   php:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: php
+    container_name: basket_app_php
     user: ${CURRENT_USER}
     volumes:
       - ../:/var/www/html
     ports:
       - "9000:9000"
     networks:
-      - weather-app
+      - basket-app
 
   mysql_test:
     image: mysql:latest
     command: --default-authentication-plugin=mysql_native_password
-    container_name: mysql_test
+    container_name: basket_app_mysql_test
     restart: unless-stopped
     tty: true
     ports:
@@ -50,12 +50,12 @@ services:
       SERVICE_TAGS: test
       SERVICE_NAME: mysql_test
     networks:
-      - weather-app
+      - basket-app
 
   mysql:
     image: mysql:latest
     command: --default-authentication-plugin=mysql_native_password
-    container_name: mysql
+    container_name: basket_app_mysql
     restart: unless-stopped
     tty: true
     ports:
@@ -68,22 +68,22 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - weather-app
+      - basket-app
 
   composer:
     image: composer:latest
-    container_name: composer
+    container_name: basket_app_composer
     volumes:
       - ../:/var/www/html
     working_dir: /var/www/html
     depends_on:
       - php
     networks:
-      - weather-app
+      - basket-app
 
   npm:
     image: node:latest
-    container_name: npm
+    container_name: basket_app_npm
     volumes:
       - ../:/var/www/html
     working_dir: /var/www/html
@@ -93,7 +93,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: artisan
+    container_name: basket_app_artisan
     volumes:
       - ../:/var/www/html
     depends_on:
@@ -101,12 +101,12 @@ services:
     working_dir: /var/www/html
     entrypoint: ['php', '/var/www/html/artisan']
     networks:
-      - weather-app
+      - basket-app
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
-    container_name: phpmyadmin
+    container_name: basket_app_phpmyadmin
     depends_on:
       - mysql
     ports:
@@ -114,16 +114,24 @@ services:
     environment:
       PMA_HOST: mysql
     networks:
-      - weather-app
+      - basket-app
 
   sockets:
     command: ["php", "artisan", "websockets:serve"]
     build:
       context: .
-    container_name: sockets
+    container_name: basket_app_sockets
     volumes:
       - ../:/var/www/html
     ports:
       - "6001:6001"
     networks:
-     - weather-app
+     - basket-app
+
+networks:
+  basket-app:
+    driver: bridge
+    name: basket-application
+    ipam:
+      config:
+        - subnet: 172.20.10.0/16

@@ -42,14 +42,14 @@ return [
         ],
 
         'command' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/command.log'),
+            'driver' => 'daily',
+            'path' => storage_path('logs/command/command.log'),
             'level' => 'debug',
         ],
 
         'client' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/client.log'),
+            'driver' => 'daily',
+            'path' => storage_path('logs/client/client.log'),
             'level' => 'debug',
         ],
 
