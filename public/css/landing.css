@@ -961,6 +961,12 @@ body.mobile-nav-active #mobile-nav-toggle {
     position: relative;
 }
 
+#events ul {
+    padding-left: 15px;
+    text-align: justify;
+    padding-right: 15px;
+}
+
 #events ul li {
     list-style: none;
     margin: 15px 0 25px 0;

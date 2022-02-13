@@ -1,29 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
+use App\Model\Role;
+use App\Model\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
-/**
- * Class UserRoleSeeder
- * @package Database\Seeders
- */
 class UserRoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        $user = DB::table('user')->where('email', config('seeder.user.email'))->first();
-        $role = DB::table('role')->where('name', config('seeder.role.name'))->first();
+        $user = User::where('email', config('seeder.user.email'))->first();
+        $roles = Role::all();
 
-        DB::table('user_role')->insert([
-            'user_id' => $user->id,
-            'role_id' => $role->id,
-        ]);
+        $user->roles()->saveMany($roles);
+
     }
 }

@@ -25,7 +25,6 @@ export default {
     data() {
         return {
             newMessage: '',
-            loading: false,
         }
     },
     computed: {

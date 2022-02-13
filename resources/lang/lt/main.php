@@ -21,6 +21,8 @@ return [
     'address' => 'Adresas',
     'close' => 'Uždaryti',
     'save' => 'Saugoti',
+    'information_update_success' => 'Informacija atnaujinta sėkmingai',
+    'information_update_fail' => 'Informacijos atnaujinti nepavyko',
     'comments' => [
         'header' => 'Komentarai',
         'send' => 'Siųsti',
@@ -49,5 +51,11 @@ return [
     ],
     'logs' => [
         'user_first_chat_message' => 'Vartotojas :username parašė savo pirmąjį komentarą šiandien',
-    ]
+    ],
+    'user_settings' => [
+        'title' => 'Vartotojo nustatymai',
+        'basketball_weather_sms_notification' => 'Sms pranešimai apie orą krepšiniui',
+        'personal_information' => 'Asmeninė informacija',
+        'select_time' => 'Pasirinkite laiką',
+    ],
 ];

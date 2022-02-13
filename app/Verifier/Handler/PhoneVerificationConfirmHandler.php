@@ -76,7 +76,7 @@ class PhoneVerificationConfirmHandler
         return UserAttribute::where(
             [
                 'user_id' => $userId,
-                'name' => UserAttribute::ATTRIBUTE_NAME_PHONE_VERIFICATION_ID,
+                'name' => UserAttribute::NAME_PHONE_VERIFICATION_ID,
             ]
         )->first();
     }

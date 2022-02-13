@@ -5,8 +5,7 @@ namespace App\Notifier\Service;
 use App\Notifier\Model\Notification;
 
 /**
- * Interface NotificationServiceInterface
- * @package App\Notifier\Service
+ * Interface NotificationServiceInterface.
  */
 interface NotificationServiceInterface
 {

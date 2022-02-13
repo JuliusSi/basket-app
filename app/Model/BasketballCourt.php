@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class BasketballCourt
- * @package App\Model
+ * Class BasketballCourt.
  */
 class BasketballCourt extends Model
 {
@@ -18,17 +17,11 @@ class BasketballCourt extends Model
 
     protected $hidden = ['arrivals', 'placeCode'];
 
-    /**
-     * @return BelongsTo
-     */
     public function placeCode(): BelongsTo
     {
         return $this->belongsTo(PlaceCode::class);
     }
 
-    /**
-     * @return HasMany
-     */
     public function arrivals(): HasMany
     {
         return $this->hasMany(CourtArrival::class, 'court_id');

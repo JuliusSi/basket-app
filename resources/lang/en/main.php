@@ -49,5 +49,13 @@ return [
     ],
     'logs' => [
         'user_first_chat_message' => 'User :username wrote his first comment today',
-    ]
+    ],
+    'user_settings' => [
+        'title' => 'User settings',
+        'basketball_weather_sms_notification' => 'Sms notifications about weather for basketball',
+        'personal_information' => 'Personal information',
+        'personal_information_update_success' => 'Personal information updated successfully',
+        'personal_information_update_fail' => 'Personal information not updated',
+        'select_time' => 'Please select time',
+    ],
 ];

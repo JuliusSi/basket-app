@@ -9,43 +9,43 @@ use App\Model\BasketballCourt;
 use App\Model\ChatMessage;
 use App\Model\Log;
 use App\Model\User;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Psr\Log\LogLevel;
 
 /**
- * Class HomeController
- * @package App\Http\Controllers
+ * Class HomeController.
  */
 class HomeController extends Controller
 {
-    /**
-     * @var BasketballCourtsService
-     */
     private BasketballCourtsService $courtsService;
 
     /**
      * HomeController constructor.
-     * @param  BasketballCourtsService  $courtsService
      */
     public function __construct(BasketballCourtsService $courtsService)
     {
         $this->courtsService = $courtsService;
     }
 
-    /**
-     * @return Renderable
-     */
     public function index(): Renderable
     {
-        return Auth::check() ? view('home') : $this->landingPage();
+        return Auth::check() ? $this->homePage() : $this->landingPage();
     }
 
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    private function landingPage()
+    private function homePage(): Factory|View|Application
+    {
+        $user = User::with('userAttributes')->find(auth()->id())->makeVisible([
+            'api_token',
+        ]);
+
+        return view('home', compact(['user']));
+    }
+
+    private function landingPage(): Application|Factory|View
     {
         $userCount = User::count();
         $courtsCount = BasketballCourt::count();
@@ -53,34 +53,8 @@ class HomeController extends Controller
         $randomCourts = BasketballCourt::inRandomOrder()->limit(3)->get();
         $courtsCollection = $this->courtsService->getCollection($randomCourts)->modify();
 
-        $logs = Log::wherein('level', [LogLevel::INFO, LogLevel::ALERT])->orderBy('id','desc')->take(10)->get();
+        $logs = Log::wherein('level', [LogLevel::INFO, LogLevel::ALERT])->orderBy('id', 'desc')->take(10)->get();
 
         return view('landing-page', compact(['userCount', 'courtsCount', 'commentsCount', 'courtsCollection', 'logs']));
-    }
-
-    /**
-     * @return Renderable
-     */
-    public function logs(): Renderable
-    {
-        $data = $this->getLogsData();
-
-        return view('home', compact('data'));
-    }
-
-    /**
-     * @return array
-     */
-    private function getLogsData(): array
-    {
-        $logsPath = storage_path('logs/laravel.log');
-        if (File::exists($logsPath)) {
-            return [
-                'size' => File::size($logsPath),
-                'file' => File::get($logsPath),
-            ];
-        }
-
-        return [];
     }
 }

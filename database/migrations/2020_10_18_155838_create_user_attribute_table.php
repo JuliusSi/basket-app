@@ -19,9 +19,9 @@ class CreateUserAttributeTable extends Migration
         Schema::create('user_attribute', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('user')->onDelete('cascade');
-            $table->string('name', 50);
+            $table->string('name');
             $table->text('value');
-            $table->timestamps();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

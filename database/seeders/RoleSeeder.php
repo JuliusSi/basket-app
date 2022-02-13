@@ -1,26 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
+use App\Model\Role;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
-/**
- * Class RoleSeeder
- * @package Database\Seeders
- */
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        DB::table('role')->insert([
-            'name' => config('seeder.role.name'),
-            'description' => config('seeder.role.description'),
-        ]);
+        Role::insert(config('seeder.roles'));
     }
 }

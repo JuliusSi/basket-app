@@ -128,7 +128,7 @@ return [
     'uploaded'             => 'Nepavyko įkelti :attribute lauko.',
     'url'                  => 'Negaliojantis lauko :attribute formatas.',
     'uuid'                 => 'Lauko :attribute reikšmė turi būti galiojantis UUID.',
-    'phone_code' => 'Telefono kodas neteisingas. Telefono numeris turi prasidėti: :codes.',
+    'phone_code' => 'Telefono numerio kodas neteisingas. Telefono numeris turi prasidėti: :codes.',
 
     /*
     |--------------------------------------------------------------------------
@@ -167,5 +167,5 @@ return [
         'email' => 'el. paštas',
         'username' => 'vartotojo vardas',
     ],
-
+    'error_in_input' => 'Klaida laukelyje: ',
 ];

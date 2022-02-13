@@ -56,6 +56,9 @@ generate_translations:
 notify_about_weather_for_basketball:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan weatherForBasketBall:notify
 
+migration_generate:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan make:migration ${options}
+
 migrations_migrate:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan migrate
 
@@ -75,7 +78,7 @@ log_clear:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan log:clear
 
 cache_clear:
-	cd ${DOCKER_DIR} && docker-compose run --rm artisan cache:clear
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan optimize:clear
 
 run_tests:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan test
@@ -85,6 +88,9 @@ generate_app_key:
 
 storage_link:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan storage:link
+
+tinker:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan tinker
 
 copy_config_files:
 	cp .env.example .env
