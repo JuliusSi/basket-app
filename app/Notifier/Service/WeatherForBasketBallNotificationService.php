@@ -5,37 +5,18 @@ declare(strict_types=1);
 namespace App\Notifier\Service;
 
 use App\Notifier\Model\Notification;
-use Carbon\Carbon;
-use Core\Storage\Service\LocalStorageService;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
+use Carbon\Carbon;
+use Core\Storage\Service\LocalStorageService;
 use Exception;
 
-/**
- * Class WeatherForBasketBallNotificationService
- * @package App\Notifier\Service
- */
 class WeatherForBasketBallNotificationService implements NotificationServiceInterface
 {
-    /**
-     * @var WeatherCheckManager
-     */
-    private WeatherCheckManager $weatherCheckManager;
-
-    /**
-     * @var LocalStorageService
-     */
-    private LocalStorageService $localStorageService;
-
-    /**
-     * WeatherForBasketBallNotificationService constructor.
-     * @param  WeatherCheckManager  $weatherCheckManager
-     * @param  LocalStorageService  $localStorageService
-     */
-    public function __construct(WeatherCheckManager $weatherCheckManager, LocalStorageService $localStorageService)
-    {
-        $this->weatherCheckManager = $weatherCheckManager;
-        $this->localStorageService = $localStorageService;
+    public function __construct(
+        private WeatherCheckManager $weatherCheckManager,
+        private LocalStorageService $localStorageService
+    ) {
     }
 
     /**
@@ -50,24 +31,33 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
         return [$notification];
     }
 
-    /**
-     * @return Notification|null
-     */
     private function getNotification(): ?Notification
     {
         $weatherWarnings = $this->getWarnings();
-        if ($weatherWarnings === null) {
+        if (null === $weatherWarnings) {
             return null;
         }
 
+        return $this->resolveNotification($weatherWarnings);
+    }
+
+    private function resolveNotification(array $warnings): Notification
+    {
+        if (!$warnings) {
+            return $this->buildNotification(
+                __('weather-rules.success'),
+                $this->getFileUrl(config('memes.jr_smith_reaction_gif_url'))
+            );
+        }
+
         return $this->buildNotification(
-            $this->getBadWeatherMessage($weatherWarnings),
+            $this->getBadWeatherMessage($warnings),
             $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url'))
         );
     }
 
     /**
-     * @return Warning[]|null
+     * @return null|Warning[]
      */
     private function getWarnings(): ?array
     {
@@ -78,11 +68,6 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
         }
     }
 
-    /**
-     * @param  string  $message
-     * @param  string|null  $imageUrl
-     * @return Notification
-     */
     private function buildNotification(string $message, ?string $imageUrl): Notification
     {
         $notification = new Notification();
@@ -95,8 +80,7 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
     }
 
     /**
-     * @param  Warning[]  $warnings
-     * @return string
+     * @param Warning[] $warnings
      */
     private function getBadWeatherMessage(array $warnings): string
     {
@@ -106,7 +90,8 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
     }
 
     /**
-     * @param  Warning[]  $warnings
+     * @param Warning[] $warnings
+     *
      * @return string[]
      */
     private function getTranslatedMessages(array $warnings): array
@@ -120,10 +105,9 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
     }
 
     /**
-     * @param  string  $placeCode
-     * @return Warning[]
-     *
      * @throws Exception
+     *
+     * @return Warning[]
      */
     private function checkWeather(string $placeCode): array
     {
@@ -133,18 +117,11 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
         return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
     }
 
-    /**
-     * @param  string  $fileName
-     * @return string|null
-     */
     private function getFileUrl(string $fileName): ?string
     {
         return $this->localStorageService->findFileUrl($fileName, LocalStorageService::DIRECTORY_MEMES);
     }
 
-    /**
-     * @return string
-     */
     private function getCheckEndDateTime(): string
     {
         return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();

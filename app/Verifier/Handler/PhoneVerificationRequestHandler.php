@@ -50,7 +50,7 @@ class PhoneVerificationRequestHandler
     {
         $this->buildAndSaveAttribute(
             $user,
-            UserAttribute::ATTRIBUTE_NAME_PHONE_VERIFICATION_ID,
+            UserAttribute::NAME_PHONE_VERIFICATION_ID,
             $response->getOtpId()
         );
     }

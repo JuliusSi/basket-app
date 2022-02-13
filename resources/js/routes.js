@@ -2,6 +2,7 @@ import BasketballCourtComponent from "./components/BasketballCourtComponent";
 import BasketballCourtsComponent from "./components/BasketballCourtsComponent";
 import WeatherCheckComponent from "./components/WeatherCheckComponent";
 import RadiationCheckComponent from "./components/RadiationCheckComponent";
+import UserSettings from "./components/user/settings/UserSettings";
 
 const routes = [
     {
@@ -24,7 +25,12 @@ const routes = [
         path: '/radiation-info',
         name: 'radiation-info',
         component: RadiationCheckComponent,
-    }
+    },
+    {
+        path: '/user-settings',
+        name: 'user-settings',
+        component: UserSettings,
+    },
 ];
 
 export default routes

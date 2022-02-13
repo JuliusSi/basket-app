@@ -96,6 +96,11 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <router-link class="dropdown-item"
+                                         to='/user-settings'>
+                                <font-awesome-icon :icon="['fas', 'user-cog']" class="fa-icon"
+                                                   fixed-width></font-awesome-icon>
+                                {{ __('menu.user_menu.settings') }}</router-link>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

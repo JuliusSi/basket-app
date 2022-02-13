@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\RadiationChecker\Service;
 
 use App\RadiationChecker\Model\RadiationInfo;
@@ -9,25 +11,16 @@ use Src\Radiation\Client\Response\Response;
 use Src\Radiation\Repository\CachedRadiationRepository;
 
 /**
- * Class RadiationInfoService
- * @package App\RadiationChecker\Service
+ * Class RadiationInfoService.
  */
 class RadiationInfoService
 {
-    /**
-     * @var CachedRadiationRepository
-     */
     private CachedRadiationRepository $cachedRadiationRepository;
 
-    /**
-     * @var RadiationStatusResolver
-     */
     private RadiationStatusResolver $radiationStatusResolver;
 
     /**
      * RadiationInfoService constructor.
-     * @param  CachedRadiationRepository  $cachedRadiationRepository
-     * @param  RadiationStatusResolver  $radiationStatusResolver
      */
     public function __construct(CachedRadiationRepository $cachedRadiationRepository, RadiationStatusResolver $radiationStatusResolver)
     {
@@ -35,9 +28,6 @@ class RadiationInfoService
         $this->radiationStatusResolver = $radiationStatusResolver;
     }
 
-    /**
-     * @return RadiationInfo|null
-     */
     public function getRadiationInfo(): ?RadiationInfo
     {
         $rawResponse = $this->getRawResponse();
@@ -48,10 +38,15 @@ class RadiationInfoService
         return $this->buildResponse($rawResponse);
     }
 
-    /**
-     * @param  Response  $rawResponse
-     * @return RadiationInfo
-     */
+    public function getRawResponse(): ?Response
+    {
+        try {
+            return $this->cachedRadiationRepository->find();
+        } catch (Exception) {
+            return null;
+        }
+    }
+
     private function buildResponse(Response $rawResponse): RadiationInfo
     {
         $response = new RadiationInfo();
@@ -61,17 +56,5 @@ class RadiationInfoService
         $response->setStatus($status);
 
         return $response;
-    }
-
-    /**
-     * @return Response|null
-     */
-    public function getRawResponse(): ?Response
-    {
-        try {
-            return $this->cachedRadiationRepository->find();
-        } catch (Exception) {
-            return null;
-        }
     }
 }

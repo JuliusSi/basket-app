@@ -26,11 +26,11 @@ Vue.use(VueAxios, axios);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(VueRouter);
 const router = new VueRouter({
+    mode: 'history',
     routes,
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }
     },
-    mode: 'history'
 })
 import { Datetime } from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
@@ -59,6 +59,8 @@ Vue.component('phone-verification', require('./components/PhoneVerification.vue'
 Vue.component('basketball-courts', require('./components/BasketballCourtsComponent.vue').default);
 Vue.component('create-arrivals', require('./components/court-arrivals/CreateArrival.vue').default);
 Vue.component('datetime', Datetime);
+Vue.component('weather-notification-settings', require('./components/user/settings/WeatherNotificationSmsSettings.vue').default);
+Vue.component('user-main-settings', require('./components/user/settings/UserMainSettings.vue').default)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

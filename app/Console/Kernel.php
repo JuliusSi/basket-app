@@ -27,10 +27,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('weather:warmUpCache')->everyTenMinutes()->between('10:01', '21:01');
+        $schedule->command('weather:warmUpCache')->everyTenMinutes()->between('08:00', '21:0');
         $schedule->command('weatherForBasketBall:notify')->days(5, 6, 7)->at(
             config('notification.weather_for_basketball.time_to_notify')
         );
+        $schedule->command('weatherForBasketBall:notifyUsers')->everyMinute()->between('09:00', '18:00');
         $schedule->command('basketBallSeasonEnd:notify')->dailyAt('12:00');
         $schedule->command('basketBallSeasonStart:notify')->dailyAt('12:00');
         $schedule->command('log:clear')->yearly();

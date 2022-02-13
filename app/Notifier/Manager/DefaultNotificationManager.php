@@ -6,26 +6,14 @@ use App\Notifier\Model\Notification;
 use App\Notifier\Processor\DefaultNotificationProcessor;
 use App\Notifier\Service\NotificationServiceInterface;
 
-/**
- * Class DefaultNotificationManager
- * @package App\Notifier\Manager
- */
 class DefaultNotificationManager implements NotificationManagerInterface
 {
-    /**
-     * @var NotificationServiceInterface
-     */
     private NotificationServiceInterface $notificationService;
 
-    /**
-     * @var DefaultNotificationProcessor
-     */
     private DefaultNotificationProcessor $notificationProcessor;
 
     /**
      * DefaultNotificationManager constructor.
-     * @param  NotificationServiceInterface  $notificationService
-     * @param  DefaultNotificationProcessor  $notificationProcessor
      */
     public function __construct(
         NotificationServiceInterface $notificationService,
@@ -35,9 +23,6 @@ class DefaultNotificationManager implements NotificationManagerInterface
         $this->notificationProcessor = $notificationProcessor;
     }
 
-    /**
-     * @return void
-     */
     public function manage(): void
     {
         $notifications = $this->getNotifications();

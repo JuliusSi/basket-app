@@ -8,8 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CourtArrivalStoreRequest;
 
 /**
- * Class CourtArrivalsController
- * @package App\Http\Controllers\Api
+ * Class CourtArrivalsController.
  */
 class CourtArrivalsController extends Controller
 {

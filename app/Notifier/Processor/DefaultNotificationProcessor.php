@@ -1,25 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifier\Processor;
 
 use App\Notifier\Collection\NotifierInterface;
 use App\Notifier\Model\Notification;
 use Illuminate\Support\Collection;
 
-/**
- * Class DefaultNotificationProcessor
- * @package App\Notifier\Processor
- */
 class DefaultNotificationProcessor implements NotificationProcessorInterface
 {
-    /**
-     * @var Collection
-     */
     private Collection $collection;
 
     /**
      * DefaultNotificationProcessor constructor.
-     * @param  Collection  $collection
      */
     public function __construct(Collection $collection)
     {
@@ -27,7 +21,7 @@ class DefaultNotificationProcessor implements NotificationProcessorInterface
     }
 
     /**
-     * @param  Notification[]  $notifications
+     * @param Notification[] $notifications
      */
     public function process(array $notifications): void
     {
@@ -35,7 +29,7 @@ class DefaultNotificationProcessor implements NotificationProcessorInterface
     }
 
     /**
-     * @param  Notification[]  $notifications
+     * @param Notification[] $notifications
      */
     private function applyNotifiers(array $notifications): void
     {

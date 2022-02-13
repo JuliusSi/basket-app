@@ -11,15 +11,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * Class UserSeeder
- * @package Database\Seeders
+ * Class UserSeeder.
  */
 class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
-     * @return void
      * @throws Exception
      */
     public function run(): void
@@ -42,9 +40,6 @@ class UserSeeder extends Seeder
         );
     }
 
-    /**
-     * @param  int  $count
-     */
     private function createRandomUsers(int $count): void
     {
         User::factory()->count($count)->create();

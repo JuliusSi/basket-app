@@ -4,9 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <router-view :user={{ Auth::user()->makeVisible([
-            'api_token',
-        ]) }}></router-view>
+                <router-view :user={{ $user }}></router-view>
             </div>
             @include('parts.sidebar')
         </div>

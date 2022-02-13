@@ -35,7 +35,6 @@
                 <select v-model="selectedPlace" class="form-control mb-3">
                     <option :value="null" disabled>{{ 'weather.select_place' | trans }}</option>
                     <option :value="place.id" v-for="place in places">{{ 'weather.place_codes.' + place.code | trans }}</option>
-                    v-for="message in messages"
                 </select>
                 <button class="btn btn-primary mb-2" @click="getWarnings" :disabled="!selectedPlace">
                     {{ 'weather.check_weather' | trans }}

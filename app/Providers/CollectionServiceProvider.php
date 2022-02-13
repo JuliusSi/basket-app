@@ -40,6 +40,17 @@ class CollectionServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            'user_weather_for_basketball_notifier_collection',
+            function ($app) {
+                return new Collection(
+                    [
+                        $app->make(SmsNotifier::class),
+                    ]
+                );
+            }
+        );
+
+        $this->app->singleton(
             'radiation_notifier_collection',
             function ($app) {
                 return new Collection(

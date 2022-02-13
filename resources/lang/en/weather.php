@@ -22,4 +22,5 @@ return [
         'marijampole' => 'Marijampolė',
         'raseiniai' => 'Raseiniai',
     ],
+    'exception' => 'Cannot get information from weather provider',
 ];
