@@ -7,7 +7,7 @@
                 {{ 'main.user_settings.basketball_weather_sms_notification' | trans }}
             </h2>
         </div>
-        <div class="text-left" v-if="!loading">
+        <div class="text-left">
             <div class="mt-4 alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
                 <h2 class="alert-heading">{{ 'main.information_update_success' | trans }}</h2>
             </div>
