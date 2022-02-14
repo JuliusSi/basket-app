@@ -136,11 +136,14 @@ class UserWeatherForBasketBallNotificationService implements NotificationService
         return User::whereHas('userAttributes', static function (Builder $query) {
             $query
                 ->where('name', UserAttribute::NAME_NOTIFY_ABOUT_WEATHER_FOR_BASKETBALL)
-                ->where('value', UserAttribute::VALUE_TRUE);
+                ->where('value', UserAttribute::VALUE_TRUE)
+            ;
         })->whereHas('userAttributes', static function (Builder $query) {
             $query
                 ->where('name', UserAttribute::NAME_WEATHER_FOR_BASKETBALL_NOTIFICATION_TIME)
-                ->where('value', now()->toTimeString('minute'));
+                ->where('value', now()->toTimeString('minute'))
+                ->whereDate('updated_at', '<>', today())
+            ;
         })->whereNotNull('phone')->get()->all();
     }
 }

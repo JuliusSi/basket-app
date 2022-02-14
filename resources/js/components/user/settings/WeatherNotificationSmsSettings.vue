@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-12 fadeIn" v-if="smsNotify">
+    <div class="col-md-12 fadeIn">
         <div class="title pl-2 pt-3 pb-2 mb-4 mt-2 bg-title">
             <h2>
                 <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
@@ -7,7 +7,7 @@
                 {{ 'main.user_settings.basketball_weather_sms_notification' | trans }}
             </h2>
         </div>
-        <div class="text-left">
+        <div class="text-left" v-if="!loading">
             <div class="mt-4 alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
                 <h2 class="alert-heading">{{ 'main.information_update_success' | trans }}</h2>
             </div>
