@@ -31,7 +31,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="title pl-2 pt-3 pb-2 mb-3 mt-3 bg-title">
+                        <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
                             <h2>
                                 <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" fixed-width/>
                                 {{ 'main.basketball-courts.court_information' | trans }}
@@ -57,7 +57,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="title pl-2 pt-3 pb-2 mb-3 mt-3 bg-title">
+                        <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
                             <h2>
                                 <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" fixed-width/>
                                 {{ 'main.basketball-courts.weather_in_court' | trans }}

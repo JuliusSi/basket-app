@@ -7,8 +7,9 @@
             {{ 'main.comments.header' | trans }}
         </div>
         <div class="card-body" v-if="!loading">
-            <ul class="list-group mb-4" v-if="showOnlineUsers">
-                <li class="list-group-item active">
+            <ul class="list-group mb-4" v-if="showOnlineUsers"
+                style="margin-left: -20px; margin-right: -20px; margin-top: -20px;">
+                <li class="list-group-item bg-title">
                     <font-awesome-icon :icon="['fa', 'users']" style="color: green;" class="fa-icon"
                                        fixed-width/>
                     {{ 'main.comments.online_users' | trans }} ({{ this.users.length }})</li>

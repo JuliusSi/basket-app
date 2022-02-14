@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-12 fadeIn">
-        <div class="title pl-2 pt-3 pb-2 mt-2 mb-2 bg-title">
+        <div class="title pl-4 pt-3 pb-2 mt-2 mb-2 bg-title">
             <h2>
                 <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
                 <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" v-if="!loading" fixed-width/>
