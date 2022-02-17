@@ -34,24 +34,24 @@
                         <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
                             <h2>
                                 <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" fixed-width/>
-                                {{ 'main.basketball-courts.court_information' | trans }}
+                                {{ this.$t('main.basketball-courts.court_information') }}
                             </h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <dt>{{ 'main.name' | trans }}</dt>
+                        <dt>{{ this.$t('main.name') }}</dt>
                         <dd>{{ court.name }}</dd>
-                        <dt>{{ 'main.city' | trans }}</dt>
+                        <dt>{{ this.$t('main.city') }}</dt>
                         <dd>{{ court.city }}</dd>
-                        <dt>{{ 'main.address' | trans }}</dt>
+                        <dt>{{ this.$t('main.address') }}</dt>
                         <dd><a style="text-decoration: underline" :href="getGoogleAddressLink(court.address)"> {{ court.address }}</a></dd>
-                        <dt>{{ 'main.updated' | trans }}</dt>
+                        <dt>{{ this.$t('main.updated') }}</dt>
                         <dd>{{ formatDate(court.updated_at) }}</dd>
                     </div>
                     <div class="col-md-6">
-                        <dt>{{ 'main.description' | trans }}</dt>
+                        <dt>{{ this.$t('main.description') }}</dt>
                         <dd>{{ court.description }}</dd>
                     </div>
                 </div>
@@ -60,17 +60,17 @@
                         <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
                             <h2>
                                 <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" fixed-width/>
-                                {{ 'main.basketball-courts.weather_in_court' | trans }}
+                                {{ this.$t('main.basketball-courts.weather_in_court') }}
                             </h2>
                         </div>
                         <div class="text-center fadeIn" role="alert" v-if="status === STATUS_OK">
-                            <h2 class="alert-heading">{{ 'weather-rules.success' | trans }}</h2>
+                            <h2 class="alert-heading">{{ this.$t('weather-rules.success') }}</h2>
                         </div>
                         <div class="fadeIn text-center" role="alert" v-if="exception">
                             <h2 class="alert-heading">{{ exception }}</h2>
                         </div>
                         <div class="fadeIn" role="alert" v-if="weatherWarnings.length">
-                            <h2 class="alert-heading">{{ 'weather-rules.error' | trans }}</h2>
+                            <h2 class="alert-heading">{{ this.$t('weather-rules.error') }}</h2>
                             <ul class="list-unstyled">
                                 <li v-for="warning in this.weatherWarnings">
                                     {{ warning.translatedMessage }}

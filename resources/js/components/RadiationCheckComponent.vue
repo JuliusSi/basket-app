@@ -4,12 +4,12 @@
             <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
             <font-awesome-icon :icon="['fas', 'radiation']" class="fa-icon"
                                fixed-width v-if="!loading"/>
-            {{ 'main.radiation.title' | trans }}
+            {{ this.$t('main.radiation.title') }}
         </div>
         <div class="card-body" v-if="!loading">
-            <p> {{ 'main.radiation.radiation_background' | trans }}: {{ radiationBackground }} μSv/h</p>
-            <p> {{ 'main.updated' | trans }}: {{ updated }}</p>
-            <p> {{ 'main.radiation.status' | trans }}: {{ 'main.radiation.status_' + radiationStatus | trans }}</p>
+            <p> {{ this.$t('main.radiation.radiation_background') }}: {{ radiationBackground }} μSv/h</p>
+            <p> {{ this.$t('main.updated') }}: {{ updated }}</p>
+            <p> {{ this.$t('main.radiation.status') }}: {{ this.$t('main.radiation.status_' + radiationStatus) }}</p>
         </div>
     </div>
 </template>

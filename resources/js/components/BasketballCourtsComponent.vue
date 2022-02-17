@@ -4,18 +4,18 @@
             <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
             <font-awesome-icon :icon="['fas', 'map-marked']" class="fa-icon"
                                fixed-width v-if="!loading"/>
-            {{ 'main.basketball-courts.title' | trans }}
+            {{ this.$t('main.basketball-courts.title') }}
         </div>
         <div class="card-body">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <label>{{ 'main.name' | trans }}:</label>
-                        <input v-model="name" :placeholder="'main.add_value' | trans" class="form-control mb-3">
+                        <label>{{ this.$t('main.name') }}:</label>
+                        <input v-model="name" :placeholder="this.$t('main.add_value')" class="form-control mb-3">
                     </div>
                     <div class="col-md-6">
-                        <label>{{ 'main.city' | trans }}:</label>
-                        <input v-model="city" :placeholder="'main.add_value' | trans" class="form-control mb-3">
+                        <label>{{ this.$t('main.city') }}:</label>
+                        <input v-model="city" :placeholder="this.$t('main.add_value')" class="form-control mb-3">
                     </div>
                     <div class="col-md-12">
                         <button @click="getCourts(1)" type="button"
@@ -31,7 +31,7 @@
                 <div class="container">
                     <div class="row court-container">
                         <div class="text-center" v-if="!courts.length">
-                            <p>{{ 'main.no_data' | trans }}</p>
+                            <p>{{ this.$t('main.no_data') }}</p>
                         </div>
                         <div v-for="court in courts" class="col-md-6 court-item">
                             <router-link :to="{ name: 'basketball-court', params: { id: court.id } }">
@@ -39,10 +39,14 @@
                                 <figure>
                                     <div class="text-center">
                                             <vue-load-image>
+                                                <template v-slot:image>
                                                 <img slot="image" :src="court.image_path" class="img-fluid fadeIn img"
                                                      :alt="court.name">
+                                                </template>
+                                                <template v-slot:preloader>
                                                 <img :style="{height: '50px'}" alt="loader" slot="preloader"
                                                      class="mt-5" src="img/spinner.png"/>
+                                                </template>
                                             </vue-load-image>
                                     </div>
                                 </figure>

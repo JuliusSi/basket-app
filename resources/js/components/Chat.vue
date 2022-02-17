@@ -4,7 +4,7 @@
             <font-awesome-icon :icon="['fas', 'comments']" class="fa-icon"
                                fixed-width v-if="!loading"/>
             <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
-            {{ 'main.comments.header' | trans }}
+            {{ this.$t('main.comments.header') }}
         </div>
         <div class="card-body" v-if="!loading">
             <ul class="list-group mb-4" v-if="showOnlineUsers"
@@ -12,16 +12,17 @@
                 <li class="list-group-item bg-title">
                     <font-awesome-icon :icon="['fa', 'users']" style="color: green;" class="fa-icon"
                                        fixed-width/>
-                    {{ 'main.comments.online_users' | trans }} ({{ this.users.length }})</li>
-                <li v-if="users.length < 6" class="list-group-item" v-for="user in users">
+                    {{ this.$t('main.comments.online_users') }} ({{ this.users.length }})</li>
+                <li v-if="users.length < 6" class="list-group-item">
                     <font-awesome-icon :icon="['fa', 'user']" class="fa-icon"
-                                       fixed-width/>  {{ user.username }} <span v-if="user.typing">{{ 'main.comments.typing' | trans }}</span>
+                                       fixed-width/>
+                    {{ getUsernamesString(users) }}
                 </li>
             </ul>
             <chat-messages :messages="messages"></chat-messages>
             <ul class="list-unstyled">
                 <li v-for="typingUser in getTypingUsers">
-                    {{ typingUser.username }} {{ 'main.comments.typing' | trans }}
+                    {{ typingUser.username }} {{ this.$t('main.comments.typing') }}
                 </li>
             </ul>
         </div>
@@ -144,6 +145,12 @@ export default {
     },
 
     methods: {
+        getUsernamesString(users) {
+            const names = users.map(function (item) {
+                return item['username'];
+            });
+            return names.toString();
+        },
         fetchMessages(page) {
             let params = {
                 page: page,

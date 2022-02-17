@@ -4,7 +4,7 @@
             <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
             <font-awesome-icon :icon="['fas', 'user-cog']" class="fa-icon"
                                fixed-width v-if="!loading"/>
-            {{ 'main.user_settings.title' | trans }}
+            {{ this.$t('main.user_settings.title') }}
         </div>
         <div class="card-body">
             <user-main-settings :user="user"></user-main-settings>

@@ -4,11 +4,11 @@
             <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
             <font-awesome-icon :icon="['fas', 'mobile-alt']" class="fa-icon"
                                fixed-width v-if="!loading"/>
-            {{ 'verification.phone.verify_phone' | trans }}
+            {{ this.$t('verification.phone.verify_phone') }}
         </div>
         <div class="card-body">
             <div class="alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
-                <h5 class="alert-heading">{{ 'verification.phone.success' | trans }}</h5>
+                <h5 class="alert-heading">{{ this.$t('verification.phone.success') }}</h5>
             </div>
             <div class="alert alert-danger fadeIn" role="alert" v-if="status === STATUS_NOT_OK">
                 <ul class="list">
@@ -18,10 +18,10 @@
                 </ul>
             </div>
             <div class="form-group col-md-6">
-                    <label for="phone" class="col-form-label">{{ 'main.phone' | trans }}</label>
+                    <label for="phone" class="col-form-label">{{ this.$t('main.phone') }}</label>
                         <input class="form-control mb-3" placeholder="370" id="phone" type="text" name="phone" required autocomplete="phone">
                 <button class="btn btn-primary mb-2" @click="getWarnings" :disabled="!phone">
-                    {{ 'verification.verify' | trans }}
+                    {{ this.$t('verification.verify') }}
                     <font-awesome-icon :icon="['fas', 'angle-double-right']" class="fa-icon"
                                        fixed-width v-if="phone"></font-awesome-icon>
                 </button>
