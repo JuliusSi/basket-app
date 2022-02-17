@@ -33,7 +33,7 @@ npm_install:
 	cd ${DOCKER_DIR} && docker-compose run --rm npm install
 
 npm_run_dev:
-	cd ${DOCKER_DIR} && docker-compose run --rm npm run dev
+	cd ${DOCKER_DIR} && docker-compose run --rm npm run development
 
 npm_update:
 	cd ${DOCKER_DIR} && docker-compose run --rm npm update
