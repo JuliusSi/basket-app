@@ -1,25 +1,25 @@
 <template>
-    <div class="col-md-12 fadeIn" v-if="smsNotify">
-        <div class="title pl-2 pt-3 pb-2 mb-4 mt-2 bg-title">
+    <div class="col-md-12 fadeIn">
+        <div class="title pl-4 pt-3 pb-2 mb-4 mt-2 bg-title">
             <h2>
                 <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
                 <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" v-if="!loading" fixed-width/>
-                {{ 'main.user_settings.basketball_weather_sms_notification' | trans }}
+                {{ this.$t('main.user_settings.basketball_weather_sms_notification') }}
             </h2>
         </div>
-        <div class="text-left">
+        <div class="text-left" v-if="smsNotify">
             <div class="mt-4 alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
-                <h2 class="alert-heading">{{ 'main.information_update_success' | trans }}</h2>
+                <h2 class="alert-heading">{{ this.$t('main.information_update_success') }}</h2>
             </div>
             <div class="mt-4 alert alert-danger fadeIn" role="alert" v-if="status === STATUS_NOT_OK">
-                <h2 class="alert-heading">{{ 'main.information_update_fail' | trans }}</h2>
+                <h2 class="alert-heading">{{ this.$t('main.information_update_fail') }}</h2>
             </div>
             <form
                 id="app" @submit.prevent="updateUserAttributes" method="POST"
             >
                     <div class="row">
                         <div class="col-md-10">
-                            {{ 'attributes.names.' + smsNotify.name | trans }}
+                            {{ this.$t('attributes.names.' + smsNotify.name) }}
                         </div>
                         <div class="col-md-2">
                             <div class="material-switch pull-right">
@@ -35,7 +35,7 @@
                     <div class="text-left fadeIn" v-if="smsNotify.value === '1'">
                         <div class="form-group row mt-4" v-if="time">
                             <div class="col-md-8">
-                                <label for="date">{{ 'main.user_settings.select_time' | trans }}</label>
+                                <label for="date">{{ this.$t('main.user_settings.select_time') }}</label>
 
                                 <input v-model="time.value" class="form-control" type="time" id="date" name="date"
                                        min="09:00" max="18:00" required>
@@ -45,9 +45,9 @@
                              v-if="place">
                             <div class="col-md-8">
                                 <select v-model="place.value" class="form-control mb-1">
-                                    <option :value="null" disabled>{{ 'weather.select_place' | trans }}</option>
+                                    <option :value="null" disabled>{{ this.$t('weather.select_place') }}</option>
                                     <option :value="place.code" v-for="place in places">
-                                        {{ 'weather.place_codes.' + place.code | trans }}
+                                        {{ this.$t('weather.place_codes.' + place.code) }}
                                     </option>
                                 </select>
                             </div>
@@ -56,7 +56,7 @@
                 <div class="form-group row mt-4">
                     <div class="col-md-6">
                         <button type="submit" class="btn btn-primary">
-                            {{ 'main.save' | trans }}
+                            {{ this.$t('main.save') }}
                         </button>
                     </div>
                 </div>

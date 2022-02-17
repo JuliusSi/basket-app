@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Sms\Client;
 
+use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
 use Core\Helpers\Traits\RequestOptionsBuildingTrait;
 use Core\Helpers\Traits\SerializationTrait;
 use GuzzleHttp\Client;
@@ -11,7 +12,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
-use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
 use Src\Sms\Exception\SmsSendingException;
 
 abstract class AbstractClient
@@ -24,10 +24,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @param  string  $class
-     *
-     * @return mixed
      * @throws SmsSendingException
      */
     public function getDeserializedResponse(RequestInterface $request, string $class): mixed
@@ -38,10 +34,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     *
-     * @return string
-     *
      * @throws SmsSendingException
      */
     public function getResponse(RequestInterface $request): string
@@ -49,12 +41,13 @@ abstract class AbstractClient
         if (!App::isProduction()) {
             $message = sprintf(
                 'Sms message sending is enabled only for production env. Current env: %s. Request: %s.',
-                env('APP_ENV'), $request->getBody()
+                env('APP_ENV'),
+                $request->getBody()
             );
             $this->logAndThrowException($message);
         }
 
-        $response =  $this->getRawResponse($request);
+        $response = $this->getRawResponse($request);
         $content = $response->getBody()->getContents();
         $this->handleResponse($request, $content);
 
@@ -62,8 +55,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @return ResponseInterface
      * @throws SmsSendingException
      */
     private function getRawResponse(RequestInterface $request): ResponseInterface
@@ -77,8 +68,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @param  string|null  $content
      * @throws SmsSendingException
      */
     private function handleResponse(RequestInterface $request, ?string $content): void
@@ -92,8 +81,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @return ResponseInterface
      * @throws GuzzleException
      */
     private function call(RequestInterface $request): ResponseInterface
@@ -102,13 +89,12 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  string  $message
-     *
      * @throws SmsSendingException
      */
     private function logAndThrowException(string $message): void
     {
         Log::channel('client')->info($message);
+
         throw new SmsSendingException($message);
     }
 }

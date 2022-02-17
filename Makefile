@@ -42,7 +42,7 @@ npm_run_watch:
 	cd ${DOCKER_DIR} && docker-compose run --rm npm run watch
 
 npm_run_prod:
-	cd ${DOCKER_DIR} && docker-compose run --rm npm run prod
+	cd ${DOCKER_DIR} && docker-compose run --rm npm run production
 
 schedule_run:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan schedule:run

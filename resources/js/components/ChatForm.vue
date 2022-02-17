@@ -1,7 +1,7 @@
 
 <template>
     <div class="input-group">
-                <textarea :placeholder="'main.comments.message_placeholder' | trans"
+                <textarea :placeholder="this.$t('main.comments.message_placeholder')"
                           type="text"
                           style="height: 50px;"
                           @keyup.enter="sendMessage"

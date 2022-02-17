@@ -4,17 +4,17 @@
             <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
             <font-awesome-icon :icon="['fas', 'cloud-sun']" class="fa-icon"
                                fixed-width v-if="!loading"/>
-            {{ 'weather.check_weather_for_basketball' | trans }}
+            {{ this.$t('weather.check_weather_for_basketball') }}
         </div>
         <div class="card-body">
             <div class="alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
-                <h2 class="alert-heading">{{ 'weather-rules.success' | trans }}</h2>
+                <h2 class="alert-heading">{{ this.$t('weather-rules.success') }}</h2>
             </div>
             <div class="alert alert-danger fadeIn text-center" role="alert" v-if="exception">
                 <h2 class="alert-heading">{{ exception }}</h2>
             </div>
             <div class="alert alert-danger fadeIn" role="alert" v-if="status === STATUS_NOT_OK">
-                <h2 class="alert-heading">{{ 'weather-rules.error' | trans }}</h2>
+                <h2 class="alert-heading">{{ this.$t('weather-rules.error') }}</h2>
                 <ul class="list">
                     <li v-for="warning in this.warnings">
                         {{ warning.translatedMessage }}
@@ -22,22 +22,22 @@
                 </ul>
             </div>
             <div class="form-group col-md-6">
-                {{ 'weather.select_start_date' | trans }}
+                {{ this.$t('weather.select_start_date') }}
                 <datetime
-                    :format="{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }"
-                    input-class="form-control mb-3" type="datetime" v-model="selectedStartDate"></datetime>
-            {{ 'weather.select_end_date' | trans }}
+                    v-model="selectedStartDate" format="Y-m-d HH:m:s"
+                    input-class="form-control mb-3" type="datetime"></datetime>
+                {{ this.$t('weather.select_end_date') }}
                 <datetime
-                    :format="{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }"
+                    format="Y-m-d HH:m:s"
                     input-class="form-control mb-3" type="datetime" v-model="selectedEndDate"></datetime>
         </div>
             <div class="form-group col-md-8">
                 <select v-model="selectedPlace" class="form-control mb-3">
-                    <option :value="null" disabled>{{ 'weather.select_place' | trans }}</option>
-                    <option :value="place.id" v-for="place in places">{{ 'weather.place_codes.' + place.code | trans }}</option>
+                    <option :value="null" disabled>{{ this.$t('weather.select_place') }}</option>
+                    <option :value="place.id" v-for="place in places">{{ this.$t('weather.place_codes.' + place.code) }}</option>
                 </select>
                 <button class="btn btn-primary mb-2" @click="getWarnings" :disabled="!selectedPlace">
-                    {{ 'weather.check_weather' | trans }}
+                    {{ this.$t('weather.check_weather') }}
                     <font-awesome-icon :icon="['fas', 'angle-double-right']" class="fa-icon"
                                        fixed-width v-if="selectedPlace"></font-awesome-icon>
                 </button>
@@ -48,6 +48,7 @@
 
 <script>
 import moment from "moment";
+import { ref, onMounted } from 'vue';
 
 const STATUS_OK = 'OK';
 const STATUS_NOT_OK = 'NOT_OK';

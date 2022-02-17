@@ -10,8 +10,8 @@
 
 ## Technologies used
 
-- Vue 2.5
-- Laravel 8
+- Vue 3
+- Laravel 9
 
 ## Local environment with docker
 

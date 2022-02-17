@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -8,8 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Src\Weather\Repository\CachedWeatherRepository;
 
 /**
- * Class WeatherCacheWarmUpCommand
- * @package App\Console\Commands
+ * Class WeatherCacheWarmUpCommand.
  */
 class WeatherCacheWarmUpCommand extends Command
 {
@@ -23,14 +24,10 @@ class WeatherCacheWarmUpCommand extends Command
      */
     protected $description = 'Warm ups weather cache.';
 
-    /**
-     * @var CachedWeatherRepository
-     */
     private CachedWeatherRepository $cachedWeatherRepository;
 
     /**
      * WeatherCacheWarmUpCommand constructor.
-     * @param  CachedWeatherRepository  $cachedWeatherRepository
      */
     public function __construct(CachedWeatherRepository $cachedWeatherRepository)
     {
@@ -40,7 +37,7 @@ class WeatherCacheWarmUpCommand extends Command
 
     /**
      * Execute the console command.
-     * @return void
+     *
      * @throws GuzzleException
      */
     public function handle(): void
@@ -51,8 +48,6 @@ class WeatherCacheWarmUpCommand extends Command
     }
 
     /**
-     * @param  string  $placeCode
-     * @param  string  $placeName
      * @throws GuzzleException
      */
     private function warmUp(string $placeCode, string $placeName): void

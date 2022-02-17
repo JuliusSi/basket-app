@@ -8,7 +8,7 @@
                             <h5 class="modal-title">
                                 <font-awesome-icon :icon="['fas', 'calendar-plus']" class="fa-icon"
                                                    fixed-width/>
-                                {{ 'main.court-arrivals.create-arrival' | trans }}
+                                {{ this.$t('main.court-arrivals.create-arrival') }}
                             </h5>
                             <button type="button" class="close" @click="closeModal" aria-label="Close">
                                 <font-awesome-icon :style="{ color: '#A0A0A0', marginRight: '3px' }"
@@ -18,7 +18,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="alert alert-success fadeIn" role="alert" v-if="success">
-                                {{ 'main.court-arrivals.created' | trans }}
+                                {{ this.$t('main.court-arrivals.created') }}
                                 </div>
                             <div class="alert alert-danger fadeIn text-left" role="alert" v-if="errors">
                                 <div v-for="(v, k) in errors" :key="k">
@@ -29,19 +29,19 @@
                             </div>
                             <h2 class="mb-3">{{ court.name }}</h2>
                             <div class="form-group col-md-6 text-left">
-                                {{ 'weather.select_start_date' | trans }}
+                                {{ this.$t('weather.select_start_date') }}
                                 <datetime
                                     :format="{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }"
                                     input-class="form-control mb-3" type="datetime" v-model="selectedStartDate"></datetime>
-                                {{ 'weather.select_end_date' | trans }}
+                                {{ this.$t('weather.select_end_date') }}
                                 <datetime
                                     :format="{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }"
                                     input-class="form-control mb-3" type="datetime" v-model="selectedEndDate"></datetime>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="closeModal">{{ 'main.close' | trans }}</button>
-                            <button :disabled="!isAvailableToSaveArrival" type="button" class="btn btn-primary" @click="createArrival">{{ 'main.save' | trans }}</button>
+                            <button type="button" class="btn btn-secondary" @click="closeModal">{{ this.$t('main.close') }}</button>
+                            <button :disabled="!isAvailableToSaveArrival" type="button" class="btn btn-primary" @click="createArrival">{{ this.$t('main.save') }}</button>
                         </div>
                     </div>
                 </div>
