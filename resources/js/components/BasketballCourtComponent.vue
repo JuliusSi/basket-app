@@ -11,13 +11,17 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <vue-load-image class="mb-3">
+                            <template v-slot:image>
                             <img slot="image" :src="court.image_path" class="img-fluid fadeIn img"
                                  :alt="court.name">
+                            </template>
+                            <template v-slot:preloader>
                             <img :style="{height: '50px'}" alt="loader" slot="preloader"
                                  class="mt-5" src="/img/spinner.png"/>
+                            </template>
                         </vue-load-image>
                         <div class="center mb-2">
-                        <button @click="showCreateArrivalModal = true" class="btn btn-primary">
+                        <button @click="showCreateArrivalModal = true" class="btn btn-primary mr-1">
                         <font-awesome-icon :icon="['fas', 'calendar']" class="fa-icon"
                                            fixed-width/>
                         </button>
