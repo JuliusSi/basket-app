@@ -14,7 +14,7 @@ use Src\Sms\Client\Request\ESmsRequest;
 use Src\Sms\Exception\SmsSendingException;
 use Src\Sms\Model\ESms;
 
-class ESmsCreated implements ShouldQueue
+class SendESms implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

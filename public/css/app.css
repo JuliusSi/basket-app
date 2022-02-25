@@ -11480,3 +11480,8 @@ th {
     background: inherit;
     left: 20px;
 }
+
+.dp__input
+{
+font-family: 'Work Sans', sans-serif !important;
+}

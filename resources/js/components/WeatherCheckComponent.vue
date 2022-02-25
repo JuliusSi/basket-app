@@ -24,12 +24,15 @@
             <div class="form-group col-md-6">
                 {{ this.$t('weather.select_start_date') }}
                 <datetime
-                    v-model="selectedStartDate" format="Y-m-d HH:m:s"
-                    input-class="form-control mb-3" type="datetime"></datetime>
+                    class="mb-3"
+                    v-model="selectedStartDate" format="Y-MM-d HH:mm"
+                    :clearable="false"
+                    type="datetime"></datetime>
                 {{ this.$t('weather.select_end_date') }}
                 <datetime
-                    format="Y-m-d HH:m:s"
-                    input-class="form-control mb-3" type="datetime" v-model="selectedEndDate"></datetime>
+                    format="Y-MM-d HH:mm"
+                    :clearable="false"
+                    type="datetime" v-model="selectedEndDate"></datetime>
         </div>
             <div class="form-group col-md-8">
                 <select v-model="selectedPlace" class="form-control mb-3">

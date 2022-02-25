@@ -21,7 +21,7 @@
                             </template>
                         </vue-load-image>
                         <div class="center mb-2">
-                        <button @click="showCreateArrivalModal = true" class="btn btn-primary">
+                        <button @click="showCreateArrivalModal = true" class="btn btn-primary mr-1">
                         <font-awesome-icon :icon="['fas', 'calendar']" class="fa-icon"
                                            fixed-width/>
                         </button>
