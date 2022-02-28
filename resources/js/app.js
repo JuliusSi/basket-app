@@ -42,6 +42,9 @@ app.component('basketball-courts', require('./components/BasketballCourtsCompone
 app.component('create-arrivals', require('./components/court-arrivals/CreateArrival.vue').default);
 app.component('datetime', Datepicker);
 app.component('weather-notification-settings', require('./components/user/settings/WeatherNotificationSmsSettings.vue').default);
-app.component('user-main-settings', require('./components/user/settings/UserMainSettings.vue').default)
+app.component('user-main-settings', require('./components/user/settings/UserMainSettings.vue').default);
+
+// admin
+app.component('admin-sidebar', require('./components/admin/Sidebar.vue').default);
 
 app.mount('#app');

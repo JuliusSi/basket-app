@@ -32,6 +32,7 @@ class UserSeeder extends Seeder
             [
                 'username' => config('seeder.user.username'),
                 'email' => config('seeder.user.email'),
+                'status' => User::STATUS_ADMINISTRATOR,
                 'password' => Hash::make(config('seeder.user.password')),
                 'email_verified_at' => now(),
                 'api_token' => Str::random(60),

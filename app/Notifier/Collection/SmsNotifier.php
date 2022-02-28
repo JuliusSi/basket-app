@@ -15,8 +15,7 @@ class SmsNotifier implements NotifierInterface
     }
 
     /**
-     * @param  Notification[]  $notifications
-     * @return void
+     * @param Notification[] $notifications
      */
     public function notify(array $notifications): void
     {
