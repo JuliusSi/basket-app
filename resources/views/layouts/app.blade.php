@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
+<div id="app" class="page-wrapper chiller-theme page-content">
     <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-stripped shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -121,7 +121,7 @@
         </div>
     </nav>
 
-    <main class="py-4">
+    <main class="py-4 page-content">
         @yield('content')
     </main>
 </div>

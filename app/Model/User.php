@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\User\Settings\Model\Setting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    public const STATUS_ADMINISTRATOR = 'administrator';
+
     use HasFactory;
 
     protected $table = 'user';
@@ -74,5 +75,10 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    public function isAdministrator(): bool
+    {
+        return self::STATUS_ADMINISTRATOR === $this->getAttribute('status');
     }
 }
