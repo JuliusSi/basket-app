@@ -14,7 +14,7 @@ use Src\Radiation\Client\Response\Response;
 class CachedRadiationRepository extends RadiationRepository
 {
     private const DEFAULT_CACHE_KEY_PART = 'radiation';
-    private const CACHE_LIFETIME = 120; // todo: roll back to 600 then war war ends
+    private const CACHE_LIFETIME = 120; // todo: roll back to 600 then war ends
 
     /**
      * @throws Exception
