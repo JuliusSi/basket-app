@@ -287,7 +287,7 @@ Events Section
                 <div class="col-lg-3 col-md-6 footer-contact">
                     <h4>Socialiniai tinklai</h4>
                     <div class="social-links">
-                        <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="https://www.facebook.com/Oras-krep%C5%A1iniui-110919097381580" class="facebook"><i class="fa fa-facebook"></i></a>
                         <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
                     </div>
 
