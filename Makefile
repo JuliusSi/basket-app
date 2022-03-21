@@ -1,17 +1,13 @@
 #Variables
 DOCKER_DIR=.docker
-PROJECT_NAME=basket_app
 export CURRENT_USER=$(shell id -u):$(shell id -g)
 
 # Commands
 up:
-	cd ${DOCKER_DIR} && docker-compose -p ${PROJECT_NAME} up -d
+	cd ${DOCKER_DIR} && docker-compose build && docker-compose up -d
 
 down:
-	cd ${DOCKER_DIR} && docker-compose -p ${PROJECT_NAME} down
-
-rebuild:
-	cd ${DOCKER_DIR} && docker-compose -p ${PROJECT_NAME} up -d --build
+	cd ${DOCKER_DIR} && docker-compose down
 
 # run this command only for first time
 start: copy_config_files composer_install npm_install db_refresh generate_translations npm_run_dev generate_app_key storage_link
@@ -22,7 +18,7 @@ delete:
 	docker stop $$(docker ps -a -q) && docker rm $$(docker ps -a -q) && docker rmi $$(docker images -a -q)
 
 composer_install:
-	cd ${DOCKER_DIR} && docker-compose -p ${PROJECT_NAME} exec php composer install --ignore-platform-reqs
+	cd ${DOCKER_DIR} && docker-compose run --rm composer install --ignore-platform-reqs
 
 composer_require:
 	cd ${DOCKER_DIR} && docker-compose run --rm composer require ${package} --ignore-platform-reqs
