@@ -8,19 +8,14 @@ use App\Http\Resources\BasketballCourtsCollection;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 
 /**
- * Class BasketballCourtsService
- * @package App\Http\Service
+ * Class BasketballCourtsService.
  */
 class BasketballCourtsService
 {
-    /**
-     * @var WeatherCheckManager
-     */
     private WeatherCheckManager $weatherCheckManager;
 
     /**
      * BasketballCourtsService constructor.
-     * @param  WeatherCheckManager  $weatherCheckManager
      */
     public function __construct(WeatherCheckManager $weatherCheckManager)
     {
@@ -28,8 +23,7 @@ class BasketballCourtsService
     }
 
     /**
-     * @param  mixed  $courts
-     * @return BasketballCourtsCollection
+     * @param mixed $courts
      */
     public function getCollection($courts): BasketballCourtsCollection
     {

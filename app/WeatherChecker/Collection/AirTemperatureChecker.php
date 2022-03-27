@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\WeatherChecker\Collection;
 
 use Carbon\CarbonInterface;
+use function in_array;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-use function in_array;
-
 /**
- * Class AirTemperatureChecker
- * @package App\WeatherChecker\Collection
+ * Class AirTemperatureChecker.
  */
 class AirTemperatureChecker extends AbstractChecker
 {
@@ -19,8 +17,6 @@ class AirTemperatureChecker extends AbstractChecker
     public const RULE_TO_LOW_AIR_TEMPERATURE = 'too_low_air_temperature';
 
     /**
-     * @param  ForecastTimestamp  $weatherInfo
-     * @param  CarbonInterface  $date
      * @return string[]
      */
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
@@ -45,11 +41,6 @@ class AirTemperatureChecker extends AbstractChecker
         return $warnings;
     }
 
-    /**
-     * @param  ForecastTimestamp  $weatherInformation
-     * @param  CarbonInterface  $date
-     * @return bool
-     */
     private function isToLowAirTemperature(ForecastTimestamp $weatherInformation, CarbonInterface $date): bool
     {
         if ($this->isClear($weatherInformation)
@@ -79,10 +70,6 @@ class AirTemperatureChecker extends AbstractChecker
         return true;
     }
 
-    /**
-     * @param  ForecastTimestamp  $weatherInformation
-     * @return bool
-     */
     private function isClear(ForecastTimestamp $weatherInformation): bool
     {
         return in_array(

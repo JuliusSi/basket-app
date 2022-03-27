@@ -25,5 +25,6 @@ Route::middleware(['auth:api', 'throttle:api'])->group(function () {
     Route::prefix('weather')->group(function () {
         Route::get('warnings', [WeatherApiController::class, 'getWeatherWarnings']);
         Route::get('available-places', [WeatherApiController::class, 'getAvailablePlaces']);
+        Route::get('information', [WeatherApiController::class, 'getWeatherInformation']);
     });
 });

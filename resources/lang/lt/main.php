@@ -44,6 +44,7 @@ return [
         'title' => 'Aikštelių sąrašas',
         'court_information' => 'Aikštelės informacija',
         'weather_in_court' => 'Oras aikštelėje',
+        'is_weather_available_for_basketball' => 'Ar oras tinkamas krepšiniui?',
     ],
     'court-arrivals' => [
         'create-arrival' => 'Suplanuoti atvykimą',
