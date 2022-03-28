@@ -15,14 +15,11 @@ use Illuminate\Support\Facades\Cache;
 use LogicException;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-/**
- * Class WeatherCheckManager.
- */
 class WeatherCheckManager
 {
-    /**
-     * WeatherCheckManager constructor.
-     */
+
+    private const CACHE_LIFE_TIME = 600;
+
     public function __construct(
         private WeatherService $weatherForBasketBallService,
         private CheckerCollection $checkerCollection,
@@ -57,7 +54,7 @@ class WeatherCheckManager
 
         return Cache::remember(
             $key,
-            600,
+            self::CACHE_LIFE_TIME,
             function () use ($placeCode, $startDate, $endDate) {
                 return $this->getWarnings($placeCode, $startDate, $endDate);
             }
