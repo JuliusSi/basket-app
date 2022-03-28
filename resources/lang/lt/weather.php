@@ -7,6 +7,7 @@ return [
     'select_start_date' => 'Pasirinkite pradžios datą',
     'select_end_date' => 'Pasirinkite pabaigos datą',
     'place_codes' => [
+        'vilnius' => 'Vilnius',
         'vilnius-justiniskes' => 'Vilnius (Justiniškės)',
         'vilnius-karoliniskes' => 'Vilnius (Karoliniškės)',
         'vilnius-lazdynai' => 'Vilnius (Lazdynai)',
@@ -23,4 +24,7 @@ return [
         'raseiniai' => 'Raseiniai',
     ],
     'exception' => 'Nepavyksta gauti informacijos apie orus, prašome pamėginti vėliau.',
+    'air_temperature' => 'Oro temperatūra',
+    'wind_speed' => 'Vėjo greitis',
+    'precipitation' => 'Krituliai',
 ];

@@ -24,7 +24,7 @@ services:
   php:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: php/Dockerfile
     container_name: basket_app_php
     user: ${CURRENT_USER}
     volumes:
@@ -92,7 +92,7 @@ services:
   artisan:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: php/Dockerfile
     container_name: basket_app_artisan
     volumes:
       - ../:/var/www/html
@@ -115,18 +115,6 @@ services:
       PMA_HOST: mysql
     networks:
       - basket-app
-
-  sockets:
-    command: ["php", "artisan", "websockets:serve"]
-    build:
-      context: .
-    container_name: basket_app_sockets
-    volumes:
-      - ../:/var/www/html
-    ports:
-      - "6001:6001"
-    networks:
-     - basket-app
 
 networks:
   basket-app:

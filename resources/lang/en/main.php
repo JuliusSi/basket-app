@@ -41,7 +41,8 @@ return [
     'basketball-courts' => [
         'title' => 'Courts',
         'court_information' => 'Court information',
-        'weather_in_court' => 'Oras aikštelėje',
+        'weather_in_court' => 'Weather',
+        'is_weather_available_for_basketball' => 'Is weather good for basketball?',
     ],
     'court-arrivals' => [
         'create-arrival' => 'Arrive to court',

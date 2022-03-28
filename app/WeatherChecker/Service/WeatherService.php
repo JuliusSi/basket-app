@@ -18,9 +18,6 @@ class WeatherService
 {
     private CachedWeatherRepository $cachedWeatherRepository;
 
-    /**
-     * WeatherForBasketBallService constructor.
-     */
     public function __construct(CachedWeatherRepository $cachedWeatherRepository)
     {
         $this->cachedWeatherRepository = $cachedWeatherRepository;
@@ -49,6 +46,8 @@ class WeatherService
                 $filteredForecasts[] = $forecastTimestamp;
             }
         }
+
+        usort($filteredForecasts, static fn ($a, $b) => $a->getForecastTimeUtc() <=> $b->getForecastTimeUtc());
 
         return $filteredForecasts;
     }

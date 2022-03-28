@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Queue\SerializesModels;
 
 class ChatMessageSent implements ShouldBroadcastNow
 {
@@ -19,14 +19,12 @@ class ChatMessageSent implements ShouldBroadcastNow
     use SerializesModels;
 
     /**
-     * User that sent the message
-     *
-     * @var Authenticatable
+     * User that sent the message.
      */
     public Authenticatable $user;
 
     /**
-     * Message text
+     * Message text.
      *
      * @var string
      */
@@ -34,9 +32,6 @@ class ChatMessageSent implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
-     *
-     * @param  Authenticatable  $user
-     * @param  string  $message
      */
     public function __construct(Authenticatable $user, string $message)
     {
@@ -47,7 +42,7 @@ class ChatMessageSent implements ShouldBroadcastNow
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel|array
+     * @return Channel
      */
     public function broadcastOn()
     {

@@ -67,6 +67,35 @@
                                 {{ this.$t('main.basketball-courts.weather_in_court') }}
                             </h2>
                         </div>
+                            <ul class="list-unstyled">
+                                <li v-for="info in this.weatherInformation">
+                                    <ul class="list-unstyled" style="margin-bottom: 10px;">
+                                        <li>{{ info.forecastTimeUtc }} </li>
+                                        <li>
+                                            {{ this.$t('weather.air_temperature') }}:
+                                            {{ info.airTemperature }} °C
+                                        </li>
+                                        <li>
+                                            {{ this.$t('weather.precipitation') }}:
+                                            {{ info.totalPrecipitation }} mm
+                                        </li>
+                                        <li>
+                                            {{ this.$t('weather.wind_speed') }}:
+                                            {{ info.windSpeed }} m/s
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
+                            <h2>
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" fixed-width/>
+                                {{ this.$t('main.basketball-courts.is_weather_available_for_basketball') }}
+                            </h2>
+                        </div>
                         <div class="text-center fadeIn" role="alert" v-if="status === STATUS_OK">
                             <h2 class="alert-heading">{{ this.$t('weather-rules.success') }}</h2>
                         </div>
@@ -102,6 +131,7 @@ export default {
             loading: false,
             court: null,
             weatherWarnings: [],
+            weatherInformation: [],
             showCreateArrivalModal: false,
             exception: null,
             status: null,
@@ -127,6 +157,7 @@ export default {
                 },
             }).then(response => {
                 this.court = response.data;
+                this.getWeatherInformation();
                 this.getWarnings();
             }).catch(error => {
                 console.log(error.response);
@@ -159,6 +190,37 @@ export default {
                     this.loading = false;
                     if (response.data.length) {
                         this.weatherWarnings = response.data;
+                        this.status = STATUS_NOT_OK;
+                    } else {
+                        this.status = STATUS_OK;
+                    }
+                })
+                .catch(error => {
+                    this.loading = false;
+                    console.log(error.response.data);
+                    this.exception = error.response.data.message;
+                });
+        },
+        getWeatherInformation() {
+            this.loading = true;
+            let startDate = moment().format('YYYY-MM-DD HH:mm:ss');
+            let endDate = moment(startDate).add(4, 'hours').format('YYYY-MM-DD HH:mm:ss');
+            let params = {
+                place: this.court.place_code_id,
+                start_date: startDate,
+                end_date: endDate,
+            };
+            this.axios.get('/api/weather/information', {
+                params: params,
+                headers: {
+                    Authorization: `Bearer ${this.user.api_token}`,
+                    Accept: 'application/json',
+                },
+            })
+                .then(response => {
+                    this.loading = false;
+                    if (response.data.length) {
+                        this.weatherInformation = response.data;
                         this.status = STATUS_NOT_OK;
                     } else {
                         this.status = STATUS_OK;

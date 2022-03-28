@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WeatherChecker\Collector;
 
 use App\WeatherChecker\Model\Warning;
 
 /**
- * Class WarningCollector
- * @package App\WeatherChecker\Collector
+ * Class WarningCollector.
  */
 class WarningCollector
 {
@@ -15,8 +16,13 @@ class WarningCollector
      */
     private array $warnings = [];
 
+    public function reset(): void
+    {
+        $this->warnings = [];
+    }
+
     /**
-     * @param  string[]  $warnings
+     * @param string[] $warnings
      */
     public function addUniqueWarnings(array $warnings): void
     {
@@ -28,18 +34,6 @@ class WarningCollector
     }
 
     /**
-     * @param  string  $message
-     * @return Warning
-     */
-    private function buildWarning(string $message): Warning
-    {
-        $warning = new Warning();
-        $warning->setTranslatedMessage($message);
-
-        return $warning;
-    }
-
-    /**
      * @return Warning[]
      */
     public function getWarnings(): array
@@ -48,10 +42,18 @@ class WarningCollector
     }
 
     /**
-     * @param  Warning[]  $warnings
+     * @param Warning[] $warnings
      */
     public function setWarnings(array $warnings): void
     {
         $this->warnings = $warnings;
+    }
+
+    private function buildWarning(string $message): Warning
+    {
+        $warning = new Warning();
+        $warning->setTranslatedMessage($message);
+
+        return $warning;
     }
 }

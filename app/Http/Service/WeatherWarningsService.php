@@ -8,34 +8,23 @@ use App\Http\Requests\WeatherWarningsRequest;
 use App\Model\PlaceCode;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
-use Core\Logger\Event\ActionDone;
-use Core\Logger\Model\Log;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Response;
 
 /**
- * Class WeatherWarningsService
- * @package App\Http\Service
+ * Class WeatherWarningsService.
  */
 class WeatherWarningsService extends AbstractService
 {
-    /**
-     * @var WeatherCheckManager
-     */
     private WeatherCheckManager $weatherCheckManager;
 
     /**
      * WeatherWarningsService constructor.
-     * @param  WeatherCheckManager  $weatherCheckManager
      */
     public function __construct(WeatherCheckManager $weatherCheckManager)
     {
         $this->weatherCheckManager = $weatherCheckManager;
     }
 
-    /**
-     * @param  WeatherWarningsRequest  $request
-     * @return Response
-     */
     public function getResponse(WeatherWarningsRequest $request): Response
     {
         $result = $this->getWarnings($request);
@@ -43,10 +32,6 @@ class WeatherWarningsService extends AbstractService
         return $this->createResponse($result)->header('Content-Type', 'application/json');
     }
 
-    /**
-     * @param  WeatherWarningsRequest  $request
-     * @return string
-     */
     private function getWarnings(WeatherWarningsRequest $request): string
     {
         $place = PlaceCode::find($request->get('place'));
@@ -54,6 +39,6 @@ class WeatherWarningsService extends AbstractService
         $endDateTime = $request->get('end_date');
         $warnings = $this->weatherCheckManager->manage($place->code, $startDateTime, $endDateTime);
 
-        return $this->serialize($warnings, 'array<' . Warning::class . '>');
+        return $this->serialize($warnings, 'array<'.Warning::class.'>');
     }
 }
