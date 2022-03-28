@@ -20,23 +20,14 @@ use Src\Weather\Client\Response\ForecastTimestamp;
  */
 class WeatherCheckManager
 {
-    private WeatherService $weatherForBasketBallService;
-
-    private CheckerCollection $checkerCollection;
-
-    private WarningCollector $collector;
-
     /**
      * WeatherCheckManager constructor.
      */
     public function __construct(
-        WeatherService $weatherForBasketBallService,
-        CheckerCollection $checkerCollection,
-        WarningCollector $collector
+        private WeatherService $weatherForBasketBallService,
+        private CheckerCollection $checkerCollection,
+        private WarningCollector $collector
     ) {
-        $this->weatherForBasketBallService = $weatherForBasketBallService;
-        $this->checkerCollection = $checkerCollection;
-        $this->collector = $collector;
     }
 
     /**
