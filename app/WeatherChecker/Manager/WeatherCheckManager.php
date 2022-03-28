@@ -17,7 +17,6 @@ use Src\Weather\Client\Response\ForecastTimestamp;
 
 class WeatherCheckManager
 {
-
     private const CACHE_LIFE_TIME = 600;
 
     public function __construct(
