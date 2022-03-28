@@ -12,6 +12,7 @@ use App\WeatherChecker\Service\WeatherService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
+use LogicException;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
 /**
@@ -43,10 +44,10 @@ class WeatherCheckManager
      *
      * @return Warning[]
      */
-    public function manage(?string $placeCode, string $startDateTime, string $endDateTime): array
+    public function manage(string $placeCode, string $startDateTime, string $endDateTime): array
     {
-        if (!$placeCode) {
-            return [];
+        if (empty($placeCode)) {
+            throw new LogicException('Place code cannot be empty');
         }
 
         return $this->getCachedWarnings($placeCode, $startDateTime, $endDateTime);
