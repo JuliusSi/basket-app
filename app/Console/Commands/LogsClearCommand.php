@@ -7,8 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 
 /**
- * Class LogsClearCommand
- * @package App\Console\Commands
+ * Class LogsClearCommand.
  */
 class LogsClearCommand extends Command
 {
@@ -28,15 +27,11 @@ class LogsClearCommand extends Command
 
     /**
      * A filesystem instance.
-     *
-     * @var Filesystem
      */
     private Filesystem $disk;
 
     /**
      * Create a new command instance.
-     *
-     * @param  Filesystem  $disk
      */
     public function __construct(Filesystem $disk)
     {
@@ -55,26 +50,20 @@ class LogsClearCommand extends Command
         $this->addFlushInfo($flushedFilesCount);
     }
 
-    /**
-     * @param  int  $flushedFilesCount
-     */
     private function addFlushInfo(int $flushedFilesCount): void
     {
         if (!$flushedFilesCount) {
             $this->info('There was no log file to delete in the log folder');
-        } elseif ($flushedFilesCount === 1) {
+        } elseif (1 === $flushedFilesCount) {
             $this->info('1 log file has been deleted');
         } else {
-            $this->info($flushedFilesCount . ' log files have been deleted');
+            $this->info($flushedFilesCount.' log files have been deleted');
         }
     }
 
-    /**
-     * @return Collection
-     */
     private function getLogFiles(): Collection
     {
-       $files = collect(
+        $files = collect(
             $this->disk->allFiles(storage_path('logs'))
         )->sortBy('mtime');
 
@@ -85,10 +74,6 @@ class LogsClearCommand extends Command
         return $files;
     }
 
-    /**
-     * @param Collection $files
-     * @return int
-     */
     private function flushLogs(Collection $files): int
     {
         return $files->each(function ($file) {

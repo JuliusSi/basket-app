@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Weather\Repository;
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -7,8 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use Src\Weather\Client\Response\Response;
 
 /**
- * Class CachedWeatherRepository
- * @package Src\Weather\Repository
+ * Class CachedWeatherRepository.
  */
 class CachedWeatherRepository extends WeatherRepository
 {
@@ -16,8 +17,6 @@ class CachedWeatherRepository extends WeatherRepository
     private const CACHE_LIFETIME = 600;
 
     /**
-     * @param  string  $placeCode
-     * @return Response|null
      * @throws GuzzleException
      */
     public function find(string $placeCode): ?Response
@@ -29,18 +28,15 @@ class CachedWeatherRepository extends WeatherRepository
 
         if ($response = parent::find($placeCode)) {
             Cache::put($cacheKey, $response, self::CACHE_LIFETIME);
+
             return $response;
         }
 
         return null;
     }
 
-    /**
-     * @param  string  $placeCode
-     * @return string
-     */
     private function getCacheKey(string $placeCode): string
     {
-        return self::DEFAULT_CACHE_KEY_PART . '-' . $placeCode;
+        return self::DEFAULT_CACHE_KEY_PART.'-'.$placeCode;
     }
 }

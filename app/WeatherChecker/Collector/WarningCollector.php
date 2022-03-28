@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WeatherChecker\Collector;
 
 use App\WeatherChecker\Model\Warning;
@@ -13,6 +15,11 @@ class WarningCollector
      * @var Warning[]
      */
     private array $warnings = [];
+
+    public function reset(): void
+    {
+        $this->warnings = [];
+    }
 
     /**
      * @param string[] $warnings

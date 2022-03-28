@@ -79,6 +79,7 @@ class WeatherCheckManager
      */
     private function getWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
     {
+        $this->collector->reset();
         foreach ($this->getFilteredForecasts($placeCode, $startDateTime, $endDateTime) as $forecastTimestamp) {
             $this->applyCheckers($forecastTimestamp);
         }
