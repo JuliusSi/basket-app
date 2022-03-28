@@ -8,6 +8,7 @@ use App\Http\Requests\WeatherWarningsRequest;
 use App\Model\PlaceCode;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
+use Exception;
 use Illuminate\Http\Response;
 
 /**
@@ -25,6 +26,9 @@ class WeatherWarningsService extends AbstractService
         $this->weatherCheckManager = $weatherCheckManager;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getResponse(WeatherWarningsRequest $request): Response
     {
         $result = $this->getWarnings($request);
@@ -32,6 +36,9 @@ class WeatherWarningsService extends AbstractService
         return $this->createResponse($result)->header('Content-Type', 'application/json');
     }
 
+    /**
+     * @throws Exception
+     */
     private function getWarnings(WeatherWarningsRequest $request): string
     {
         $place = PlaceCode::find($request->get('place'));

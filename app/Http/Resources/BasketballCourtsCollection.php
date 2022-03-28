@@ -13,32 +13,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 
-/**
- * Class BasketballCourtsCollection
- * @package App\Http\Resources
- */
 class BasketballCourtsCollection extends ResourceCollection
 {
-    /**
-     * @var WeatherCheckManager
-     */
-    private WeatherCheckManager $weatherCheckManager;
-
-    /**
-     * BasketballCourtsCollection constructor.
-     * @param $resource
-     * @param  WeatherCheckManager  $weatherCheckManager
-     */
-    public function __construct($resource, WeatherCheckManager $weatherCheckManager)
+    public function __construct($resource, private WeatherCheckManager $weatherCheckManager)
     {
         parent::__construct($resource);
-        $this->weatherCheckManager = $weatherCheckManager;
     }
 
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -48,9 +34,6 @@ class BasketballCourtsCollection extends ResourceCollection
         return parent::toArray($request);
     }
 
-    /**
-     * @return Collection
-     */
     public function modify(): Collection
     {
         $this->modifyCollection();
@@ -58,9 +41,6 @@ class BasketballCourtsCollection extends ResourceCollection
         return $this->collection;
     }
 
-    /**
-     * @return void
-     */
     private function modifyCollection(): void
     {
         foreach ($this->collection->all() as $court) {
@@ -70,7 +50,6 @@ class BasketballCourtsCollection extends ResourceCollection
     }
 
     /**
-     * @param  string  $placeCode
      * @return Warning[]
      */
     private function getWarnings(string $placeCode): array
@@ -89,10 +68,6 @@ class BasketballCourtsCollection extends ResourceCollection
         }
     }
 
-    /**
-     * @param  BasketballCourt  $court
-     * @return array
-     */
     private function getActivePlayers(BasketballCourt $court): array
     {
         $endDateTime = $this->getCheckEndDateTime();
@@ -108,17 +83,11 @@ class BasketballCourtsCollection extends ResourceCollection
         return $arrivals;
     }
 
-    /**
-     * @return string
-     */
     private function getCheckEndDateTime(): string
     {
         return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
     }
 
-    /**
-     * @return string
-     */
     private function getStartDate(): string
     {
         return Carbon::now()->toDateTimeString();
