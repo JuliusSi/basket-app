@@ -34,9 +34,9 @@ class BasketballCourtController extends Controller
         $courts = Cache::remember(
             $key,
             600,
-            function () use ($builder) {
-            return $builder->paginate(4);
-        }
+            static function () use ($builder) {
+                return $builder->paginate(4);
+            }
         );
 
         return $courtsService->getCollection($courts);
