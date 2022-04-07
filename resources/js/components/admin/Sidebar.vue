@@ -57,6 +57,13 @@
                             </ul>
                         </div>
                     </li>
+                    <li>
+                        <a href="/horizon">
+                            <font-awesome-icon :icon="['fas', 'cog']" class="fa-icon"
+                                               fixed-width/>
+                            <span>Events</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- sidebar-menu  -->
