@@ -8,9 +8,6 @@ use Exception;
 use Illuminate\Support\Facades\Cache;
 use Src\Radiation\Client\Response\Response;
 
-/**
- * Class CachedRadiationRepository.
- */
 class CachedRadiationRepository extends RadiationRepository
 {
     private const DEFAULT_CACHE_KEY_PART = 'radiation';

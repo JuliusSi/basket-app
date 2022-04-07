@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifier\Collection;
 
 use App\Notifier\Model\Notification;
@@ -9,21 +11,10 @@ use Src\Facebook\Client\Request\FacebookLinkPostRequestBody;
 use Src\Facebook\Client\Response\Response;
 use Src\Facebook\Repository\FacebookLinkRepository;
 
-/**
- * Class FacebookPageNotifier
- * @package App\Notifier\Collection
- */
 class FacebookPageNotifier implements NotifierInterface
 {
-    /**
-     * @var FacebookLinkRepository
-     */
     private FacebookLinkRepository $facebookLinkRepository;
 
-    /**
-     * FacebookPageNotifier constructor.
-     * @param  FacebookLinkRepository  $facebookLinkRepository
-     */
     public function __construct(
         FacebookLinkRepository $facebookLinkRepository
     ) {
@@ -31,8 +22,7 @@ class FacebookPageNotifier implements NotifierInterface
     }
 
     /**
-     * @param  Notification[]  $notifications
-     * @return void
+     * @param Notification[] $notifications
      */
     public function notify(array $notifications): void
     {
@@ -41,10 +31,6 @@ class FacebookPageNotifier implements NotifierInterface
         }
     }
 
-    /**
-     * @param  Notification  $notification
-     * @return FacebookLinkPostRequestBody
-     */
     private function buildRequest(Notification $notification): FacebookLinkPostRequestBody
     {
         $request = new FacebookLinkPostRequestBody();
@@ -54,10 +40,6 @@ class FacebookPageNotifier implements NotifierInterface
         return $request;
     }
 
-    /**
-     * @param  FacebookLinkPostRequestBody  $request
-     * @return Response|null
-     */
     private function postLink(FacebookLinkPostRequestBody $request): ?Response
     {
         try {
