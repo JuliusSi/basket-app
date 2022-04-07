@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Chat\Message\Logger;
 
 use App\Model\User;
-use Carbon\Carbon;
 use Core\Logger\LogDispatcher;
 use Core\Logger\Model\Log;
 
@@ -18,7 +17,7 @@ class UserFirstMessageTodayLogger
 
     private static function needToLogAction(User $user): bool
     {
-        return 1 === $user->chatMessages()->whereDate('created_at', Carbon::today())->count();
+        return 1 === $user->chatMessages()->whereDate('created_at', today())->count();
     }
 
     private static function getActionLog(User $user): Log

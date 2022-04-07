@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Notifier\Collection;
 
 use App\Notifier\Model\Notification;
-use Core\Logger\Event\ActionDone;
+use Core\Logger\LogDispatcher;
 use Core\Logger\Model\Log;
 
 class LogNotifier implements NotifierInterface
@@ -24,6 +24,6 @@ class LogNotifier implements NotifierInterface
 
     private function logNotification(Notification $notification): void
     {
-        event(new ActionDone(Log::create($notification->getContent())));
+        LogDispatcher::dispatch(Log::create($notification->getContent()));
     }
 }
