@@ -221,9 +221,6 @@ export default {
                     this.loading = false;
                     if (response.data.length) {
                         this.weatherInformation = response.data;
-                        this.status = STATUS_NOT_OK;
-                    } else {
-                        this.status = STATUS_OK;
                     }
                 })
                 .catch(error => {
