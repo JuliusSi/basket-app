@@ -18,6 +18,9 @@ use Illuminate\Http\Response;
  */
 class WeatherApiController extends Controller
 {
+    /**
+     * @throws Exception
+     */
     public function getWeatherWarnings(
         WeatherWarningsRequest $request,
         WeatherWarningsService $weatherWarningsService

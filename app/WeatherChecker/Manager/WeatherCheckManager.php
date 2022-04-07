@@ -12,30 +12,18 @@ use App\WeatherChecker\Service\WeatherService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
+use LogicException;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-/**
- * Class WeatherCheckManager.
- */
 class WeatherCheckManager
 {
-    private WeatherService $weatherForBasketBallService;
+    private const CACHE_LIFE_TIME = 600;
 
-    private CheckerCollection $checkerCollection;
-
-    private WarningCollector $collector;
-
-    /**
-     * WeatherCheckManager constructor.
-     */
     public function __construct(
-        WeatherService $weatherForBasketBallService,
-        CheckerCollection $checkerCollection,
-        WarningCollector $collector
+        private WeatherService $weatherForBasketBallService,
+        private CheckerCollection $checkerCollection,
+        private WarningCollector $collector
     ) {
-        $this->weatherForBasketBallService = $weatherForBasketBallService;
-        $this->checkerCollection = $checkerCollection;
-        $this->collector = $collector;
     }
 
     /**
@@ -43,10 +31,10 @@ class WeatherCheckManager
      *
      * @return Warning[]
      */
-    public function manage(?string $placeCode, string $startDateTime, string $endDateTime): array
+    public function manage(string $placeCode, string $startDateTime, string $endDateTime): array
     {
-        if (!$placeCode) {
-            return [];
+        if (empty($placeCode)) {
+            throw new LogicException('Place code cannot be empty');
         }
 
         return $this->getCachedWarnings($placeCode, $startDateTime, $endDateTime);
@@ -65,7 +53,7 @@ class WeatherCheckManager
 
         return Cache::remember(
             $key,
-            600,
+            self::CACHE_LIFE_TIME,
             function () use ($placeCode, $startDate, $endDate) {
                 return $this->getWarnings($placeCode, $startDate, $endDate);
             }
