@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Notifier\Service;
+namespace App\Notifier\Builder;
 
 use App\Model\User;
 use App\Model\UserAttribute;
@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-class UserWeatherForBasketBallNotificationService implements NotificationServiceInterface
+class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(private WeatherCheckManager $weatherCheckManager)
     {

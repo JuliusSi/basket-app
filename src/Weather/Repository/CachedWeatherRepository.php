@@ -8,9 +8,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
 use Src\Weather\Client\Response\Response;
 
-/**
- * Class CachedWeatherRepository.
- */
 class CachedWeatherRepository extends WeatherRepository
 {
     private const DEFAULT_CACHE_KEY_PART = 'meteo-weather';

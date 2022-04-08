@@ -2,24 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Notifier\Service;
+namespace App\Notifier\Builder;
 
+use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use Core\Storage\Service\LocalStorageService;
 
-/**
- * Class BasketBallSeasonStartNotificationService.
- */
-class BasketBallSeasonStartNotificationService implements NotificationServiceInterface
+class BasketBallSeasonEndNotificationBuilder implements NotificationBuilder
 {
-    private LocalStorageService $localStorageService;
-
-    /**
-     * BasketBallSeasonStartNotificationService constructor.
-     */
-    public function __construct(LocalStorageService $localStorageService)
+    public function __construct(private LocalStorageService $localStorageService)
     {
-        $this->localStorageService = $localStorageService;
     }
 
     /**
@@ -32,11 +24,15 @@ class BasketBallSeasonStartNotificationService implements NotificationServiceInt
 
     private function getNotification(): Notification
     {
-        $notification = new Notification();
+        $content = $this->getContent();
+        $facebookNotification = new FacebookNotification(
+            $content,
+            $this->getFileUrl(config('memes.vince_carter_its_over_gif_url'))
+        );
+        $notification = new Notification($facebookNotification);
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
         $notification->setContent($this->getContent());
-        $notification->setImageUrl($this->getFileUrl(config('memes.kyrie_irving_air_guitar_gif_url')));
 
         return $notification;
     }
@@ -44,12 +40,9 @@ class BasketBallSeasonStartNotificationService implements NotificationServiceInt
     private function getContent(): string
     {
         $startNotify = config('notification.weather_for_basketball.start_notify');
-        $notificationTime = config('notification.weather_for_basketball.time_to_notify');
+        $endNotify = config('notification.weather_for_basketball.end_notify');
 
-        return __(
-            'notification.basketball_season_start',
-            ['startDate' => $startNotify, 'notificationTime' => $notificationTime]
-        );
+        return __('notification.basketball_season_end', ['endDate' => $endNotify, 'startDate' => $startNotify]);
     }
 
     private function getFileUrl(string $fileName, string $directory = LocalStorageService::DIRECTORY_MEMES): ?string

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifier\Service;
+namespace App\Notifier\Builder;
 
 use App\Notifier\Model\Notification;
 use App\RadiationChecker\Model\RadiationInfo;
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
  * Class RadiationInfoNotificationService
  * @package App\Notifier\Service
  */
-class RadiationInfoNotificationService implements NotificationServiceInterface
+class RadiationInfoNotificationBuilder implements NotificationBuilder
 {
     /**
      * @var RadiationInfoService

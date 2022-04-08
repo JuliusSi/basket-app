@@ -116,6 +116,15 @@ services:
     networks:
       - basket-app
 
+  redis:
+    image: redis:alpine
+    container_name: basket_app_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - basket-app
+
 networks:
   basket-app:
     driver: bridge

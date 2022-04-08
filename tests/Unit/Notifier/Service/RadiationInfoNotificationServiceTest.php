@@ -3,7 +3,7 @@
 namespace Tests\Unit\Notifier\Service;
 
 use App\Notifier\Model\Notification;
-use App\Notifier\Service\RadiationInfoNotificationService;
+use App\Notifier\Builder\RadiationInfoNotificationBuilder;
 use App\RadiationChecker\Model\RadiationInfo;
 use App\RadiationChecker\Service\RadiationInfoService;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
@@ -104,7 +104,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         ConfigRepository $configRepositoryMock,
         array $expected
     ): void {
-        $service = new RadiationInfoNotificationService($serviceMock, $translatorMock, $configRepositoryMock);
+        $service = new RadiationInfoNotificationBuilder($serviceMock, $translatorMock, $configRepositoryMock);
         $result = $service->getNotifications();
         self::assertEquals($expected, $result);
     }

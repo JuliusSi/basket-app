@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Notifier\Service;
+namespace App\Notifier\Builder;
 
+use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
@@ -11,7 +12,7 @@ use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use Exception;
 
-class WeatherForBasketBallNotificationService implements NotificationServiceInterface
+class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(
         private WeatherCheckManager $weatherCheckManager,
@@ -41,7 +42,7 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
         return $this->resolveNotification($weatherWarnings);
     }
 
-    private function resolveNotification(array $warnings): Notification
+    private function resolveNotification(array $warnings): ?Notification
     {
         if (!$warnings) {
             return $this->buildNotification(
@@ -68,11 +69,14 @@ class WeatherForBasketBallNotificationService implements NotificationServiceInte
         }
     }
 
-    private function buildNotification(string $message, ?string $imageUrl): Notification
+    private function buildNotification(string $message, ?string $imageUrl): ?Notification
     {
-        $notification = new Notification();
+        if (!$imageUrl) {
+            return null;
+        }
+
+        $notification = new Notification(new FacebookNotification($message, $imageUrl));
         $notification->setContent($message);
-        $notification->setImageUrl($imageUrl);
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
 
