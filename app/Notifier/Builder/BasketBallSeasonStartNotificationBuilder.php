@@ -2,16 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Notifier\Service;
+namespace App\Notifier\Builder;
 
 use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use Core\Storage\Service\LocalStorageService;
 
-class BasketBallSeasonEndNotificationService implements NotificationServiceInterface
+/**
+ * Class BasketBallSeasonStartNotificationService.
+ */
+class BasketBallSeasonStartNotificationBuilder implements NotificationBuilder
 {
-    public function __construct(private LocalStorageService $localStorageService)
+    private LocalStorageService $localStorageService;
+
+    /**
+     * BasketBallSeasonStartNotificationService constructor.
+     */
+    public function __construct(LocalStorageService $localStorageService)
     {
+        $this->localStorageService = $localStorageService;
     }
 
     /**
@@ -27,7 +36,7 @@ class BasketBallSeasonEndNotificationService implements NotificationServiceInter
         $content = $this->getContent();
         $facebookNotification = new FacebookNotification(
             $content,
-            $this->getFileUrl(config('memes.vince_carter_its_over_gif_url'))
+            $this->getFileUrl(config('memes.kyrie_irving_air_guitar_gif_url'))
         );
         $notification = new Notification($facebookNotification);
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
@@ -40,9 +49,12 @@ class BasketBallSeasonEndNotificationService implements NotificationServiceInter
     private function getContent(): string
     {
         $startNotify = config('notification.weather_for_basketball.start_notify');
-        $endNotify = config('notification.weather_for_basketball.end_notify');
+        $notificationTime = config('notification.weather_for_basketball.time_to_notify');
 
-        return __('notification.basketball_season_end', ['endDate' => $endNotify, 'startDate' => $startNotify]);
+        return __(
+            'notification.basketball_season_start',
+            ['startDate' => $startNotify, 'notificationTime' => $notificationTime]
+        );
     }
 
     private function getFileUrl(string $fileName, string $directory = LocalStorageService::DIRECTORY_MEMES): ?string

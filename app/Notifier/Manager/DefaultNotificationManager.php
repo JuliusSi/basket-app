@@ -4,11 +4,11 @@ namespace App\Notifier\Manager;
 
 use App\Notifier\Model\Notification;
 use App\Notifier\Processor\DefaultNotificationProcessor;
-use App\Notifier\Service\NotificationServiceInterface;
+use App\Notifier\Builder\NotificationBuilder;
 
 class DefaultNotificationManager implements NotificationManagerInterface
 {
-    private NotificationServiceInterface $notificationService;
+    private NotificationBuilder $notificationService;
 
     private DefaultNotificationProcessor $notificationProcessor;
 
@@ -16,7 +16,7 @@ class DefaultNotificationManager implements NotificationManagerInterface
      * DefaultNotificationManager constructor.
      */
     public function __construct(
-        NotificationServiceInterface $notificationService,
+        NotificationBuilder $notificationService,
         DefaultNotificationProcessor $notificationProcessor
     ) {
         $this->notificationService = $notificationService;

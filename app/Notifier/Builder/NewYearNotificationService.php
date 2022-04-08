@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Notifier\Service;
+namespace App\Notifier\Builder;
 
 use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
@@ -11,7 +11,7 @@ use Core\Storage\Service\LocalStorageService;
 /**
  * Class NewYearNotificationService.
  */
-class NewYearNotificationService implements NotificationServiceInterface
+class NewYearNotificationService implements NotificationBuilder
 {
     private LocalStorageService $localStorageService;
 

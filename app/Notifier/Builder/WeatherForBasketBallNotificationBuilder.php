@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Notifier\Service;
+namespace App\Notifier\Builder;
 
 use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use Exception;
 
-class WeatherForBasketBallNotificationService implements NotificationServiceInterface
+class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(
         private WeatherCheckManager $weatherCheckManager,
