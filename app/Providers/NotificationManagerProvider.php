@@ -23,20 +23,17 @@ use Illuminate\Support\ServiceProvider;
 
 class NotificationManagerProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
     public function register(): void
     {
-        $this->app->singleton('weather_for_basketball_notification_processor',  function ($app) {
+        $this->app->singleton('weather_for_basketball_notification_processor', function ($app) {
             return new DefaultNotificationProcessor($app->make('weather_for_basketball_notifier_collection'));
         });
 
-        $this->app->singleton('user_weather_for_basketball_notification_processor',  function ($app) {
+        $this->app->singleton('user_weather_for_basketball_notification_processor', function ($app) {
             return new DefaultNotificationProcessor($app->make('user_weather_for_basketball_notifier_collection'));
         });
 
-        $this->app->singleton('radiation_notification_processor',  function ($app) {
+        $this->app->singleton('radiation_notification_processor', function ($app) {
             return new DefaultNotificationProcessor($app->make('radiation_notifier_collection'));
         });
 
@@ -47,7 +44,8 @@ class NotificationManagerProvider extends ServiceProvider
                     $this->app->make(NewYearNotificationService::class),
                     $this->app->make('weather_for_basketball_notification_processor')
                 );
-            });
+            })
+        ;
 
         $this->app->when([UserWeatherForBasketBallNotificationCommand::class])
             ->needs(NotificationManagerInterface::class)
@@ -56,7 +54,8 @@ class NotificationManagerProvider extends ServiceProvider
                     $this->app->make(UserWeatherForBasketBallNotificationService::class),
                     $this->app->make('user_weather_for_basketball_notification_processor')
                 );
-            });
+            })
+        ;
 
         $this->app->when([WeatherForBasketBallNotificationCommand::class])
             ->needs(NotificationManagerInterface::class)
@@ -65,7 +64,8 @@ class NotificationManagerProvider extends ServiceProvider
                     $this->app->make(WeatherForBasketBallNotificationService::class),
                     $this->app->make('weather_for_basketball_notification_processor')
                 );
-            });
+            })
+        ;
 
         $this->app->when([RadiationInfoNotificationCommand::class])
             ->needs(NotificationManagerInterface::class)
@@ -74,7 +74,8 @@ class NotificationManagerProvider extends ServiceProvider
                     $this->app->make(RadiationInfoNotificationService::class),
                     $this->app->make('radiation_notification_processor')
                 );
-            });
+            })
+        ;
 
         $this->app->when([BasketBallSeasonEndNotificationCommand::class])
             ->needs(NotificationManagerInterface::class)
@@ -83,7 +84,8 @@ class NotificationManagerProvider extends ServiceProvider
                     $this->app->make(BasketBallSeasonEndNotificationService::class),
                     $this->app->make('weather_for_basketball_notification_processor')
                 );
-            });
+            })
+        ;
 
         $this->app->when([BasketBallSeasonStartNotificationCommand::class])
             ->needs(NotificationManagerInterface::class)
@@ -92,6 +94,7 @@ class NotificationManagerProvider extends ServiceProvider
                     $this->app->make(BasketBallSeasonStartNotificationService::class),
                     $this->app->make('weather_for_basketball_notification_processor')
                 );
-            });
+            })
+        ;
     }
 }

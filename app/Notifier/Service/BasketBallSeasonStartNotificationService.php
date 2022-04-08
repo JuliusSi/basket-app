@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifier\Service;
 
+use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use Core\Storage\Service\LocalStorageService;
 
@@ -32,11 +33,15 @@ class BasketBallSeasonStartNotificationService implements NotificationServiceInt
 
     private function getNotification(): Notification
     {
-        $notification = new Notification();
+        $content = $this->getContent();
+        $facebookNotification = new FacebookNotification(
+            $content,
+            $this->getFileUrl(config('memes.kyrie_irving_air_guitar_gif_url'))
+        );
+        $notification = new Notification($facebookNotification);
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
         $notification->setContent($this->getContent());
-        $notification->setImageUrl($this->getFileUrl(config('memes.kyrie_irving_air_guitar_gif_url')));
 
         return $notification;
     }

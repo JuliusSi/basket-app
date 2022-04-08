@@ -1,79 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifier\Model;
 
-/**
- * Class Notification
- * @package App\Notifier\Model
- */
 class Notification
 {
-    /**
-     * @var string
-     */
     private string $notifier;
 
-    /**
-     * @var string
-     */
     private string $content;
-
-    /**
-     * @var string
-     */
-    private string $imageUrl;
 
     /**
      * @var string[]
      */
     private array $smsRecipients = [];
 
-    /**
-     * @return string
-     */
+    public function __construct(
+        private ?FacebookNotification $facebookNotification = null,
+        private ?SmsNotification $smsNotification = null
+    ) {
+    }
+
     public function getNotifier(): string
     {
         return $this->notifier;
     }
 
-    /**
-     * @param  string  $notifier
-     */
     public function setNotifier(string $notifier): void
     {
         $this->notifier = $notifier;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @param  string  $content
-     */
     public function setContent(string $content): void
     {
         $this->content = $content;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImageUrl(): string
-    {
-        return $this->imageUrl;
-    }
-
-    /**
-     * @param  string  $imageUrl
-     */
-    public function setImageUrl(string $imageUrl): void
-    {
-        $this->imageUrl = $imageUrl;
     }
 
     /**
@@ -85,10 +50,20 @@ class Notification
     }
 
     /**
-     * @param  string[]  $smsRecipients
+     * @param string[] $smsRecipients
      */
     public function setSmsRecipients(array $smsRecipients): void
     {
         $this->smsRecipients = $smsRecipients;
+    }
+
+    public function facebookNotification(): ?FacebookNotification
+    {
+        return $this->facebookNotification;
+    }
+
+    public function smsNotification(): ?SmsNotification
+    {
+        return $this->smsNotification;
     }
 }

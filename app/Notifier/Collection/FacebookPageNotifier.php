@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifier\Collection;
 
+use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
@@ -13,12 +14,8 @@ use Src\Facebook\Repository\FacebookLinkRepository;
 
 class FacebookPageNotifier implements NotifierInterface
 {
-    private FacebookLinkRepository $facebookLinkRepository;
-
-    public function __construct(
-        FacebookLinkRepository $facebookLinkRepository
-    ) {
-        $this->facebookLinkRepository = $facebookLinkRepository;
+    public function __construct(private FacebookLinkRepository $facebookLinkRepository)
+    {
     }
 
     /**
@@ -27,15 +24,17 @@ class FacebookPageNotifier implements NotifierInterface
     public function notify(array $notifications): void
     {
         foreach ($notifications as $notification) {
-            $this->postLink($this->buildRequest($notification));
+            if ($facebookNotification = $notification->facebookNotification()) {
+                $this->postLink($this->buildRequest($facebookNotification));
+            }
         }
     }
 
-    private function buildRequest(Notification $notification): FacebookLinkPostRequestBody
+    private function buildRequest(FacebookNotification $notification): FacebookLinkPostRequestBody
     {
         $request = new FacebookLinkPostRequestBody();
-        $request->setLink($notification->getImageUrl());
-        $request->setMessage($notification->getContent());
+        $request->setLink($notification->imageUrl());
+        $request->setMessage($notification->content());
 
         return $request;
     }

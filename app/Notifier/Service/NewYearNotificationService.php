@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifier\Service;
 
+use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use Core\Storage\Service\LocalStorageService;
 
@@ -47,9 +48,11 @@ class NewYearNotificationService implements NotificationServiceInterface
 
     private function buildNotification(): Notification
     {
-        $notification = new Notification();
+        $content = $this->getContent();
+        $facebookNotification = new FacebookNotification($content, $this->getImageUrl());
+
+        $notification = new Notification($facebookNotification);
         $notification->setContent($this->getContent());
-        $notification->setImageUrl($this->getImageUrl());
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
 
