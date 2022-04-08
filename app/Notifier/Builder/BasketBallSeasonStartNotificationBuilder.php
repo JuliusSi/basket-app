@@ -8,19 +8,10 @@ use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use Core\Storage\Service\LocalStorageService;
 
-/**
- * Class BasketBallSeasonStartNotificationService.
- */
 class BasketBallSeasonStartNotificationBuilder implements NotificationBuilder
 {
-    private LocalStorageService $localStorageService;
-
-    /**
-     * BasketBallSeasonStartNotificationService constructor.
-     */
-    public function __construct(LocalStorageService $localStorageService)
+    public function __construct(private LocalStorageService $localStorageService)
     {
-        $this->localStorageService = $localStorageService;
     }
 
     /**
