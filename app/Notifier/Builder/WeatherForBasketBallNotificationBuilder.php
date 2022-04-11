@@ -93,7 +93,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
             return;
         }
 
-        if ($now->format('i') !== config('notification.weather_for_basketball.minute_to_notify')) {
+        if ($now->format('H') !== config('notification.weather_for_basketball.hour_to_notify')) {
             return;
         }
 
