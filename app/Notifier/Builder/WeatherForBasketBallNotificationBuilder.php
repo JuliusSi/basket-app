@@ -11,6 +11,7 @@ use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use Exception;
+use function in_array;
 
 class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
@@ -79,8 +80,24 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         $notification->setContent($message);
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
+        $this->setSmsRecipientIfNeeded($notification);
 
         return $notification;
+    }
+
+    private function setSmsRecipientIfNeeded(Notification $notification): void
+    {
+        $now = now();
+
+        if (!in_array($now->dayOfWeekIso, [5, 6, 7], true)) {
+            return;
+        }
+
+        if ($now->format('H') !== config('notification.weather_for_basketball.hour_to_notify')) {
+            return;
+        }
+
+        $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
     }
 
     /**

@@ -40,7 +40,11 @@ class BasketBallSeasonStartNotificationBuilder implements NotificationBuilder
     private function getContent(): string
     {
         $startNotify = config('notification.weather_for_basketball.start_notify');
-        $notificationTime = config('notification.weather_for_basketball.time_to_notify');
+        $notificationTime = sprintf(
+            '%s:%s',
+            config('notification.weather_for_basketball.hour_to_notify'),
+            config('notification.weather_for_basketball.minute_to_notify')
+        );
 
         return __(
             'notification.basketball_season_start',

@@ -20,9 +20,3 @@ Route::middleware('throttle:60,1')->group(function () {
     Auth::routes(['verify' => true]);
 });
 
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('phone-verify', [PhoneVerificationController::class, 'index'])->name('phone-verify');
-    Route::post('phone-verify', [PhoneVerificationController::class, 'verify'])->name('phone-verify');
-});
-
