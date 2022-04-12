@@ -57,10 +57,20 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
     private function resolveNotification(array $warnings, User $user): Notification
     {
         if (!$warnings) {
-            return $this->buildNotification(__('weather-rules.success'), $user);
+            return $this->buildNotification($this->getGoodWeatherMessage(), $user);
         }
 
         return $this->buildNotification($this->getBadWeatherMessage($warnings), $user);
+    }
+
+    private function getGoodWeatherMessage(): string
+    {
+        $vars = [
+            'startDate' => now()->format('m-d H:i'),
+            'endDate' => $this->getCheckEndDateTime()->format('m-d H:i'),
+        ];
+
+        return __('weather-rules.success', $vars);
     }
 
     private function buildNotification(string $message, User $user): Notification
@@ -117,15 +127,15 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
      */
     private function checkWeather(string $placeCode): array
     {
-        $endDateTime = $this->getCheckEndDateTime();
-        $startDateTime = Carbon::now()->toDateTimeString();
+        $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
+        $startDateTime = now()->toDateTimeString();
 
         return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
     }
 
-    private function getCheckEndDateTime(): string
+    private function getCheckEndDateTime(): Carbon
     {
-        return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
+        return now()->addHours(config('weather.rules.hours_to_check'));
     }
 
     /**

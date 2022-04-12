@@ -97,7 +97,7 @@
                             </h2>
                         </div>
                         <div class="text-center fadeIn" role="alert" v-if="status === STATUS_OK">
-                            <h2 class="alert-heading">{{ this.$t('weather-rules.success') }}</h2>
+                            <h2 class="alert-heading">{{ this.$t('weather-rules.success_static') }}</h2>
                         </div>
                         <div class="fadeIn text-center" role="alert" v-if="exception">
                             <h2 class="alert-heading">{{ exception }}</h2>
