@@ -9,26 +9,15 @@ use App\Model\BasketballCourt;
 use App\Model\ChatMessage;
 use App\Model\Log;
 use App\Model\User;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Psr\Log\LogLevel;
 
-/**
- * Class HomeController.
- */
 class HomeController extends Controller
 {
-    private BasketballCourtsService $courtsService;
-
-    /**
-     * HomeController constructor.
-     */
-    public function __construct(BasketballCourtsService $courtsService)
+    public function __construct(private BasketballCourtsService $courtsService)
     {
-        $this->courtsService = $courtsService;
     }
 
     public function index(): Renderable
@@ -36,7 +25,7 @@ class HomeController extends Controller
         return Auth::check() ? $this->homePage() : $this->landingPage();
     }
 
-    private function homePage(): Factory|View|Application
+    private function homePage(): Renderable
     {
         $user = User::with('userAttributes')->find(auth()->id())->makeVisible([
             'api_token',
@@ -45,10 +34,14 @@ class HomeController extends Controller
         return view('home', compact(['user']));
     }
 
-    private function landingPage(): Application|Factory|View
+    private function landingPage(): Renderable
     {
-        $userCount = User::count();
-        $courtsCount = BasketballCourt::count();
+        $userCount = Cache::remember('users_count', 1440, static function () {
+            return User::count();
+        });
+        $courtsCount = Cache::remember('courts_count', 1440, static function () {
+            return BasketballCourt::count();
+        });
         $commentsCount = ChatMessage::count();
         $randomCourts = BasketballCourt::inRandomOrder()->limit(3)->get();
         $courtsCollection = $this->courtsService->getCollection($randomCourts)->modify();

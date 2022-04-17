@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Notifier\Service;
 
-use App\Notifier\Model\Notification;
 use App\Notifier\Builder\RadiationInfoNotificationBuilder;
+use App\Notifier\Model\Notification;
 use App\RadiationChecker\Model\RadiationInfo;
 use App\RadiationChecker\Service\RadiationInfoService;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
@@ -11,21 +13,14 @@ use Illuminate\Contracts\Translation\Translator;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class RadiationInfoNotificationServiceTest
- * @package Tests\Unit\Notifier\Service
- */
 class RadiationInfoNotificationServiceTest extends TestCase
 {
-    /**
-     * @return array
-     */
     public function dataProvider(): array
     {
         $cases = [];
 
         /**
-         * CASE 0,
+         * CASE 0,.
          *
          * SCENARIO: radiation info service returns radiation info with risky status
          *
@@ -41,11 +36,14 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $translatorMock->shouldReceive('get')->andReturn('translation');
         $configRepositoryMock = Mockery::mock(ConfigRepository::class);
         $configRepositoryMock->shouldReceive('get')->with('sms.radiation.recipients')
-            ->andReturn(['recipient']);
+            ->andReturn(['recipient'])
+        ;
         $configRepositoryMock->shouldReceive('get')->with('sms.radiation.sender_name')
-            ->andReturn('notifier');
+            ->andReturn('notifier')
+        ;
         $configRepositoryMock->shouldReceive('get')->with('radiation.radiation_background_normal')
-            ->andReturn('0.1');
+            ->andReturn('0.1')
+        ;
         $notification = new Notification();
         $notification->setContent('translation');
         $notification->setSmsRecipients(['recipient']);
@@ -54,7 +52,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $cases[] = [$serviceMock, $translatorMock, $configRepositoryMock, $expectedResult];
 
         /**
-         * CASE 1,
+         * CASE 1,.
          *
          * SCENARIO: radiation info service returns empty response
          *
@@ -69,7 +67,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $cases[] = [$serviceMock, $translatorMock, $configRepositoryMock, $expectedResult];
 
         /**
-         * CASE 2,
+         * CASE 2,.
          *
          * SCENARIO: radiation info service returns radiation info with normal status
          *
@@ -90,12 +88,6 @@ class RadiationInfoNotificationServiceTest extends TestCase
     }
 
     /**
-     * @param  RadiationInfoService  $serviceMock
-     * @param  Translator  $translatorMock
-     * @param  ConfigRepository  $configRepositoryMock
-     * @param  array  $expected
-     * @return void
-     *
      * @dataProvider dataProvider
      */
     public function testGetNotifications(
