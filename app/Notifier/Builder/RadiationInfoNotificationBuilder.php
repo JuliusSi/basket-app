@@ -1,40 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifier\Builder;
 
 use App\Notifier\Model\Notification;
 use App\RadiationChecker\Model\RadiationInfo;
 use App\RadiationChecker\Service\RadiationInfoService;
-use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Translation\Translator;
 
-/**
- * Class RadiationInfoNotificationService
- * @package App\Notifier\Service
- */
 class RadiationInfoNotificationBuilder implements NotificationBuilder
 {
-    /**
-     * @var RadiationInfoService
-     */
     private RadiationInfoService $radiationInfoService;
 
-    /**
-     * @var Translator
-     */
     private Translator $translator;
 
-    /**
-     * @var ConfigRepository
-     */
     private ConfigRepository $configRepository;
 
-    /**
-     * RadiationInfoNotificationService constructor.
-     * @param  RadiationInfoService  $radiationInfoService
-     * @param  Translator  $translator
-     * @param  ConfigRepository  $configRepository
-     */
     public function __construct(
         RadiationInfoService $radiationInfoService,
         Translator $translator,
@@ -58,10 +41,6 @@ class RadiationInfoNotificationBuilder implements NotificationBuilder
         return [$this->buildNotification($radiationInfo)];
     }
 
-    /**
-     * @param  RadiationInfo  $radiationInfo
-     * @return Notification
-     */
     private function buildNotification(RadiationInfo $radiationInfo): Notification
     {
         $notification = new Notification();
@@ -72,10 +51,6 @@ class RadiationInfoNotificationBuilder implements NotificationBuilder
         return $notification;
     }
 
-    /**
-     * @param  RadiationInfo  $radiationInfo
-     * @return string
-     */
     private function getContent(RadiationInfo $radiationInfo): string
     {
         return $this->translator->get(
@@ -88,10 +63,6 @@ class RadiationInfoNotificationBuilder implements NotificationBuilder
         );
     }
 
-    /**
-     * @param  string  $key
-     * @return mixed
-     */
     private function getConfigValue(string $key): mixed
     {
         return $this->configRepository->get($key);
