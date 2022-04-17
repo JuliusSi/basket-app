@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Notifier\Collection;
 
 use App\Notifier\Model\Notification;
+use Illuminate\Support\Facades\Log;
 use Src\Sms\Exception\SmsSendingException;
 use Src\Sms\Service\SmsSendingService;
 
@@ -35,7 +36,7 @@ class SmsNotifier implements NotifierInterface
                 [$notification->getContent()]
             );
         } catch (SmsSendingException $exception) {
-            // needs handling?
+            Log::error($exception->getMessage());
         }
     }
 

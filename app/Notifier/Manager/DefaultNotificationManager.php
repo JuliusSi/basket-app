@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifier\Manager;
 
+use App\Notifier\Builder\NotificationBuilder;
 use App\Notifier\Model\Notification;
 use App\Notifier\Processor\DefaultNotificationProcessor;
-use App\Notifier\Builder\NotificationBuilder;
 
 class DefaultNotificationManager implements NotificationManagerInterface
 {
@@ -12,14 +14,11 @@ class DefaultNotificationManager implements NotificationManagerInterface
 
     private DefaultNotificationProcessor $notificationProcessor;
 
-    /**
-     * DefaultNotificationManager constructor.
-     */
     public function __construct(
-        NotificationBuilder $notificationService,
+        NotificationBuilder $notificationBuilder,
         DefaultNotificationProcessor $notificationProcessor
     ) {
-        $this->notificationService = $notificationService;
+        $this->notificationService = $notificationBuilder;
         $this->notificationProcessor = $notificationProcessor;
     }
 

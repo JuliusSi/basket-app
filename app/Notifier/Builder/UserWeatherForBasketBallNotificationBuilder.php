@@ -7,6 +7,8 @@ namespace App\Notifier\Builder;
 use App\Model\User;
 use App\Model\UserAttribute;
 use App\Notifier\Model\Notification;
+use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
+use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
@@ -15,8 +17,11 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
-    public function __construct(private WeatherCheckManager $weatherCheckManager)
-    {
+    public function __construct(
+        private WeatherCheckManager $weatherCheckManager,
+        private GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
+        private BadWeatherMessageBuilder $badWeatherMessageBuilder
+    ) {
     }
 
     /**
@@ -57,10 +62,18 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
     private function resolveNotification(array $warnings, User $user): Notification
     {
         if (!$warnings) {
-            return $this->buildNotification(__('weather-rules.success'), $user);
+            return $this->buildNotification($this->getGoodWeatherMessage(), $user);
         }
 
         return $this->buildNotification($this->getBadWeatherMessage($warnings), $user);
+    }
+
+    private function getGoodWeatherMessage(): string
+    {
+        $startDate = now()->format('H:i');
+        $endDate = $this->getCheckEndDateTime()->format('H:i');
+
+        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate);
     }
 
     private function buildNotification(string $message, User $user): Notification
@@ -78,24 +91,7 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
      */
     private function getBadWeatherMessage(array $warnings): string
     {
-        $warningsMessage = implode(', ', $this->getTranslatedMessages($warnings));
-
-        return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
-    }
-
-    /**
-     * @param Warning[] $warnings
-     *
-     * @return string[]
-     */
-    private function getTranslatedMessages(array $warnings): array
-    {
-        $translatedMessages = [];
-        foreach ($warnings as $warning) {
-            $translatedMessages[] = $warning->getTranslatedMessage();
-        }
-
-        return $translatedMessages;
+        return $this->badWeatherMessageBuilder->getMessage($warnings);
     }
 
     /**
@@ -117,15 +113,15 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
      */
     private function checkWeather(string $placeCode): array
     {
-        $endDateTime = $this->getCheckEndDateTime();
-        $startDateTime = Carbon::now()->toDateTimeString();
+        $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
+        $startDateTime = now()->toDateTimeString();
 
         return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
     }
 
-    private function getCheckEndDateTime(): string
+    private function getCheckEndDateTime(): Carbon
     {
-        return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
+        return now()->addHours(config('weather.rules.hours_to_check'));
     }
 
     /**

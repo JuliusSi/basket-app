@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Facebook\Repository;
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -8,29 +10,13 @@ use Src\Facebook\Client\Request\FacebookLinkPostRequest;
 use Src\Facebook\Client\Request\FacebookLinkPostRequestBody;
 use Src\Facebook\Client\Response\Response;
 
-/**
- * Class FacebookLinkRepository
- * @package Src\Facebook\Repository
- */
 class FacebookLinkRepository
 {
-    /**
-     * @var DefaultClient
-     */
-    private DefaultClient $client;
-
-    /**
-     * FacebookLinkRepository constructor.
-     * @param  DefaultClient  $client
-     */
-    public function __construct(DefaultClient $client)
+    public function __construct(private DefaultClient $client)
     {
-        $this->client = $client;
     }
 
     /**
-     * @param  FacebookLinkPostRequestBody  $postRequest
-     * @return Response
      * @throws GuzzleException
      */
     public function post(FacebookLinkPostRequestBody $postRequest): Response
@@ -38,10 +24,6 @@ class FacebookLinkRepository
         return $this->client->getDeserializedResponse($this->buildRequest($postRequest), Response::class);
     }
 
-    /**
-     * @param  FacebookLinkPostRequestBody  $postRequest
-     * @return FacebookLinkPostRequest
-     */
     private function buildRequest(FacebookLinkPostRequestBody $postRequest): FacebookLinkPostRequest
     {
         $request = new FacebookLinkPostRequest();

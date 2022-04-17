@@ -6,18 +6,24 @@ namespace App\Notifier\Builder;
 
 use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
+use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
+use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use Exception;
+use Illuminate\Support\Facades\Log;
+
 use function in_array;
 
 class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(
         private WeatherCheckManager $weatherCheckManager,
-        private LocalStorageService $localStorageService
+        private LocalStorageService $localStorageService,
+        private GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
+        private BadWeatherMessageBuilder $badWeatherMessageBuilder
     ) {
     }
 
@@ -47,7 +53,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
     {
         if (!$warnings) {
             return $this->buildNotification(
-                __('weather-rules.success'),
+                $this->getGoodWeatherMessage(),
                 $this->getFileUrl(config('memes.jr_smith_reaction_gif_url'))
             );
         }
@@ -58,6 +64,14 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         );
     }
 
+    private function getGoodWeatherMessage(): string
+    {
+        $startDate = now()->format('H:i');
+        $endDate = $this->getCheckEndDateTime()->format('H:i');
+
+        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate);
+    }
+
     /**
      * @return null|Warning[]
      */
@@ -66,6 +80,8 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         try {
             return $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
         } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+
             return null;
         }
     }
@@ -78,7 +94,6 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
         $notification = new Notification(new FacebookNotification($message, $imageUrl));
         $notification->setContent($message);
-        $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
         $this->setSmsRecipientIfNeeded($notification);
 
@@ -105,24 +120,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
      */
     private function getBadWeatherMessage(array $warnings): string
     {
-        $warningsMessage = implode(', ', $this->getTranslatedMessages($warnings));
-
-        return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
-    }
-
-    /**
-     * @param Warning[] $warnings
-     *
-     * @return string[]
-     */
-    private function getTranslatedMessages(array $warnings): array
-    {
-        $translatedMessages = [];
-        foreach ($warnings as $warning) {
-            $translatedMessages[] = $warning->getTranslatedMessage();
-        }
-
-        return $translatedMessages;
+        return $this->badWeatherMessageBuilder->getMessage($warnings);
     }
 
     /**
@@ -132,8 +130,8 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
      */
     private function checkWeather(string $placeCode): array
     {
-        $endDateTime = $this->getCheckEndDateTime();
-        $startDateTime = Carbon::now()->toDateTimeString();
+        $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
+        $startDateTime = now()->toDateTimeString();
 
         return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
     }
@@ -143,8 +141,8 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         return $this->localStorageService->findFileUrl($fileName, LocalStorageService::DIRECTORY_MEMES);
     }
 
-    private function getCheckEndDateTime(): string
+    private function getCheckEndDateTime(): Carbon
     {
-        return Carbon::now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
+        return now()->addHours(config('weather.rules.hours_to_check'));
     }
 }
