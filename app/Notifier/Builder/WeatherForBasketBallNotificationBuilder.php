@@ -66,8 +66,8 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
     private function getGoodWeatherMessage(): string
     {
-        $startDate = now()->format('m-d H:i');
-        $endDate = $this->getCheckEndDateTime()->format('m-d H:i');
+        $startDate = now()->format('H:i');
+        $endDate = $this->getCheckEndDateTime()->format('H:i');
 
         return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate);
     }
@@ -131,7 +131,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
     private function checkWeather(string $placeCode): array
     {
         $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
-        $startDateTime = Carbon::now()->toDateTimeString();
+        $startDateTime = now()->toDateTimeString();
 
         return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
     }

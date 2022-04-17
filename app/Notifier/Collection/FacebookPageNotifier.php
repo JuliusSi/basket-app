@@ -48,7 +48,7 @@ class FacebookPageNotifier implements NotifierInterface
 
             return $result;
         } catch (GuzzleException $exception) {
-            Log::warning(sprintf('Can not post facebook link. %s', $exception->getMessage()));
+            Log::error(sprintf('Can not post facebook link. %s', $exception->getMessage()));
 
             return null;
         }

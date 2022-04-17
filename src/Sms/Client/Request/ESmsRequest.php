@@ -10,10 +10,6 @@ class ESmsRequest extends AbstractRequest
 {
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
-    public function __construct(private ESms $smsModel)
-    {
-    }
-
     private const PARAM_EMAIL = 'email';
     private const PARAM_PASSWORD = 'password';
     private const PARAM_SENDER = 'from';
@@ -22,6 +18,10 @@ class ESmsRequest extends AbstractRequest
     private const PARAM_DATE = 'start date';
     private const PARAM_CALLBACK = 'callback';
     private const PARAM_GROUP = 'group';
+
+    public function __construct(private ESms $smsModel)
+    {
+    }
 
     public function getHeaders(): array
     {
