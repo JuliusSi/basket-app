@@ -63,7 +63,8 @@
                     <div class="col-md-12">
                         <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
                             <h2>
-                                <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" fixed-width/>
+                                <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loadingWeatherInfo"/>
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" class="fa-icon" fixed-width v-if="!loadingWeatherInfo"/>
                                 {{ this.$t('main.basketball-courts.weather_in_court') }}
                             </h2>
                         </div>
@@ -129,6 +130,7 @@ export default {
             STATUS_NOT_OK: STATUS_NOT_OK,
             STATUS_OK: STATUS_OK,
             loading: false,
+            loadingWeatherInfo: false,
             court: null,
             weatherWarnings: [],
             weatherInformation: [],
@@ -157,6 +159,7 @@ export default {
                 },
             }).then(response => {
                 this.court = response.data;
+                this.loading = false;
                 this.getWeatherInformation();
                 this.getWarnings();
             }).catch(error => {
@@ -171,7 +174,6 @@ export default {
             return isToday && isSameHour ? moment(date).startOf('minute').fromNow() : moment(date).format('lll');
         },
         getWarnings() {
-            this.loading = true;
             let startDate = moment().format('YYYY-MM-DD HH:mm:ss');
             let endDate = moment(startDate).add(4, 'hours').format('YYYY-MM-DD HH:mm:ss');
             let params = {
@@ -187,7 +189,6 @@ export default {
                 },
             })
                 .then(response => {
-                    this.loading = false;
                     if (response.data.length) {
                         this.weatherWarnings = response.data;
                         this.status = STATUS_NOT_OK;
@@ -196,13 +197,12 @@ export default {
                     }
                 })
                 .catch(error => {
-                    this.loading = false;
                     console.log(error.response.data);
                     this.exception = error.response.data.message;
                 });
         },
         getWeatherInformation() {
-            this.loading = true;
+            this.loadingWeatherInfo = true;
             let startDate = moment().format('YYYY-MM-DD HH:mm:ss');
             let endDate = moment(startDate).add(4, 'hours').format('YYYY-MM-DD HH:mm:ss');
             let params = {
@@ -218,13 +218,13 @@ export default {
                 },
             })
                 .then(response => {
-                    this.loading = false;
+                    this.loadingWeatherInfo = false;
                     if (response.data.length) {
                         this.weatherInformation = response.data;
                     }
                 })
                 .catch(error => {
-                    this.loading = false;
+                    this.loadingWeatherInfo = false;
                     console.log(error.response.data);
                     this.exception = error.response.data.message;
                 });

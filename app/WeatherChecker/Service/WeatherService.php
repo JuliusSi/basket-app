@@ -11,16 +11,10 @@ use Src\Weather\Client\Response\ForecastTimestamp;
 use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
 
-/**
- * Class WeatherForBasketBallService.
- */
 class WeatherService
 {
-    private CachedWeatherRepository $cachedWeatherRepository;
-
-    public function __construct(CachedWeatherRepository $cachedWeatherRepository)
+    public function __construct(private readonly CachedWeatherRepository $cachedWeatherRepository)
     {
-        $this->cachedWeatherRepository = $cachedWeatherRepository;
     }
 
     /**

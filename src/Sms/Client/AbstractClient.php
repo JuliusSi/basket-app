@@ -19,7 +19,7 @@ abstract class AbstractClient
     use SerializationTrait;
     use RequestOptionsBuildingTrait;
 
-    public function __construct(private Client $client)
+    public function __construct(private readonly Client $client)
     {
     }
 
@@ -76,8 +76,12 @@ abstract class AbstractClient
             $message = sprintf('Empty response from %s.', $request->getUri());
             $this->logAndThrowException($message);
         }
-        $message = sprintf('Request body: %s, Response: %s', $request->getBody(), $content);
-        Log::channel('client')->info($message);
+        $message = 'Successfully get response.';
+        Log::channel('client')->info($message, [
+            'request_uri' => $request->getUri(),
+            'request_query' => $request->getQuery(),
+            'response_body' => $content,
+        ]);
     }
 
     /**

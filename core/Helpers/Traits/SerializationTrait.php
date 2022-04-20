@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Core\Helpers\Traits;
 
-use JMS;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializationContext;
@@ -12,17 +11,13 @@ use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 
 /**
- * Trait SerializationTrait
- * @package Core\Helpers\Traits
+ * Trait SerializationTrait.
  */
 trait SerializationTrait
 {
     /**
-     * @param  mixed  $data
-     * @param  string|null  $class
-     * @param  string[]  $groups
-     * @param  string  $format
-     * @return string
+     * @param mixed    $data
+     * @param string[] $groups
      */
     public function serialize(
         $data,
@@ -37,20 +32,14 @@ trait SerializationTrait
     }
 
     /**
-     * @param  mixed  $data
-     * @param  mixed  $class
-     * @param  string  $format
-     *
-     * @return mixed
+     * @param mixed $data
+     * @param mixed $class
      */
     public function deserialize(string $data, string $class, string $format = 'json'): mixed
     {
         return $this->getSerializer()->deserialize($data, $class, $format);
     }
 
-    /**
-     * @return Serializer
-     */
     private function getSerializer(): Serializer
     {
         $strategy = new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy());

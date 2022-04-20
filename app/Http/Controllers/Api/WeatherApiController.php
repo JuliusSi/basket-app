@@ -13,9 +13,6 @@ use App\Model\PlaceCode;
 use Exception;
 use Illuminate\Http\Response;
 
-/**
- * Class WeatherApiController.
- */
 class WeatherApiController extends Controller
 {
     /**
@@ -39,8 +36,10 @@ class WeatherApiController extends Controller
     /**
      * @throws Exception
      */
-    public function getWeatherInformation(WeatherInformationRequest $request, WeatherInformationService $weatherService): Response
-    {
+    public function getWeatherInformation(
+        WeatherInformationRequest $request,
+        WeatherInformationService $weatherService
+    ): Response {
         return $weatherService->getResponse($request);
     }
 }

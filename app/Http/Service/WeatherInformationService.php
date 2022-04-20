@@ -13,7 +13,7 @@ use Src\Weather\Client\Response\ForecastTimestamp;
 
 class WeatherInformationService extends AbstractService
 {
-    public function __construct(private WeatherService $weatherService)
+    public function __construct(private readonly WeatherService $weatherService)
     {
     }
 
