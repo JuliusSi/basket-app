@@ -20,9 +20,9 @@ class WeatherCheckManager
     private const CACHE_LIFE_TIME = 600;
 
     public function __construct(
-        private WeatherService $weatherForBasketBallService,
-        private CheckerCollection $checkerCollection,
-        private WarningCollector $collector
+        private readonly WeatherService $weatherForBasketBallService,
+        private readonly CheckerCollection $checkerCollection,
+        private readonly WarningCollector $collector
     ) {
     }
 

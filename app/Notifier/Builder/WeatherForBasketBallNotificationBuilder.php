@@ -20,10 +20,10 @@ use function in_array;
 class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(
-        private WeatherCheckManager $weatherCheckManager,
-        private LocalStorageService $localStorageService,
-        private GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
-        private BadWeatherMessageBuilder $badWeatherMessageBuilder
+        private readonly WeatherCheckManager $weatherCheckManager,
+        private readonly LocalStorageService $localStorageService,
+        private readonly GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
+        private readonly BadWeatherMessageBuilder $badWeatherMessageBuilder
     ) {
     }
 

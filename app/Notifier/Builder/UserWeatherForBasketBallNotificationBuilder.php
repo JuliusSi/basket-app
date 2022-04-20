@@ -18,9 +18,9 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(
-        private WeatherCheckManager $weatherCheckManager,
-        private GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
-        private BadWeatherMessageBuilder $badWeatherMessageBuilder
+        private readonly WeatherCheckManager $weatherCheckManager,
+        private readonly GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
+        private readonly BadWeatherMessageBuilder $badWeatherMessageBuilder
     ) {
     }
 
