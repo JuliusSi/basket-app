@@ -6,7 +6,7 @@ namespace App\Chat\Message\Service;
 
 use App\Model\User;
 
-interface MessageSendingServiceInterface
+interface SendMessageServiceInterface
 {
     public function send(User $user, string $message);
 }
