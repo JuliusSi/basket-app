@@ -30,7 +30,6 @@ class ESmsClient extends AbstractClient
     private function handle(RequestInterface $request, string $content): void
     {
         $this->logRequestData($request);
-
         $this->handleResponseData($content);
     }
 
