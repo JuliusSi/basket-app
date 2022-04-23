@@ -37,6 +37,11 @@ class D7SmsSendingService implements SmsSendingService
         $this->sendMessages($this->buildMessageBag($sender, $recipients, $messages));
     }
 
+    public function sendQueued(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void
+    {
+        // TODO: Implement sendViaQueue() method.
+    }
+
     /**
      * @param string[] $recipients
      * @param string[] $messages

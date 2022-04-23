@@ -9,10 +9,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Src\Sms\Client\ESmsClient;
-use Src\Sms\Client\Request\ESmsRequest;
 use Src\Sms\Exception\SmsSendingException;
 use Src\Sms\Model\ESms;
+use Src\Sms\Repository\ESmsRepository;
 
 class SendESms implements ShouldQueue
 {
@@ -43,9 +42,9 @@ class SendESms implements ShouldQueue
     /**
      * @throws SmsSendingException
      */
-    public function handle(ESmsClient $client): void
+    public function handle(ESmsRepository $repository): void
     {
-        $client->getResponse(new ESmsRequest($this->sms));
+        $repository->sendMessage($this->sms);
     }
 
     public function tags(): array
