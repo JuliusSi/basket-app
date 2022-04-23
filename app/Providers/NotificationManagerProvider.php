@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Chat\Message\Service\SendBroadcastMessageService;
 use App\Chat\Message\Service\SendMessageServiceInterface;
+use App\Chat\Message\Service\SendQueuedMessageService;
 use App\Console\Commands\BasketBallSeasonEndNotificationCommand;
 use App\Console\Commands\BasketBallSeasonStartNotificationCommand;
 use App\Console\Commands\NewYearNotificationCommand;
@@ -103,7 +104,7 @@ class NotificationManagerProvider extends ServiceProvider
         $this->app
             ->when(ChatNotifier::class)
             ->needs(SendMessageServiceInterface::class)
-            ->give(SendBroadcastMessageService::class)
+            ->give(SendQueuedMessageService::class)
         ;
     }
 }
