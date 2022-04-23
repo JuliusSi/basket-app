@@ -47,4 +47,9 @@ class SendESms implements ShouldQueue
     {
         $client->getResponse(new ESmsRequest($this->sms));
     }
+
+    public function tags(): array
+    {
+        return ['send_sms', 'recipient:'.$this->sms->recipient()];
+    }
 }

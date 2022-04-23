@@ -9,37 +9,39 @@ use Illuminate\Support\Facades\Log;
 use Src\Sms\Client\Request\ESmsRequest;
 use Src\Sms\Exception\SmsSendingException;
 
+use function strlen;
+
 class ESmsClient extends AbstractClient
 {
     private const RESPONSE_SUCCESS = 'OK';
 
     public function getResponse(RequestInterface $request): string
     {
-        return $this->handle($request);
+        $content = parent::getResponse($request);
+
+        $this->handle($request, $content);
+
+        return $content;
     }
 
     /**
      * @throws SmsSendingException
      */
-    private function handle(RequestInterface $request): string
+    private function handle(RequestInterface $request, string $content): void
     {
         $this->logRequestData($request);
 
-        return $this->handleResponseData($request);
+        $this->handleResponseData($content);
     }
 
     /**
      * @throws SmsSendingException
      */
-    private function handleResponseData(RequestInterface $request): string
+    private function handleResponseData(string $content): void
     {
-        $content = parent::getResponse($request);
-
         if (self::RESPONSE_SUCCESS !== $content) {
             throw new SmsSendingException(sprintf('Error: %s', $content));
         }
-
-        return $content;
     }
 
     private function logRequestData(RequestInterface $request): void
@@ -52,7 +54,7 @@ class ESmsClient extends AbstractClient
 
         Log::channel('client')->info('Sms request data', [
             'sms_content' => $sms->content(),
-            'sms_length' => \strlen($sms->content()),
+            'sms_length' => strlen($sms->content()),
             'sms_sender' => $sms->sender(),
         ]);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Sms\Repository;
 
-use Src\Sms\Job\SendESms;
+use Src\Sms\Job\GetWeatherInfo;
 use Src\Sms\Model\ESms;
 
 class ESmsRepository
@@ -15,7 +15,7 @@ class ESmsRepository
     public function sendMessages(array $smsModels): void
     {
         foreach ($smsModels as $smsModel) {
-            SendESms::dispatch($smsModel);
+            GetWeatherInfo::dispatch($smsModel);
         }
     }
 }

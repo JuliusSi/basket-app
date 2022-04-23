@@ -53,6 +53,12 @@ return [
             'level' => 'debug',
         ],
 
+        'queue' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/queue/queue.log'),
+            'level' => 'debug',
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
