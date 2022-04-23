@@ -6,9 +6,6 @@ namespace App\WeatherChecker\Collector;
 
 use App\WeatherChecker\Model\Warning;
 
-/**
- * Class WarningCollector.
- */
 class WarningCollector
 {
     /**

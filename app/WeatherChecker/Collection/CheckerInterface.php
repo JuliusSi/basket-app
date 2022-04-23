@@ -7,9 +7,6 @@ namespace App\WeatherChecker\Collection;
 use Carbon\CarbonInterface;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-/**
- * Interface CheckerInterface.
- */
 interface CheckerInterface
 {
     /**

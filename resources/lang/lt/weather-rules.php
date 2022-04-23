@@ -2,6 +2,7 @@
 
 return [
     'precipitation' => ':date :hour valandą galimas lietus, kritulių kiekis: :precipitation mm.',
+    'past_precipitation' => ':date :hour valandą galėjo iškristi: :precipitation mm kritulių, aikštelėje gali būti slidu.',
     'success' => 'Oras tinkamas krepšiniui nuo :startDate iki :endDate',
     'success_static' => 'Oras tinkamas krepšiniui',
     'error' => 'Oras netinkamas krepšiniui',
