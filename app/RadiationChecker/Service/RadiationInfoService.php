@@ -10,22 +10,12 @@ use Exception;
 use Src\Radiation\Client\Response\Response;
 use Src\Radiation\Repository\CachedRadiationRepository;
 
-/**
- * Class RadiationInfoService.
- */
 class RadiationInfoService
 {
-    private CachedRadiationRepository $cachedRadiationRepository;
-
-    private RadiationStatusResolver $radiationStatusResolver;
-
-    /**
-     * RadiationInfoService constructor.
-     */
-    public function __construct(CachedRadiationRepository $cachedRadiationRepository, RadiationStatusResolver $radiationStatusResolver)
-    {
-        $this->cachedRadiationRepository = $cachedRadiationRepository;
-        $this->radiationStatusResolver = $radiationStatusResolver;
+    public function __construct(
+        private readonly CachedRadiationRepository $cachedRadiationRepository,
+        private readonly RadiationStatusResolver $radiationStatusResolver
+    ) {
     }
 
     public function getRadiationInfo(): ?RadiationInfo
