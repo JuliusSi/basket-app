@@ -34,7 +34,7 @@ class GetWeatherInfo implements ShouldQueue
      */
     public $backoff = 30;
 
-    public function __construct(public string $placeCode)
+    public function __construct(private readonly string $placeCode)
     {
     }
 
@@ -50,6 +50,6 @@ class GetWeatherInfo implements ShouldQueue
 
     public function tags(): array
     {
-        return ['get_weather_info', 'place_code:'.$this->placeCode];
+        return ['get_weather_info'];
     }
 }
