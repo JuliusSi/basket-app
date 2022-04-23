@@ -1,11 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core\Helpers\Interfaces\Request;
 
-/**
- * Interface RequestInterface
- * @package Core\Helpers\Interfaces\Request
- */
 interface StatsAwareRequestInterface
 {
     /**
@@ -13,33 +11,15 @@ interface StatsAwareRequestInterface
      */
     public function getHeaders(): array;
 
-    /**
-     * @return string
-     */
     public function getBody(): string;
 
-    /**
-     * @return string
-     */
     public function getMethod(): string;
 
-    /**
-     * @return string
-     */
     public function getUri(): string;
 
-    /**
-     * @return array
-     */
     public function getQuery(): array;
 
-    /**
-     * @return int
-     */
     public function getConnectionTimeOut(): int;
 
-    /**
-     * @return callable
-     */
     public function getOnStats(): callable;
 }

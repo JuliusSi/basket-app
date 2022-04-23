@@ -19,7 +19,7 @@ class ESmsRequest extends AbstractRequest
     private const PARAM_CALLBACK = 'callback';
     private const PARAM_GROUP = 'group';
 
-    public function __construct(private ESms $smsModel)
+    public function __construct(private readonly ESms $smsModel)
     {
     }
 
@@ -55,5 +55,10 @@ class ESmsRequest extends AbstractRequest
     public function getMethod(): string
     {
         return 'GET';
+    }
+
+    public function sms(): ESms
+    {
+        return $this->smsModel;
     }
 }

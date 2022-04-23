@@ -9,7 +9,6 @@ use Core\Helpers\Traits\RequestOptionsBuildingTrait;
 use Core\Helpers\Traits\SerializationTrait;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Log;
 
 abstract class AbstractClient
 {
@@ -33,12 +32,7 @@ abstract class AbstractClient
     {
         $client = new Client();
         $response = $client->request($request->getMethod(), $request->getUri(), $this->buildOptions($request));
-        $bodyContent = $response->getBody()->getContents();
-        Log::channel('client')->info(
-            'Successfully get response.',
-            ['request_body' => $request->getBody(), 'request_uri' => $request->getUri()]
-        );
 
-        return $bodyContent;
+        return $response->getBody()->getContents();
     }
 }
