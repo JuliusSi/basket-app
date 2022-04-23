@@ -21,7 +21,8 @@ class WeatherCheckManager
 
     public function __construct(
         private readonly WeatherService $weatherForBasketBallService,
-        private readonly CheckerCollection $checkerCollection,
+        private readonly CheckerCollection $pastWeatherCheckersCollection,
+        private readonly CheckerCollection $futureWeatherCheckersCollection,
         private readonly WarningCollector $collector
     ) {
     }
@@ -68,16 +69,51 @@ class WeatherCheckManager
     private function getWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
     {
         $this->collector->reset();
-        foreach ($this->getFilteredForecasts($placeCode, $startDateTime, $endDateTime) as $forecastTimestamp) {
-            $this->applyCheckers($forecastTimestamp);
-        }
+
+        $this->checkPastWeather($placeCode, $startDateTime);
+        $this->checkFutureWeather($placeCode, $startDateTime, $endDateTime);
 
         return $this->collector->getWarnings();
     }
 
-    private function applyCheckers(ForecastTimestamp $forecastTimestamp): void
+    /**
+     * @throws Exception
+     */
+    private function checkPastWeather(string $placeCode, string $endDateTime): void
     {
-        foreach ($this->getCheckers() as $checker) {
+        $startDate = Carbon::createFromFormat('Y-m-d H', $endDateTime)
+            ->subHours(3);
+
+        if (!$startDate->isToday()) {
+            return;
+        }
+
+        foreach ($this->getFilteredForecasts($placeCode, $startDate->format('Y-m-d H'), $endDateTime) as $forecastTimestamp) {
+            $this->applyPastWeatherCheckers($forecastTimestamp);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function checkFutureWeather(string $placeCode, string $startDateTime, string $endDateTime): void
+    {
+        foreach ($this->getFilteredForecasts($placeCode, $startDateTime, $endDateTime) as $forecastTimestamp) {
+            $this->applyFutureWeatherCheckers($forecastTimestamp);
+        }
+    }
+
+    private function applyFutureWeatherCheckers(ForecastTimestamp $forecastTimestamp): void
+    {
+        foreach ($this->getFutureWeatherCheckers() as $checker) {
+            $date = Carbon::parse($forecastTimestamp->getForecastTimeUtc());
+            $this->collector->addUniqueWarnings($checker->check($forecastTimestamp, $date));
+        }
+    }
+
+    private function applyPastWeatherCheckers(ForecastTimestamp $forecastTimestamp): void
+    {
+        foreach ($this->getPastWeatherCheckers() as $checker) {
             $date = Carbon::parse($forecastTimestamp->getForecastTimeUtc());
             $this->collector->addUniqueWarnings($checker->check($forecastTimestamp, $date));
         }
@@ -86,9 +122,17 @@ class WeatherCheckManager
     /**
      * @return CheckerInterface[]
      */
-    private function getCheckers(): array
+    private function getFutureWeatherCheckers(): array
     {
-        return $this->checkerCollection->getItems();
+        return $this->futureWeatherCheckersCollection->getItems();
+    }
+
+    /**
+     * @return CheckerInterface[]
+     */
+    private function getPastWeatherCheckers(): array
+    {
+        return $this->pastWeatherCheckersCollection->getItems();
     }
 
     /**

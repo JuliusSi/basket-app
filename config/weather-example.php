@@ -3,6 +3,7 @@
 return [
     'rules' => [
         'max_precipitation' => 0,
+        'max_past_precipitation' => 0.2,
         'max_air_temperature' => 26,
         'min_air_temperature' => 14,
         'min_air_temperature_if_clear' => 11,

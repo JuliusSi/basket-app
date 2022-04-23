@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Src\Sms\Job;
+namespace Src\Facebook\Job;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Src\Sms\Exception\SmsSendingException;
-use Src\Sms\Model\ESms;
-use Src\Sms\Repository\ESmsRepository;
+use Src\Facebook\Client\Request\FacebookLinkPostRequestBody;
+use Src\Facebook\Repository\FacebookLinkRepository;
 
-class SendESms implements ShouldQueue
+class PostFacebookLink implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -34,21 +34,20 @@ class SendESms implements ShouldQueue
      */
     public $backoff = 30;
 
-    public function __construct(private readonly ESms $sms)
+    public function __construct(private readonly FacebookLinkPostRequestBody $linkPostRequestBody)
     {
-        $this->delay($this->sms->whenToSend());
     }
 
     /**
-     * @throws SmsSendingException
+     * @throws GuzzleException
      */
-    public function handle(ESmsRepository $repository): void
+    public function handle(FacebookLinkRepository $facebookLinkRepository): void
     {
-        $repository->sendMessage($this->sms);
+        $facebookLinkRepository->post($this->linkPostRequestBody);
     }
 
     public function tags(): array
     {
-        return ['send_sms', 'recipient:'.$this->sms->recipient()];
+        return ['post_facebook_link'];
     }
 }

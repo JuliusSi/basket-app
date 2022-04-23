@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Notifier\Collection\ChatNotifier;
@@ -14,15 +16,8 @@ use App\WeatherChecker\Collection\WindChecker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class CollectionServiceProvider
- * @package App\Providers
- */
 class CollectionServiceProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
     public function register(): void
     {
         $this->app->singleton(
@@ -61,17 +56,5 @@ class CollectionServiceProvider extends ServiceProvider
                 );
             }
         );
-
-        $this->app->singleton(CheckerCollection::class, function ($app) {
-            $collection = new CheckerCollection();
-            $collection->setItems([
-                $app->make(AirTemperatureChecker::class),
-                $app->make(WindChecker::class),
-                $app->make(PrecipitationChecker::class),
-                $app->make(ConditionCodeChecker::class),
-            ]);
-
-            return $collection;
-        });
     }
 }

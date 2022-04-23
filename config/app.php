@@ -180,6 +180,7 @@ return [
         App\Providers\LogServiceProvider::class,
         App\Providers\SmsServiceProvider::class,
         App\Providers\ChatServiceProvider::class,
+        App\Providers\WeatherCheckerServiceProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\CookieConsent\CookieConsentServiceProvider::class,

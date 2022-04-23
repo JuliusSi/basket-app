@@ -6,18 +6,11 @@ namespace App\Notifier\Collection;
 
 use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
-use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Log;
 use Src\Facebook\Client\Request\FacebookLinkPostRequestBody;
-use Src\Facebook\Client\Response\Response;
-use Src\Facebook\Repository\FacebookLinkRepository;
+use Src\Facebook\Job\PostFacebookLink;
 
 class FacebookPageNotifier implements NotifierInterface
 {
-    public function __construct(private FacebookLinkRepository $facebookLinkRepository)
-    {
-    }
-
     /**
      * @param Notification[] $notifications
      */
@@ -39,18 +32,8 @@ class FacebookPageNotifier implements NotifierInterface
         return $request;
     }
 
-    private function postLink(FacebookLinkPostRequestBody $request): ?Response
+    private function postLink(FacebookLinkPostRequestBody $request): void
     {
-        try {
-            Log::info(sprintf('Trying to post message: %s', $request->getMessage()));
-            $result = $this->facebookLinkRepository->post($request);
-            Log::info(sprintf('Post successfully posted to Facebook. Post id: %s', $result->getId()));
-
-            return $result;
-        } catch (GuzzleException $exception) {
-            Log::error(sprintf('Can not post facebook link. %s', $exception->getMessage()));
-
-            return null;
-        }
+        PostFacebookLink::dispatch($request);
     }
 }

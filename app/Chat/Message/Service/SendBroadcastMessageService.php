@@ -8,9 +8,9 @@ use App\Chat\Message\Logger\UserFirstMessageTodayLogger;
 use App\Events\ChatMessageSent;
 use App\Model\User;
 
-class BroadcastAwareMessageSendingService implements MessageSendingServiceInterface
+class SendBroadcastMessageService implements SendMessageServiceInterface
 {
-    public function __construct(private BaseMessageSendingService $baseMessageSendingService)
+    public function __construct(private readonly SendMessageService $baseMessageSendingService)
     {
     }
 

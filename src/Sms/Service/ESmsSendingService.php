@@ -14,10 +14,10 @@ use Src\Sms\Validator\SmsValidator;
 class ESmsSendingService implements SmsSendingService
 {
     public function __construct(
-        private ESmsRepository $smsRepository,
-        private SmsValidator $smsValidator,
-        private ESmsListBuilder $builder,
-        private LongSmsModifier $modifier
+        private readonly ESmsRepository $smsRepository,
+        private readonly SmsValidator $smsValidator,
+        private readonly ESmsListBuilder $builder,
+        private readonly LongSmsModifier $modifier
     ) {
     }
 
@@ -32,6 +32,16 @@ class ESmsSendingService implements SmsSendingService
         $messages = $this->modifier->modify($messages);
         $this->smsValidator->validate($sender, $recipients, $messages, $dateToSend);
         $smsList = $this->builder->build($sender, $recipients, $messages, $dateToSend);
+
         $this->smsRepository->sendMessages($smsList);
+    }
+
+    public function sendQueued(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void
+    {
+        $messages = $this->modifier->modify($messages);
+        $this->smsValidator->validate($sender, $recipients, $messages, $dateToSend);
+        $smsList = $this->builder->build($sender, $recipients, $messages, $dateToSend);
+
+        $this->smsRepository->addMessagesToQueue($smsList);
     }
 }

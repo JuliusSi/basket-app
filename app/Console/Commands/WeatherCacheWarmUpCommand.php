@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Src\Weather\Job\GetWeatherInfo;
 use Src\Weather\Repository\CachedWeatherRepository;
 
 /**
@@ -52,18 +53,20 @@ class WeatherCacheWarmUpCommand extends Command
      */
     private function warmUp(string $placeCode, string $placeName): void
     {
-        $response = $this->cachedWeatherRepository->find($placeCode);
-        if ($response) {
-            $message = sprintf(
-                'Weather cache warm upped for %s place. Forecast created: %s.',
-                $placeName,
-                $response->getForecastCreationTimeUtc()
-            );
-            Log::channel('command')->info($message);
-            $this->info($message);
-        } else {
-            Log::channel('command')->warning(sprintf('Weather cache not warm upped for %s place.', $placeName));
-        }
+        GetWeatherInfo::dispatch($placeCode);
+
+//        $response = $this->cachedWeatherRepository->find($placeCode);
+//        if ($response) {
+//            $message = sprintf(
+//                'Weather cache warm upped for %s place. Forecast created: %s.',
+//                $placeName,
+//                $response->getForecastCreationTimeUtc()
+//            );
+//            Log::channel('command')->info($message);
+//            $this->info($message);
+//        } else {
+//            Log::channel('command')->warning(sprintf('Weather cache not warm upped for %s place.', $placeName));
+//        }
     }
 
     /**

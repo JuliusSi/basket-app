@@ -13,4 +13,9 @@ interface SmsSendingService
      * @throws SmsSendingException
      */
     public function send(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void;
+
+    /**
+     * @throws SmsSendingException
+     */
+    public function sendQueued(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void;
 }

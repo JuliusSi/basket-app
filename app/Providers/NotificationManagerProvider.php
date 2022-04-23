@@ -4,21 +4,25 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Chat\Message\Service\SendBroadcastMessageService;
+use App\Chat\Message\Service\SendMessageServiceInterface;
+use App\Chat\Message\Service\SendQueuedMessageService;
 use App\Console\Commands\BasketBallSeasonEndNotificationCommand;
 use App\Console\Commands\BasketBallSeasonStartNotificationCommand;
 use App\Console\Commands\NewYearNotificationCommand;
 use App\Console\Commands\RadiationInfoNotificationCommand;
 use App\Console\Commands\UserWeatherForBasketBallNotificationCommand;
 use App\Console\Commands\WeatherForBasketBallNotificationCommand;
-use App\Notifier\Manager\DefaultNotificationManager;
-use App\Notifier\Manager\NotificationManagerInterface;
-use App\Notifier\Processor\DefaultNotificationProcessor;
 use App\Notifier\Builder\BasketBallSeasonEndNotificationBuilder;
 use App\Notifier\Builder\BasketBallSeasonStartNotificationBuilder;
 use App\Notifier\Builder\NewYearNotificationService;
 use App\Notifier\Builder\RadiationInfoNotificationBuilder;
 use App\Notifier\Builder\UserWeatherForBasketBallNotificationBuilder;
 use App\Notifier\Builder\WeatherForBasketBallNotificationBuilder;
+use App\Notifier\Collection\ChatNotifier;
+use App\Notifier\Manager\DefaultNotificationManager;
+use App\Notifier\Manager\NotificationManagerInterface;
+use App\Notifier\Processor\DefaultNotificationProcessor;
 use Illuminate\Support\ServiceProvider;
 
 class NotificationManagerProvider extends ServiceProvider
@@ -95,6 +99,12 @@ class NotificationManagerProvider extends ServiceProvider
                     $this->app->make('weather_for_basketball_notification_processor')
                 );
             })
+        ;
+
+        $this->app
+            ->when(ChatNotifier::class)
+            ->needs(SendMessageServiceInterface::class)
+            ->give(SendQueuedMessageService::class)
         ;
     }
 }

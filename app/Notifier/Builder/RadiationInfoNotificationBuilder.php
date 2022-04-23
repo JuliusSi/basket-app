@@ -12,20 +12,11 @@ use Illuminate\Contracts\Translation\Translator;
 
 class RadiationInfoNotificationBuilder implements NotificationBuilder
 {
-    private RadiationInfoService $radiationInfoService;
-
-    private Translator $translator;
-
-    private ConfigRepository $configRepository;
-
     public function __construct(
-        RadiationInfoService $radiationInfoService,
-        Translator $translator,
-        ConfigRepository $configRepository
+        private  readonly RadiationInfoService $radiationInfoService,
+        private  readonly Translator $translator,
+        private  readonly ConfigRepository $configRepository
     ) {
-        $this->radiationInfoService = $radiationInfoService;
-        $this->translator = $translator;
-        $this->configRepository = $configRepository;
     }
 
     /**
