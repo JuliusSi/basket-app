@@ -81,11 +81,14 @@ class WeatherCheckManager
      */
     private function checkPastWeather(string $placeCode, string $endDateTime): void
     {
-        $startDateTime = Carbon::createFromFormat('Y-m-d H', $endDateTime)
-            ->subHours(3)
-            ->format('Y-m-d H');
+        $startDate = Carbon::createFromFormat('Y-m-d H', $endDateTime)
+            ->subHours(3);
 
-        foreach ($this->getFilteredForecasts($placeCode, $startDateTime, $endDateTime) as $forecastTimestamp) {
+        if (!$startDate->isToday()) {
+            return;
+        }
+
+        foreach ($this->getFilteredForecasts($placeCode, $startDate->format('Y-m-d H'), $endDateTime) as $forecastTimestamp) {
             $this->applyPastWeatherCheckers($forecastTimestamp);
         }
     }
