@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Service;
 
+use Carbon\CarbonInterface;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
@@ -18,43 +19,50 @@ class WeatherService
     }
 
     /**
+     * @return ForecastTimestamp[]
+     *
      * @throws Exception
      *
-     * @return ForecastTimestamp[]
      */
-    public function getFilteredForecasts(string $placeCode, string $startDateTime, string $endDateTime): array
+    public function getFilteredForecasts(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): array
     {
         $response = $this->getWeatherInformation($placeCode);
 
-        return $this->filterWeatherInformation($response, $startDateTime, $endDateTime);
+        return $this->filterWeatherInformation($response, $startDate, $endDate);
     }
 
     /**
      * @return ForecastTimestamp[]
      */
-    private function filterWeatherInformation(Response $response, string $startDateTime, string $endDateTime): array
-    {
+    private function filterWeatherInformation(
+        Response $response,
+        CarbonInterface $startDate,
+        CarbonInterface $endDate
+    ): array {
         $filteredForecasts = [];
+
         foreach ($response->getForecastTimestamps() as $forecastTimestamp) {
-            if ($this->isValidForecastTimeStamp($forecastTimestamp, $endDateTime, $startDateTime)) {
+            if ($this->isValidForecastTimeStamp($forecastTimestamp, $startDate, $endDate)) {
                 $filteredForecasts[] = $forecastTimestamp;
             }
         }
 
-        usort($filteredForecasts, static fn ($a, $b) => $a->getForecastTimeUtc() <=> $b->getForecastTimeUtc());
+        usort($filteredForecasts, static fn($a, $b) => $a->getForecastTimeUtc() <=> $b->getForecastTimeUtc());
 
         return $filteredForecasts;
     }
 
     private function isValidForecastTimeStamp(
         ForecastTimestamp $forecastTimeStamp,
-        string $datetimeAfterForHours,
-        string $dateTime
+        CarbonInterface $startDate,
+        CarbonInterface $endDate
     ): bool {
-        $forecastTimestampUtc = $forecastTimeStamp->getForecastTimeUtc();
+        $forecastDate = $forecastTimeStamp->getForecastDate()->format('Y-m-d H');
+        $startDateFormatted = $startDate->format('Y-m-d H');
+        $endDateFormatted = $endDate->format('Y-m-d H');
 
-        return $datetimeAfterForHours > $forecastTimestampUtc
-            && $forecastTimestampUtc > $dateTime;
+        return $endDateFormatted >= $forecastDate
+            && $forecastDate >= $startDateFormatted;
     }
 
     /**

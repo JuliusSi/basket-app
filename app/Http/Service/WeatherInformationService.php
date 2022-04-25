@@ -7,6 +7,7 @@ namespace App\Http\Service;
 use App\Http\Requests\WeatherInformationRequest;
 use App\Model\PlaceCode;
 use App\WeatherChecker\Service\WeatherService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Response;
 use Src\Weather\Client\Response\ForecastTimestamp;
@@ -34,8 +35,8 @@ class WeatherInformationService extends AbstractService
     {
         $data = [
             PlaceCode::findOrFail($request->get('place'))->getAttribute('code'),
-            $request->get('start_date'),
-            $request->get('end_date'),
+            Carbon::createFromFormat('Y-m-d H:i:s', $request->get('start_date')),
+            Carbon::createFromFormat('Y-m-d H:i:s', $request->get('end_date')),
         ];
         $result = $this->weatherService->getFilteredForecasts(...$data);
 

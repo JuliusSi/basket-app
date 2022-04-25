@@ -16,10 +16,6 @@ class PastPrecipitationChecker extends AbstractChecker
      */
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
-        if (!$date->isPast()) {
-            return [];
-        }
-
         return $this->getPrecipitationWarnings($weatherInfo, $date);
     }
 
