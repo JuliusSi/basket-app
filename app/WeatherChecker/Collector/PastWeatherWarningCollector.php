@@ -6,7 +6,6 @@ namespace App\WeatherChecker\Collector;
 
 use Illuminate\Support\Collection;
 use App\WeatherChecker\Collection\CheckerInterface;
-use App\WeatherChecker\Model\Warning;
 use Carbon\CarbonInterface;
 use Exception;
 use Src\Weather\Client\Response\ForecastTimestamp;
@@ -18,7 +17,7 @@ class PastWeatherWarningCollector implements WeatherWarningCollectorInterface
     }
 
     /**
-     * @return Warning[]
+     * @return string[]
      *
      * @throws Exception
      */
@@ -27,6 +26,9 @@ class PastWeatherWarningCollector implements WeatherWarningCollectorInterface
         return $this->applyCheckers($forecast, $forecast->getForecastDate());
     }
 
+    /**
+     * @return string[]
+     */
     private function applyCheckers(ForecastTimestamp $forecastTimestamp, CarbonInterface $forecastDate): array
     {
         $warnings = [];
