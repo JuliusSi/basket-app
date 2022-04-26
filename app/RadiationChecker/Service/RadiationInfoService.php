@@ -4,37 +4,45 @@ declare(strict_types=1);
 
 namespace App\RadiationChecker\Service;
 
+use App\RadiationChecker\Collector\RadiationInfoCollector;
 use App\RadiationChecker\Model\RadiationInfo;
 use App\RadiationChecker\Resolver\RadiationStatusResolver;
-use Exception;
+use Illuminate\Support\Facades\Log;
 use Src\Radiation\Client\Response\Response;
-use Src\Radiation\Repository\CachedRadiationRepository;
 
 class RadiationInfoService
 {
     public function __construct(
-        private readonly CachedRadiationRepository $cachedRadiationRepository,
+        private readonly RadiationInfoCollector $radiationInfoCollector,
         private readonly RadiationStatusResolver $radiationStatusResolver
     ) {
     }
 
-    public function getRadiationInfo(): ?RadiationInfo
+    /**
+     * @return RadiationInfo[]
+     */
+    public function getRadiationInfo(): array
     {
-        $rawResponse = $this->getRawResponse();
-        if (!$rawResponse || !$rawResponse->getData()->getRadiationBackground()) {
-            return null;
+        $radiationInfo = [];
+
+        foreach ($this->radiationInfoCollector->collect() as $collectedResponse) {
+            if ($response = $this->buildRadiationInfoResponse($collectedResponse)) {
+                $radiationInfo[] = $response;
+            }
         }
 
-        return $this->buildResponse($rawResponse);
+        return $radiationInfo;
     }
 
-    public function getRawResponse(): ?Response
+    private function buildRadiationInfoResponse(Response $response): ?RadiationInfo
     {
-        try {
-            return $this->cachedRadiationRepository->find();
-        } catch (Exception) {
+        if (!$response->getData()->getRadiationBackground()) {
+            Log::error('Invalid radiation data response.', ['response' => $response]);
+
             return null;
         }
+
+        return $this->buildResponse($response);
     }
 
     private function buildResponse(Response $rawResponse): RadiationInfo
@@ -44,6 +52,7 @@ class RadiationInfoService
         $response->setRadiationBackground($rawResponse->getData()->getRadiationBackground());
         $status = $this->radiationStatusResolver->resolve($rawResponse->getData()->getRadiationBackground());
         $response->setStatus($status);
+        $response->setMeterName($rawResponse->getMeterName());
 
         return $response;
     }

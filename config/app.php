@@ -181,6 +181,7 @@ return [
         App\Providers\SmsServiceProvider::class,
         App\Providers\ChatServiceProvider::class,
         App\Providers\WeatherCheckerServiceProvider::class,
+        App\Providers\RadiationCheckerServiceProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\CookieConsent\CookieConsentServiceProvider::class,

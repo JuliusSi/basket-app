@@ -1,46 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Radiation\Repository;
 
 use Exception;
-use Src\Radiation\Client\DefaultClient;
-use Src\Radiation\Client\Request\DefaultRequest;
+use Src\Radiation\Client\Request\AlphaCharlieRequest;
 use Src\Radiation\Client\Response\Response;
 
-/**
- * Class RadiationRepository
- * @package Src\Radiation\Repository
- */
-class RadiationRepository
+class RadiationRepository extends AbstractRadiationRepository implements RadiationRepositoryInterface
 {
-    /**
-     * @var DefaultClient
-     */
-    private DefaultClient $client;
+    private const METER_NAME = 'alpha_charlie';
 
     /**
-     * RadiationRepository constructor.
-     * @param  DefaultClient  $client
-     */
-    public function __construct(DefaultClient $client)
-    {
-        $this->client = $client;
-    }
-
-    /**
-     * @return Response
      * @throws Exception
      */
     public function find(): Response
     {
-        return $this->client->getDeserializedResponse($this->buildRequest(), Response::class);
+        $response = $this->getRawResponse($this->buildAlphaCharlieRequest());
+        $response->setMeterName(self::METER_NAME);
+
+        return $response;
     }
 
-    /**
-     * @return DefaultRequest
-     */
-    private function buildRequest(): DefaultRequest
+    private function buildAlphaCharlieRequest(): AlphaCharlieRequest
     {
-        return new DefaultRequest();
+        return new AlphaCharlieRequest();
     }
 }

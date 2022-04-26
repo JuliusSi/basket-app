@@ -34,11 +34,13 @@ return [
     'updated' => 'Atnaujinta',
     'radiation' => [
         'title' => 'Radiacinio fono informacija',
+        'meter_name' => 'Matuoklis',
         'radiation_background' => 'Radiacinis fonas',
         'status' => 'Statusas',
         'status_normal' => 'Normalus',
         'status_high' => 'Aukštas',
         'status_danger' => 'Pavojingas',
+        'notes' => 'Pateikiama informacija nėra oficiali. Kadangi matuokliai yra skirtingose vietose, jų duomenys gali skirtis.',
     ],
     'basketball-courts' => [
         'title' => 'Aikštelių sąrašas',
