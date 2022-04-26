@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\WeatherChecker\Collection;
 
 use Carbon\CarbonInterface;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-/**
- * Class WindChecker
- * @package App\WeatherChecker\Collection
- */
 class WindChecker extends AbstractChecker
 {
     public const RULE_TO_HIGH_WIND_SPEED = 'too_high_wind_speed';

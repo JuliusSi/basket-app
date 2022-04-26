@@ -11,7 +11,7 @@ use Src\Sms\Service\SmsSendingService;
 
 class SmsNotifier implements NotifierInterface
 {
-    public function __construct(private SmsSendingService $smsSendingService)
+    public function __construct(private readonly SmsSendingService $smsSendingService)
     {
     }
 
@@ -30,7 +30,7 @@ class SmsNotifier implements NotifierInterface
     private function sendSms(Notification $notification): void
     {
         try {
-            $this->smsSendingService->send(
+            $this->smsSendingService->sendQueued(
                 $notification->getNotifier(),
                 $notification->getSmsRecipients(),
                 [$notification->getContent()]

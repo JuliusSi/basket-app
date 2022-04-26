@@ -19,7 +19,7 @@ class ESmsRepository
     /**
      * @param ESms[] $smsModels
      */
-    public function addMessagesToQueue(array $smsModels): void
+    public function sendQueued(array $smsModels): void
     {
         foreach ($smsModels as $smsModel) {
             SendESms::dispatch($smsModel);
@@ -35,6 +35,8 @@ class ESmsRepository
     }
 
     /**
+     * @param  ESms[]  $smsList
+     *
      * @throws SmsSendingException
      */
     public function sendMessages(array $smsList): void

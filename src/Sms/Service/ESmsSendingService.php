@@ -42,6 +42,6 @@ class ESmsSendingService implements SmsSendingService
         $this->smsValidator->validate($sender, $recipients, $messages, $dateToSend);
         $smsList = $this->builder->build($sender, $recipients, $messages, $dateToSend);
 
-        $this->smsRepository->addMessagesToQueue($smsList);
+        $this->smsRepository->sendQueued($smsList);
     }
 }

@@ -7,9 +7,6 @@ namespace App\WeatherChecker\Collection;
 use Carbon\CarbonInterface;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-/**
- * Class ConditionCodeChecker.
- */
 class ConditionCodeChecker extends AbstractChecker
 {
     public const RULE_HEAVY_SNOW = 'heavy_snow';

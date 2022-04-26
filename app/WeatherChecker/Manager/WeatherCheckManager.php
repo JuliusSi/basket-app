@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Manager;
 
-use App\WeatherChecker\Collection\CheckerCollection;
-use App\WeatherChecker\Collection\CheckerInterface;
-use App\WeatherChecker\Collector\WarningCollector;
+use App\WeatherChecker\Collector\WeatherWarningCollector;
 use App\WeatherChecker\Model\Warning;
 use App\WeatherChecker\Service\WeatherService;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use LogicException;
+use InvalidArgumentException;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
 class WeatherCheckManager
@@ -21,36 +21,34 @@ class WeatherCheckManager
 
     public function __construct(
         private readonly WeatherService $weatherForBasketBallService,
-        private readonly CheckerCollection $pastWeatherCheckersCollection,
-        private readonly CheckerCollection $futureWeatherCheckersCollection,
-        private readonly WarningCollector $collector
+        private readonly Collection $collectorsCollection
     ) {
     }
 
     /**
-     * @throws Exception
-     *
      * @return Warning[]
+     *
+     * @throws Exception
      */
     public function manage(string $placeCode, string $startDateTime, string $endDateTime): array
     {
         if (empty($placeCode)) {
-            throw new LogicException('Place code cannot be empty');
+            throw new InvalidArgumentException('Place code cannot be empty');
         }
 
         return $this->getCachedWarnings($placeCode, $startDateTime, $endDateTime);
     }
 
     /**
-     * @throws Exception
-     *
      * @return Warning[]
+     *
+     * @throws Exception
      */
     private function getCachedWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
     {
-        $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $startDateTime)->format('Y-m-d H');
-        $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $endDateTime)->format('Y-m-d H');
-        $key = sprintf('%s_%s_%s', $placeCode, $startDate, $endDate);
+        $startDate = $this->getStartDate($startDateTime);
+        $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $endDateTime);
+        $key = sprintf('%s_%s_%s', $placeCode, $startDate->format('Y-m-d H'), $endDate->format('Y-m-d H'));
 
         return Cache::remember(
             $key,
@@ -61,87 +59,87 @@ class WeatherCheckManager
         );
     }
 
+    private function getStartDate(string $startDateTime): CarbonInterface
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $startDateTime)->subHours(3);
+    }
+
     /**
+     * @return Warning[]
+     *
      * @throws Exception
+     *
+     */
+    private function getWarnings(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): array
+    {
+        $warnings = [];
+
+        foreach ($this->getFilteredForecasts($placeCode, $startDate, $endDate) as $filteredForecast) {
+            array_push($warnings, ...$this->applyCollectors($filteredForecast));
+        }
+
+        return $this->buildWarnings($warnings);
+    }
+
+    /**
+     * @param  string[]  $warnings
      *
      * @return Warning[]
      */
-    private function getWarnings(string $placeCode, string $startDateTime, string $endDateTime): array
+    private function buildWarnings(array $warnings): array
     {
-        $this->collector->reset();
+        array_walk($warnings, function (&$warning) {
+            $warning = $this->buildWarning($warning);
+        });
 
-        $this->checkPastWeather($placeCode, $startDateTime);
-        $this->checkFutureWeather($placeCode, $startDateTime, $endDateTime);
+        return $warnings;
+    }
 
-        return $this->collector->getWarnings();
+    private function buildWarning(string $message): Warning
+    {
+        $warning = new Warning();
+        $warning->setTranslatedMessage($message);
+
+        return $warning;
     }
 
     /**
+     * @return Warning[]
+     *
      * @throws Exception
      */
-    private function checkPastWeather(string $placeCode, string $endDateTime): void
+    private function applyCollectors(ForecastTimestamp $forecast): array
     {
-        $startDate = Carbon::createFromFormat('Y-m-d H', $endDateTime)
-            ->subHours(3);
+        $warnings = [];
 
-        if (!$startDate->isToday()) {
-            return;
+        foreach ($this->getCollectors() as $collector) {
+            if ($collector->supports($forecast)) {
+                array_push($warnings, ...$collector->collect($forecast));
+            }
         }
 
-        foreach ($this->getFilteredForecasts($placeCode, $startDate->format('Y-m-d H'), $endDateTime) as $forecastTimestamp) {
-            $this->applyPastWeatherCheckers($forecastTimestamp);
-        }
+        return $warnings;
     }
 
+
     /**
-     * @throws Exception
+     * @return WeatherWarningCollector[]
      */
-    private function checkFutureWeather(string $placeCode, string $startDateTime, string $endDateTime): void
+    private function getCollectors(): array
     {
-        foreach ($this->getFilteredForecasts($placeCode, $startDateTime, $endDateTime) as $forecastTimestamp) {
-            $this->applyFutureWeatherCheckers($forecastTimestamp);
-        }
-    }
-
-    private function applyFutureWeatherCheckers(ForecastTimestamp $forecastTimestamp): void
-    {
-        foreach ($this->getFutureWeatherCheckers() as $checker) {
-            $date = Carbon::parse($forecastTimestamp->getForecastTimeUtc());
-            $this->collector->addUniqueWarnings($checker->check($forecastTimestamp, $date));
-        }
-    }
-
-    private function applyPastWeatherCheckers(ForecastTimestamp $forecastTimestamp): void
-    {
-        foreach ($this->getPastWeatherCheckers() as $checker) {
-            $date = Carbon::parse($forecastTimestamp->getForecastTimeUtc());
-            $this->collector->addUniqueWarnings($checker->check($forecastTimestamp, $date));
-        }
+        return $this->collectorsCollection->all();
     }
 
     /**
-     * @return CheckerInterface[]
-     */
-    private function getFutureWeatherCheckers(): array
-    {
-        return $this->futureWeatherCheckersCollection->getItems();
-    }
-
-    /**
-     * @return CheckerInterface[]
-     */
-    private function getPastWeatherCheckers(): array
-    {
-        return $this->pastWeatherCheckersCollection->getItems();
-    }
-
-    /**
+     * @return ForecastTimestamp[]
      * @throws Exception
      *
-     * @return ForecastTimestamp[]
      */
-    private function getFilteredForecasts(string $placeCode, string $startDateTime, string $endDateTime): array
-    {
-        return $this->weatherForBasketBallService->getFilteredForecasts($placeCode, $startDateTime, $endDateTime);
+    private function getFilteredForecasts(
+        string $placeCode,
+        CarbonInterface $startDate,
+        CarbonInterface $endDate
+    ): array {
+        return $this->weatherForBasketBallService->getFilteredForecasts($placeCode, $startDate, $endDate);
     }
 }

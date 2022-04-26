@@ -8,9 +8,6 @@ use Carbon\CarbonInterface;
 use function in_array;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-/**
- * Class AirTemperatureChecker.
- */
 class AirTemperatureChecker extends AbstractChecker
 {
     public const RULE_TO_HIGH_AIR_TEMPERATURE = 'too_high_air_temperature';

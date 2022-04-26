@@ -11,19 +11,10 @@ use App\WeatherChecker\Model\Warning;
 use Exception;
 use Illuminate\Http\Response;
 
-/**
- * Class WeatherWarningsService.
- */
 class WeatherWarningsService extends AbstractService
 {
-    private WeatherCheckManager $weatherCheckManager;
-
-    /**
-     * WeatherWarningsService constructor.
-     */
-    public function __construct(WeatherCheckManager $weatherCheckManager)
+    public function __construct(private readonly WeatherCheckManager $weatherCheckManager)
     {
-        $this->weatherCheckManager = $weatherCheckManager;
     }
 
     /**

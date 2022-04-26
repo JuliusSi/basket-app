@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Weather\Client\Response;
 
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use JMS\Serializer\Annotation as JMS;
 
-/**
- * Class ForecastTimestamp.
- */
 class ForecastTimestamp
 {
     public const CONDITION_CODE_CLEAR = 'clear';
@@ -107,5 +108,10 @@ class ForecastTimestamp
     public function setWindGust(string $windGust): void
     {
         $this->windGust = $windGust;
+    }
+
+    public function getForecastDate(): CarbonInterface
+    {
+        return Carbon::parse($this->getForecastTimeUtc());
     }
 }
