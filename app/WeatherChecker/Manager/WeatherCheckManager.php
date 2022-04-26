@@ -104,7 +104,7 @@ class WeatherCheckManager
     }
 
     /**
-     * @return Warning[]
+     * @return string[]
      *
      * @throws Exception
      */

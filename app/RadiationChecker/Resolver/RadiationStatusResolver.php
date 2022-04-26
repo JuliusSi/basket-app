@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\RadiationChecker\Resolver;
 
 use App\RadiationChecker\Model\RadiationInfo;
 
-/**
- * Class RadiationStatusResolver
- * @package App\RadiationChecker\Resolver
- */
 class RadiationStatusResolver
 {
     /**
