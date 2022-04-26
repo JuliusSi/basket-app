@@ -7,9 +7,16 @@
             {{ this.$t('main.radiation.title') }}
         </div>
         <div class="card-body" v-if="!loading">
-            <p> {{ this.$t('main.radiation.radiation_background') }}: {{ radiationBackground }} μSv/h</p>
-            <p> {{ this.$t('main.updated') }}: {{ updated }}</p>
-            <p> {{ this.$t('main.radiation.status') }}: {{ this.$t('main.radiation.status_' + radiationStatus) }}</p>
+            <ul class="list-unstyled">
+                <li v-for="info in this.radiationInfo" class="mb-3 pt-3">
+                    <p> {{ this.$t('main.radiation.meter_name') }}: {{ info.meterName }}</p>
+                    <p> {{ this.$t('main.radiation.radiation_background') }}: {{ info.radiationBackground }} μSv/h</p>
+                    <p> {{ this.$t('main.updated') }}: {{ info.updatedAt }}</p>
+                    <p> {{ this.$t('main.radiation.status') }}: {{ this.$t('main.radiation.status_' + info.status) }}</p>
+                </li>
+            </ul>
+
+            <p class="pt-3 font-weight-bold">{{ this.$t('main.radiation.notes') }}</p>
         </div>
     </div>
 </template>
@@ -18,9 +25,7 @@ export default {
     data() {
         return {
             loading: false,
-            updated: null,
-            radiationBackground: null,
-            radiationStatus: null,
+            radiationInfo: [],
         }
     },
     props: ['user'],
@@ -39,9 +44,7 @@ export default {
                 .then(response => {
                     this.loading = false;
                     if (response.data !== null) {
-                        this.radiationBackground = response.data.radiationBackground;
-                        this.updated = response.data.updatedAt;
-                        this.radiationStatus = response.data.status;
+                        this.radiationInfo = response.data;
                     }
                 })
                 .catch(error => {

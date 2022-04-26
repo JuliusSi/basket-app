@@ -1,12 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Radiation\Client;
 
-/**
- * Class DefaultClient
- * @package Src\Radiation\Client
- */
 class DefaultClient extends AbstractClient
 {
-
 }

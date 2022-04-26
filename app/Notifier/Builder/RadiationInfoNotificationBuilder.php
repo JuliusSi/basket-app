@@ -25,11 +25,30 @@ class RadiationInfoNotificationBuilder implements NotificationBuilder
     public function getNotifications(): array
     {
         $radiationInfo = $this->radiationInfoService->getRadiationInfo();
-        if (!$radiationInfo || !$radiationInfo->isRiskyStatus()) {
+
+        if (!$radiationInfo) {
             return [];
         }
 
-        return [$this->buildNotification($radiationInfo)];
+        return $this->buildNotifications($radiationInfo);
+    }
+
+    /**
+     * @param  RadiationInfo[]  $radiationInfo
+     *
+     * @return Notification[]
+     */
+    private function buildNotifications(array $radiationInfo): array
+    {
+        $notifications = [];
+
+        foreach ($radiationInfo as $info) {
+            if ($info->isRiskyStatus()) {
+                $notifications[] = $this->buildNotification($info);
+            }
+        }
+
+        return $notifications;
     }
 
     private function buildNotification(RadiationInfo $radiationInfo): Notification
@@ -49,6 +68,7 @@ class RadiationInfoNotificationBuilder implements NotificationBuilder
             [
                 'radiationBackground' => $radiationInfo->getRadiationBackground(),
                 'updatedAt' => $radiationInfo->getUpdatedAt(),
+                'meterName' => $radiationInfo->getMeterName(),
                 'normalRadiationBackground' => $this->getConfigValue('radiation.radiation_background_normal'),
             ],
         );

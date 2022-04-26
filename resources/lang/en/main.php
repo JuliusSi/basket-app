@@ -32,11 +32,13 @@ return [
     ],
     'radiation' => [
         'title' => 'Radiation background information',
+        'meter_name' => 'Meter name',
         'radiation_background' => 'Radiation background',
         'status' => 'Status',
         'status_normal' => 'Normal',
         'status_high' => 'High',
         'status_danger' => 'Danger',
+        'notes' => 'Not official information.',
     ],
     'basketball-courts' => [
         'title' => 'Courts',

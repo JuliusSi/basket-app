@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Radiation\Client;
 
+use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
 use Core\Helpers\Traits\RequestOptionsBuildingTrait;
 use Core\Helpers\Traits\SerializationTrait;
 use Exception;
@@ -9,25 +12,16 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
-use Core\Helpers\Interfaces\Request\StatsAwareRequestInterface as RequestInterface;
 
-/**
- * Class AbstractClient
- * @package Src\Radiation\Client
- */
 abstract class AbstractClient
 {
     use SerializationTrait;
     use RequestOptionsBuildingTrait;
 
-    /**
-     * @var Client
-     */
     private Client $client;
 
     /**
      * AbstractClient constructor.
-     * @param  Client  $client
      */
     public function __construct(Client $client)
     {
@@ -35,10 +29,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @param  string  $class
-     *
-     * @return mixed
      * @throws Exception
      */
     public function getDeserializedResponse(RequestInterface $request, string $class): mixed
@@ -51,8 +41,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @return ResponseInterface
      * @throws Exception
      */
     private function getRawResponse(RequestInterface $request): ResponseInterface
@@ -66,8 +54,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @param  string|null  $content
      * @throws Exception
      */
     private function handleResponse(RequestInterface $request, ?string $content): void
@@ -81,8 +67,6 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  RequestInterface  $request
-     * @return ResponseInterface
      * @throws GuzzleException
      */
     private function call(RequestInterface $request): ResponseInterface
@@ -91,13 +75,12 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  string  $message
-     * @param  string  $exception
      * @throws Exception
      */
     private function logAndThrowException(string $message, string $exception): void
     {
         Log::channel('client')->info($message);
-        throw new $exception;
+
+        throw new $exception();
     }
 }

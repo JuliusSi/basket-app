@@ -31,7 +31,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $radiationInfo->setRadiationBackground('0.3');
         $radiationInfo->setUpdatedAt('2020-01-01 00:00');
         $serviceMock = Mockery::mock(RadiationInfoService::class);
-        $serviceMock->shouldReceive('getRadiationInfo')->andReturn($radiationInfo);
+        $serviceMock->shouldReceive('getRadiationInfo')->andReturn([$radiationInfo]);
         $translatorMock = Mockery::mock(Translator::class);
         $translatorMock->shouldReceive('get')->andReturn('translation');
         $configRepositoryMock = Mockery::mock(ConfigRepository::class);
@@ -60,7 +60,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
          */
         $radiationInfo = null;
         $serviceMock = Mockery::mock(RadiationInfoService::class);
-        $serviceMock->shouldReceive('getRadiationInfo')->once()->andReturn($radiationInfo);
+        $serviceMock->shouldReceive('getRadiationInfo')->once()->andReturn([$radiationInfo]);
         $translatorMock = Mockery::mock(Translator::class);
         $configRepositoryMock = Mockery::mock(ConfigRepository::class);
         $expectedResult = [];
@@ -78,7 +78,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $radiationInfo->setRadiationBackground('0.1');
         $radiationInfo->setUpdatedAt('2020-01-01 00:00');
         $serviceMock = Mockery::mock(RadiationInfoService::class);
-        $serviceMock->shouldReceive('getRadiationInfo')->andReturn($radiationInfo);
+        $serviceMock->shouldReceive('getRadiationInfo')->andReturn([$radiationInfo]);
         $translatorMock = Mockery::mock(Translator::class);
         $configRepositoryMock = Mockery::mock(ConfigRepository::class);
         $expectedResult = [];
@@ -98,6 +98,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
     ): void {
         $service = new RadiationInfoNotificationBuilder($serviceMock, $translatorMock, $configRepositoryMock);
         $result = $service->getNotifications();
+
         self::assertEquals($expected, $result);
     }
 }
