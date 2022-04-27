@@ -18,9 +18,7 @@ class RadiationDataSaveHandler
 
     public function save(): void
     {
-        $results = $this->radiationInfoCollector->collect();
-
-        foreach ($results as $result) {
+        foreach ($this->radiationInfoCollector->collect() as $result) {
             $radiationModel = new Radiation();
             $radiationModel->meter = $result->getMeterName();
             $radiationModel->usvph = $result->getRadiationBackground();

@@ -41,10 +41,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('newYear:notify')->yearlyOn(1, 1, '00:00');
         $schedule->command('radiationInfo:notify')->everyThreeMinutes();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        $schedule->command('queue:work --stop-when-empty')->everyMinute();
 
         // Jobs
         $schedule->job(new SaveRadiationData())->everyThreeMinutes();
+
+        // Queue
+        $schedule->command('queue:work --stop-when-empty')->everyMinute();
     }
 
     /**
