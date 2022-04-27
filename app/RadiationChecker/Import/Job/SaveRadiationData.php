@@ -27,4 +27,9 @@ class SaveRadiationData implements ShouldQueue
 
         Log::channel('queue')->info('Job finished.', ['class' => __CLASS__]);
     }
+
+    public function tags(): array
+    {
+        return ['save_radiation_data'];
+    }
 }
