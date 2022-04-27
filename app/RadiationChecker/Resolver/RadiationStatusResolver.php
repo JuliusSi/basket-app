@@ -8,11 +8,7 @@ use App\RadiationChecker\Model\RadiationInfo;
 
 class RadiationStatusResolver
 {
-    /**
-     * @param  string  $microsievert
-     * @return string
-     */
-    public function resolve(string $microsievert): string
+    public function resolve(float $microsievert): string
     {
         return match (true) {
             $microsievert < config('radiation.radiation_background_normal') => RadiationInfo::STATUS_NORMAL,

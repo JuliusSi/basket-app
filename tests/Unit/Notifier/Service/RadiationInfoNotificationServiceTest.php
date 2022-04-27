@@ -20,7 +20,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $cases = [];
 
         /**
-         * CASE 0,.
+         * CASE 0.
          *
          * SCENARIO: radiation info service returns radiation info with risky status
          *
@@ -53,7 +53,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $cases[] = [$serviceMock, $translatorMock, $configRepositoryMock, $expectedResult];
 
         /**
-         * CASE 1,.
+         * CASE 1.
          *
          * SCENARIO: radiation info service returns empty response
          *
@@ -68,7 +68,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $cases[] = [$serviceMock, $translatorMock, $configRepositoryMock, $expectedResult];
 
         /**
-         * CASE 2,.
+         * CASE 2.
          *
          * SCENARIO: radiation info service returns radiation info with normal status
          *

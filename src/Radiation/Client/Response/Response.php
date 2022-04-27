@@ -57,4 +57,9 @@ class Response
     {
         $this->meterName = $meterName;
     }
+
+    public function getRadiationBackground(): float
+    {
+        return $this->getData()->getRadiationBackground();
+    }
 }

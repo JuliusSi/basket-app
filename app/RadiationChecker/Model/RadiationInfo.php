@@ -29,9 +29,9 @@ class RadiationInfo
     private string $status;
 
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("float")
      */
-    private string $radiationBackground;
+    private float $radiationBackground;
 
     /**
      * @JMS\Type("string")
@@ -58,12 +58,12 @@ class RadiationInfo
         $this->status = $status;
     }
 
-    public function getRadiationBackground(): string
+    public function getRadiationBackground(): float
     {
         return $this->radiationBackground;
     }
 
-    public function setRadiationBackground(string $radiationBackground): void
+    public function setRadiationBackground(float $radiationBackground): void
     {
         $this->radiationBackground = $radiationBackground;
     }

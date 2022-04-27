@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\RadiationChecker\Import\Job\SaveRadiationData;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -41,6 +42,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('radiationInfo:notify')->everyThreeMinutes();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
         $schedule->command('queue:work --stop-when-empty')->everyMinute();
+
+        // Jobs
+        $schedule->job(new SaveRadiationData())->everyThreeMinutes();
     }
 
     /**
