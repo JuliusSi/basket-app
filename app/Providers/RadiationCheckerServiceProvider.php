@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\RadiationChecker\Collector\RadiationInfoCollector;
-use App\WeatherChecker\Collector\PastWeatherWarningCollector;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Src\Radiation\Repository\CachedRadiationRepository;

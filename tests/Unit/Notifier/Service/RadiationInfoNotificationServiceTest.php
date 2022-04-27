@@ -20,7 +20,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $cases = [];
 
         /**
-         * CASE 0,.
+         * CASE 0.
          *
          * SCENARIO: radiation info service returns radiation info with risky status
          *
@@ -30,6 +30,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $radiationInfo->setStatus(RadiationInfo::STATUS_HIGH);
         $radiationInfo->setRadiationBackground('0.3');
         $radiationInfo->setUpdatedAt('2020-01-01 00:00');
+        $radiationInfo->setMeterName('test1');
         $serviceMock = Mockery::mock(RadiationInfoService::class);
         $serviceMock->shouldReceive('getRadiationInfo')->andReturn([$radiationInfo]);
         $translatorMock = Mockery::mock(Translator::class);
@@ -52,22 +53,22 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $cases[] = [$serviceMock, $translatorMock, $configRepositoryMock, $expectedResult];
 
         /**
-         * CASE 1,.
+         * CASE 1.
          *
          * SCENARIO: radiation info service returns empty response
          *
          * ACTION: not build notification
          */
-        $radiationInfo = null;
+        $radiationInfo = [];
         $serviceMock = Mockery::mock(RadiationInfoService::class);
-        $serviceMock->shouldReceive('getRadiationInfo')->once()->andReturn([$radiationInfo]);
+        $serviceMock->shouldReceive('getRadiationInfo')->once()->andReturn($radiationInfo);
         $translatorMock = Mockery::mock(Translator::class);
         $configRepositoryMock = Mockery::mock(ConfigRepository::class);
         $expectedResult = [];
         $cases[] = [$serviceMock, $translatorMock, $configRepositoryMock, $expectedResult];
 
         /**
-         * CASE 2,.
+         * CASE 2.
          *
          * SCENARIO: radiation info service returns radiation info with normal status
          *
@@ -77,6 +78,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
         $radiationInfo->setStatus(RadiationInfo::STATUS_NORMAL);
         $radiationInfo->setRadiationBackground('0.1');
         $radiationInfo->setUpdatedAt('2020-01-01 00:00');
+        $radiationInfo->setMeterName('test1');
         $serviceMock = Mockery::mock(RadiationInfoService::class);
         $serviceMock->shouldReceive('getRadiationInfo')->andReturn([$radiationInfo]);
         $translatorMock = Mockery::mock(Translator::class);

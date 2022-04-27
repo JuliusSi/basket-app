@@ -9,17 +9,17 @@ use JMS\Serializer\Annotation as JMS;
 class RadiationData
 {
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("float")
      * @JMS\SerializedName("usvph")
      */
-    private string $radiationBackground;
+    private float $radiationBackground;
 
-    public function getRadiationBackground(): string
+    public function getRadiationBackground(): float
     {
         return $this->radiationBackground;
     }
 
-    public function setRadiationBackground(string $radiationBackground): void
+    public function setRadiationBackground(float $radiationBackground): void
     {
         $this->radiationBackground = $radiationBackground;
     }
