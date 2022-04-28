@@ -28,7 +28,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
          */
         $radiationInfo = new RadiationInfo();
         $radiationInfo->setStatus(RadiationInfo::STATUS_HIGH);
-        $radiationInfo->setRadiationBackground('0.3');
+        $radiationInfo->setRadiationBackground(0.3);
         $radiationInfo->setUpdatedAt('2020-01-01 00:00');
         $radiationInfo->setMeterName('test1');
         $serviceMock = Mockery::mock(RadiationInfoService::class);
@@ -76,7 +76,7 @@ class RadiationInfoNotificationServiceTest extends TestCase
          */
         $radiationInfo = new RadiationInfo();
         $radiationInfo->setStatus(RadiationInfo::STATUS_NORMAL);
-        $radiationInfo->setRadiationBackground('0.1');
+        $radiationInfo->setRadiationBackground(0.1);
         $radiationInfo->setUpdatedAt('2020-01-01 00:00');
         $radiationInfo->setMeterName('test1');
         $serviceMock = Mockery::mock(RadiationInfoService::class);
