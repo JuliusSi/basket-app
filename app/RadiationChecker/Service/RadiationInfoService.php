@@ -49,8 +49,8 @@ class RadiationInfoService
     {
         $response = new RadiationInfo();
         $response->setUpdatedAt($rawResponse->getLastUpdate());
-        $response->setRadiationBackground($rawResponse->getData()->getRadiationBackground());
-        $status = $this->radiationStatusResolver->resolve($rawResponse->getData()->getRadiationBackground());
+        $response->setRadiationBackground($rawResponse->getRadiationBackground());
+        $status = $this->radiationStatusResolver->resolve($rawResponse->getRadiationBackground());
         $response->setStatus($status);
         $response->setMeterName($rawResponse->getMeterName());
 

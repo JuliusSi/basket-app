@@ -37,10 +37,18 @@ return [
         'meter_name' => 'Matuoklis',
         'radiation_background' => 'Radiacinis fonas',
         'status' => 'Statusas',
-        'status_normal' => 'Normalus',
-        'status_high' => 'Aukštas',
-        'status_danger' => 'Pavojingas',
+        'statuses' => [
+            'normal' => 'Normalus',
+            'high' => 'Aukštas',
+            'danger' => 'Pavojingas',
+        ],
+        'measured_at' => 'Matavimo data',
         'notes' => 'Pateikiama informacija nėra oficiali. Kadangi matuokliai yra skirtingose vietose, jų duomenys gali skirtis.',
+    ],
+    'max_radiation' => [
+        'title' => 'Didžiausio radiacionio fono informacija',
+        'today' => 'Didžiausias radiacinis fonas šiandien',
+        'all_time' => 'Didžiausias radiacinis fonas apskritai',
     ],
     'basketball-courts' => [
         'title' => 'Aikštelių sąrašas',

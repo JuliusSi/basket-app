@@ -9,12 +9,12 @@ use DateTime;
 class ESms
 {
     public function __construct(
-        private string $sender,
-        private string $recipient,
-        private string $content,
-        private ?DateTime $dateWhenToSend = null,
-        private ?int $group = null,
-        private ?string $callbackLink = null,
+        private readonly string $sender,
+        private readonly string $recipient,
+        private readonly string $content,
+        private readonly ?DateTime $dateWhenToSend = null,
+        private readonly ?int $group = null,
+        private readonly ?string $callbackLink = null,
     ) {
     }
 

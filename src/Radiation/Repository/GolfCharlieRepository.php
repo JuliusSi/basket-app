@@ -10,7 +10,7 @@ use Src\Radiation\Client\Response\Response;
 
 class GolfCharlieRepository extends AbstractRadiationRepository implements RadiationRepositoryInterface
 {
-    private const METER_NAME = 'golf_charlie';
+    public const METER_NAME = 'golf_charlie';
 
     /**
      * @throws Exception

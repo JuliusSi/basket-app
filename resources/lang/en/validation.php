@@ -148,6 +148,8 @@ return [
     */
 
     'attributes' => [],
-
+    'meter.names' => [
+        'in' => 'Meter name not exist or not supported',
+    ],
     'error_in_input' => 'Error in input: ',
 ];
