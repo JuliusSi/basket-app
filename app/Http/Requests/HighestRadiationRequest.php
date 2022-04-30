@@ -8,7 +8,7 @@ use App\RadiationChecker\Model\Radiation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class MaxRadiationRequest extends FormRequest
+class HighestRadiationRequest extends FormRequest
 {
     public function authorize(): bool
     {

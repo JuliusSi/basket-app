@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MaxRadiationRequest;
+use App\Http\Requests\HighestRadiationRequest;
 use App\Http\Service\RadiationService;
 use App\RadiationChecker\Model\Radiation;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class RadiationApiController extends Controller
         return $radiationService->getRadiationInfo();
     }
 
-    public function getHighestRadiation(MaxRadiationRequest $request)
+    public function getHighestRadiation(HighestRadiationRequest $request)
     {
         $measuredFrom = $request->get('measured_from');
         $measuredTo = $request->get('measured_to');
