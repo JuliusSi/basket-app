@@ -17,7 +17,7 @@ class RadiationApiController extends Controller
         return $radiationService->getRadiationInfo();
     }
 
-    public function getMaxRadiation(MaxRadiationRequest $request)
+    public function getHighestRadiation(MaxRadiationRequest $request)
     {
         $measuredFrom = $request->get('measured_from');
         $measuredTo = $request->get('measured_to');

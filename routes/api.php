@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'throttle:api'])->group(function () {
     Route::get('radiation-info', [RadiationApiController::class, 'getRadiationInfo']);
-    Route::get('max-radiation', [RadiationApiController::class, 'getMaxRadiation']);
+    Route::get('highest-radiation', [RadiationApiController::class, 'getHighestRadiation']);
     Route::apiResource('basketball-courts', \Api\BasketballCourtController::class);
     Route::apiResource('court-arrivals', \Api\CourtArrivalsController::class);
     Route::get('comments', [ChatApiController::class, 'getMessages']);
