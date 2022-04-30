@@ -73,7 +73,7 @@ export default {
             let params = {
                 meter_names: ['alpha_charlie', 'golf_charlie'],
             };
-            this.axios.get('/api/max-radiation', {
+            this.axios.get('/api/highest-radiation', {
                 params: params,
                 headers: {
                     Authorization: `Bearer ${this.user.api_token}`,
