@@ -43,10 +43,10 @@ return [
         'measured_at' => 'Measured at',
         'notes' => 'Not official information.',
     ],
-    'max_radiation' => [
-        'title' => 'Max radiation background information',
-        'today' => 'Max radiation background today',
-        'all_time' => 'Max radiation background all time',
+    'highest_radiation' => [
+        'title' => 'Highest radiation background information',
+        'today' => 'Highest radiation background today',
+        'all_time' => 'Highest radiation background all time',
     ],
     'basketball-courts' => [
         'title' => 'Courts',

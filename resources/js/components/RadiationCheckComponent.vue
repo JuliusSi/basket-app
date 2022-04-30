@@ -19,7 +19,7 @@
             <p class="pt-3 font-weight-bold">{{ this.$t('main.radiation.notes') }}</p>
         </div>
     </div>
-    <max-radiation-check :user="user"></max-radiation-check>
+    <highest-radiation-check :user="user"></highest-radiation-check>
 </template>
 <script>
 export default {

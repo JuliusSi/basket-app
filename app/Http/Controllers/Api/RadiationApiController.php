@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MaxRadiationRequest;
 use App\Http\Service\RadiationService;
-use App\Model\User;
 use App\RadiationChecker\Model\Radiation;
 use Symfony\Component\HttpFoundation\Response;
 

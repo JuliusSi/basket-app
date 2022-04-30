@@ -45,10 +45,10 @@ return [
         'measured_at' => 'Matavimo data',
         'notes' => 'Pateikiama informacija nėra oficiali. Kadangi matuokliai yra skirtingose vietose, jų duomenys gali skirtis.',
     ],
-    'max_radiation' => [
-        'title' => 'Didžiausio radiacionio fono informacija',
-        'today' => 'Didžiausias radiacinis fonas šiandien',
-        'all_time' => 'Didžiausias radiacinis fonas apskritai',
+    'highest_radiation' => [
+        'title' => 'Aukščiausio radiacionio fono informacija',
+        'today' => 'Aukščiausias radiacinis fonas šiandien',
+        'all_time' => 'Aukščiausias radiacinis fonas apskritai',
     ],
     'basketball-courts' => [
         'title' => 'Aikštelių sąrašas',

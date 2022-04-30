@@ -4,11 +4,11 @@
             <font-awesome-icon icon="spinner" spin class="fa-icon" v-if="loading"/>
             <font-awesome-icon :icon="['fas', 'line-chart']" class="fa-icon"
                                fixed-width v-if="!loading"/>
-            {{ this.$t('main.max_radiation.title') }}
+            {{ this.$t('main.highest_radiation.title') }}
         </div>
         <div class="card-body">
             <div class="pt-3" v-if="!loading && maxRadiationToday">
-                <p>{{ this.$t('main.max_radiation.today') }}</p>
+                <p>{{ this.$t('main.highest_radiation.today') }}</p>
                 <p> {{ this.$t('main.radiation.meter_name') }}: {{ maxRadiationToday.meter }}</p>
                 <p> {{ this.$t('main.radiation.radiation_background') }}: {{ maxRadiationToday.usvph }} μSv/h</p>
                 <p> {{ this.$t('main.radiation.measured_at') }}: {{ maxRadiationToday.measured_at }}</p>
@@ -16,7 +16,7 @@
                     {{ this.$t('main.radiation.statuses.' + maxRadiationToday.status) }}</p>
             </div>
             <div class="pt-3" v-if="!loading && maxRadiationAllTime">
-                <p>{{ this.$t('main.max_radiation.all_time') }}</p>
+                <p>{{ this.$t('main.highest_radiation.all_time') }}</p>
                 <p> {{ this.$t('main.radiation.meter_name') }}: {{ maxRadiationAllTime.meter }}</p>
                 <p> {{ this.$t('main.radiation.radiation_background') }}: {{ maxRadiationAllTime.usvph }} μSv/h</p>
                 <p> {{ this.$t('main.radiation.measured_at') }}: {{ maxRadiationAllTime.measured_at }}</p>
