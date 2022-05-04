@@ -28,6 +28,6 @@ class RadiationApiController extends Controller
                 function ($query) use ($measuredFrom, $measuredTo) {
                     $query->whereBetween('measured_at', [$measuredFrom, $measuredTo]);
                 }
-            )->orderBy('usvph', 'DESC')->first();
+            )->orderBy('usvph', 'DESC')->orderBy('measured_at', 'DESC')->first();
     }
 }

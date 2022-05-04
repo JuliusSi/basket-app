@@ -25,12 +25,12 @@
                 {{ this.$t('weather.select_start_date') }}
                 <datetime
                     class="mb-3"
-                    v-model="selectedStartDate" format="Y-MM-d HH:mm"
+                    v-model="selectedStartDate" format="Y-MM-dd HH:mm"
                     :clearable="false"
                     type="datetime"></datetime>
                 {{ this.$t('weather.select_end_date') }}
                 <datetime
-                    format="Y-MM-d HH:mm"
+                    format="Y-MM-dd HH:mm"
                     :clearable="false"
                     type="datetime" v-model="selectedEndDate"></datetime>
         </div>
