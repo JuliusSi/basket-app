@@ -11,14 +11,15 @@
                 <li v-for="info in this.radiationInfo" class="mb-3 pt-3">
                     <p> {{ this.$t('main.radiation.meter_name') }}: {{ info.meterName }}</p>
                     <p> {{ this.$t('main.radiation.radiation_background') }}: {{ info.radiationBackground }} μSv/h</p>
-                    <p> {{ this.$t('main.updated') }}: {{ info.updatedAt }}</p>
-                    <p> {{ this.$t('main.radiation.status') }}: {{ this.$t('main.radiation.status_' + info.status) }}</p>
+                    <p> {{ this.$t('main.radiation.measured_at') }}: {{ info.updatedAt }}</p>
+                    <p> {{ this.$t('main.radiation.status') }}: {{ this.$t('main.radiation.statuses.' + info.status) }}</p>
                 </li>
             </ul>
 
             <p class="pt-3 font-weight-bold">{{ this.$t('main.radiation.notes') }}</p>
         </div>
     </div>
+    <highest-radiation-check :user="user"></highest-radiation-check>
 </template>
 <script>
 export default {

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\PhoneVerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +19,10 @@ Route::middleware('throttle:60,1')->group(function () {
     Auth::routes(['verify' => true]);
 });
 
+// external redirect routes
+Route::get('fb-page', static function () {
+    return redirect()->away('https://www.facebook.com/Oras-krep%C5%A1iniui-Vilniuje-110919097381580');
+});
+
+// hack because we're using vue router
+Route::get('/{any}', 'HomeController@index')->where('any', '.*');

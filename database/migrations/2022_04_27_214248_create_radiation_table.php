@@ -14,10 +14,10 @@ return new class() extends Migration {
     {
         Schema::create('radiation', static function (Blueprint $table) {
             $table->id();
-            $table->string('meter');
-            $table->string('status');
+            $table->string('meter')->index();
+            $table->string('status')->index();
             $table->float('usvph', 3, 3);
-            $table->dateTime('measured_at');
+            $table->dateTime('measured_at')->index();
             $table->timestamps();
         });
     }

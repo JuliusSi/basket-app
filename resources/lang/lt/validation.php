@@ -167,5 +167,8 @@ return [
         'email' => 'el. paštas',
         'username' => 'vartotojo vardas',
     ],
+    'meter.names' => [
+        'in' => 'Įvesto matuoklio pavadinimo nėra palaikomų matuoklių sąraše',
+    ],
     'error_in_input' => 'Klaida laukelyje: ',
 ];

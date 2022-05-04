@@ -157,7 +157,7 @@ export default {
                 name: this.name,
                 city: this.city,
             };
-            axios.get('api/comments', {
+            axios.get('/api/comments', {
                 params: params,
                 headers: {
                     Authorization: `Bearer ${this.user.api_token}`,
@@ -173,7 +173,7 @@ export default {
             });
         },
         addMessage(message) {
-            axios.post('api/comment', message, {
+            axios.post('/api/comment', message, {
                 headers: {
                     Authorization: `Bearer ${this.user.api_token}`,
                     Accept: 'application/json',

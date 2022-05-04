@@ -35,10 +35,18 @@ return [
         'meter_name' => 'Meter name',
         'radiation_background' => 'Radiation background',
         'status' => 'Status',
-        'status_normal' => 'Normal',
-        'status_high' => 'High',
-        'status_danger' => 'Danger',
+        'statuses' => [
+            'normal' => 'Normal',
+            'high' => 'High',
+            'danger' => 'Danger',
+        ],
+        'measured_at' => 'Measured at',
         'notes' => 'Not official information.',
+    ],
+    'highest_radiation' => [
+        'title' => 'Highest radiation background information',
+        'today' => 'Highest radiation background today',
+        'all_time' => 'Highest radiation background all time',
     ],
     'basketball-courts' => [
         'title' => 'Courts',

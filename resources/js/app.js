@@ -33,6 +33,7 @@ app.use(Vue3Langjs, lang);
 app.component('example-component', require('./components/ExampleComponent.vue').default);
 app.component('weather-check', require('./components/WeatherCheckComponent.vue').default);
 app.component('radiation-check', require('./components/RadiationCheckComponent.vue').default);
+app.component('highest-radiation-check', require('./components/HighestRadiationComponent.vue').default);
 app.component('chat-messages', require('./components/ChatMessages.vue').default);
 app.component('chat-message', require('./components/ChatMessage.vue').default);
 app.component('chat-form', require('./components/ChatForm.vue').default);

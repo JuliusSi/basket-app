@@ -10,10 +10,8 @@ use Src\Sms\Model\ESms;
 class ESmsListBuilder
 {
     /**
-     * @param  string  $sender
-     * @param  string[]  $recipients
-     * @param  string[]  $messages
-     * @param  DateTime|null  $dateToSend
+     * @param string[] $recipients
+     * @param string[] $messages
      *
      * @return ESms[]
      */
