@@ -32,7 +32,7 @@ class ESmsSendingService implements SmsSendingService
     {
         $smsList = $this->prepare($sender, $recipients, $messages, $dateToSend);
 
-        $this->smsRepository->sendMessages($smsList);
+        $this->smsRepository->sendList($smsList);
     }
 
     public function sendQueued(string $sender, array $recipients, array $messages, ?DateTime $dateToSend = null): void

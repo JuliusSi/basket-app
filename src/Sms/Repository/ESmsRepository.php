@@ -29,7 +29,7 @@ class ESmsRepository
     /**
      * @throws SmsSendingException
      */
-    public function sendMessage(ESms $sms): string
+    public function send(ESms $sms): string
     {
         return $this->client->getResponse(new ESmsRequest($sms));
     }
@@ -39,10 +39,10 @@ class ESmsRepository
      *
      * @throws SmsSendingException
      */
-    public function sendMessages(array $smsList): void
+    public function sendList(array $smsList): void
     {
         foreach ($smsList as $sms) {
-            $this->sendMessage($sms);
+            $this->send($sms);
         }
     }
 }

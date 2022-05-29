@@ -44,7 +44,7 @@ class SendESms implements ShouldQueue
      */
     public function handle(ESmsRepository $repository): void
     {
-        $repository->sendMessage($this->sms);
+        $repository->send($this->sms);
     }
 
     public function tags(): array
