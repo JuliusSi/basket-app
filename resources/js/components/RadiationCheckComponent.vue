@@ -20,6 +20,7 @@
         </div>
     </div>
     <highest-radiation-check :user="user"></highest-radiation-check>
+    <radiation-charts :user="user"></radiation-charts>
 </template>
 <script>
 export default {

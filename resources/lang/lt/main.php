@@ -50,6 +50,7 @@ return [
         'today' => 'Aukščiausias radiacinis fonas šiandien',
         'all_time' => 'Aukščiausias radiacinis fonas apskritai',
     ],
+    'charts' => 'Diagramos',
     'basketball-courts' => [
         'title' => 'Aikštelių sąrašas',
         'court_information' => 'Aikštelės informacija',

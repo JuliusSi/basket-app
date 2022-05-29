@@ -48,6 +48,7 @@ return [
         'today' => 'Highest radiation background today',
         'all_time' => 'Highest radiation background all time',
     ],
+    'charts' => 'Charts',
     'basketball-courts' => [
         'title' => 'Courts',
         'court_information' => 'Court information',
