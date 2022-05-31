@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as JMS;
 
 class RadiationInfo
 {
+    public const STATUS_LOW = 'low';
     public const STATUS_NORMAL = 'normal';
     public const STATUS_HIGH = 'high';
     public const STATUS_DANGER = 'danger';

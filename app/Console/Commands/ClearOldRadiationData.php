@@ -29,7 +29,7 @@ class ClearOldRadiationData extends Command
 
     public function deleteRecords(): int
     {
-        return Radiation::where('usvph', '<', config('radiation.radiation_background_normal'))
+        return Radiation::where('usvph', '<', config('radiation.radiation_background_low'))
             ->where('created_at', '<=', now()->subMonth()->toDateTimeString())->delete();
     }
 }
