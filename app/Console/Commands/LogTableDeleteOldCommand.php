@@ -13,21 +13,11 @@ use Psr\Log\LogLevel;
 
 class LogTableDeleteOldCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'log-table:delete-old';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Deletes old records from log table';
 
-    public function __construct(private DatabaseRepository $repository)
+    public function __construct(private readonly DatabaseRepository $repository)
     {
         parent::__construct();
     }
