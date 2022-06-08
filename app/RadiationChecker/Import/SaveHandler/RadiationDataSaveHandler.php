@@ -18,7 +18,9 @@ class RadiationDataSaveHandler
     public function save(): void
     {
         foreach ($this->radiationInfoCollector->collect() as $result) {
-            $this->saveRadiationData($result);
+            if ($result->getRadiationBackground() > config('radiation.radiation_background_low')) {
+                $this->saveRadiationData($result);
+            }
         }
     }
 
