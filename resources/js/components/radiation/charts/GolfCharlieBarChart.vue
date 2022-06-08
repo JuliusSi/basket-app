@@ -28,7 +28,6 @@ export default {
                 scales: {
                     y: {
                         beginAtZero: false,
-                        suggestedMax: 0.3,
                         suggestedMin: 0.2,
                         ticks: {
                             stepSize: 0.05
