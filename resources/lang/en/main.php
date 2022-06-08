@@ -36,6 +36,7 @@ return [
         'radiation_background' => 'Radiation background',
         'status' => 'Status',
         'statuses' => [
+            'low' => 'Low',
             'normal' => 'Normal',
             'high' => 'High',
             'danger' => 'Danger',

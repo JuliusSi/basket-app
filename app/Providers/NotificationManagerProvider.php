@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Chat\Message\Service\SendBroadcastMessageService;
 use App\Chat\Message\Service\SendMessageServiceInterface;
 use App\Chat\Message\Service\SendQueuedMessageService;
 use App\Console\Commands\BasketBallSeasonEndNotificationCommand;

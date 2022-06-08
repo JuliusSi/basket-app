@@ -38,6 +38,7 @@ return [
         'radiation_background' => 'Radiacinis fonas',
         'status' => 'Statusas',
         'statuses' => [
+            'low' => 'Žemas',
             'normal' => 'Normalus',
             'high' => 'Aukštas',
             'danger' => 'Pavojingas',

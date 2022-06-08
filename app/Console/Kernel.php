@@ -40,6 +40,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('log-table:delete-old')->monthly();
         $schedule->command('newYear:notify')->yearlyOn(1, 1, '00:00');
         $schedule->command('radiationInfo:notify')->everyThreeMinutes();
+        $schedule->command('radiation:delete-old-data')->monthly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
         // Jobs
