@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Manager;
 
-use App\WeatherChecker\Collector\WeatherWarningCollector;
+use App\WeatherChecker\Collector\Warning\WeatherWarningCollector;
 use App\WeatherChecker\Model\Warning;
 use App\WeatherChecker\Service\WeatherService;
 use Carbon\Carbon;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\WeatherChecker\Collector;
+namespace App\WeatherChecker\Collector\Warning;
 
 use Illuminate\Support\Collection;
 use App\WeatherChecker\Collection\CheckerInterface;
@@ -10,9 +10,9 @@ use Carbon\CarbonInterface;
 use Exception;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
-class WeatherWarningCollector implements WeatherWarningCollectorInterface
+class PastWeatherWarningCollector implements WeatherWarningCollectorInterface
 {
-    public function __construct(private readonly Collection $checkerCollection)
+    public function __construct(private readonly Collection $pastWeatherCheckersCollection)
     {
     }
 
@@ -46,14 +46,18 @@ class WeatherWarningCollector implements WeatherWarningCollectorInterface
      */
     private function getCheckers(): array
     {
-        return $this->checkerCollection->all();
+        return $this->pastWeatherCheckersCollection->all();
     }
 
     public function supports(ForecastTimestamp $forecast): bool
     {
         $forecastDate = $forecast->getForecastDate();
 
-        if ($forecastDate->isPast()) {
+        if (!$forecastDate->isToday()) {
+            return false;
+        }
+
+        if (!$forecastDate->isPast()) {
             return false;
         }
 
