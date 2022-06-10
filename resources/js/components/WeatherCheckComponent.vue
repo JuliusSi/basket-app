@@ -10,6 +10,7 @@
             <div class="info" v-if="warningResponse">
                 <div class="alert alert-success text-center fadeIn" role="alert" v-if="warningResponse.warnings.length === 0">
                     <h2 class="alert-heading">{{ this.$t('weather-rules.success_static') }}</h2>
+                    <p class="mt-4 mb-1">{{ this.$t('main.updated') }} {{ warningResponse.updatedAt }}</p>
                 </div>
                 <div class="alert alert-danger fadeIn text-center" role="alert" v-if="exception">
                     <h2 class="alert-heading">{{ exception }}</h2>
