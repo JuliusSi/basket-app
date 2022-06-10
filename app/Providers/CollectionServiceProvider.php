@@ -26,7 +26,7 @@ class CollectionServiceProvider extends ServiceProvider
                 return new Collection(
                     [
                         $app->make(SmsNotifier::class),
-//                        $app->make(FacebookPageNotifier::class),
+                        $app->make(FacebookPageNotifier::class),
                         $app->make(ChatNotifier::class),
                         $app->make(LogNotifier::class),
                     ]
