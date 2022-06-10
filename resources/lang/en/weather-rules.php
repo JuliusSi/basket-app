@@ -3,7 +3,7 @@
 return [
     'precipitation' => ':date :hour h possible precipitation',
     'past_precipitation' => ':date :hour h was raining',
-    'success' => 'Lets go! The weather is perfect for basketball from :startDate to :endDate.',
+    'success' => 'Lets go! The weather is perfect for basketball from :startDate to :endDate. Updated: :updatedAt',
     'success_static' => 'Lets go! The weather is perfect for basketball',
     'error' => 'The weather is not suitable for basketball: ',
     'too_high_air_temperature' => ':date :hour h to high air temperature: :airTemperature C.',

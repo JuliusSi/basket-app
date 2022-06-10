@@ -9,7 +9,7 @@ use App\Notifier\Model\Notification;
 use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Model\Warning;
+use App\WeatherChecker\Model\Response\WarningResponse;
 use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use Exception;
@@ -42,25 +42,25 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
     private function getNotification(): ?Notification
     {
-        $weatherWarnings = $this->getWarnings();
-        if (null === $weatherWarnings) {
+        $response = $this->getWarningResponse();
+        if (null === $response) {
             return null;
         }
 
-        return $this->resolveNotification($weatherWarnings);
+        return $this->resolveNotification($response);
     }
 
-    private function resolveNotification(array $warnings): ?Notification
+    private function resolveNotification(WarningResponse $response): ?Notification
     {
-        if (!$warnings) {
+        if (!$response->getWarnings()) {
             return $this->buildNotification(
-                $this->getGoodWeatherMessage(),
+                $this->getGoodWeatherMessage($response),
                 $this->getRandomVideoUrl(),
             );
         }
 
         return $this->buildNotification(
-            $this->getBadWeatherMessage($warnings),
+            $this->getBadWeatherMessage($response),
             $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url')),
         );
     }
@@ -72,18 +72,15 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         return Arr::random($videos);
     }
 
-    private function getGoodWeatherMessage(): string
+    private function getGoodWeatherMessage(WarningResponse $response): string
     {
         $startDate = now()->format('H:i');
         $endDate = $this->getCheckEndDateTime()->format('H:i');
 
-        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate);
+        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate, $response->getUpdatedAt());
     }
 
-    /**
-     * @return null|Warning[]
-     */
-    private function getWarnings(): ?array
+    private function getWarningResponse(): ?WarningResponse
     {
         try {
             return $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
@@ -123,20 +120,15 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
     }
 
-    /**
-     * @param Warning[] $warnings
-     */
-    private function getBadWeatherMessage(array $warnings): string
+    private function getBadWeatherMessage(WarningResponse $response): string
     {
-        return $this->badWeatherMessageBuilder->getMessage($warnings);
+        return $this->badWeatherMessageBuilder->getMessage($response);
     }
 
     /**
      * @throws Exception
-     *
-     * @return Warning[]
      */
-    private function checkWeather(string $placeCode): array
+    private function checkWeather(string $placeCode): WarningResponse
     {
         $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
         $startDateTime = now()->toDateTimeString();

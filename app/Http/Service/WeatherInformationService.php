@@ -6,6 +6,7 @@ namespace App\Http\Service;
 
 use App\Http\Requests\WeatherInformationRequest;
 use App\Model\PlaceCode;
+use App\WeatherChecker\Model\Response\WeatherInformationResponse;
 use App\WeatherChecker\Service\WeatherService;
 use Carbon\Carbon;
 use Exception;
@@ -38,8 +39,8 @@ class WeatherInformationService extends AbstractService
             Carbon::createFromFormat('Y-m-d H:i:s', $request->get('start_date')),
             Carbon::createFromFormat('Y-m-d H:i:s', $request->get('end_date')),
         ];
-        $result = $this->weatherService->getFilteredForecasts(...$data);
+        $result = $this->weatherService->get(...$data);
 
-        return $this->serialize($result, 'array<'.ForecastTimestamp::class.'>');
+        return $this->serialize($result, WeatherInformationResponse::class);
     }
 }

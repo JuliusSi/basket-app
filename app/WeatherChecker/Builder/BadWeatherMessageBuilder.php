@@ -4,23 +4,27 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Builder;
 
+use App\WeatherChecker\Model\Response\WarningResponse;
 use App\WeatherChecker\Model\Warning;
 
 class BadWeatherMessageBuilder
 {
-    public function getMessage(array $warnings): string
+    public function getMessage(WarningResponse $response): string
     {
-        return $this->getBadWeatherMessage($warnings);
+        return $this->getBadWeatherMessage($response);
     }
 
-    /**
-     * @param Warning[] $warnings
-     */
-    private function getBadWeatherMessage(array $warnings): string
+    private function getBadWeatherMessage(WarningResponse $response): string
     {
-        $warningsMessage = implode(', ', $this->getTranslatedMessages($warnings));
+        $warningsMessage = implode(', ', $this->getTranslatedMessages($response->getWarnings()));
 
-        return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
+        return sprintf(
+            '%s: %s, %s: %s',
+            __('weather-rules.error'),
+            $warningsMessage,
+            __('main.updated'),
+            $response->getUpdatedAt(),
+        );
     }
 
     /**

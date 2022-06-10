@@ -10,10 +10,12 @@ use App\Notifier\Model\Notification;
 use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
+use App\WeatherChecker\Model\Response\WarningResponse;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
@@ -48,24 +50,24 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
             if (!$placeCode = $user->getUserAttributeValueByName(UserAttribute::NAME_WEATHER_FOR_BASKETBALL_NOTIFICATION_PLACE_CODE)) {
                 continue;
             }
-            $weatherWarnings = $this->getWarnings($placeCode);
-            if (null === $weatherWarnings) {
+            $response = $this->getWarningResponse($placeCode);
+            if (null === $response) {
                 continue;
             }
 
-            $notifications[] = $this->resolveNotification($weatherWarnings, $user);
+            $notifications[] = $this->resolveNotification($response, $user);
         }
 
         return $notifications;
     }
 
-    private function resolveNotification(array $warnings, User $user): Notification
+    private function resolveNotification(WarningResponse $response, User $user): Notification
     {
-        if (!$warnings) {
+        if (!$response->getWarnings()) {
             return $this->buildNotification($this->getGoodWeatherMessage(), $user);
         }
 
-        return $this->buildNotification($this->getBadWeatherMessage($warnings), $user);
+        return $this->buildNotification($this->getBadWeatherMessage($response), $user);
     }
 
     private function getGoodWeatherMessage(): string
@@ -86,32 +88,26 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
         return $notification;
     }
 
-    /**
-     * @param Warning[] $warnings
-     */
-    private function getBadWeatherMessage(array $warnings): string
+    private function getBadWeatherMessage(WarningResponse $response): string
     {
-        return $this->badWeatherMessageBuilder->getMessage($warnings);
+        return $this->badWeatherMessageBuilder->getMessage($response);
     }
 
-    /**
-     * @return null|Warning[]
-     */
-    private function getWarnings(string $placeCode): ?array
+    private function getWarningResponse(string $placeCode): ?WarningResponse
     {
         try {
             return $this->checkWeather($placeCode);
         } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+
             return null;
         }
     }
 
     /**
      * @throws Exception
-     *
-     * @return Warning[]
      */
-    private function checkWeather(string $placeCode): array
+    private function checkWeather(string $placeCode): WarningResponse
     {
         $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
         $startDateTime = now()->toDateTimeString();

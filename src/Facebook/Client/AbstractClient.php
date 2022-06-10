@@ -2,26 +2,23 @@
 
 namespace Src\Facebook\Client;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Src\Facebook\Client\Request\AbstractRequest;
 use Src\Facebook\Client\Traits\SerializationTrait;
-use GuzzleHttp\Client;
 
 /**
- * Class AbstractClient
- * @package Src\Facebook\Client
+ * Class AbstractClient.
  */
 abstract class AbstractClient
 {
     use SerializationTrait;
 
     /**
-     * @param  AbstractRequest  $request
-     * @param  string  $class
-     *
-     * @return mixed|null
      * @throws GuzzleException
+     *
+     * @return null|mixed
      */
     public function getDeserializedResponse(AbstractRequest $request, string $class)
     {
@@ -31,25 +28,18 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  AbstractRequest  $request
-     *
-     * @return string
      * @throws GuzzleException
      */
     public function getRawResponse(AbstractRequest $request): string
     {
         $client = new Client();
-        Log::channel('client')->info('Method: ' . $request->getMethod());
-        Log::channel('client')->info('Uri:' . $request->getUri());
+        Log::channel('client')->info('Method: '.$request->getMethod());
+        Log::channel('client')->info('Uri:'.$request->getUri());
         $response = $client->request($request->getMethod(), $request->getUri(), $this->buildOptions($request));
 
         return $response->getBody()->getContents();
     }
 
-    /**
-     * @param  AbstractRequest  $request
-     * @return array
-     */
     private function buildOptions(AbstractRequest $request): array
     {
         $options = [];

@@ -12,10 +12,11 @@ use App\WeatherChecker\Collection\PrecipitationChecker;
 use App\WeatherChecker\Collection\WindChecker;
 use App\WeatherChecker\Collector\Warning\PastWeatherWarningCollector;
 use App\WeatherChecker\Collector\Warning\WeatherWarningCollector;
-use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Service\WeatherService;
+use App\WeatherChecker\Filter\ForecastsByDateFilter;
+use App\WeatherChecker\Service\WeatherWarningsService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Src\Weather\Repository\CachedWeatherRepository;
 
 class WeatherCheckerServiceProvider extends ServiceProvider
 {
@@ -62,10 +63,11 @@ class WeatherCheckerServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton(WeatherCheckManager::class, function ($app) {
-            return new WeatherCheckManager(
-                $app->make(WeatherService::class),
+        $this->app->singleton(WeatherWarningsService::class, function ($app) {
+            return new WeatherWarningsService(
                 $app->make('weather_checker.collector.warning_collectors_collection'),
+                $app->make(CachedWeatherRepository::class),
+                $app->make(ForecastsByDateFilter::class),
             );
         });
     }

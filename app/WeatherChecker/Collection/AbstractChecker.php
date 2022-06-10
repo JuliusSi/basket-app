@@ -30,7 +30,7 @@ abstract class AbstractChecker implements CheckerInterface
     protected function buildWarning(string $message): Warning
     {
         $warning = new Warning();
-        $warning->setTranslatedMessage($message);
+        $warning->setUpdatedAt($message);
 
         return $warning;
     }
