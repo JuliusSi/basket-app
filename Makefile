@@ -101,3 +101,4 @@ copy_config_files:
 	cp config/radiation-example.php config/radiation.php
 	cp config/memes-example.php config/memes.php
 	cp config/holidays-example.php config/holidays.php
+	cp config/videos-example.php config/videos.php

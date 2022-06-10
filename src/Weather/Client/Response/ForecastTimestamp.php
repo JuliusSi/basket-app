@@ -50,6 +50,12 @@ class ForecastTimestamp
      */
     private string $conditionCode;
 
+    /**
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("relativeHumidity")
+     */
+    private int $humidity;
+
     public function getForecastTimeUtc(): string
     {
         return $this->forecastTimeUtc;
@@ -113,5 +119,15 @@ class ForecastTimestamp
     public function getForecastDate(): CarbonInterface
     {
         return Carbon::parse($this->getForecastTimeUtc());
+    }
+
+    public function getHumidity(): int
+    {
+        return $this->humidity;
+    }
+
+    public function setHumidity(int $humidity): void
+    {
+        $this->humidity = $humidity;
     }
 }

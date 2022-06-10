@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\WeatherChecker\Collection\AirTemperatureChecker;
 use App\WeatherChecker\Collection\ConditionCodeChecker;
+use App\WeatherChecker\Collection\HumidityChecker;
 use App\WeatherChecker\Collection\PastPrecipitationChecker;
 use App\WeatherChecker\Collection\PrecipitationChecker;
 use App\WeatherChecker\Collection\WindChecker;
@@ -27,6 +28,7 @@ class WeatherCheckerServiceProvider extends ServiceProvider
                     $app->make(WindChecker::class),
                     $app->make(PrecipitationChecker::class),
                     $app->make(ConditionCodeChecker::class),
+                    $app->make(HumidityChecker::class),
                 ]
             );
         });

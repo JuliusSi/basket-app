@@ -175,7 +175,7 @@ export default {
         },
         getWarnings() {
             let startDate = moment().format('YYYY-MM-DD HH:mm:ss');
-            let endDate = moment(startDate).add(4, 'hours').format('YYYY-MM-DD HH:mm:ss');
+            let endDate = moment(startDate).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
             let params = {
                 place: this.court.place_code_id,
                 start_date: startDate,
@@ -204,7 +204,7 @@ export default {
         getWeatherInformation() {
             this.loadingWeatherInfo = true;
             let startDate = moment().format('YYYY-MM-DD HH:mm:ss');
-            let endDate = moment(startDate).add(4, 'hours').format('YYYY-MM-DD HH:mm:ss');
+            let endDate = moment(startDate).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
             let params = {
                 place: this.court.place_code_id,
                 start_date: startDate,

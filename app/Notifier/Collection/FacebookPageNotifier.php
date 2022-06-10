@@ -26,7 +26,7 @@ class FacebookPageNotifier implements NotifierInterface
     private function buildRequest(FacebookNotification $notification): FacebookLinkPostRequestBody
     {
         $request = new FacebookLinkPostRequestBody();
-        $request->setLink($notification->imageUrl());
+        $request->setLink($notification->link());
         $request->setMessage($notification->content());
 
         return $request;

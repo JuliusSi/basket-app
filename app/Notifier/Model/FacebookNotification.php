@@ -6,8 +6,13 @@ namespace App\Notifier\Model;
 
 class FacebookNotification
 {
-    public function __construct(private string $content, private string $imageUrl)
+    public function __construct(private readonly string $content, private readonly string $link)
     {
+    }
+
+    public static function create(string $content, string $link): self
+    {
+        return new self($content, $link);
     }
 
     public function content(): string
@@ -15,8 +20,8 @@ class FacebookNotification
         return $this->content;
     }
 
-    public function imageUrl(): string
+    public function link(): string
     {
-        return $this->imageUrl;
+        return $this->link;
     }
 }

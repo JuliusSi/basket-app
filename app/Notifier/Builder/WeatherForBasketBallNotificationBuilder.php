@@ -13,6 +13,7 @@ use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Core\Storage\Service\LocalStorageService;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 use function in_array;
@@ -54,14 +55,21 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         if (!$warnings) {
             return $this->buildNotification(
                 $this->getGoodWeatherMessage(),
-                $this->getFileUrl(config('memes.jr_smith_reaction_gif_url'))
+                $this->getRandomVideoUrl(),
             );
         }
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($warnings),
-            $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url'))
+            $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url')),
         );
+    }
+
+    private function getRandomVideoUrl()
+    {
+        $videos = config('videos.url.motivation_videos.available_for_basketball');
+
+        return Arr::random($videos);
     }
 
     private function getGoodWeatherMessage(): string
@@ -86,13 +94,13 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         }
     }
 
-    private function buildNotification(string $message, ?string $imageUrl): ?Notification
+    private function buildNotification(string $message, ?string $link): ?Notification
     {
-        if (!$imageUrl) {
+        if (!$link) {
             return null;
         }
 
-        $notification = new Notification(new FacebookNotification($message, $imageUrl));
+        $notification = new Notification(FacebookNotification::create($message, $link));
         $notification->setContent($message);
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
         $this->setSmsRecipientIfNeeded($notification);
