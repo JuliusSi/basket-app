@@ -67,7 +67,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
     private function getRandomVideoUrl()
     {
-        $videos = config('videos.url.motivation_videos.available_for_basketball');
+        $videos = config('videos.url.motivation_videos.weather_available_for_basketball');
 
         return Arr::random($videos);
     }
