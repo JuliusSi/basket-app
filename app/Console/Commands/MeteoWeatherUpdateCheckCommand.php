@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Src\Weather\Event\WeatherUpdated;
@@ -25,13 +27,15 @@ class MeteoWeatherUpdateCheckCommand extends Command
 
             try {
                 $response = $weatherRepository->find($placeCode);
-            } catch (\Exception $exception) {
+            } catch (Exception|GuzzleException $exception) {
                 $this->error($exception->getMessage());
+
                 continue;
             }
 
             if (!$response) {
                 $this->error('No response for place code: '.$placeCode);
+
                 continue;
             }
 
