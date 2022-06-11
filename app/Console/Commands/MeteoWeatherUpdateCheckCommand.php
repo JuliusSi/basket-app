@@ -22,7 +22,13 @@ class MeteoWeatherUpdateCheckCommand extends Command
         foreach ($this->getAvailablePlaces() as $placeCode => $placeName) {
             $cacheKey = 'meteo_last_update_'.$placeCode;
             $lastUpdate = Cache::get($cacheKey);
-            $response = $weatherRepository->find($placeCode);
+
+            try {
+                $response = $weatherRepository->find($placeCode);
+            } catch (\Exception $exception) {
+                $this->error($exception->getMessage());
+                continue;
+            }
 
             if (!$response) {
                 $this->error('No response for place code: '.$placeCode);
