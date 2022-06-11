@@ -16,6 +16,8 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
+use InvalidArgumentException;
+
 use function in_array;
 
 class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
@@ -55,19 +57,23 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         if (!$response->getWarnings()) {
             return $this->buildNotification(
                 $this->getGoodWeatherMessage($response),
-                $this->getRandomVideoUrl(),
+                $this->getRandomVideoUrl('videos.url.motivation_videos.weather_available_for_basketball'),
             );
         }
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($response),
-            $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url')),
+            $this->getFileUrl('memes.lebron_james_what_reaction_gif_url'),
         );
     }
 
-    private function getRandomVideoUrl()
+    private function getRandomVideoUrl(string $configKey)
     {
-        $videos = config('videos.url.motivation_videos.weather_available_for_basketball');
+        $videos = config($configKey);
+
+        if (!$videos) {
+            throw new InvalidArgumentException('No configuration for key: '.$configKey);
+        }
 
         return Arr::random($videos);
     }

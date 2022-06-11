@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('weather:warmUpCache')->everyTenMinutes()->between('08:00', '21:00');
         $schedule->command('weatherForBasketBall:notify')->hourlyAt(
             config('notification.weather_for_basketball.minute_to_notify')
         )->between(
