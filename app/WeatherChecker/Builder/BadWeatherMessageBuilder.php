@@ -23,7 +23,7 @@ class BadWeatherMessageBuilder
             __('weather-rules.error'),
             $warningsMessage,
             __('main.updated'),
-            $response->getUpdatedAt(),
+            $response->getMeasuredAt(),
         );
     }
 

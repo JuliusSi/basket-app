@@ -10,14 +10,14 @@
             <div class="info" v-if="warningResponse">
                 <div class="alert alert-success text-center fadeIn" role="alert" v-if="warningResponse.warnings.length === 0">
                     <h2 class="alert-heading">{{ this.$t('weather-rules.success_static') }}</h2>
-                    <p class="mt-4 mb-1">{{ this.$t('main.updated') }} {{ warningResponse.updatedAt }}</p>
+                    <p class="mt-4 mb-1">{{ this.$t('main.updated') }} {{ warningResponse.measuredAt }}</p>
                 </div>
                 <div class="alert alert-danger fadeIn text-center" role="alert" v-if="exception">
                     <h2 class="alert-heading">{{ exception }}</h2>
                 </div>
                 <div class="alert alert-danger fadeIn" role="alert" v-if="warningResponse.warnings.length > 0">
                     <h2 class="alert-heading">{{ this.$t('weather-rules.error') }}</h2>
-                    <p class="mt-4">{{ this.$t('main.updated') }} {{ warningResponse.updatedAt }}</p>
+                    <p class="mt-4">{{ this.$t('main.updated') }} {{ warningResponse.measuredAt }}</p>
                     <ul class="list">
                         <li v-for="warning in this.warningResponse.warnings">
                             {{ warning.translatedMessage }}

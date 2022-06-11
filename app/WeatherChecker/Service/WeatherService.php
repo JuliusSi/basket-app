@@ -39,7 +39,7 @@ class WeatherService
     {
         $weatherInformation = new WeatherInformationResponse();
         $weatherInformation->setForecasts($forecasts);
-        $weatherInformation->setUpdatedAt($response->getForecastCreationTimeUtc());
+        $weatherInformation->setMeasuredAt($response->getForecastCreationTimeUtc());
 
         return $weatherInformation;
     }

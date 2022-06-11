@@ -12,7 +12,7 @@ class WeatherInformationResponse
     /**
      * @JMS\Type("string")
      */
-    private string $updatedAt;
+    private string $measuredAt;
 
     /**
      * @JMS\Type("array<Src\Weather\Client\Response\ForecastTimestamp>")
@@ -31,13 +31,13 @@ class WeatherInformationResponse
         $this->forecasts = $warnings;
     }
 
-    public function getUpdatedAt(): string
+    public function getMeasuredAt(): string
     {
-        return $this->updatedAt;
+        return $this->measuredAt;
     }
 
-    public function setUpdatedAt(string $updatedAt): void
+    public function setMeasuredAt(string $measuredAt): void
     {
-        $this->updatedAt = $updatedAt;
+        $this->measuredAt = $measuredAt;
     }
 }

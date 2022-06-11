@@ -77,7 +77,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         $startDate = now()->format('H:i');
         $endDate = $this->getCheckEndDateTime()->format('H:i');
 
-        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate, $response->getUpdatedAt());
+        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate, $response->getMeasuredAt());
     }
 
     private function getWarningResponse(): ?WarningResponse

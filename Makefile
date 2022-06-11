@@ -14,6 +14,14 @@ start: copy_config_files composer_install npm_install db_refresh generate_transl
 
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
+route_cache:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan route:cache
+
+config_cache:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan config:cache
+
+refresh_cache: route_cache config_cache
+
 delete:
 	docker stop $$(docker ps -a -q) && docker rm $$(docker ps -a -q) && docker rmi $$(docker images -a -q)
 

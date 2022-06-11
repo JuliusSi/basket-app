@@ -85,7 +85,7 @@ class WeatherWarningsService
     private function buildResponse(Response $response, array $warnings): WarningResponse
     {
         $warningsResponse = new WarningResponse();
-        $warningsResponse->setUpdatedAt($response->getForecastCreationTimeUtc());
+        $warningsResponse->setMeasuredAt($response->getForecastCreationTimeUtc());
         $warningsResponse->setWarnings($this->buildWarnings($warnings));
 
         return $warningsResponse;

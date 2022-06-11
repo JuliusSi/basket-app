@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\WeatherChecker\Listener\WeatherUpdate\NotifyAboutWeatherForBasketBall;
+use App\WeatherChecker\Listener\WeatherUpdate\RefreshCache;
+use Core\Logger\Event\ActionDone;
 use Core\Logger\Listener\LogAction;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use \Core\Logger\Event\ActionDone;
+use Src\Weather\Event\WeatherUpdated;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,17 +25,17 @@ class EventServiceProvider extends ServiceProvider
         ActionDone::class => [
             LogAction::class,
         ],
+        WeatherUpdated::class => [
+            RefreshCache::class,
+            NotifyAboutWeatherForBasketBall::class,
+        ],
     ];
 
     /**
      * Register any events for your application.
-     *
-     * @return void
      */
     public function boot()
     {
         parent::boot();
-
-        //
     }
 }
