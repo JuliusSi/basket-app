@@ -7,15 +7,14 @@ namespace App\Http\Service;
 use App\Http\Requests\WeatherInformationRequest;
 use App\Model\PlaceCode;
 use App\WeatherChecker\Model\Response\WeatherInformationResponse;
-use App\WeatherChecker\Service\WeatherService;
+use App\WeatherChecker\Repository\WeatherInformationRepository;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Response;
-use Src\Weather\Client\Response\ForecastTimestamp;
 
 class WeatherInformationService extends AbstractService
 {
-    public function __construct(private readonly WeatherService $weatherService)
+    public function __construct(private readonly WeatherInformationRepository $repository)
     {
     }
 
@@ -39,7 +38,7 @@ class WeatherInformationService extends AbstractService
             Carbon::createFromFormat('Y-m-d H:i:s', $request->get('start_date')),
             Carbon::createFromFormat('Y-m-d H:i:s', $request->get('end_date')),
         ];
-        $result = $this->weatherService->get(...$data);
+        $result = $this->repository->find(...$data);
 
         return $this->serialize($result, WeatherInformationResponse::class);
     }

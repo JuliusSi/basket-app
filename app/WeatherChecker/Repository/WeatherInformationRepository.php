@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\WeatherChecker\Service;
+namespace App\WeatherChecker\Repository;
 
 use App\WeatherChecker\Filter\ForecastsByDateFilter;
 use App\WeatherChecker\Model\Response\WeatherInformationResponse;
 use Carbon\CarbonInterface;
-use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
 
-class WeatherService
+class WeatherInformationRepository
 {
     public function __construct(
         private readonly CachedWeatherRepository $cachedWeatherRepository,
@@ -24,7 +24,7 @@ class WeatherService
     /**
      * @throws Exception
      */
-    public function get(
+    public function find(
         string $placeCode,
         CarbonInterface $startDate,
         CarbonInterface $endDate

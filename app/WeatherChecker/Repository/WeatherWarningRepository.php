@@ -2,27 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\WeatherChecker\Service;
+namespace App\WeatherChecker\Repository;
 
 use App\WeatherChecker\Collector\Warning\WeatherWarningCollector;
 use App\WeatherChecker\Filter\ForecastsByDateFilter;
-use App\WeatherChecker\Model\Warning;
 use App\WeatherChecker\Model\Response\WarningResponse;
+use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\ForecastTimestamp;
-use Exception;
 use Src\Weather\Client\Response\Response;
 use Src\Weather\Repository\CachedWeatherRepository;
 
-class WeatherWarningsService
+class WeatherWarningRepository
 {
-    private const CACHE_LIFE_TIME = 600;
-
     public function __construct(
         private readonly Collection $collectorsCollection,
         private readonly CachedWeatherRepository $cachedWeatherRepository,
@@ -30,27 +27,16 @@ class WeatherWarningsService
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
-    public function get(string $placeCode, string $startDateTime, string $endDateTime): WarningResponse
+    public function find(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): WarningResponse
     {
-        $startDate = $this->getStartDate($startDateTime);
-        $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $endDateTime);
-        $key = sprintf('%s_%s_%s', $placeCode, $startDate->format('Y-m-d H'), $endDate->format('Y-m-d H'));
+        $newStartDate = $this->getStartDate($startDate);
 
-        return Cache::remember(
-            $key,
-            self::CACHE_LIFE_TIME,
-            function () use ($placeCode, $startDate, $endDate) {
-                return $this->collect($placeCode, $startDate, $endDate);
-            }
-        );
+        return $this->collect($placeCode, $newStartDate, $endDate);
     }
 
-    private function getStartDate(string $startDateTime): CarbonInterface
+    protected function getStartDate(CarbonInterface $startDateTime): CarbonInterface
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $startDateTime)->subHours(3);
+        return $startDateTime->subHours(3);
     }
 
     /**

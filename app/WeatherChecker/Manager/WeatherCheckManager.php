@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\WeatherChecker\Manager;
 
 use App\WeatherChecker\Model\Response\WarningResponse;
-use App\WeatherChecker\Service\WeatherWarningsService;
+use App\WeatherChecker\Repository\CachedWeatherWarningRepository;
+use Carbon\Carbon;
 use Exception;
 use InvalidArgumentException;
 
 class WeatherCheckManager
 {
-    public function __construct(private readonly WeatherWarningsService $warningsService,) {
+    public function __construct(private readonly CachedWeatherWarningRepository $repository)
+    {
     }
 
     /**
@@ -23,6 +25,9 @@ class WeatherCheckManager
             throw new InvalidArgumentException('Place code cannot be empty');
         }
 
-        return $this->warningsService->get($placeCode, $startDateTime, $endDateTime);
+        $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $startDateTime);
+        $endDate = Carbon::createFromFormat('Y-m-d H:i:s', $endDateTime);
+
+        return $this->repository->find($placeCode, $startDate, $endDate);
     }
 }

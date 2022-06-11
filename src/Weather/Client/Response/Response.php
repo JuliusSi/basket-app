@@ -66,4 +66,9 @@ class Response
     {
         $this->forecastCreationTimeUtc = $forecastCreationTimeUtc;
     }
+
+    public function getPlaceCode(): string
+    {
+        return $this->place->getCode();
+    }
 }
