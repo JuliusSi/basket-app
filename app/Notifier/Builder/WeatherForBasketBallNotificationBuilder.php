@@ -11,7 +11,6 @@ use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Response\WarningResponse;
 use Carbon\Carbon;
-use Core\Storage\Service\LocalStorageService;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
