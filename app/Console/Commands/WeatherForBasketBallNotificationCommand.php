@@ -20,15 +20,9 @@ class WeatherForBasketBallNotificationCommand extends Command
      */
     protected $description = 'Notifies about weather for basketball.';
 
-    private NotificationManagerInterface $manager;
-
-    /**
-     * WeatherForBasketBallNotificationCommand constructor.
-     */
-    public function __construct(NotificationManagerInterface $manager)
+    public function __construct(private readonly NotificationManagerInterface $manager)
     {
         parent::__construct();
-        $this->manager = $manager;
     }
 
     public function handle(): void

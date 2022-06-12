@@ -19,6 +19,6 @@ class NotifyAboutWeatherForBasketBall implements ShouldQueue
 
     private function canNotify(WeatherUpdated $weatherUpdated): bool
     {
-        return $weatherUpdated->response->getPlace()->getCode() === config('notification.weather_for_basketball.place_code_to_check');
+        return $weatherUpdated->response->getPlaceCode() === config('notification.weather_for_basketball.place_code_to_check');
     }
 }

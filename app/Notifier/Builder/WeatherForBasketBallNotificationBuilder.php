@@ -63,7 +63,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($response),
-            $this->getFileUrl('memes.lebron_james_what_reaction_gif_url'),
+            $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url')),
         );
     }
 
