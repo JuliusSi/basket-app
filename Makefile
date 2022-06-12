@@ -20,7 +20,7 @@ route_cache:
 config_cache:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan config:cache
 
-refresh_cache: route_cache config_cache
+cache_refresh: route_cache config_cache
 
 delete:
 	docker stop $$(docker ps -a -q) && docker rm $$(docker ps -a -q) && docker rmi $$(docker images -a -q)

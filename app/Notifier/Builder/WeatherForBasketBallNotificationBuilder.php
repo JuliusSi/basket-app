@@ -24,7 +24,6 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(
         private readonly WeatherCheckManager $weatherCheckManager,
-        private readonly LocalStorageService $localStorageService,
         private readonly GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
         private readonly BadWeatherMessageBuilder $badWeatherMessageBuilder
     ) {
@@ -63,7 +62,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($response),
-            $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url')),
+            $this->getRandomVideoUrl('videos.url.motivation_videos.weather_not_available_for_basketball'),
         );
     }
 
@@ -140,11 +139,6 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         $startDateTime = now()->toDateTimeString();
 
         return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
-    }
-
-    private function getFileUrl(string $fileName): ?string
-    {
-        return $this->localStorageService->findFileUrl($fileName, LocalStorageService::DIRECTORY_MEMES);
     }
 
     private function getCheckEndDateTime(): Carbon
