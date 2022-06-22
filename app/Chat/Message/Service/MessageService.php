@@ -7,7 +7,7 @@ namespace App\Chat\Message\Service;
 use App\Model\User;
 use Illuminate\Support\Collection;
 
-class SendMessageService implements SendMessageServiceInterface
+class MessageService implements MessageSender
 {
     public function __construct(private readonly Collection $modifierCollection)
     {

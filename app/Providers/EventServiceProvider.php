@@ -2,14 +2,22 @@
 
 namespace App\Providers;
 
-use App\WeatherChecker\Listener\WeatherUpdate\NotifyAboutWeatherForBasketBall;
+use App\Notifier\Event\ChatNotificationCreated;
+use App\Notifier\Event\FacebookNotificationCreated;
+use App\Notifier\Event\SmsNotificationCreated;
+use App\Notifier\Listener\CreateFacebookPost;
+use App\Notifier\Listener\NotifyAboutWeatherForBasketball;
+use App\Notifier\Listener\SendChatMessage;
+use App\Notifier\Listener\SendSmsNotifications;
+use App\WeatherChecker\Event\WeatherForBasketballChecked;
+use App\WeatherChecker\Event\WeatherUpdated;
+use App\WeatherChecker\Listener\WeatherUpdate\NotifyAboutWeatherFotBasketballUpdate;
 use App\WeatherChecker\Listener\WeatherUpdate\RefreshCache;
 use Core\Logger\Event\ActionDone;
 use Core\Logger\Listener\LogAction;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Src\Weather\Event\WeatherUpdated;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,7 +35,19 @@ class EventServiceProvider extends ServiceProvider
         ],
         WeatherUpdated::class => [
             RefreshCache::class,
-            NotifyAboutWeatherForBasketBall::class,
+            NotifyAboutWeatherFotBasketballUpdate::class,
+        ],
+        WeatherForBasketballChecked::class => [
+            NotifyAboutWeatherForBasketball::class,
+        ],
+        FacebookNotificationCreated::class => [
+            CreateFacebookPost::class,
+        ],
+        ChatNotificationCreated::class => [
+            SendChatMessage::class,
+        ],
+        SmsNotificationCreated::class => [
+            SendSmsNotifications::class,
         ],
     ];
 

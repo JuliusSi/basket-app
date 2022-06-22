@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use Src\Weather\Event\WeatherUpdated;
+use App\WeatherChecker\Event\WeatherUpdated;
 use Src\Weather\Repository\WeatherRepository;
 
 class MeteoWeatherUpdateCheckCommand extends Command
@@ -39,9 +40,16 @@ class MeteoWeatherUpdateCheckCommand extends Command
                 continue;
             }
 
-            if ($lastUpdate !== $response->getForecastCreationTimeUtc()) {
-                $this->info(sprintf('Weather updated for place: %s, %s', $placeName, $response->getForecastCreationTimeUtc()));
-                Cache::put($cacheKey, $response->getForecastCreationTimeUtc());
+            $date = Carbon::instance($response->getForecastCreationTimeUtc());
+            if (!$date->isToday()) {
+                $this->warn('Weather not updated today. Last update: '.$date->toDateString());
+
+                continue;
+            }
+
+            if ($lastUpdate !== $response->getForecastCreationTimeUtc()->format('Y-m-d H:i')) {
+                $this->info(sprintf('Weather updated for place: %s, %s', $placeName, $response->getForecastCreationTimeUtc()->format('Y-m-d H:i')));
+                Cache::put($cacheKey, $response->getForecastCreationTimeUtc()->format('Y-m-d H:i'));
                 WeatherUpdated::dispatch($response);
             } else {
                 $this->info(sprintf('No updates for place: %s, last update: %s', $placeName, $lastUpdate));

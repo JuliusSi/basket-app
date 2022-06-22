@@ -8,7 +8,6 @@ use App\WeatherChecker\Collector\Warning\WeatherWarningCollector;
 use App\WeatherChecker\Filter\ForecastsByDateFilter;
 use App\WeatherChecker\Model\Response\WarningResponse;
 use App\WeatherChecker\Model\Warning;
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
@@ -27,6 +26,9 @@ class WeatherWarningRepository
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function find(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): WarningResponse
     {
         $newStartDate = $this->getStartDate($startDate);
@@ -48,7 +50,7 @@ class WeatherWarningRepository
         $forecasts = $this->forecastsByDateFilter->filter($response->getForecastTimestamps(), $startDate, $endDate);
         $warnings = $this->getWarnings($forecasts);
 
-        return $this->buildResponse($response, $warnings);
+        return $this->buildResponse($response, $warnings, $startDate, $endDate);
     }
 
     /**
@@ -68,11 +70,17 @@ class WeatherWarningRepository
     /**
      * @param  string[]  $warnings
      */
-    private function buildResponse(Response $response, array $warnings): WarningResponse
-    {
+    private function buildResponse(
+        Response $response,
+        array $warnings,
+        CarbonInterface $startDate,
+        CarbonInterface $endDate
+    ): WarningResponse {
         $warningsResponse = new WarningResponse();
         $warningsResponse->setMeasuredAt($response->getForecastCreationTimeUtc());
         $warningsResponse->setWarnings($this->buildWarnings($warnings));
+        $warningsResponse->setCheckedFrom($startDate->toDateTime());
+        $warningsResponse->setCheckedTo($endDate->toDateTime());
 
         return $warningsResponse;
     }

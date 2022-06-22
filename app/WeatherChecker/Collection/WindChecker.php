@@ -20,7 +20,7 @@ class WindChecker extends AbstractChecker
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
         $warnings = [];
-        $dateString = $date->toDateString();
+        $dateString = $date->format('m-d');
         if ($weatherInfo->getWindSpeed() > config('weather.rules.max_wind_speed')) {
             $key = $this->getKey($dateString, $date->hour, self::RULE_TO_HIGH_WIND_SPEED);
             $warnings[$key] = __(

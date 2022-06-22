@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Chat\Message\Service\SendMessageServiceInterface;
+use App\Chat\Message\Service\MessageSender;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChatMessageStoreRequest;
 use App\Model\ChatMessage;
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ChatApiController extends Controller
 {
-    public function __construct(private SendMessageServiceInterface $messageSendService)
+    public function __construct(private MessageSender $messageSendService)
     {
     }
 

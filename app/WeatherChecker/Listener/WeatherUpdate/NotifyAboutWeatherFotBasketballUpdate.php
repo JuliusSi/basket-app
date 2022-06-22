@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Listener\WeatherUpdate;
 
+use App\WeatherChecker\Event\WeatherForBasketballChecked;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Artisan;
-use Src\Weather\Event\WeatherUpdated;
+use App\WeatherChecker\Event\WeatherUpdated;
 
-class NotifyAboutWeatherForBasketBall implements ShouldQueue
+class NotifyAboutWeatherFotBasketballUpdate implements ShouldQueue
 {
     public function handle(WeatherUpdated $weatherUpdated): void
     {
         if ($this->canNotify($weatherUpdated)) {
-            Artisan::call('weatherForBasketBall:notify');
+            WeatherForBasketballChecked::dispatch($weatherUpdated->response);
         }
     }
 

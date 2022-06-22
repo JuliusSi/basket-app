@@ -34,8 +34,9 @@ class WeatherWarningCollector implements WeatherWarningCollectorInterface
         $warnings = [];
 
         foreach ($this->getCheckers() as $checker) {
-            $collectedWarnings = $checker->check($forecastTimestamp, $forecastDate);
-            array_push($warnings, ...array_values($collectedWarnings));
+            if ($collectedWarnings = $checker->check($forecastTimestamp, $forecastDate)) {
+                array_push($warnings, ...array_values($collectedWarnings));
+            }
         }
 
         return $warnings;

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Src\Sms\Service;
+namespace Src\Sms\Sender;
 
 use DateTime;
 use Src\Sms\Exception\SmsSendingException;
 
-interface SmsSendingService
+interface SmsSender
 {
     /**
      * @throws SmsSendingException

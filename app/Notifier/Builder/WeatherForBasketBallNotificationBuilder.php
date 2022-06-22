@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifier\Builder;
 
+use App\WeatherChecker\Event\FacebookNotificationCreated;
 use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
@@ -14,10 +15,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
-
 use InvalidArgumentException;
-
-use function in_array;
 
 class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
@@ -56,12 +54,14 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
             return $this->buildNotification(
                 $this->getGoodWeatherMessage($response),
                 $this->getRandomVideoUrl('videos.url.motivation_videos.weather_available_for_basketball'),
+                $this->getGoodWeatherFacebookMessage($response)
             );
         }
 
         return $this->buildNotification(
             $this->getBadWeatherMessage($response),
             $this->getRandomVideoUrl('videos.url.motivation_videos.weather_not_available_for_basketball'),
+            $this->badWeatherMessageBuilder->getFacebookMessage($response)
         );
     }
 
@@ -81,7 +81,15 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         $startDate = now()->format('H:i');
         $endDate = $this->getCheckEndDateTime()->format('H:i');
 
-        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate, $response->getMeasuredAt());
+        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate, $response->getMeasuredAt()->format('H:i'));
+    }
+
+    private function getGoodWeatherFacebookMessage(WarningResponse $response): string
+    {
+        $startDate = now()->format('H:i');
+        $endDate = $this->getCheckEndDateTime()->format('H:i');
+
+        return $this->goodWeatherMessageBuilder->getFacebookMessage($startDate, $endDate, $response->getMeasuredAt()->format('H:i'));
     }
 
     private function getWarningResponse(): ?WarningResponse
@@ -95,13 +103,15 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         }
     }
 
-    private function buildNotification(string $message, ?string $link): ?Notification
+    private function buildNotification(string $message, ?string $link, string $fbMessage): ?Notification
     {
         if (!$link) {
             return null;
         }
 
-        $notification = new Notification(FacebookNotification::create($message, $link));
+        FacebookNotificationCreated::dispatch(FacebookNotification::create($fbMessage, $link));
+
+        $notification = new Notification(FacebookNotification::create($fbMessage, $link));
         $notification->setContent($message);
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
         $this->setSmsRecipientIfNeeded($notification);
@@ -113,7 +123,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
     {
         $now = now();
 
-        if (!in_array($now->dayOfWeekIso, [5, 6, 7], true)) {
+        if (!\in_array($now->dayOfWeekIso, [5, 6, 7], true)) {
             return;
         }
 

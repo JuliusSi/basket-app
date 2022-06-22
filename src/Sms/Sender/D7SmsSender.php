@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Src\Sms\Service;
+namespace Src\Sms\Sender;
 
 use Core\Helpers\Traits\StringToBinaryConverter;
 use DateTime;
@@ -13,7 +13,7 @@ use Src\Sms\Model\MessageBag;
 use Src\Sms\Repository\D7SmsRepository;
 use Src\Sms\Validator\SmsValidator;
 
-class D7SmsSendingService implements SmsSendingService
+class D7SmsSender implements SmsSender
 {
     use StringToBinaryConverter;
 

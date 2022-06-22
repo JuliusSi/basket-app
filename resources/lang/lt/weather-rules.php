@@ -2,10 +2,10 @@
 
 return [
     'precipitation' => ':date :hour valandą galimas lietus, kritulių kiekis: :precipitation mm.',
-    'past_precipitation' => ':date :hour valandą galėjo iškristi: :precipitation mm kritulių, aikštelėje gali būti slidu.',
-    'success' => 'Oras tinkamas krepšiniui nuo :startDate iki :endDate. Atnaujinta: :updatedAt',
+    'past_precipitation' => ':date :hour valandą galėjo iškristi: :precipitation mm kritulių, aikštelėje gali būti slidu',
+    'success' => 'Oras tinkamas krepšiniui nuo :startDate iki :endDate.',
     'success_static' => 'Oras tinkamas krepšiniui',
-    'error' => 'Oras netinkamas krepšiniui',
+    'error' => 'Prognozė artimiausioms :hours h. Oras netinkamas krepšiniui',
     'too_high_air_temperature' => ':date :hour valandą per aukšta oro temperatūra: :airTemperature C.',
     'too_low_air_temperature' => ':date :hour valandą per žema oro temperatūra: :airTemperature C.',
     'too_high_air_humidity' => ':date :hour valandą per aukšta santykinė oro drėgmė: :humidity %',

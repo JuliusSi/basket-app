@@ -20,7 +20,7 @@ class AirTemperatureChecker extends AbstractChecker
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
         $warnings = [];
-        $dateString = $date->toDateString();
+        $dateString = $date->format('m-d');
         if ($this->isToHighAirTemperature($weatherInfo)) {
             $key = $this->getKey($dateString, $date->hour, self::RULE_TO_HIGH_AIR_TEMPERATURE);
             $warnings[$key] = __(

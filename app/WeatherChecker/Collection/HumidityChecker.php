@@ -13,7 +13,7 @@ class HumidityChecker extends AbstractChecker
 
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
-        $dateString = $date->toDateString();
+        $dateString = $date->format('m-d');
         $warnings = [];
 
         if ($this->isToHighHumidity($weatherInfo)) {

@@ -9,10 +9,10 @@ use JMS\Serializer\Annotation as JMS;
 class Response
 {
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
      * @JMS\SerializedName("forecastCreationTimeUtc")
      */
-    private string $forecastCreationTimeUtc;
+    private \DateTime $forecastCreationTimeUtc;
 
     /**
      * @JMS\Type("Src\Weather\Client\Response\Place")
@@ -57,12 +57,12 @@ class Response
         $this->forecastTimestamps = $forecastTimestamps;
     }
 
-    public function getForecastCreationTimeUtc(): string
+    public function getForecastCreationTimeUtc(): \DateTime
     {
         return $this->forecastCreationTimeUtc;
     }
 
-    public function setForecastCreationTimeUtc(string $forecastCreationTimeUtc): void
+    public function setForecastCreationTimeUtc(\DateTime $forecastCreationTimeUtc): void
     {
         $this->forecastCreationTimeUtc = $forecastCreationTimeUtc;
     }

@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('weatherForBasketBall:notify')->hourlyAt(
+        $schedule->command('weather:check-weather-for-basketball')->hourlyAt(
             config('notification.weather_for_basketball.minute_to_notify')
         )->between(
             config('notification.weather_for_basketball.time_start_notify'),

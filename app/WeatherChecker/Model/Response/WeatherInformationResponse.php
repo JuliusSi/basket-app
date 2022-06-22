@@ -10,9 +10,9 @@ use JMS\Serializer\Annotation as JMS;
 class WeatherInformationResponse
 {
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
      */
-    private string $measuredAt;
+    private \DateTime $measuredAt;
 
     /**
      * @JMS\Type("array<Src\Weather\Client\Response\ForecastTimestamp>")
@@ -31,12 +31,12 @@ class WeatherInformationResponse
         $this->forecasts = $warnings;
     }
 
-    public function getMeasuredAt(): string
+    public function getMeasuredAt(): \DateTime
     {
         return $this->measuredAt;
     }
 
-    public function setMeasuredAt(string $measuredAt): void
+    public function setMeasuredAt(\DateTime $measuredAt): void
     {
         $this->measuredAt = $measuredAt;
     }
