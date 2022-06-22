@@ -23,6 +23,7 @@ return [
     'save' => 'Saugoti',
     'information_update_success' => 'Informacija atnaujinta sėkmingai',
     'information_update_fail' => 'Informacijos atnaujinti nepavyko',
+    'data_sources' => 'Duomenų šaltiniai',
     'comments' => [
         'header' => 'Komentarai',
         'send' => 'Siųsti',

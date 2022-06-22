@@ -62,7 +62,7 @@ class BasketballCourtsCollection extends ResourceCollection
                 $placeCode,
                 $startDateTime,
                 $endDateTime
-            );
+            )->getWarnings();
         } catch (Exception $exception) {
             return [$exception->getMessage()];
         }

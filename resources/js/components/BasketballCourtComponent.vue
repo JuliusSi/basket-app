@@ -30,7 +30,6 @@
                                                fixed-width/>
                         </button>
                         </div>
-                        <create-arrivals :court="court" :user="user" v-if="showCreateArrivalModal" @close="showCreateArrivalModal = false"></create-arrivals>
                     </div>
                 </div>
                 <div class="row">
@@ -59,7 +58,7 @@
                         <dd>{{ court.description }}</dd>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="weatherInformation">
                     <div class="col-md-12">
                         <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
                             <h2>
@@ -69,7 +68,7 @@
                             </h2>
                         </div>
                             <ul class="list-unstyled">
-                                <li v-for="info in this.weatherInformation">
+                                <li v-for="info in weatherInformation.forecasts">
                                     <ul class="list-unstyled" style="margin-bottom: 10px;">
                                         <li>{{ info.forecastTimeUtc }} </li>
                                         <li>
@@ -89,7 +88,7 @@
                             </ul>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="warningResponse">
                     <div class="col-md-12">
                         <div class="title pl-4 pt-3 pb-2 mb-3 mt-3 bg-title">
                             <h2>
@@ -97,16 +96,17 @@
                                 {{ this.$t('main.basketball-courts.is_weather_available_for_basketball') }}
                             </h2>
                         </div>
-                        <div class="text-center fadeIn" role="alert" v-if="status === STATUS_OK">
+                        <div class="text-center fadeIn" role="alert" v-if="warningResponse.warnings.length === 0">
                             <h2 class="alert-heading">{{ this.$t('weather-rules.success_static') }}</h2>
                         </div>
                         <div class="fadeIn text-center" role="alert" v-if="exception">
                             <h2 class="alert-heading">{{ exception }}</h2>
                         </div>
-                        <div class="fadeIn" role="alert" v-if="weatherWarnings.length">
+                        <div class="fadeIn" role="alert" v-if="warningResponse.warnings.length > 0">
                             <h2 class="alert-heading">{{ this.$t('weather-rules.error') }}</h2>
+                            <p class="mt-4">{{ this.$t('main.updated') }} {{ warningResponse.measuredAt }}</p>
                             <ul class="list-unstyled">
-                                <li v-for="warning in this.weatherWarnings">
+                                <li v-for="warning in warningResponse.warnings">
                                     {{ warning.translatedMessage }}
                                 </li>
                             </ul>
@@ -121,22 +121,17 @@
 <script>
 import VueLoadImage from 'vue-load-image';
 import moment from "moment";
-const STATUS_OK = 'OK';
-const STATUS_NOT_OK = 'NOT_OK';
 
 export default {
     data() {
         return {
-            STATUS_NOT_OK: STATUS_NOT_OK,
-            STATUS_OK: STATUS_OK,
             loading: false,
             loadingWeatherInfo: false,
             court: null,
-            weatherWarnings: [],
-            weatherInformation: [],
+            warningResponse: null,
+            weatherInformation: null,
             showCreateArrivalModal: false,
             exception: null,
-            status: null,
         }
     },
     components: {
@@ -175,7 +170,7 @@ export default {
         },
         getWarnings() {
             let startDate = moment().format('YYYY-MM-DD HH:mm:ss');
-            let endDate = moment(startDate).add(4, 'hours').format('YYYY-MM-DD HH:mm:ss');
+            let endDate = moment(startDate).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
             let params = {
                 place: this.court.place_code_id,
                 start_date: startDate,
@@ -189,12 +184,7 @@ export default {
                 },
             })
                 .then(response => {
-                    if (response.data.length) {
-                        this.weatherWarnings = response.data;
-                        this.status = STATUS_NOT_OK;
-                    } else {
-                        this.status = STATUS_OK;
-                    }
+                    this.warningResponse = response.data;
                 })
                 .catch(error => {
                     console.log(error.response.data);
@@ -204,7 +194,7 @@ export default {
         getWeatherInformation() {
             this.loadingWeatherInfo = true;
             let startDate = moment().format('YYYY-MM-DD HH:mm:ss');
-            let endDate = moment(startDate).add(4, 'hours').format('YYYY-MM-DD HH:mm:ss');
+            let endDate = moment(startDate).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
             let params = {
                 place: this.court.place_code_id,
                 start_date: startDate,
@@ -219,9 +209,7 @@ export default {
             })
                 .then(response => {
                     this.loadingWeatherInfo = false;
-                    if (response.data.length) {
-                        this.weatherInformation = response.data;
-                    }
+                    this.weatherInformation = response.data;
                 })
                 .catch(error => {
                     this.loadingWeatherInfo = false;

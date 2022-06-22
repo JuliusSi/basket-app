@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace App\Notifier\Builder;
 
+use App\WeatherChecker\Event\FacebookNotificationCreated;
 use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\Notification;
 use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Model\Warning;
+use App\WeatherChecker\Model\Response\WarningResponse;
 use Carbon\Carbon;
-use Core\Storage\Service\LocalStorageService;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
-
-use function in_array;
+use InvalidArgumentException;
 
 class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 {
     public function __construct(
         private readonly WeatherCheckManager $weatherCheckManager,
-        private readonly LocalStorageService $localStorageService,
         private readonly GoodWeatherMessageBuilder $goodWeatherMessageBuilder,
         private readonly BadWeatherMessageBuilder $badWeatherMessageBuilder
     ) {
@@ -41,41 +40,59 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
     private function getNotification(): ?Notification
     {
-        $weatherWarnings = $this->getWarnings();
-        if (null === $weatherWarnings) {
+        $response = $this->getWarningResponse();
+        if (null === $response) {
             return null;
         }
 
-        return $this->resolveNotification($weatherWarnings);
+        return $this->resolveNotification($response);
     }
 
-    private function resolveNotification(array $warnings): ?Notification
+    private function resolveNotification(WarningResponse $response): ?Notification
     {
-        if (!$warnings) {
+        if (!$response->getWarnings()) {
             return $this->buildNotification(
-                $this->getGoodWeatherMessage(),
-                $this->getFileUrl(config('memes.jr_smith_reaction_gif_url'))
+                $this->getGoodWeatherMessage($response),
+                $this->getRandomVideoUrl('videos.url.motivation_videos.weather_available_for_basketball'),
+                $this->getGoodWeatherFacebookMessage($response)
             );
         }
 
         return $this->buildNotification(
-            $this->getBadWeatherMessage($warnings),
-            $this->getFileUrl(config('memes.lebron_james_what_reaction_gif_url'))
+            $this->getBadWeatherMessage($response),
+            $this->getRandomVideoUrl('videos.url.motivation_videos.weather_not_available_for_basketball'),
+            $this->badWeatherMessageBuilder->getFacebookMessage($response)
         );
     }
 
-    private function getGoodWeatherMessage(): string
+    private function getRandomVideoUrl(string $configKey)
+    {
+        $videos = config($configKey);
+
+        if (!$videos) {
+            throw new InvalidArgumentException('No configuration for key: '.$configKey);
+        }
+
+        return Arr::random($videos);
+    }
+
+    private function getGoodWeatherMessage(WarningResponse $response): string
     {
         $startDate = now()->format('H:i');
         $endDate = $this->getCheckEndDateTime()->format('H:i');
 
-        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate);
+        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate, $response->getMeasuredAt()->format('H:i'));
     }
 
-    /**
-     * @return null|Warning[]
-     */
-    private function getWarnings(): ?array
+    private function getGoodWeatherFacebookMessage(WarningResponse $response): string
+    {
+        $startDate = now()->format('H:i');
+        $endDate = $this->getCheckEndDateTime()->format('H:i');
+
+        return $this->goodWeatherMessageBuilder->getFacebookMessage($startDate, $endDate, $response->getMeasuredAt()->format('H:i'));
+    }
+
+    private function getWarningResponse(): ?WarningResponse
     {
         try {
             return $this->checkWeather(config('notification.weather_for_basketball.place_code_to_check'));
@@ -86,13 +103,15 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         }
     }
 
-    private function buildNotification(string $message, ?string $imageUrl): ?Notification
+    private function buildNotification(string $message, ?string $link, string $fbMessage): ?Notification
     {
-        if (!$imageUrl) {
+        if (!$link) {
             return null;
         }
 
-        $notification = new Notification(new FacebookNotification($message, $imageUrl));
+        FacebookNotificationCreated::dispatch(FacebookNotification::create($fbMessage, $link));
+
+        $notification = new Notification(FacebookNotification::create($fbMessage, $link));
         $notification->setContent($message);
         $notification->setNotifier(config('sms.weather_for_basketball.sender_name'));
         $this->setSmsRecipientIfNeeded($notification);
@@ -104,7 +123,7 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
     {
         $now = now();
 
-        if (!in_array($now->dayOfWeekIso, [5, 6, 7], true)) {
+        if (!\in_array($now->dayOfWeekIso, [5, 6, 7], true)) {
             return;
         }
 
@@ -115,30 +134,20 @@ class WeatherForBasketBallNotificationBuilder implements NotificationBuilder
         $notification->setSmsRecipients(config('sms.weather_for_basketball.recipients'));
     }
 
-    /**
-     * @param Warning[] $warnings
-     */
-    private function getBadWeatherMessage(array $warnings): string
+    private function getBadWeatherMessage(WarningResponse $response): string
     {
-        return $this->badWeatherMessageBuilder->getMessage($warnings);
+        return $this->badWeatherMessageBuilder->getMessage($response);
     }
 
     /**
      * @throws Exception
-     *
-     * @return Warning[]
      */
-    private function checkWeather(string $placeCode): array
+    private function checkWeather(string $placeCode): WarningResponse
     {
         $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
         $startDateTime = now()->toDateTimeString();
 
         return $this->weatherCheckManager->manage($placeCode, $startDateTime, $endDateTime);
-    }
-
-    private function getFileUrl(string $fileName): ?string
-    {
-        return $this->localStorageService->findFileUrl($fileName, LocalStorageService::DIRECTORY_MEMES);
     }
 
     private function getCheckEndDateTime(): Carbon

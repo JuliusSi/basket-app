@@ -7,11 +7,11 @@ namespace App\Notifier\Collection;
 use App\Notifier\Model\Notification;
 use Illuminate\Support\Facades\Log;
 use Src\Sms\Exception\SmsSendingException;
-use Src\Sms\Service\SmsSendingService;
+use Src\Sms\Sender\SmsSender;
 
 class SmsNotifier implements NotifierInterface
 {
-    public function __construct(private readonly SmsSendingService $smsSendingService)
+    public function __construct(private readonly SmsSender $smsSendingService)
     {
     }
 

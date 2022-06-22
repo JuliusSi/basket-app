@@ -40,7 +40,6 @@ app.component('chat-form', require('./components/ChatForm.vue').default);
 app.component('chat', require('./components/Chat.vue').default);
 app.component('phone-verification', require('./components/PhoneVerification.vue').default);
 app.component('basketball-courts', require('./components/BasketballCourtsComponent.vue').default);
-app.component('create-arrivals', require('./components/court-arrivals/CreateArrival.vue').default);
 app.component('datetime', Datepicker);
 app.component('weather-notification-settings', require('./components/user/settings/WeatherNotificationSmsSettings.vue').default);
 app.component('user-main-settings', require('./components/user/settings/UserMainSettings.vue').default);

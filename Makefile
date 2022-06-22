@@ -14,6 +14,14 @@ start: copy_config_files composer_install npm_install db_refresh generate_transl
 
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
+route_cache:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan route:cache
+
+config_cache:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan config:cache
+
+cache_refresh: route_cache config_cache
+
 delete:
 	docker stop $$(docker ps -a -q) && docker rm $$(docker ps -a -q) && docker rmi $$(docker images -a -q)
 
@@ -53,8 +61,8 @@ migrations_refresh:
 generate_translations:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan lang:js --no-lib
 
-notify_about_weather_for_basketball:
-	cd ${DOCKER_DIR} && docker-compose run --rm artisan weatherForBasketBall:notify
+check_weather_for_basketball:
+	cd ${DOCKER_DIR} && docker-compose run --rm artisan weather:check-weather-for-basketball
 
 migration_generate:
 	cd ${DOCKER_DIR} && docker-compose run --rm artisan make:migration ${options}
@@ -101,3 +109,4 @@ copy_config_files:
 	cp config/radiation-example.php config/radiation.php
 	cp config/memes-example.php config/memes.php
 	cp config/holidays-example.php config/holidays.php
+	cp config/videos-example.php config/videos.php

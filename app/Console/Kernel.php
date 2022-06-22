@@ -26,8 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('weather:warmUpCache')->everyTenMinutes()->between('08:00', '21:00');
-        $schedule->command('weatherForBasketBall:notify')->hourlyAt(
+        $schedule->command('weather:check-weather-for-basketball')->hourlyAt(
             config('notification.weather_for_basketball.minute_to_notify')
         )->between(
             config('notification.weather_for_basketball.time_start_notify'),
@@ -42,6 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('radiationInfo:notify')->everyThreeMinutes();
         $schedule->command('radiation:delete-old-data')->monthly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('weather:meteo-weather-update-check')->everyThreeMinutes()->between('12:00', '18:00');
 
         // Jobs
         $schedule->job(new SaveRadiationData())->everyThreeMinutes();

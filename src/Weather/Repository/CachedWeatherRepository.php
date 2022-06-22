@@ -10,8 +10,8 @@ use Src\Weather\Client\Response\Response;
 
 class CachedWeatherRepository extends WeatherRepository
 {
-    private const DEFAULT_CACHE_KEY_PART = 'meteo-weather';
-    private const CACHE_LIFETIME = 590;
+    private const DEFAULT_CACHE_KEY_PART = 'meteo_weather';
+    private const CACHE_LIFETIME = 3600;
 
     /**
      * @throws GuzzleException
@@ -32,8 +32,14 @@ class CachedWeatherRepository extends WeatherRepository
         return null;
     }
 
+    public function refreshCache(string $placeCode): void
+    {
+        Cache::forget($this->getCacheKey($placeCode));
+        $this->find($placeCode);
+    }
+
     private function getCacheKey(string $placeCode): string
     {
-        return self::DEFAULT_CACHE_KEY_PART.'-'.$placeCode;
+        return self::DEFAULT_CACHE_KEY_PART.'_'.$placeCode;
     }
 }

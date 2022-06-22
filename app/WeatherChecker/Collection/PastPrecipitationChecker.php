@@ -23,7 +23,7 @@ class PastPrecipitationChecker extends AbstractChecker
     {
         $warnings = [];
 
-        $dateString = $date->toDateString();
+        $dateString = $date->format('m-d');
         if ($weatherInfo->getTotalPrecipitation() > config('weather.rules.max_past_precipitation')) {
             $key = $this->getKey($dateString, $date->hour, self::RULE_PRECIPITATION);
             $warnings[$key] = __(

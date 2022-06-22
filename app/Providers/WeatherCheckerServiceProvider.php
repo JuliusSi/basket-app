@@ -6,15 +6,18 @@ namespace App\Providers;
 
 use App\WeatherChecker\Collection\AirTemperatureChecker;
 use App\WeatherChecker\Collection\ConditionCodeChecker;
+use App\WeatherChecker\Collection\HumidityChecker;
 use App\WeatherChecker\Collection\PastPrecipitationChecker;
 use App\WeatherChecker\Collection\PrecipitationChecker;
 use App\WeatherChecker\Collection\WindChecker;
-use App\WeatherChecker\Collector\PastWeatherWarningCollector;
-use App\WeatherChecker\Collector\WeatherWarningCollector;
-use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Service\WeatherService;
+use App\WeatherChecker\Collector\Warning\PastWeatherWarningCollector;
+use App\WeatherChecker\Collector\Warning\WeatherWarningCollector;
+use App\WeatherChecker\Filter\ForecastsByDateFilter;
+use App\WeatherChecker\Repository\CachedWeatherWarningRepository;
+use App\WeatherChecker\Repository\WeatherWarningRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Src\Weather\Repository\CachedWeatherRepository;
 
 class WeatherCheckerServiceProvider extends ServiceProvider
 {
@@ -27,6 +30,7 @@ class WeatherCheckerServiceProvider extends ServiceProvider
                     $app->make(WindChecker::class),
                     $app->make(PrecipitationChecker::class),
                     $app->make(ConditionCodeChecker::class),
+                    $app->make(HumidityChecker::class),
                 ]
             );
         });
@@ -60,10 +64,19 @@ class WeatherCheckerServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton(WeatherCheckManager::class, function ($app) {
-            return new WeatherCheckManager(
-                $app->make(WeatherService::class),
+        $this->app->singleton(CachedWeatherWarningRepository::class, function ($app) {
+            return new CachedWeatherWarningRepository(
                 $app->make('weather_checker.collector.warning_collectors_collection'),
+                $app->make(CachedWeatherRepository::class),
+                $app->make(ForecastsByDateFilter::class),
+            );
+        });
+
+        $this->app->singleton(WeatherWarningRepository::class, function ($app) {
+            return new WeatherWarningRepository(
+                $app->make('weather_checker.collector.warning_collectors_collection'),
+                $app->make(CachedWeatherRepository::class),
+                $app->make(ForecastsByDateFilter::class),
             );
         });
     }

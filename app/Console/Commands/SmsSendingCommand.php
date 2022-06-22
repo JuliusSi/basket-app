@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 use DateTime;
 use Illuminate\Console\Command;
 use Src\Sms\Exception\SmsSendingException;
-use Src\Sms\Service\SmsSendingService;
+use Src\Sms\Sender\SmsSender;
 
 class SmsSendingCommand extends Command
 {
@@ -15,7 +15,7 @@ class SmsSendingCommand extends Command
 
     protected $description = 'Sends sms message';
 
-    public function __construct(private SmsSendingService $smsSendingService)
+    public function __construct(private readonly SmsSender $smsSendingService)
     {
         parent::__construct();
     }

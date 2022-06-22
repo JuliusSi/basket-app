@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\WeatherChecker\Collector;
+namespace App\WeatherChecker\Collector\Warning;
 
 use Exception;
 use Src\Weather\Client\Response\ForecastTimestamp;

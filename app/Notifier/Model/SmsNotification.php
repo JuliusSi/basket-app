@@ -6,8 +6,16 @@ namespace App\Notifier\Model;
 
 class SmsNotification
 {
-    public function __construct(private string $content, private array $recipients, private string $sender)
+    public function __construct(
+        private readonly string $content,
+        private readonly array $recipients,
+        private readonly string $sender,
+    ) {
+    }
+
+    public static function create(string $content, array $recipients, string $sender): self
     {
+        return new self($content, $recipients, $sender);
     }
 
     public function content(): string

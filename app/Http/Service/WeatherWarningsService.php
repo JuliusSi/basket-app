@@ -7,7 +7,7 @@ namespace App\Http\Service;
 use App\Http\Requests\WeatherWarningsRequest;
 use App\Model\PlaceCode;
 use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Model\Warning;
+use App\WeatherChecker\Model\Response\WarningResponse;
 use Exception;
 use Illuminate\Http\Response;
 
@@ -35,8 +35,8 @@ class WeatherWarningsService extends AbstractService
         $place = PlaceCode::find($request->get('place'));
         $startDateTime = $request->get('start_date');
         $endDateTime = $request->get('end_date');
-        $warnings = $this->weatherCheckManager->manage($place->code, $startDateTime, $endDateTime);
+        $result = $this->weatherCheckManager->manage($place->code, $startDateTime, $endDateTime);
 
-        return $this->serialize($warnings, 'array<'.Warning::class.'>');
+        return $this->serialize($result, WarningResponse::class);
     }
 }

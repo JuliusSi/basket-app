@@ -1,32 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Weather\Client\Response;
 
 use JMS\Serializer\Annotation as JMS;
 
-/**
- * Class Response
- * @package Src\Weather\Client\Response
- */
 class Response
 {
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
      * @JMS\SerializedName("forecastCreationTimeUtc")
      */
-    private string $forecastCreationTimeUtc;
+    private \DateTime $forecastCreationTimeUtc;
 
     /**
      * @JMS\Type("Src\Weather\Client\Response\Place")
      * @JMS\SerializedName("place")
      */
-    private $place;
+    private Place $place;
 
     /**
      * @JMS\Type("array<Src\Weather\Client\Response\ForecastTimestamp>")
      * @JMS\SerializedName("forecastTimestamps")
      *
-     * @var ForecastTimestamp[] $forecastTimestamps
+     * @var ForecastTimestamp[]
      */
     private array $forecastTimestamps;
 
@@ -39,7 +37,7 @@ class Response
     }
 
     /**
-     * @param  mixed  $place
+     * @param mixed $place
      */
     public function setPlace($place): void
     {
@@ -54,27 +52,23 @@ class Response
         return $this->forecastTimestamps;
     }
 
-    /**
-     * @param  ForecastTimestamp[]  $forecastTimestamps
-     */
     public function setForecastTimestamps(array $forecastTimestamps): void
     {
         $this->forecastTimestamps = $forecastTimestamps;
     }
 
-    /**
-     * @return string
-     */
-    public function getForecastCreationTimeUtc(): string
+    public function getForecastCreationTimeUtc(): \DateTime
     {
         return $this->forecastCreationTimeUtc;
     }
 
-    /**
-     * @param  string  $forecastCreationTimeUtc
-     */
-    public function setForecastCreationTimeUtc(string $forecastCreationTimeUtc): void
+    public function setForecastCreationTimeUtc(\DateTime $forecastCreationTimeUtc): void
     {
         $this->forecastCreationTimeUtc = $forecastCreationTimeUtc;
+    }
+
+    public function getPlaceCode(): string
+    {
+        return $this->place->getCode();
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Src\Sms\Service;
+namespace Src\Sms\Sender;
 
 use DateTime;
 use Src\Sms\Builder\ESmsListBuilder;
@@ -12,7 +12,7 @@ use Src\Sms\Modifier\LongSmsModifier;
 use Src\Sms\Repository\ESmsRepository;
 use Src\Sms\Validator\SmsValidator;
 
-class ESmsSendingService implements SmsSendingService
+class ESmsSender implements SmsSender
 {
     public function __construct(
         private readonly ESmsRepository $smsRepository,

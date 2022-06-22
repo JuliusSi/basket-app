@@ -4,23 +4,51 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Builder;
 
+use App\WeatherChecker\Model\Response\WarningResponse;
 use App\WeatherChecker\Model\Warning;
 
 class BadWeatherMessageBuilder
 {
-    public function getMessage(array $warnings): string
+    private const NEW_LINE = "\n";
+
+    public function getMessage(WarningResponse $response): string
     {
-        return $this->getBadWeatherMessage($warnings);
+        return $this->getBadWeatherMessage($response);
     }
 
-    /**
-     * @param Warning[] $warnings
-     */
-    private function getBadWeatherMessage(array $warnings): string
+    public function getFacebookMessage(WarningResponse $response): string
     {
-        $warningsMessage = implode(', ', $this->getTranslatedMessages($warnings));
+        $warnings = $this->getTranslatedMessages($response->getWarnings());
+        $warningIcon = html_entity_decode('&#9888;');
+        $warningsWithEmojis = substr_replace($warnings, $warningIcon.' ', 0, 0);
+        $warningsMessage = implode(", \n", $warningsWithEmojis);
+        $crossMarkEmoji = html_entity_decode('&#10062;');
+        $eyesEmoji = html_entity_decode('&#128064;');
 
-        return sprintf('%s: %s', __('weather-rules.error'), $warningsMessage);
+        return sprintf(
+            '%s %s:%s%s.%s%s %s: %s',
+            $crossMarkEmoji,
+            __('weather-rules.error', ['hours' => config('weather.rules.hours_to_check')]),
+            self::NEW_LINE,
+            $warningsMessage,
+            self::NEW_LINE,
+            $eyesEmoji,
+            __('main.updated'),
+            $response->getMeasuredAt()->format('H:i'),
+        );
+    }
+
+    private function getBadWeatherMessage(WarningResponse $response): string
+    {
+        $warningsMessage = implode(', ', $this->getTranslatedMessages($response->getWarnings()));
+
+        return sprintf(
+            '%s: %s, %s: %s',
+            __('weather-rules.error', ['hours' => config('weather.rules.hours_to_check')]),
+            $warningsMessage,
+            __('main.updated'),
+            $response->getMeasuredAt()->format('H:i'),
+        );
     }
 
     /**

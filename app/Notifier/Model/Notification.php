@@ -16,8 +16,9 @@ class Notification
     private array $smsRecipients = [];
 
     public function __construct(
-        private ?FacebookNotification $facebookNotification = null,
-        private ?SmsNotification $smsNotification = null
+        private readonly ?FacebookNotification $facebookNotification = null,
+        private readonly ?SmsNotification $smsNotification = null,
+        private readonly ?ChatNotification $chatNotification = null,
     ) {
     }
 
@@ -65,5 +66,10 @@ class Notification
     public function smsNotification(): ?SmsNotification
     {
         return $this->smsNotification;
+    }
+
+    public function chatNotification(): ?ChatNotification
+    {
+        return $this->chatNotification;
     }
 }

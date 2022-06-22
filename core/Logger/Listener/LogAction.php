@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class LogAction implements ShouldQueue
 {
-    public function __construct(private RepositoryInterface $repository)
+    public function __construct(private readonly RepositoryInterface $repository)
     {
     }
 

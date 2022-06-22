@@ -12,7 +12,7 @@ use Src\Facebook\Client\Response\Response;
 
 class FacebookLinkRepository
 {
-    public function __construct(private DefaultClient $client)
+    public function __construct(private readonly DefaultClient $client)
     {
     }
 

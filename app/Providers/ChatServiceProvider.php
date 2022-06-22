@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Chat\Message\Modifier\EmojiModifier;
-use App\Chat\Message\Service\SendMessageService;
-use App\Chat\Message\Service\SendBroadcastMessageService;
-use App\Chat\Message\Service\SendMessageServiceInterface;
+use App\Chat\Message\Service\MessageService;
+use App\Chat\Message\Service\BroadcastMessageService;
+use App\Chat\Message\Service\MessageSender;
 use App\Http\Controllers\Api\ChatApiController;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -27,13 +27,13 @@ class ChatServiceProvider extends ServiceProvider
             }
         );
 
-        $this->app->bind(SendMessageService::class, function ($app) {
-            return new SendMessageService($app->make('chat.message.modifier.collection'));
+        $this->app->bind(MessageService::class, function ($app) {
+            return new MessageService($app->make('chat.message.modifier.collection'));
         });
 
         $this->app
             ->when(ChatApiController::class)
-            ->needs(SendMessageServiceInterface::class)
-            ->give(SendBroadcastMessageService::class);
+            ->needs(MessageSender::class)
+            ->give(BroadcastMessageService::class);
     }
 }

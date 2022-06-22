@@ -6,9 +6,6 @@ namespace App\Notifier\Collection;
 
 use App\Notifier\Model\Notification;
 
-/**
- * Interface NotifierInterface.
- */
 interface NotifierInterface
 {
     /**

@@ -22,6 +22,7 @@ return [
     'address' => 'Address',
     'close' => 'Close',
     'save' => 'Save',
+    'data_sources' => 'Data source',
     'comments' => [
         'header' => 'Comments',
         'send' => 'Send',

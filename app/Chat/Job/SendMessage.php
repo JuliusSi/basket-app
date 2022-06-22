@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Chat\Job;
 
-use App\Chat\Message\Service\SendMessageService;
+use App\Chat\Message\Service\MessageService;
 use App\Model\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,7 +23,7 @@ class SendMessage implements ShouldQueue
     {
     }
 
-    public function handle(SendMessageService $service): void
+    public function handle(MessageService $service): void
     {
         $service->send($this->user, $this->message);
     }

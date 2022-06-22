@@ -7,19 +7,23 @@
             {{ this.$t('weather.check_weather_for_basketball') }}
         </div>
         <div class="card-body">
-            <div class="alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
-                <h2 class="alert-heading">{{ this.$t('weather-rules.success_static') }}</h2>
-            </div>
-            <div class="alert alert-danger fadeIn text-center" role="alert" v-if="exception">
-                <h2 class="alert-heading">{{ exception }}</h2>
-            </div>
-            <div class="alert alert-danger fadeIn" role="alert" v-if="status === STATUS_NOT_OK">
-                <h2 class="alert-heading">{{ this.$t('weather-rules.error') }}</h2>
-                <ul class="list">
-                    <li v-for="warning in this.warnings">
-                        {{ warning.translatedMessage }}
-                    </li>
-                </ul>
+            <div class="info" v-if="warningResponse">
+                <div class="alert alert-success text-center fadeIn" role="alert" v-if="warningResponse.warnings.length === 0">
+                    <h2 class="alert-heading">{{ this.$t('weather-rules.success_static') }}</h2>
+                    <p class="mt-4 mb-1">{{ this.$t('main.updated') }} {{ warningResponse.measuredAt }}</p>
+                </div>
+                <div class="alert alert-danger fadeIn text-center" role="alert" v-if="exception">
+                    <h2 class="alert-heading">{{ exception }}</h2>
+                </div>
+                <div class="alert alert-danger fadeIn" role="alert" v-if="warningResponse.warnings.length > 0">
+                    <h2 class="alert-heading">{{ this.$t('weather-rules.error') }}</h2>
+                    <p class="mt-4">{{ this.$t('main.updated') }} {{ warningResponse.measuredAt }}</p>
+                    <ul class="list">
+                        <li v-for="warning in this.warningResponse.warnings">
+                            {{ warning.translatedMessage }}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="form-group col-md-6">
                 {{ this.$t('weather.select_start_date') }}
@@ -51,19 +55,13 @@
 
 <script>
 import moment from "moment";
-import { ref, onMounted } from 'vue';
 
-const STATUS_OK = 'OK';
-const STATUS_NOT_OK = 'NOT_OK';
 export default {
     data() {
         return {
-            STATUS_NOT_OK: STATUS_NOT_OK,
-            STATUS_OK: STATUS_OK,
             selectedPlace: null,
             loading: false,
-            warnings: [],
-            status: null,
+            warningResponse: null,
             places: null,
             selectedStartDate: null,
             selectedEndDate: null,
@@ -92,12 +90,7 @@ export default {
             })
                 .then(response => {
                     this.loading = false;
-                    if (response.data.length) {
-                        this.warnings = response.data;
-                        this.status = STATUS_NOT_OK;
-                    } else {
-                        this.status = STATUS_OK;
-                    }
+                    this.warningResponse = response.data;
                 })
                 .catch(error => {
                     this.loading = false;

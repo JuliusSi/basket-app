@@ -11,11 +11,8 @@ use Src\Weather\Client\Response\Response;
 
 class WeatherRepository
 {
-    private DefaultClient $client;
-
-    public function __construct(DefaultClient $client)
+    public function __construct(private readonly DefaultClient $client)
     {
-        $this->client = $client;
     }
 
     /**
