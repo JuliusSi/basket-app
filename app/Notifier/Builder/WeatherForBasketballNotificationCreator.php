@@ -15,6 +15,7 @@ use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Model\Response\WarningResponse;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 
 class WeatherForBasketballNotificationCreator
 {
