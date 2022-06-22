@@ -17,7 +17,7 @@ use App\Notifier\Builder\BasketBallSeasonStartNotificationBuilder;
 use App\Notifier\Builder\NewYearNotificationService;
 use App\Notifier\Builder\RadiationInfoNotificationBuilder;
 use App\Notifier\Builder\UserWeatherForBasketBallNotificationBuilder;
-use App\Notifier\Builder\WeatherForBasketBallNotificationBuilder;
+use App\Notifier\Builder\WeatherForBasketballNotificationCreator;
 use App\Notifier\Collection\ChatNotifier;
 use App\Notifier\Listener\SendChatMessage;
 use App\Notifier\Manager\DefaultNotificationManager;
