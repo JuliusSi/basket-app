@@ -10,7 +10,7 @@ use Src\Weather\Client\Response\Response;
 
 class CachedWeatherRepository extends WeatherRepository
 {
-    private const DEFAULT_CACHE_KEY_PART = 'meteo_weather';
+    private const DEFAULT_CACHE_KEY_PART = 'weather_forecasts';
     private const CACHE_LIFETIME = 3600;
 
     /**

@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('radiationInfo:notify')->everyThreeMinutes();
         $schedule->command('radiation:delete-old-data')->monthly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        $schedule->command('weather:meteo-weather-update-check')->everyThreeMinutes()->between('12:00', '18:00');
+        $schedule->command('weather:update-check')->everyThreeMinutes()->between('12:00', '18:00');
 
         // Jobs
         $schedule->job(new SaveRadiationData())->everyThreeMinutes();
