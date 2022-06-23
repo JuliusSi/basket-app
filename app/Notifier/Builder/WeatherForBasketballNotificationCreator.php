@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifier\Builder;
 
+use Core\Logger\Model\Log;
 use App\Model\User;
 use App\Notifier\Event\ChatNotificationCreated;
 use App\Notifier\Event\FacebookNotificationCreated;
@@ -14,6 +15,7 @@ use App\Notifier\Model\SmsNotification;
 use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Model\Response\WarningResponse;
+use Core\Logger\Event\ActionDone;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
@@ -79,20 +81,35 @@ class WeatherForBasketballNotificationCreator
             throw new InvalidArgumentException('Not provided link message or fb message.');
         }
 
-        $fbNotification = FacebookNotification::create($fbMessage, $link);
-        FacebookNotificationCreated::dispatch($fbNotification);
+        $this->createFacebookNotification($fbMessage, $link);
+        $this->createChatNotification($message);
+        $this->createSmsNotification($message);
 
+        ActionDone::dispatch(Log::create($message));
+    }
+
+    private function createFacebookNotification(string $message, string $link): void
+    {
+        $fbNotification = FacebookNotification::create($message, $link);
+        FacebookNotificationCreated::dispatch($fbNotification);
+    }
+
+    private function createChatNotification(string $message): void
+    {
         $user = User::where('username', config('seeder.user.username'))->first();
         if ($user && \in_array(now()->dayOfWeekIso, [5, 6, 7], true)) {
             $chatNotification = ChatNotification::create($user, $message);
             ChatNotificationCreated::dispatch($chatNotification);
         }
+    }
 
+    private function createSmsNotification(string $message): void
+    {
         if ($this->canCreateSmsNotification()) {
             $smsNotification = SmsNotification::create(
-                $message,
-                config('sms.weather_for_basketball.recipients'),
-                config('sms.weather_for_basketball.sender_name'));
+                content: $message,
+                recipients: config('sms.weather_for_basketball.recipients'),
+                sender: config('sms.weather_for_basketball.sender_name'));
             SmsNotificationCreated::dispatch($smsNotification);
         }
     }

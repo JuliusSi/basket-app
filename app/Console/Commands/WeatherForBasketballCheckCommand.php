@@ -16,7 +16,7 @@ class WeatherForBasketballCheckCommand extends Command
     /**
      * @var string
      */
-    protected $signature = 'weather:check-weather-for-basketball';
+    protected $signature = 'weather:check-weather-for-basketball {placeCode? : Place code} {from? : Date from} {to? : Date to}';
 
     /**
      * @var string
@@ -49,16 +49,11 @@ class WeatherForBasketballCheckCommand extends Command
      */
     private function getResponse(): WarningResponse
     {
-        $placeCode = config('notification.weather_for_basketball.place_code_to_check');
-        $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
-        $startDateTime = now()->toDateTimeString();
+        $placeCode = $this->argument('placeCode') ?: config('notification.weather_for_basketball.place_code_to_check');
+        $startDateTime = $this->argument('from') ?: now()->toDateTimeString();
+        $endDateTime = $this->argument('to') ?: now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
 
         return $this->manager->manage($placeCode, $startDateTime, $endDateTime);
-    }
-
-    private function getCheckEndDateTime(): Carbon
-    {
-        return now()->addHours(config('weather.rules.hours_to_check'));
     }
 
     private function canHandle(): bool
