@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Cache;
 use App\WeatherChecker\Event\WeatherUpdated;
 use Src\Weather\Repository\WeatherRepository;
 
-class MeteoWeatherUpdateCheckCommand extends Command
+class WeatherUpdateCheckCommand extends Command
 {
-    protected $signature = 'weather:meteo-weather-update-check';
+    protected $signature = 'weather:update-check';
 
-    protected $description = 'Checks is weather updated';
+    protected $description = 'Checks for weather updates';
 
     public function handle(WeatherRepository $weatherRepository): void
     {

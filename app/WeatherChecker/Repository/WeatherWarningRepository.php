@@ -8,6 +8,7 @@ use App\WeatherChecker\Collector\Warning\WeatherWarningCollector;
 use App\WeatherChecker\Filter\ForecastsByDateFilter;
 use App\WeatherChecker\Model\Response\WarningResponse;
 use App\WeatherChecker\Model\Warning;
+use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
@@ -31,14 +32,7 @@ class WeatherWarningRepository
      */
     public function find(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): WarningResponse
     {
-        $newStartDate = $this->getStartDate($startDate);
-
-        return $this->collect($placeCode, $newStartDate, $endDate);
-    }
-
-    protected function getStartDate(CarbonInterface $startDateTime): CarbonInterface
-    {
-        return $startDateTime->subHours(3);
+        return $this->collect($placeCode, $startDate, $endDate);
     }
 
     /**
@@ -47,10 +41,24 @@ class WeatherWarningRepository
     private function collect(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): WarningResponse
     {
         $response = $this->getWeatherInformation($placeCode);
-        $forecasts = $this->forecastsByDateFilter->filter($response->getForecastTimestamps(), $startDate, $endDate);
+        $forecasts = $this->filterForecasts($response, $startDate, $endDate);
         $warnings = $this->getWarnings($forecasts);
 
         return $this->buildResponse($response, $warnings, $startDate, $endDate);
+    }
+
+    /**
+     * @return ForecastTimestamp[]
+     */
+    private function filterForecasts(Response $response, CarbonInterface $startDate, CarbonInterface $endDate): array
+    {
+        $startDateForFiltering = Carbon::instance($startDate)->subHours(3);
+
+        return $this->forecastsByDateFilter->filter(
+            $response->getForecastTimestamps(),
+            $startDateForFiltering,
+            $endDate
+        );
     }
 
     /**
