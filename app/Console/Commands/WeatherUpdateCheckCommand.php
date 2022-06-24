@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use App\WeatherChecker\Event\WeatherUpdated;
-use Src\Weather\Repository\WeatherRepository;
+use Src\Weather\Repository\WeatherForecastsRepository;
 
 class WeatherUpdateCheckCommand extends Command
 {
@@ -18,7 +18,7 @@ class WeatherUpdateCheckCommand extends Command
 
     protected $description = 'Checks for weather updates';
 
-    public function handle(WeatherRepository $weatherRepository): void
+    public function handle(WeatherForecastsRepository $weatherRepository): void
     {
         $this->info('Checking for weather update..');
 

@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Console\Commands\SmsSendingCommand;
 use App\Notifier\Collection\SmsNotifier;
+use App\Notifier\Listener\SendSmsNotifications;
 use Illuminate\Support\ServiceProvider;
 use Src\Sms\Sender\ESmsSender;
 use Src\Sms\Sender\SmsSender;
@@ -21,6 +22,12 @@ class SmsServiceProvider extends ServiceProvider
             });
 
         $this->app->when([SmsSendingCommand::class])
+            ->needs(SmsSender::class)
+            ->give(function () {
+                return $this->app->make(ESmsSender::class);
+            });
+
+        $this->app->when([SendSmsNotifications::class])
             ->needs(SmsSender::class)
             ->give(function () {
                 return $this->app->make(ESmsSender::class);

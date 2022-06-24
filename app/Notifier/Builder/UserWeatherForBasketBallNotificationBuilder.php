@@ -10,7 +10,7 @@ use App\Notifier\Model\Notification;
 use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Model\Response\WarningResponse;
+use App\WeatherChecker\Model\Response\WeatherResponse;
 use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Exception;
@@ -61,7 +61,7 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
         return $notifications;
     }
 
-    private function resolveNotification(WarningResponse $response, User $user): Notification
+    private function resolveNotification(WeatherResponse $response, User $user): Notification
     {
         if (!$response->getWarnings()) {
             return $this->buildNotification($this->getGoodWeatherMessage(), $user);
@@ -88,12 +88,12 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
         return $notification;
     }
 
-    private function getBadWeatherMessage(WarningResponse $response): string
+    private function getBadWeatherMessage(WeatherResponse $response): string
     {
         return $this->badWeatherMessageBuilder->getMessage($response);
     }
 
-    private function getWarningResponse(string $placeCode): ?WarningResponse
+    private function getWarningResponse(string $placeCode): ?WeatherResponse
     {
         try {
             return $this->checkWeather($placeCode);
@@ -107,7 +107,7 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
     /**
      * @throws Exception
      */
-    private function checkWeather(string $placeCode): WarningResponse
+    private function checkWeather(string $placeCode): WeatherResponse
     {
         $endDateTime = $this->getCheckEndDateTime()->toDateTimeString();
         $startDateTime = now()->toDateTimeString();

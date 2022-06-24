@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
 use Src\Weather\Client\Response\Response;
 
-class CachedWeatherRepository extends WeatherRepository
+class CachedWeatherForecastsRepository extends WeatherForecastsRepository
 {
     private const DEFAULT_CACHE_KEY_PART = 'weather_forecasts';
     private const CACHE_LIFETIME = 3600;

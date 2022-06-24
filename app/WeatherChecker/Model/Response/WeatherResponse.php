@@ -8,7 +8,7 @@ use App\WeatherChecker\Model\Warning;
 use DateTime;
 use JMS\Serializer\Annotation as JMS;
 
-class WarningResponse
+class WeatherResponse
 {
     /**
      * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
@@ -31,6 +31,11 @@ class WarningResponse
      * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
      */
     private DateTime $checkedTo;
+
+    /**
+     * @JMS\Type("App\WeatherChecker\Model\Response\Average")
+     */
+    private ?Average $average = null;
 
     public function getWarnings(): array
     {
@@ -82,5 +87,15 @@ class WarningResponse
     public function setCheckedTo(DateTime $checkedTo): void
     {
         $this->checkedTo = $checkedTo;
+    }
+
+    public function getAverage(): ?Average
+    {
+        return $this->average;
+    }
+
+    public function setAverage(?Average $average): void
+    {
+        $this->average = $average;
     }
 }

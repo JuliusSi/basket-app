@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Listener\WeatherUpdate;
 
-use App\WeatherChecker\Repository\CachedWeatherWarningRepository;
+use App\WeatherChecker\Repository\CachedWeatherRepository;
 use App\WeatherChecker\Event\WeatherUpdated;
-use Src\Weather\Repository\CachedWeatherRepository;
+use Src\Weather\Repository\CachedWeatherForecastsRepository;
 
 class RefreshCache
 {
     public function __construct(
-        private readonly CachedWeatherRepository $cachedWeatherRepository,
-        private readonly CachedWeatherWarningRepository $cachedWeatherWarningRepository,
+        private readonly CachedWeatherForecastsRepository $cachedWeatherRepository,
+        private readonly CachedWeatherRepository $cachedWeatherWarningRepository,
     ) {
     }
 

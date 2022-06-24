@@ -27,4 +27,8 @@ return [
     'air_temperature' => 'Oro temperatūra',
     'wind_speed' => 'Vėjo greitis',
     'precipitation' => 'Krituliai',
+    'average_air_temperature' => 'Vidutinė oro temperatūra: :airTemperature C.',
+    'average_wind_speed' => 'Vidutinis vėjo greitis: :windSpeed m/s',
+    'average_precipitation' => 'Vidutinis kritulių kiekis: :precipitation mm.',
+    'average_humidity' => 'Vidutinė santykinė oro drėgmė: :humidity %',
 ];

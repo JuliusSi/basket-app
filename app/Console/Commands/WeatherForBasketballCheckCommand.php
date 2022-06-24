@@ -6,7 +6,7 @@ namespace App\Console\Commands;
 
 use App\WeatherChecker\Event\WeatherForBasketballChecked;
 use App\WeatherChecker\Manager\WeatherCheckManager;
-use App\WeatherChecker\Model\Response\WarningResponse;
+use App\WeatherChecker\Model\Response\WeatherResponse;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
@@ -47,7 +47,7 @@ class WeatherForBasketballCheckCommand extends Command
     /**
      * @throws Exception
      */
-    private function getResponse(): WarningResponse
+    private function getResponse(): WeatherResponse
     {
         $placeCode = $this->argument('placeCode') ?: config('notification.weather_for_basketball.place_code_to_check');
         $startDateTime = $this->argument('from') ?: now()->toDateTimeString();

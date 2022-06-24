@@ -21,16 +21,16 @@ class ForecastTimestamp
     private string $forecastTimeUtc;
 
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("float")
      * @JMS\SerializedName("airTemperature")
      */
-    private string $airTemperature;
+    private float $airTemperature;
 
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("int")
      * @JMS\SerializedName("windSpeed")
      */
-    private string $windSpeed;
+    private int $windSpeed;
 
     /**
      * @JMS\Type("string")
@@ -39,10 +39,10 @@ class ForecastTimestamp
     private string $windGust;
 
     /**
-     * @JMS\Type("string")
+     * @JMS\Type("float")
      * @JMS\SerializedName("totalPrecipitation")
      */
-    private string $totalPrecipitation;
+    private float $totalPrecipitation;
 
     /**
      * @JMS\Type("string")
@@ -54,7 +54,7 @@ class ForecastTimestamp
      * @JMS\Type("integer")
      * @JMS\SerializedName("relativeHumidity")
      */
-    private int $humidity;
+    private ?int $humidity = null;
 
     public function getForecastTimeUtc(): string
     {
@@ -66,32 +66,32 @@ class ForecastTimestamp
         $this->forecastTimeUtc = $forecastTimeUtc;
     }
 
-    public function getAirTemperature(): string
+    public function getAirTemperature(): float
     {
         return $this->airTemperature;
     }
 
-    public function setAirTemperature(string $airTemperature): void
+    public function setAirTemperature(float $airTemperature): void
     {
         $this->airTemperature = $airTemperature;
     }
 
-    public function getWindSpeed(): string
+    public function getWindSpeed(): int
     {
         return $this->windSpeed;
     }
 
-    public function setWindSpeed(string $windSpeed): void
+    public function setWindSpeed(int $windSpeed): void
     {
         $this->windSpeed = $windSpeed;
     }
 
-    public function getTotalPrecipitation(): string
+    public function getTotalPrecipitation(): float
     {
         return $this->totalPrecipitation;
     }
 
-    public function setTotalPrecipitation(string $totalPrecipitation): void
+    public function setTotalPrecipitation(float $totalPrecipitation): void
     {
         $this->totalPrecipitation = $totalPrecipitation;
     }
@@ -121,12 +121,12 @@ class ForecastTimestamp
         return Carbon::parse($this->getForecastTimeUtc());
     }
 
-    public function getHumidity(): int
+    public function getHumidity(): ?int
     {
         return $this->humidity;
     }
 
-    public function setHumidity(int $humidity): void
+    public function setHumidity(?int $humidity): void
     {
         $this->humidity = $humidity;
     }

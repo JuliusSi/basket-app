@@ -11,12 +11,12 @@ use GuzzleHttp\Exception\GuzzleException;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\Response;
-use Src\Weather\Repository\CachedWeatherRepository;
+use Src\Weather\Repository\CachedWeatherForecastsRepository;
 
 class WeatherInformationRepository
 {
     public function __construct(
-        private readonly CachedWeatherRepository $cachedWeatherRepository,
+        private readonly CachedWeatherForecastsRepository $cachedWeatherRepository,
         private readonly ForecastsByDateFilter $forecastsByDateFilter,
     ) {
     }

@@ -6,7 +6,7 @@ namespace App\Notifier\Listener;
 
 use App\Notifier\Builder\WeatherForBasketballNotificationCreator;
 use App\WeatherChecker\Event\WeatherForBasketballChecked;
-use App\WeatherChecker\Model\Response\WarningResponse;
+use App\WeatherChecker\Model\Response\WeatherResponse;
 
 class NotifyAboutWeatherForBasketball
 {
@@ -20,7 +20,7 @@ class NotifyAboutWeatherForBasketball
         $this->createNotifications($weatherChecked->response);
     }
 
-    private function createNotifications(WarningResponse $response): void
+    private function createNotifications(WeatherResponse $response): void
     {
         $this->creator->create($response);
     }

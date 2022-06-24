@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Repository;
 
-use App\WeatherChecker\Model\Response\WarningResponse;
+use App\WeatherChecker\Model\Response\WeatherResponse;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Cache;
 
-class CachedWeatherWarningRepository extends WeatherWarningRepository
+class CachedWeatherRepository extends WeatherRepository
 {
     private const CACHE_LIFE_TIME = 600;
 
-    public function find(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): WarningResponse
+    public function find(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): WeatherResponse
     {
         return Cache::remember(
             $this->getCacheKey($placeCode, $startDate, $endDate),

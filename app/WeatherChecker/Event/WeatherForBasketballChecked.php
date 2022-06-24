@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Event;
 
-use App\WeatherChecker\Model\Response\WarningResponse;
+use App\WeatherChecker\Model\Response\WeatherResponse;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,7 +17,7 @@ class WeatherForBasketballChecked
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public readonly WarningResponse $response)
+    public function __construct(public readonly WeatherResponse $response)
     {
     }
 }

@@ -9,7 +9,7 @@ use Src\Weather\Client\DefaultClient;
 use Src\Weather\Client\Request\DefaultRequest;
 use Src\Weather\Client\Response\Response;
 
-class WeatherRepository
+class WeatherForecastsRepository
 {
     public function __construct(private readonly DefaultClient $client)
     {
