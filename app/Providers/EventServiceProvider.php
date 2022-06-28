@@ -12,7 +12,7 @@ use App\Notifier\Listener\SendSmsNotifications;
 use App\WeatherChecker\Event\WeatherForBasketballChecked;
 use App\WeatherChecker\Event\WeatherUpdated;
 use App\WeatherChecker\Listener\WeatherUpdate\CheckWeatherForBasketballForSpecialPlaceCode;
-use App\WeatherChecker\Listener\WeatherUpdate\RefreshCache;
+use App\WeatherChecker\Listener\WeatherUpdate\RefreshWeatherCache;
 use Core\Logger\Event\ActionDone;
 use Core\Logger\Listener\LogAction;
 use Illuminate\Auth\Events\Registered;
@@ -34,7 +34,7 @@ class EventServiceProvider extends ServiceProvider
             LogAction::class,
         ],
         WeatherUpdated::class => [
-            RefreshCache::class,
+            RefreshWeatherCache::class,
             CheckWeatherForBasketballForSpecialPlaceCode::class,
         ],
         WeatherForBasketballChecked::class => [

@@ -8,7 +8,7 @@ use App\WeatherChecker\Repository\CachedWeatherRepository;
 use App\WeatherChecker\Event\WeatherUpdated;
 use Src\Weather\Repository\CachedWeatherForecastsRepository;
 
-class RefreshCache
+class RefreshWeatherCache
 {
     public function __construct(
         private readonly CachedWeatherForecastsRepository $cachedWeatherRepository,
@@ -16,7 +16,7 @@ class RefreshCache
     ) {
     }
 
-    public function handle(WeatherUpdated $weatherUpdated): void
+    public function __invoke(WeatherUpdated $weatherUpdated): void
     {
         $placeCode = $weatherUpdated->response->getPlaceCode();
 
