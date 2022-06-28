@@ -26,6 +26,8 @@ class AirTemperatureChecker extends AbstractChecker
                 'weather-rules.too_high_air_temperature',
                 ['airTemperature' => $weatherInfo->getAirTemperature(), 'hour' => $date->hour, 'date' => $dateString]
             );
+
+            return $warnings;
         }
         if ($this->isToLowAirTemperature($weatherInfo, $date)) {
             $key = $this->getKey($dateString, $date->hour, self::RULE_TO_LOW_AIR_TEMPERATURE);
