@@ -15,8 +15,9 @@ class AverageWeatherBuilder
     public function build(array $forecasts): Average
     {
         $count = \count($forecasts);
+
         $model = new Average();
-        $model->setAirTemperature($this->calculateAverage($this->sumAirTemperature($forecasts), $count));
+        $model->setAirTemperature((int) $this->calculateAverage($this->sumAirTemperature($forecasts), $count));
         $model->setTotalPrecipitation($this->calculateAverage($this->sumTotalPrecipitation($forecasts), $count));
         $model->setWindSpeed((int) $this->calculateAverage($this->sumWindSpeed($forecasts), $count));
         $model->setHumidity((int) $this->calculateAverage($this->sumHumidity($forecasts), $count));
@@ -24,9 +25,9 @@ class AverageWeatherBuilder
         return $model;
     }
 
-    private function calculateAverage(int|float $sum, int $count): float|int
+    private function calculateAverage(int|float $sum, int $count): float
     {
-        return $sum / $count;
+        return round($sum / $count, 2);
     }
 
     /**

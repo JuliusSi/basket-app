@@ -9,10 +9,10 @@ use JMS\Serializer\Annotation as JMS;
 class Average
 {
     /**
-     * @JMS\Type("float")
+     * @JMS\Type("integer")
      * @JMS\SerializedName("airTemperature")
      */
-    private ?float $airTemperature = null;
+    private ?int $airTemperature = null;
 
     /**
      * @JMS\Type("integer")
@@ -38,18 +38,12 @@ class Average
      */
     private ?int $humidity = null;
 
-    /**
-     * @return float
-     */
-    public function getAirTemperature(): float
+    public function getAirTemperature(): ?int
     {
         return $this->airTemperature;
     }
 
-    /**
-     * @param  float  $airTemperature
-     */
-    public function setAirTemperature(float $airTemperature): void
+    public function setAirTemperature(?int $airTemperature): void
     {
         $this->airTemperature = $airTemperature;
     }

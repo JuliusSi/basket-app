@@ -17,12 +17,14 @@ class WeatherSummaryBuilder
         $messages = [];
 
         if ($average->getAirTemperature()) {
-            $thermometer = html_entity_decode('&#127777;');
+            $resolvedIconCode = $average->getAirTemperature() > config('weather.rules.max_air_temperature') ? '&#128293;' : '&#127777;';
+            $icon = html_entity_decode($resolvedIconCode);
             $message = __(
                 'weather.average_air_temperature',
                 ['airTemperature' => $average->getAirTemperature()]
             );
-            $messages[] = $thermometer.' '.$message;
+
+            $messages[] = $icon.' '.$message;
         }
 
         if ($average->getWindSpeed()) {

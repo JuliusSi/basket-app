@@ -27,7 +27,7 @@ class BadWeatherMessageBuilder
         $warningsWithEmojis = substr_replace($warnings, $warningIcon.' ', 0, 0);
         $warningsMessage = implode(", \n", $warningsWithEmojis);
         $summaryMessage = implode(", \n", $this->summaryBuilder->build($response));
-        $crossMarkEmoji = html_entity_decode('&#10062;');
+        $crossMarkEmoji = html_entity_decode('&#10060;');
         $eyesEmoji = html_entity_decode('&#128064;');
 
         return sprintf(
