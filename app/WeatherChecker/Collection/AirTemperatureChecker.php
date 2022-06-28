@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\WeatherChecker\Collection;
 
 use Carbon\CarbonInterface;
-use Illuminate\Support\Arr;
 use function in_array;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
 class AirTemperatureChecker extends AbstractChecker
 {
-    public const RULE_TO_HIGH_AIR_TEMPERATURE = 'too_high_air_temperature';
-    public const RULE_TO_LOW_AIR_TEMPERATURE = 'too_low_air_temperature';
+    private const RULE_TO_HIGH_AIR_TEMPERATURE = 'too_high_air_temperature';
+    private const RULE_TO_LOW_AIR_TEMPERATURE = 'too_low_air_temperature';
 
     /**
      * @return string[]
