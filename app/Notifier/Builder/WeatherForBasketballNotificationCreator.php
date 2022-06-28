@@ -14,7 +14,7 @@ use App\Notifier\Model\FacebookNotification;
 use App\Notifier\Model\SmsNotification;
 use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
-use App\WeatherChecker\Model\Response\WarningResponse;
+use App\WeatherChecker\Model\Response\WeatherResponse;
 use Core\Logger\Event\ActionDone;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
@@ -27,7 +27,7 @@ class WeatherForBasketballNotificationCreator
     ) {
     }
 
-    public function create(WarningResponse $response): void
+    public function create(WeatherResponse $response): void
     {
         if (!$response->getWarnings()) {
             $this->buildNotification(
@@ -57,7 +57,7 @@ class WeatherForBasketballNotificationCreator
         return Arr::random($videos);
     }
 
-    private function getGoodWeatherMessage(WarningResponse $response): string
+    private function getGoodWeatherMessage(WeatherResponse $response): string
     {
         $startDate = $response->getCheckedFrom()->format('H:i');
         $endDate = $response->getCheckedTo()->format('H:i');
@@ -66,13 +66,9 @@ class WeatherForBasketballNotificationCreator
             $response->getMeasuredAt()->format('H:i'));
     }
 
-    private function getGoodWeatherFacebookMessage(WarningResponse $response): string
+    private function getGoodWeatherFacebookMessage(WeatherResponse $response): string
     {
-        $startDate = $response->getCheckedFrom()->format('H:i');
-        $endDate = $response->getCheckedTo()->format('H:i');
-
-        return $this->goodWeatherMessageBuilder->getFacebookMessage($startDate, $endDate,
-            $response->getMeasuredAt()->format('H:i'));
+        return $this->goodWeatherMessageBuilder->getFacebookMessage($response);
     }
 
     private function buildNotification(string $message, string $link, string $fbMessage): void
@@ -129,7 +125,7 @@ class WeatherForBasketballNotificationCreator
         return true;
     }
 
-    private function getBadWeatherMessage(WarningResponse $response): string
+    private function getBadWeatherMessage(WeatherResponse $response): string
     {
         return $this->badWeatherMessageBuilder->getMessage($response);
     }

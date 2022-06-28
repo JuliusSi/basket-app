@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\WeatherChecker\Collection;
 
 use Carbon\CarbonInterface;
+use Illuminate\Support\Facades\Log;
 use Src\Weather\Client\Response\ForecastTimestamp;
 
 class HumidityChecker extends AbstractChecker
@@ -13,6 +14,11 @@ class HumidityChecker extends AbstractChecker
 
     public function check(ForecastTimestamp $weatherInfo, CarbonInterface $date): array
     {
+        if (null === $weatherInfo->getHumidity()) {
+            Log::warning('Humidity null', ['forecast' => $weatherInfo]);
+            return [];
+        }
+
         $dateString = $date->format('m-d');
         $warnings = [];
 

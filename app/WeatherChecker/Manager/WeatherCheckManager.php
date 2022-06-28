@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\WeatherChecker\Manager;
 
-use App\WeatherChecker\Model\Response\WarningResponse;
-use App\WeatherChecker\Repository\CachedWeatherWarningRepository;
+use App\WeatherChecker\Model\Response\WeatherResponse;
+use App\WeatherChecker\Repository\CachedWeatherRepository;
 use Carbon\Carbon;
 use Exception;
 use InvalidArgumentException;
 
 class WeatherCheckManager
 {
-    public function __construct(private readonly CachedWeatherWarningRepository $repository)
+    public function __construct(private readonly CachedWeatherRepository $repository)
     {
     }
 
     /**
      * @throws Exception
      */
-    public function manage(string $placeCode, string $startDateTime, string $endDateTime): WarningResponse
+    public function manage(string $placeCode, string $startDateTime, string $endDateTime): WeatherResponse
     {
         if (empty($placeCode)) {
             throw new InvalidArgumentException('Place code cannot be empty');
