@@ -10,7 +10,7 @@ down:
 	cd ${DOCKER_DIR} && docker-compose down
 
 # run this command only for first time
-start: copy_config_files composer_install npm_install db_refresh generate_translations npm_run_dev generate_app_key storage_link
+start: up copy_config_files composer_install npm_install db_refresh generate_translations npm_run_dev generate_app_key storage_link
 
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 

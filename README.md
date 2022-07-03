@@ -16,6 +16,6 @@
 ## Local environment with docker
 
 ### In the main directory run:
+- ``` make start ```(only for first time)
 - ``` make up ```
-- ``` make start ```
 
