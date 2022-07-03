@@ -11,27 +11,25 @@ use Src\Weather\Client\Response\Response;
 class CachedWeatherForecastsRepository extends WeatherForecastsRepository
 {
     private const DEFAULT_CACHE_KEY_PART = 'weather_forecasts';
-    private const CACHE_LIFETIME = 3600;
+    private const CACHE_LIFE_TIME = 3600;
 
     /**
      * @throws GuzzleException
      */
     public function find(string $placeCode): ?Response
     {
-        $cacheKey = $this->getCacheKey($placeCode);
-        if ($cachedResponse = Cache::get($cacheKey)) {
-            return $cachedResponse;
-        }
-
-        if ($response = parent::find($placeCode)) {
-            Cache::put($cacheKey, $response, self::CACHE_LIFETIME);
-
-            return $response;
-        }
-
-        return null;
+        return Cache::remember(
+            $this->getCacheKey($placeCode),
+            self::CACHE_LIFE_TIME,
+            function () use ($placeCode) {
+                return parent::find($placeCode);
+            }
+        );
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function refreshCache(string $placeCode): void
     {
         Cache::forget($this->getCacheKey($placeCode));
