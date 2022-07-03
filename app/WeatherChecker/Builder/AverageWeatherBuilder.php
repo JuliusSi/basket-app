@@ -52,7 +52,9 @@ class AverageWeatherBuilder
         $sum = 0.0;
 
         foreach ($forecasts as $forecast) {
-            $sum += $forecast->getTotalPrecipitation();
+            if (!$forecast->getForecastDate()->isPast()) {
+                $sum += $forecast->getTotalPrecipitation();
+            }
         }
 
         return $sum;
