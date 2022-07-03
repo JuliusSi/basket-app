@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
             config('notification.weather_for_basketball.time_start_notify'),
             config('notification.weather_for_basketball.time_end_notify')
         );
-        $schedule->command('weatherForBasketBall:notifyUsers')->everyMinute()->between('09:00', '18:00');
+        $schedule->command('weatherForBasketBall:notifyUsers')->everyMinute()->between('09:00', '19:00');
         $schedule->command('basketBallSeasonEnd:notify')->dailyAt('12:00');
         $schedule->command('basketBallSeasonStart:notify')->dailyAt('12:00');
         $schedule->command('log:clear')->yearly();
@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('radiationInfo:notify')->everyThreeMinutes();
         $schedule->command('radiation:delete-old-data')->monthly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        $schedule->command('weather:update-check')->everyThreeMinutes()->between('12:00', '18:00');
+        $schedule->command('weather:update-check')->everyThreeMinutes()->between('14:00', '19:00');
 
         // Jobs
         $schedule->job(new SaveRadiationData())->everyThreeMinutes();

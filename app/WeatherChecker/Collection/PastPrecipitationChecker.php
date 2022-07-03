@@ -9,7 +9,7 @@ use Src\Weather\Client\Response\ForecastTimestamp;
 
 class PastPrecipitationChecker extends AbstractChecker
 {
-    public const RULE_PRECIPITATION = 'past_precipitation';
+    private const RULE_PRECIPITATION = 'past_precipitation';
 
     /**
      * @return string[]

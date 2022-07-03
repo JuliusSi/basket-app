@@ -6,9 +6,10 @@ namespace App\WeatherChecker\Listener\WeatherUpdate;
 
 use App\WeatherChecker\Repository\CachedWeatherRepository;
 use App\WeatherChecker\Event\WeatherUpdated;
+use Exception;
 use Src\Weather\Repository\CachedWeatherForecastsRepository;
 
-class RefreshCache
+class RefreshWeatherCache
 {
     public function __construct(
         private readonly CachedWeatherForecastsRepository $cachedWeatherRepository,
@@ -16,7 +17,10 @@ class RefreshCache
     ) {
     }
 
-    public function handle(WeatherUpdated $weatherUpdated): void
+    /**
+     * @throws Exception
+     */
+    public function __invoke(WeatherUpdated $weatherUpdated): void
     {
         $placeCode = $weatherUpdated->response->getPlaceCode();
 

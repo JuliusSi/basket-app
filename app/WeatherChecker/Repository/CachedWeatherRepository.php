@@ -6,6 +6,7 @@ namespace App\WeatherChecker\Repository;
 
 use App\WeatherChecker\Model\Response\WeatherResponse;
 use Carbon\CarbonInterface;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 
 class CachedWeatherRepository extends WeatherRepository
@@ -23,6 +24,9 @@ class CachedWeatherRepository extends WeatherRepository
         );
     }
 
+    /**
+     * @throws Exception
+     */
     public function refreshCache(string $placeCode, CarbonInterface $startDate, CarbonInterface $endDate): void
     {
         Cache::forget($this->getCacheKey($placeCode, $startDate, $endDate));
