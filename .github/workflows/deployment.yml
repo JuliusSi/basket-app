@@ -35,9 +35,7 @@ jobs:
             mkdir html
             cd html
             git clone git@github.com:JuliusSi/basket-app.git .
-            make up
-            make migrations_migrate
-            make refresh
+            make deploy
             sudo chgrp -R www-data storage bootstrap/cache
             sudo chmod -R ug+rwx storage bootstrap/cache
           
