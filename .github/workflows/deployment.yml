@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Build & Deploy
+name: Deploy
 
 # Controls when the workflow will run
 on:
@@ -33,6 +33,9 @@ jobs:
             cd /var/www/html
             git clone git@github.com:JuliusSi/basket-app.git .
             make up
-            make start
+            make migrations_migrate
+            make refresh
+            sudo chgrp -R www-data storage bootstrap/cache
+            sudo chmod -R ug+rwx storage bootstrap/cache
           
           
