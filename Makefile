@@ -12,6 +12,8 @@ down:
 # run this command only for first time
 start: up copy_config_files composer_install npm_install db_refresh generate_translations npm_run_prod generate_app_key storage_link cache_refresh
 
+deploy: up composer_install npm_install db_refresh generate_translations npm_run_prod generate_app_key storage_link cache_refresh
+
 refresh: composer_update npm_update generate_translations cache_clear npm_run_prod
 
 route_cache:
