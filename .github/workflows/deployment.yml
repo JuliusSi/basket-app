@@ -32,6 +32,7 @@ jobs:
           script: |
             cd var/wwww/html
             git clone git@github.com:JuliusSi/basket-app.git
-            echo 'Deployment was successful to digital ocean'
+            make up
+            make start
           
           
