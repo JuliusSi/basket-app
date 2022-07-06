@@ -30,7 +30,8 @@ jobs:
           
           # Scripts:
           script: |
-            cd var/wwww/html
+            mkdir test
+            cd test
             git clone git@github.com:JuliusSi/basket-app.git
             make up
             make start
