@@ -30,7 +30,10 @@ jobs:
           
           # Scripts:
           script: |
-            cd /var/www/html
+            cd /var/www
+            rm -rf html
+            mkdir html
+            cd html
             git clone git@github.com:JuliusSi/basket-app.git .
             make up
             make migrations_migrate
