@@ -8,7 +8,7 @@ use function strlen;
 
 class LongSmsModifier
 {
-    private const CHAR_LIMIT = 160;
+    private const CHAR_LIMIT = 320;
 
     /**
      * @param string[] $messages
