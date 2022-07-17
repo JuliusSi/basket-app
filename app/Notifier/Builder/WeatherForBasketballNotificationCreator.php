@@ -17,6 +17,7 @@ use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Model\Response\WeatherResponse;
 use Core\Logger\Event\ActionDone;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
 
 class WeatherForBasketballNotificationCreator
@@ -122,9 +123,12 @@ class WeatherForBasketballNotificationCreator
             return false;
         }
 
-        if ($now->format('mm') !== config('notification.weather_for_basketball.minute_to_notify')) {
+        $notified = Cache::get('sms_about_weather_for_basketball_sent');
+        if ($notified) {
             return false;
         }
+
+        Cache::put('sms_about_weather_for_basketball_sent', 3600);
 
         return true;
     }
