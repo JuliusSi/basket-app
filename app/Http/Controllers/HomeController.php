@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Service\BasketballCourtsService;
 use App\Model\BasketballCourt;
-use App\Model\ChatMessage;
 use App\Model\Log;
 use App\Model\User;
 use Illuminate\Contracts\Support\Renderable;
@@ -39,12 +38,17 @@ class HomeController extends Controller
         $userCount = Cache::remember('users_count', 1440, static function () {
             return User::count();
         });
-        $courtsCount = Cache::remember('courts_count', 1440, static function () {
+        $courtsCount = Cache::remember('courts_count', 3600, static function () {
             return BasketballCourt::count();
         });
-        $commentsCount = ChatMessage::count();
-        $randomCourts = BasketballCourt::inRandomOrder()->limit(3)->get();
-        $courtsCollection = $this->courtsService->getCollection($randomCourts)->modify();
+        $commentsCount = Cache::remember('users_count', 1440, static function () {
+            return User::count();
+        });
+        $courtsCollection = Cache::remember('courts_collection', 3600, function () {
+            $randomCourts = BasketballCourt::inRandomOrder()->limit(3)->get();
+
+            return $this->courtsService->getCollection($randomCourts)->modify();
+        });
 
         $logs = Log::wherein('level', [LogLevel::INFO, LogLevel::ALERT])->orderBy('id', 'desc')->take(10)->get();
 
