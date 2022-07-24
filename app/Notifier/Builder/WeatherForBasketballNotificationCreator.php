@@ -126,7 +126,7 @@ class WeatherForBasketballNotificationCreator
             return false;
         }
 
-        if ($now->format('mm') !== config('notification.weather_for_basketball.minute_to_notify')) {
+        if ($now->format('i') !== config('notification.weather_for_basketball.minute_to_notify')) {
             return false;
         }
 
