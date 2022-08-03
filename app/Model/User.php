@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property string username
+ */
 class User extends Authenticatable
 {
     public const STATUS_ADMINISTRATOR = 'administrator';

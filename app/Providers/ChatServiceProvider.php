@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Chat\Listener\NotifyAboutNewUser;
 use App\Chat\Message\Modifier\EmojiModifier;
 use App\Chat\Message\Service\MessageService;
 use App\Chat\Message\Service\BroadcastMessageService;
@@ -33,6 +34,11 @@ class ChatServiceProvider extends ServiceProvider
 
         $this->app
             ->when(ChatApiController::class)
+            ->needs(MessageSender::class)
+            ->give(BroadcastMessageService::class);
+
+        $this->app
+            ->when(NotifyAboutNewUser::class)
             ->needs(MessageSender::class)
             ->give(BroadcastMessageService::class);
     }

@@ -30,18 +30,8 @@ class LongSmsModifier
             return $content;
         }
 
-        $dot = '.';
+        $pos = strpos($content, '.');
 
-        $position = strpos($content, $dot);
-
-        if (!$position) {
-            return $content;
-        }
-
-        $offset = $position + 1;
-        $position2 = strpos($content, $dot, $offset);
-        $first_two = substr($content, 0, $position2);
-
-        return $first_two.'.';
+        return substr($content, 0, $pos + 1);
     }
 }
