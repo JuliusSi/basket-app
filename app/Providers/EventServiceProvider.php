@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Chat\Listener\NotifyAboutNewUser;
 use App\Notifier\Event\ChatNotificationCreated;
 use App\Notifier\Event\FacebookNotificationCreated;
 use App\Notifier\Event\SmsNotificationCreated;
@@ -29,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            NotifyAboutNewUser::class,
         ],
         ActionDone::class => [
             LogAction::class,
