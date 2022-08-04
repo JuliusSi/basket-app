@@ -21,7 +21,7 @@ class CreateUserAttributeTable extends Migration
             $table->foreignId('user_id')->constrained('user')->onDelete('cascade');
             $table->string('name');
             $table->text('value');
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 

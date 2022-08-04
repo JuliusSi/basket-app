@@ -17,9 +17,15 @@ class UserAttribute extends Model
     public const NAME_NOTIFY_ABOUT_WEATHER_FOR_BASKETBALL = 'notify_about_weather_for_basketball_by_sms';
 
     public const VALUE_TRUE = '1';
+    public const VALUE_TIME_TO_NOTIFY_ABOUT_WEATHER_FOR_BASKETBALL = '15:00';
 
     /**
      * @var string
      */
     protected $table = 'user_attribute';
+
+    protected $fillable = [
+        'name',
+        'value',
+    ];
 }

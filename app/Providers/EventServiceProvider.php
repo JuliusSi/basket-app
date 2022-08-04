@@ -10,12 +10,14 @@ use App\Notifier\Listener\CreateFacebookPost;
 use App\Notifier\Listener\NotifyAboutWeatherForBasketball;
 use App\Notifier\Listener\SendChatMessage;
 use App\Notifier\Listener\SendSmsNotifications;
+use App\User\Listener\UpdateLastLoginAt;
 use App\WeatherChecker\Event\WeatherForBasketballChecked;
 use App\WeatherChecker\Event\WeatherUpdated;
 use App\WeatherChecker\Listener\WeatherUpdate\CheckWeatherForBasketballForSpecialPlaceCode;
 use App\WeatherChecker\Listener\WeatherUpdate\RefreshWeatherCache;
 use Core\Logger\Event\ActionDone;
 use Core\Logger\Listener\LogAction;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -31,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
             NotifyAboutNewUser::class,
+        ],
+        Login::class => [
+            UpdateLastLoginAt::class,
         ],
         ActionDone::class => [
             LogAction::class,

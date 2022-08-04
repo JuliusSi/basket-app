@@ -19,7 +19,7 @@ return [
             'value' => '0',
         ],
         [
-            'name' => 'weather_for_basketball_notification_place_code',
+            'name' => \App\Model\UserAttribute::NAME_WEATHER_FOR_BASKETBALL_NOTIFICATION_PLACE_CODE,
             'value' => 'vilnius',
         ],
         [

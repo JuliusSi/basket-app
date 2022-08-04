@@ -11,7 +11,6 @@ use App\WeatherChecker\Builder\BadWeatherMessageBuilder;
 use App\WeatherChecker\Builder\GoodWeatherMessageBuilder;
 use App\WeatherChecker\Manager\WeatherCheckManager;
 use App\WeatherChecker\Model\Response\WeatherResponse;
-use App\WeatherChecker\Model\Warning;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -46,10 +45,17 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
     private function buildNotifications(array $users): array
     {
         $notifications = [];
+
         foreach ($users as $user) {
             if (!$placeCode = $user->getUserAttributeValueByName(UserAttribute::NAME_WEATHER_FOR_BASKETBALL_NOTIFICATION_PLACE_CODE)) {
                 continue;
             }
+
+            if ($user->sms < 1) {
+                Log::alert(sprintf('Trying to send sms to user %s but he doesnt have sms balance.', $user->username));
+                continue;
+            }
+
             $response = $this->getWarningResponse($placeCode);
             if (null === $response) {
                 continue;
@@ -64,18 +70,22 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
     private function resolveNotification(WeatherResponse $response, User $user): Notification
     {
         if (!$response->getWarnings()) {
-            return $this->buildNotification($this->getGoodWeatherMessage(), $user);
+            return $this->buildNotification($this->getGoodWeatherMessage($response), $user);
         }
 
         return $this->buildNotification($this->getBadWeatherMessage($response), $user);
     }
 
-    private function getGoodWeatherMessage(): string
+    private function getGoodWeatherMessage(WeatherResponse $response): string
     {
         $startDate = now()->format('H:i');
         $endDate = $this->getCheckEndDateTime()->format('H:i');
 
-        return $this->goodWeatherMessageBuilder->getMessage($startDate, $endDate);
+        return $this->goodWeatherMessageBuilder->getMessage(
+            $startDate,
+            $endDate,
+            $response->getMeasuredAt()->format('H:i')
+        );
     }
 
     private function buildNotification(string $message, User $user): Notification
@@ -125,7 +135,7 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
      */
     private function getUsers(): array
     {
-        return User::whereHas('userAttributes', static function (Builder $query) {
+        return User::with('userAttributes')->whereHas('userAttributes', static function (Builder $query) {
             $query
                 ->where('name', UserAttribute::NAME_NOTIFY_ABOUT_WEATHER_FOR_BASKETBALL)
                 ->where('value', UserAttribute::VALUE_TRUE)

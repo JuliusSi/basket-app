@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property string username
+ * @property int sms
  */
 class User extends Authenticatable
 {
@@ -21,7 +22,12 @@ class User extends Authenticatable
     protected $table = 'user';
 
     protected $fillable = [
-        'username', 'email', 'phone', 'password', 'api_token',
+        'username',
+        'email',
+        'phone',
+        'password',
+        'api_token',
+        'last_login_at',
     ];
 
     protected $hidden = [
@@ -31,6 +37,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
+        'last_login_at' => 'datetime',
     ];
 
     public function isPhoneVerified(): bool

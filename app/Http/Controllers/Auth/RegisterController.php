@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Model\User;
+use App\Model\UserAttribute;
 use App\Providers\RouteServiceProvider;
 use Core\Logger\Event\ActionDone;
 use Core\Logger\Model\Log;
@@ -17,8 +18,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Class RegisterController
- * @package App\Http\Controllers\Auth
+ * Class RegisterController.
  */
 class RegisterController extends Controller
 {
@@ -51,9 +51,9 @@ class RegisterController extends Controller
     }
 
     /**
-     * @param  Request  $request
      * @return mixed
      * @throws ValidationException
+     *
      */
     public function register(Request $request)
     {
@@ -61,7 +61,6 @@ class RegisterController extends Controller
         $user = $this->createUser($request->all());
         event(new Registered($user));
         event(new ActionDone($this->getActionLog($user->getAttribute('username'))));
-
 
         $this->guard()->login($user);
 
@@ -77,7 +76,6 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -87,8 +85,8 @@ class RegisterController extends Controller
             [
                 'username' => ['required', 'string', 'min:4', 'max:20', 'unique:user', 'regex:/(^[A-Za-z0-9]+$)+/'],
                 'email' => ['required', 'string', 'email', 'max:50', 'unique:user'],
-//            'phone' => ['required', 'digits:11', 'unique:user', new PhoneCode()],
-                'g-recaptcha-response' => 'required|captcha',
+                //            'phone' => ['required', 'digits:11', 'unique:user', new PhoneCode()],
+//                'g-recaptcha-response' => 'required|captcha',
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]
         );
@@ -96,13 +94,10 @@ class RegisterController extends Controller
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
      */
     protected function createUser(array $data): User
     {
-        return User::create(
+        $user = User::create(
             [
                 'username' => $data['username'],
                 'email' => $data['email'],
@@ -110,6 +105,23 @@ class RegisterController extends Controller
                 'api_token' => Str::random(60),
             ]
         );
+
+        $user->userAttributes()->createMany([
+            [
+                'name' => UserAttribute::NAME_NOTIFY_ABOUT_WEATHER_FOR_BASKETBALL,
+                'value' => '0',
+            ],
+            [
+                'name' => UserAttribute::NAME_WEATHER_FOR_BASKETBALL_NOTIFICATION_PLACE_CODE,
+                'value' => config('notification.weather_for_basketball.place_code_to_check'),
+            ],
+            [
+                'name' => UserAttribute::NAME_WEATHER_FOR_BASKETBALL_NOTIFICATION_TIME,
+                'value' => UserAttribute::VALUE_TIME_TO_NOTIFY_ABOUT_WEATHER_FOR_BASKETBALL,
+            ],
+        ]);
+
+        return $user;
     }
 
     private function getActionLog(string $username): Log
