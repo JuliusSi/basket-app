@@ -72,4 +72,5 @@ return [
         'personal_information' => 'Asmeninė informacija',
         'select_time' => 'Pasirinkite laiką',
     ],
+    'new_user_registered' => 'Užsiregistravo naujas vartotojas: :username',
 ];

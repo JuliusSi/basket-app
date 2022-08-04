@@ -8,7 +8,7 @@ use function strlen;
 
 class LongSmsModifier
 {
-    private const CHAR_LIMIT = 160;
+    private const CHAR_LIMIT = 320;
 
     /**
      * @param string[] $messages
@@ -30,18 +30,8 @@ class LongSmsModifier
             return $content;
         }
 
-        $dot = '.';
+        $pos = strpos($content, '.');
 
-        $position = strpos($content, $dot);
-
-        if (!$position) {
-            return $content;
-        }
-
-        $offset = $position + 1;
-        $position2 = strpos($content, $dot, $offset);
-        $first_two = substr($content, 0, $position2);
-
-        return $first_two.'.';
+        return substr($content, 0, $pos + 1);
     }
 }

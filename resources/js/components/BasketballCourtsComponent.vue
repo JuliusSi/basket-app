@@ -61,10 +61,6 @@
                                             :class="[court.is_eligible_weather ? 'text-success' : 'text-danger']"
                                             :icon="['fas', 'cloud-sun']" class="fa-icon mr-1"
                                             fixed-width/>
-                                        |
-                                        <font-awesome-icon :icon="['fas', 'users']" class="text-success fa-icon ml-1"
-                                                           fixed-width/>
-                                        {{ court.active_players.length }}
                                     </p>
                                 </div>
                             </div>

@@ -77,20 +77,24 @@ class WeatherForBasketballNotificationCreator
             throw new InvalidArgumentException('Not provided link message or fb message.');
         }
 
-        $this->createFacebookNotification($fbMessage, $link);
-        $this->createChatNotification($message);
-        $this->createSmsNotification($message);
+        $this->handleFacebookNotificationEvent($fbMessage, $link);
+        $this->handleChatNotificationEvent($message);
+        $this->handleSmsNotificationEvent($message);
+        $this->handleActionEvent($message);
+    }
 
+    private function handleActionEvent(string $message): void
+    {
         ActionDone::dispatch(Log::create($message));
     }
 
-    private function createFacebookNotification(string $message, string $link): void
+    private function handleFacebookNotificationEvent(string $message, string $link): void
     {
         $fbNotification = FacebookNotification::create($message, $link);
         FacebookNotificationCreated::dispatch($fbNotification);
     }
 
-    private function createChatNotification(string $message): void
+    private function handleChatNotificationEvent(string $message): void
     {
         $user = User::where('username', config('seeder.user.username'))->first();
         if ($user && \in_array(now()->dayOfWeekIso, [5, 6, 7], true)) {
@@ -99,7 +103,7 @@ class WeatherForBasketballNotificationCreator
         }
     }
 
-    private function createSmsNotification(string $message): void
+    private function handleSmsNotificationEvent(string $message): void
     {
         if ($this->canCreateSmsNotification()) {
             $smsNotification = SmsNotification::create(
@@ -119,6 +123,10 @@ class WeatherForBasketballNotificationCreator
         }
 
         if ($now->format('H') !== config('notification.weather_for_basketball.hour_to_notify')) {
+            return false;
+        }
+
+        if ($now->format('i') !== config('notification.weather_for_basketball.minute_to_notify')) {
             return false;
         }
 

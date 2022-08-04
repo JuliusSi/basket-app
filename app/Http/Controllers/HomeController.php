@@ -39,12 +39,17 @@ class HomeController extends Controller
         $userCount = Cache::remember('users_count', 1440, static function () {
             return User::count();
         });
-        $courtsCount = Cache::remember('courts_count', 1440, static function () {
+        $courtsCount = Cache::remember('courts_count', 3600, static function () {
             return BasketballCourt::count();
         });
-        $commentsCount = ChatMessage::count();
-        $randomCourts = BasketballCourt::inRandomOrder()->limit(3)->get();
-        $courtsCollection = $this->courtsService->getCollection($randomCourts)->modify();
+        $commentsCount = Cache::remember('comments_count', 1440, static function () {
+            return ChatMessage::count();
+        });
+        $courtsCollection = Cache::remember('courts_collection', 3600, function () {
+            $randomCourts = BasketballCourt::inRandomOrder()->limit(3)->get();
+
+            return $this->courtsService->getCollection($randomCourts)->modify();
+        });
 
         $logs = Log::wherein('level', [LogLevel::INFO, LogLevel::ALERT])->orderBy('id', 'desc')->take(10)->get();
 

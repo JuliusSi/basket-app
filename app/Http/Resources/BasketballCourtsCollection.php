@@ -45,7 +45,6 @@ class BasketballCourtsCollection extends ResourceCollection
     {
         foreach ($this->collection->all() as $court) {
             $court->is_eligible_weather = empty($this->getWarnings($court->placeCode->code));
-            $court->active_players = $this->getActivePlayers($court);
         }
     }
 
@@ -66,21 +65,6 @@ class BasketballCourtsCollection extends ResourceCollection
         } catch (Exception $exception) {
             return [$exception->getMessage()];
         }
-    }
-
-    private function getActivePlayers(BasketballCourt $court): array
-    {
-        $endDateTime = $this->getCheckEndDateTime();
-        $startDateTime = $this->getStartDate();
-
-        $arrivals = [];
-        foreach ($court->arrivals as $arrival) {
-            if (($arrival->end_date >= $startDateTime) && ($arrival->end_date <= $endDateTime)) {
-                $arrivals[] = $arrival->user->username;
-            }
-        }
-
-        return $arrivals;
     }
 
     private function getCheckEndDateTime(): string
