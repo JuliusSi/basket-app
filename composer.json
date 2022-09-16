@@ -25,6 +25,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "mariuzzo/laravel-js-localization": "^1.7",
+        "opcodesio/log-viewer": "^1.2",
         "predis/predis": "^1.1",
         "spatie/laravel-cookie-consent": "^3.0"
     },

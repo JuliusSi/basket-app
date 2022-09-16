@@ -35,7 +35,7 @@
                                 <label class="col-form-label text-md-right" for="phone">{{
                                         this.$t('main.phone')
                                     }}</label>
-                                <input v-model="user.phone" class="form-control" maxlength="11" type="tel" id="phone"
+                                <input v-model="phone" class="form-control" maxlength="11" type="tel" id="phone"
                                        name="phone" placeholder="370..."
                                        pattern="[0-9]{11}" required>
                             </div>
@@ -52,6 +52,7 @@
             </div>
         </div>
     </div>
+    <weather-notification-settings v-show="canShowWeatherSettings" :user="user"></weather-notification-settings>
 </template>
 
 <script>
@@ -67,13 +68,21 @@ export default {
             loading: false,
             status: null,
             errors: [],
+            phone: null,
+            canShowWeatherSettings: false,
+        }
+    },
+    mounted() {
+        if (this.user.phone) {
+            this.phone = this.user.phone;
+            this.canShowWeatherSettings = true;
         }
     },
     methods: {
         updateUserData() {
             this.loading = true;
             let data = {
-                phone: this.user.phone,
+                phone: this.phone,
             };
             this.axios.put('/api/current-user', data, {
                 headers: {
@@ -85,6 +94,7 @@ export default {
                     this.loading = false;
                     this.status = STATUS_OK;
                     this.errors = [];
+                    this.canShowWeatherSettings = true;
                 })
                 .catch(error => {
                     this.loading = false;

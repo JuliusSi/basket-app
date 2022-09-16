@@ -10,6 +10,7 @@ use App\WeatherChecker\Model\Response\WeatherResponse;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class WeatherForBasketballCheckCommand extends Command
 {
@@ -40,19 +41,28 @@ class WeatherForBasketballCheckCommand extends Command
             return;
         }
 
-        WeatherForBasketballChecked::dispatch($this->getResponse());
+        $placeCode = $this->argument('placeCode') ?: config('notification.weather_for_basketball.place_code_to_check');
+        $startDateTime = $this->argument('from') ?: now()->toDateTimeString();
+        $endDateTime = $this->argument('to') ?: now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
+        $cacheKey = 'weather_checked_'.$placeCode;
+
+        /** @var Carbon|null $weatherUpdated */
+        $weatherUpdated = Cache::get($cacheKey);
+
+        if ($weatherUpdated && $weatherUpdated->isCurrentHour()) {
+            return;
+        }
+
+        WeatherForBasketballChecked::dispatch($this->getResponse($placeCode, $startDateTime, $endDateTime));
+        Cache::put($cacheKey, now(), now()->addHour());
         $this->info('Weather checked.');
     }
 
     /**
      * @throws Exception
      */
-    private function getResponse(): WeatherResponse
+    private function getResponse(string $placeCode, string $startDateTime, string $endDateTime): WeatherResponse
     {
-        $placeCode = $this->argument('placeCode') ?: config('notification.weather_for_basketball.place_code_to_check');
-        $startDateTime = $this->argument('from') ?: now()->toDateTimeString();
-        $endDateTime = $this->argument('to') ?: now()->addHours(config('weather.rules.hours_to_check'))->toDateTimeString();
-
         return $this->manager->manage($placeCode, $startDateTime, $endDateTime);
     }
 

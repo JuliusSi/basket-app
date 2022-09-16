@@ -10,7 +10,11 @@ use App\Notifier\Listener\CreateFacebookPost;
 use App\Notifier\Listener\NotifyAboutWeatherForBasketball;
 use App\Notifier\Listener\SendChatMessage;
 use App\Notifier\Listener\SendSmsNotifications;
+use App\Payment\Event\SmsPaymentCompleted;
+use App\User\Listener\CreateNewUserGreetingNotification;
+use App\User\Listener\CreateSmsPaymentNotification;
 use App\User\Listener\UpdateLastLoginAt;
+use App\User\Listener\UpdateSmsBalance;
 use App\WeatherChecker\Event\WeatherForBasketballChecked;
 use App\WeatherChecker\Event\WeatherUpdated;
 use App\WeatherChecker\Listener\WeatherUpdate\CheckWeatherForBasketballForSpecialPlaceCode;
@@ -33,6 +37,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
             NotifyAboutNewUser::class,
+            CreateNewUserGreetingNotification::class,
         ],
         Login::class => [
             UpdateLastLoginAt::class,
@@ -55,6 +60,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         SmsNotificationCreated::class => [
             SendSmsNotifications::class,
+        ],
+        SmsPaymentCompleted::class => [
+            CreateSmsPaymentNotification::class,
+            UpdateSmsBalance::class,
         ],
     ];
 

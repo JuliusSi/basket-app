@@ -58,11 +58,23 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <font-awesome-icon :icon="['fas', 'bell']" class="fa-icon"
-                                                   fixed-width></font-awesome-icon>
-                                {{ __('menu.notifications') }}
-                            </a>
+                            <router-link class="nav-link"
+                                         to='/user-notifications'>
+                                @php
+                                    $notificationCount = Auth::user()->newNotifications()->count()
+                                @endphp
+
+                                @if ($notificationCount > 0)
+                                <font-awesome-icon :icon="['fas', 'bell']" class="fa-icon fa-shake"
+                                                   fixed-width
+                                                   style="color: green;"
+                                                   ></font-awesome-icon>
+                                @else
+                                    <font-awesome-icon :icon="['fas', 'bell']" class="fa-icon"
+                                                       fixed-width
+                                    ></font-awesome-icon>
+                                @endif
+                                {{ __('menu.notifications') }}</router-link>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
@@ -96,11 +108,16 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <router-link class="dropdown-item"
-                                         to='/user-settings'>
-                                <font-awesome-icon :icon="['fas', 'user-cog']" class="fa-icon"
-                                                   fixed-width></font-awesome-icon>
-                                {{ __('menu.user_menu.settings') }}</router-link>
+                                <router-link class="dropdown-item"
+                                             to='/pay-for-sms'>
+                                    <font-awesome-icon :icon="['fas', 'coins']" class="fa-icon"
+                                                       fixed-width></font-awesome-icon>
+                                    SMS: {{ Auth::user()->sms }}</router-link>
+                                <router-link class="dropdown-item"
+                                             to='/user-settings'>
+                                    <font-awesome-icon :icon="['fas', 'user-cog']" class="fa-icon"
+                                                       fixed-width></font-awesome-icon>
+                                    {{ __('menu.user_menu.settings') }}</router-link>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

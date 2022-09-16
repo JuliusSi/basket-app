@@ -8,7 +8,6 @@
         </div>
         <div class="card-body">
             <user-main-settings :user="user"></user-main-settings>
-            <weather-notification-settings v-if="user.phone" :user="user"></weather-notification-settings>
         </div>
     </div>
 </template>

@@ -27,6 +27,7 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
 
     /**
      * @return Notification[]
+     * @throws Exception
      */
     public function getNotifications(): array
     {
@@ -38,9 +39,10 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
     }
 
     /**
-     * @param User[] $users
+     * @param  User[]  $users
      *
      * @return Notification[]
+     * @throws Exception
      */
     private function buildNotifications(array $users): array
     {
@@ -52,7 +54,13 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
             }
 
             if ($user->sms < 1) {
-                Log::alert(sprintf('Trying to send sms to user %s but he doesnt have sms balance.', $user->username));
+                Log::warning(sprintf('Trying to send sms to user %s but user SMS balance less than 1.', $user->username));
+
+                $int = \random_int(1, 2);
+                if ($int === 2) {
+                    $this->createUserNotificationAboutSMSLimitError($user);
+                }
+
                 continue;
             }
 
@@ -61,10 +69,34 @@ class UserWeatherForBasketBallNotificationBuilder implements NotificationBuilder
                 continue;
             }
 
+            Log::info(sprintf('Weather for basketball notification prepared for user: %s.', $user->username));
             $notifications[] = $this->resolveNotification($response, $user);
+            $this->updateUserSmsBalance($user);
+            $this->createUserNotification($user);
         }
 
         return $notifications;
+    }
+
+    private function updateUserSmsBalance(User $user): void
+    {
+        $user->update(['sms'=> --$user->sms]);
+    }
+
+    private function createUserNotificationAboutSMSLimitError(User $user): void
+    {
+        $user->userNotifications()->create([
+            'name' => 'Negalime išsiųsti SMS apie orą krepšiniui',
+            'description' => 'Nepakakankamas SMS balansas.',
+        ]);
+    }
+
+    private function createUserNotification(User $user): void
+    {
+        $user->userNotifications()->create([
+            'name' => 'SMS pranešimas apie orą krepšiniui suformuotas!',
+            'description' => sprintf('Pranešame, kad suformavome SMS pranešimą apie orą krepšiniui ir jį išsiųsime netrukus numeriu: %s.', $user->phone)
+            ]);
     }
 
     private function resolveNotification(WeatherResponse $response, User $user): Notification

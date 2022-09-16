@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\WeatherChecker\Event\WeatherUpdated;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use App\WeatherChecker\Event\WeatherUpdated;
 use Src\Weather\Repository\WeatherForecastsRepository;
 
 class WeatherUpdateCheckCommand extends Command
@@ -48,8 +48,16 @@ class WeatherUpdateCheckCommand extends Command
             }
 
             if ($lastUpdate !== $response->getForecastCreationTimeUtc()->format('Y-m-d H:i')) {
-                $this->info(sprintf('Weather updated for place: %s, %s', $placeName, $response->getForecastCreationTimeUtc()->format('Y-m-d H:i')));
+                $message = sprintf(
+                    'Weather updated for place: %s, %s',
+                    $placeName,
+                    $response->getForecastCreationTimeUtc()->format('Y-m-d H:i')
+                );
+
+                $this->info($message);
+                logs()->info($message);
                 Cache::put($cacheKey, $response->getForecastCreationTimeUtc()->format('Y-m-d H:i'));
+
                 WeatherUpdated::dispatch($response);
             } else {
                 $this->info(sprintf('No updates for place: %s, last update: %s', $placeName, $lastUpdate));

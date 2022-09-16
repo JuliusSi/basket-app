@@ -19,6 +19,10 @@ class RadiationDataSaveHandler
     {
         foreach ($this->radiationInfoCollector->collect() as $result) {
             if ($result->getRadiationBackground() > config('radiation.radiation_background_low')) {
+                logs()->info('Radiation data saving initiated.', [
+                    'radiation_background' => $result->getRadiationBackground(),
+                    'meter_name' => $result->getMeterName()
+                ]);
                 $this->saveRadiationData($result);
             }
         }

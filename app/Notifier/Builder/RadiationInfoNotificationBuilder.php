@@ -24,9 +24,9 @@ class RadiationInfoNotificationBuilder implements NotificationBuilder
      */
     public function getNotifications(): array
     {
-        $radiationInfo = $this->radiationInfoService->getRadiationInfo();
+        $radiationInfo = $this->getRiskyStatusRadiationInfo();
 
-        if (!$radiationInfo) {
+        if (!$radiationInfo || \count($radiationInfo) < 2) {
             return [];
         }
 
@@ -43,12 +43,28 @@ class RadiationInfoNotificationBuilder implements NotificationBuilder
         $notifications = [];
 
         foreach ($radiationInfo as $info) {
-            if ($info->isRiskyStatus()) {
-                $notifications[] = $this->buildNotification($info);
-            }
+            $notifications[] = $this->buildNotification($info);
         }
 
         return $notifications;
+    }
+
+    /**
+     * @return RadiationInfo[]
+     */
+    private function getRiskyStatusRadiationInfo(): array
+    {
+        $radiationInfo = $this->radiationInfoService->getRadiationInfo();
+
+        $riskyStatusRadiation = [];
+
+        foreach ($radiationInfo as $info) {
+            if ($info->isRiskyStatus()) {
+                $riskyStatusRadiation[] = $radiationInfo;
+            }
+        }
+
+        return $riskyStatusRadiation;
     }
 
     private function buildNotification(RadiationInfo $radiationInfo): Notification

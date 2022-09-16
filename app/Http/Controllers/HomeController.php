@@ -36,13 +36,13 @@ class HomeController extends Controller
 
     private function landingPage(): Renderable
     {
-        $userCount = Cache::remember('users_count', 1440, static function () {
+        $userCount = Cache::remember('users_count', 21600, static function () {
             return User::count();
         });
-        $courtsCount = Cache::remember('courts_count', 3600, static function () {
+        $courtsCount = Cache::remember('courts_count', 21600, static function () {
             return BasketballCourt::count();
         });
-        $commentsCount = Cache::remember('comments_count', 1440, static function () {
+        $commentsCount = Cache::remember('comments_count', 21600, static function () {
             return ChatMessage::count();
         });
         $courtsCollection = Cache::remember('courts_collection', 3600, function () {

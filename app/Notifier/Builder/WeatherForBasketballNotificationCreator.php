@@ -92,6 +92,9 @@ class WeatherForBasketballNotificationCreator
     {
         $fbNotification = FacebookNotification::create($message, $link);
         FacebookNotificationCreated::dispatch($fbNotification);
+        logs()->info('Facebook notification created.', [
+            'message' => $message,
+        ]);
     }
 
     private function handleChatNotificationEvent(string $message): void
@@ -100,6 +103,9 @@ class WeatherForBasketballNotificationCreator
         if ($user && \in_array(now()->dayOfWeekIso, [5, 6, 7], true)) {
             $chatNotification = ChatNotification::create($user, $message);
             ChatNotificationCreated::dispatch($chatNotification);
+            logs()->info('Chat notification created.', [
+                'message' => $message,
+            ]);
         }
     }
 
@@ -111,6 +117,9 @@ class WeatherForBasketballNotificationCreator
                 recipients: config('sms.weather_for_basketball.recipients'),
                 sender: config('sms.weather_for_basketball.sender_name'));
             SmsNotificationCreated::dispatch($smsNotification);
+            logs()->info('Sms notification created.', [
+                'message' => $message,
+            ]);
         }
     }
 

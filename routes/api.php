@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\ChatApiController;
+use App\Http\Controllers\Api\PaymentApiController;
 use App\Http\Controllers\Api\RadiationApiController;
+use App\Http\Controllers\Api\UserNotificationApiController;
 use App\Http\Controllers\Api\WeatherApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +31,6 @@ Route::middleware(['auth:api', 'throttle:api'])->group(function () {
         Route::get('available-places', [WeatherApiController::class, 'getAvailablePlaces']);
         Route::get('information', [WeatherApiController::class, 'getWeatherInformation']);
     });
+    Route::get('user-notifications', [UserNotificationApiController::class, 'getNotifications']);
+    Route::post('pay', [PaymentApiController::class, 'pay']);
 });

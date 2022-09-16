@@ -28,7 +28,7 @@ export default {
                 scales: {
                     y: {
                         beginAtZero: false,
-                        suggestedMin: 0.2,
+                        suggestedMin: 0.17,
                         ticks: {
                             stepSize: 0.05
                         }
@@ -49,7 +49,7 @@ export default {
                 meter_names: ['golf_charlie'],
                 measured_from: measuredFrom,
                 measured_to: measuredTo,
-                min_usvph: 0.2,
+                min_usvph: 0.17,
             };
             this.axios.get('/api/radiation-history', {
                 params: params,

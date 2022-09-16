@@ -16,7 +16,7 @@
                     <h2 class="alert-heading">{{ exception }}</h2>
                 </div>
                 <div class="alert alert-danger fadeIn" role="alert" v-if="warningResponse.warnings.length > 0">
-                    <h2 class="alert-heading">{{ this.$t('weather-rules.error') }}</h2>
+                    <h2 class="alert-heading">{{ this.$t('weather-rules.error_static') }}</h2>
                     <p class="mt-4">{{ this.$t('main.updated') }} {{ warningResponse.measuredAt }}</p>
                     <ul class="list">
                         <li v-for="warning in this.warningResponse.warnings">

@@ -64,6 +64,13 @@
                             <span>Events</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="/log-viewer">
+                            <font-awesome-icon :icon="['fas', 'cog']" class="fa-icon"
+                                               fixed-width/>
+                            <span>Logs</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- sidebar-menu  -->

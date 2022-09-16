@@ -26,12 +26,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('weather:check-weather-for-basketball')->hourlyAt(
-            config('notification.weather_for_basketball.minute_to_notify')
-        )->between(
-            config('notification.weather_for_basketball.time_start_notify'),
-            config('notification.weather_for_basketball.time_end_notify')
-        );
+//        $schedule->command('weather:check-weather-for-basketball')->hourlyAt(
+//            config('notification.weather_for_basketball.minute_to_notify')
+//        )->between(
+//            config('notification.weather_for_basketball.time_start_notify'),
+//            config('notification.weather_for_basketball.time_end_notify')
+//        );
         $schedule->command('weatherForBasketBall:notifyUsers')->everyMinute()->between('09:00', '19:00');
         $schedule->command('basketBallSeasonEnd:notify')->dailyAt('12:00');
         $schedule->command('basketBallSeasonStart:notify')->dailyAt('12:00');
@@ -41,7 +41,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('radiationInfo:notify')->everyThreeMinutes();
         $schedule->command('radiation:delete-old-data')->monthly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        $schedule->command('weather:update-check')->everyThreeMinutes()->between('14:00', '19:00');
+        $schedule->command('weather:update-check')->everyThreeMinutes()->between('09:00', '19:00');
+        $schedule->command('payment:delete-not-approved')->monthly();
 
         // Jobs
         $schedule->job(new SaveRadiationData())->everyThreeMinutes();

@@ -3,6 +3,8 @@ import BasketballCourtsComponent from "./components/BasketballCourtsComponent";
 import WeatherCheckComponent from "./components/WeatherCheckComponent";
 import RadiationCheckComponent from "./components/RadiationCheckComponent";
 import UserSettings from "./components/user/settings/UserSettings";
+import UserNotifications from "./components/user/notifications/UserNotifications";
+import Pay from "./components/payment/Pay";
 
 const routes = [
     {
@@ -30,6 +32,16 @@ const routes = [
         path: '/user-settings',
         name: 'user-settings',
         component: UserSettings,
+    },
+    {
+        path: '/user-notifications',
+        name: 'user-notifications',
+        component: UserNotifications,
+    },
+    {
+        path: '/pay-for-sms',
+        name: 'pay-for-sms',
+        component: Pay,
     },
 ];
 

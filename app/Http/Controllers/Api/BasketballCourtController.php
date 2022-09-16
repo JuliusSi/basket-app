@@ -33,7 +33,7 @@ class BasketballCourtController extends Controller
         $key = sprintf('basketball_courts_%s_%s_%s', $city, $name, $request->get('page'));
         $courts = Cache::remember(
             $key,
-            600,
+            1200,
             static function () use ($builder) {
                 return $builder->paginate(4);
             }

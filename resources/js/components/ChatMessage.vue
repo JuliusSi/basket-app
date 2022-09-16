@@ -38,7 +38,7 @@ export default {
             } else if (isToday) {
                 return moment(date).startOf('hour').fromNow()
             } else {
-                return moment(date).format('lll');
+                return moment(date).format('ll LT');
             }
         },
         isImagePath(message) {

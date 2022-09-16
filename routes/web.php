@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PaymentApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,9 @@ Route::middleware('throttle:60,1')->group(function () {
 Route::get('fb-page', static function () {
     return redirect()->away('https://www.facebook.com/Oras-krep%C5%A1iniui-Vilniuje-110919097381580');
 });
+
+Route::get('payment-success', [PaymentApiController::class, 'success'])->name('payment-success');
+Route::get('payment-error', [PaymentApiController::class, 'error'])->name('payment-error');
 
 // hack because we're using vue router
 Route::get('/{any}', 'HomeController@index')->where('any', '.*');

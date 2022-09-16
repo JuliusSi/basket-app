@@ -7,7 +7,8 @@
                 {{ this.$t('main.user_settings.basketball_weather_sms_notification') }}
             </h2>
         </div>
-        <div class="text-left" v-if="smsNotify">
+        <span v-if="user.sms < 1">{{ this.$t('main.sms_balance_error') }}</span>
+        <div class="text-left" v-if="smsNotify && user.sms > 0">
             <div class="mt-4 alert alert-success text-center fadeIn" role="alert" v-if="status === STATUS_OK">
                 <h2 class="alert-heading">{{ this.$t('main.information_update_success') }}</h2>
             </div>
@@ -18,7 +19,7 @@
                 id="app" @submit.prevent="updateUserAttributes" method="POST"
             >
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-6">
                             {{ this.$t('attributes.names.' + smsNotify.name) }}
                         </div>
                         <div class="col-md-2">
@@ -34,7 +35,7 @@
                     </div>
                     <div class="text-left fadeIn" v-if="smsNotify.value === '1'">
                         <div class="form-group row mt-4" v-if="time">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <label for="date">{{ this.$t('main.user_settings.select_time') }}</label>
 
                                 <input v-model="time.value" class="form-control" type="time" id="date" name="date"
@@ -43,7 +44,7 @@
                         </div>
                         <div class="form-group row"
                              v-if="place">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <select v-model="place.value" class="form-control mb-1">
                                     <option :value="null" disabled>{{ this.$t('weather.select_place') }}</option>
                                     <option :value="place.code" v-for="place in places">
@@ -113,7 +114,7 @@ export default {
                 {
                     id: this.smsNotify.id,
                     name: this.smsNotify.name,
-                    value: this.smsNotify.value
+                    value: parseInt(this.smsNotify.value)
                 },
                 {
                     id: this.place.id,

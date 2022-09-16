@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property string username
@@ -15,15 +16,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    public const STATUS_ADMINISTRATOR = 'administrator';
-
     use HasFactory;
+    use Notifiable;
+
+    public const STATUS_ADMINISTRATOR = 'administrator';
 
     protected $table = 'user';
 
     protected $fillable = [
         'username',
         'email',
+        'sms',
         'phone',
         'password',
         'api_token',
@@ -48,6 +51,16 @@ class User extends Authenticatable
     public function userAttributes(): HasMany
     {
         return $this->hasMany(UserAttribute::class);
+    }
+
+    public function userNotifications(): HasMany
+    {
+        return $this->hasMany(UserNotification::class);
+    }
+
+    public function newNotifications(): HasMany
+    {
+        return $this->userNotifications()->where('status', UserNotification::STATUS_NEW);
     }
 
     public function chatMessages(): HasMany

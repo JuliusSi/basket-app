@@ -40,6 +40,6 @@ class ChatServiceProvider extends ServiceProvider
         $this->app
             ->when(NotifyAboutNewUser::class)
             ->needs(MessageSender::class)
-            ->give(BroadcastMessageService::class);
+            ->give(MessageService::class);
     }
 }

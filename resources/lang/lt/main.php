@@ -72,5 +72,16 @@ return [
         'personal_information' => 'Asmeninė informacija',
         'select_time' => 'Pasirinkite laiką',
     ],
+    'user_notifications' => [
+        'title' => 'Pranešimų sąrašas',
+        'no_notifications' => 'Pranešimų nėra.',
+    ],
     'new_user_registered' => 'Užsiregistravo naujas vartotojas: :username',
+    'sms_balance_error' => 'Nepakankamas SMS likutis',
+    'sms' => [
+        'title' => 'Sms pirkimas',
+        'select_sms_amount' => 'Pasirinkite kiek SMS pirksite',
+    ],
+    'redirect_paypal' => 'Netrukus būsite perkeltas į PayPal mokėjimo puslapį',
+    'buy' => 'Pirkti',
 ];

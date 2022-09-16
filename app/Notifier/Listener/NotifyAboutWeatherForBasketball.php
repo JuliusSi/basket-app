@@ -22,6 +22,8 @@ class NotifyAboutWeatherForBasketball
 
     private function createNotifications(WeatherResponse $response): void
     {
+        logs()->info('Notifications creation about weather for basketball initiated.');
+
         $this->creator->create($response);
     }
 }
