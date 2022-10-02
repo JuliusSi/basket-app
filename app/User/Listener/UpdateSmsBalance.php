@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\User\Listener;
 
 use App\Model\Payment;
-use App\Model\User;
 use App\Payment\Event\SmsPaymentCompleted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -18,6 +17,7 @@ class UpdateSmsBalance implements ShouldQueue
 
     private function handleBalance(int $paymentId): void
     {
+        /** @var Payment $payment */
         $payment = Payment::with('user')->findOrFail($paymentId);
 
         $this->updateUserSmsBalance($payment);
@@ -30,7 +30,6 @@ class UpdateSmsBalance implements ShouldQueue
 
     private function updateUserSmsBalance(Payment $payment): void
     {
-        /** @var User $user */
         $user = $payment->user;
         $newBalance = $user->sms + $payment->quantity;
 

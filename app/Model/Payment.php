@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float       $amount
  * @property string      $currency
  * @property string      $status
+ * @property User        $user
  */
 class Payment extends Model
 {
